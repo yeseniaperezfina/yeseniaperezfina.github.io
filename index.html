@@ -233,7 +233,6 @@
       overflow: hidden;
     }
 
-    /* Animated gradient shimmer */
     .hero::before {
       content: "";
       position: absolute;
@@ -257,7 +256,6 @@
       }
     }
 
-    /* Canvas constellation */
     .hero-canvas-wrap {
       position: absolute;
       inset: 0;
@@ -647,17 +645,158 @@
     }
 
     /* =========
-       CAPABILITIES
+       PRACTICE (HOW I WORK) — NEW LAYOUT
+       ========= */
+    .practice-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      gap: 1.8rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .practice-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .practice-quote-wrap {
+      position: relative;
+      padding-left: 1.2rem;
+      border-left: 2px solid rgba(148, 163, 184, 0.7);
+      margin-bottom: 1rem;
+    }
+
+    .practice-quote {
+      font-size: 0.96rem;
+      color: var(--muted);
+    }
+
+    .practice-quote-em {
+      color: var(--accent-teal);
+    }
+
+    .practice-note {
+      font-size: 0.82rem;
+      color: var(--muted-soft);
+      margin-top: 0.5rem;
+    }
+
+    .practice-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.7rem;
+    }
+
+    .badge-soft {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      color: var(--muted-soft);
+      white-space: nowrap;
+    }
+
+    .practice-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .practice-card {
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1.05rem 0.9rem;
+      background:
+        radial-gradient(circle at top left, rgba(251, 113, 133, 0.18), transparent 60%),
+        var(--panel-soft);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+    }
+
+    .practice-card:nth-child(2) {
+      background:
+        radial-gradient(circle at top left, rgba(45, 212, 191, 0.18), transparent 55%),
+        var(--panel-soft);
+    }
+
+    .practice-card:nth-child(3) {
+      background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.21), transparent 58%),
+        var(--panel-soft);
+    }
+
+    .practice-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .practice-card ul {
+      margin: 0.35rem 0 0.2rem 1.05rem;
+      padding: 0;
+    }
+
+    .practice-card ul li {
+      margin-bottom: 0.14rem;
+    }
+
+    /* =========
+       CAPABILITIES — “CONSTELLATION” GRID
        ========= */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1.25rem;
+    }
+
+    @media (max-width: 980px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      .skills-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .skills-block {
+      position: relative;
+      border-radius: var(--radius-md);
+      padding: 1rem 1.05rem 0.9rem;
+      background: var(--panel-soft);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      overflow: hidden;
+    }
+
+    .skills-block::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle at top right, rgba(45, 212, 191, 0.16), transparent 60%);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .skills-block:nth-child(2)::before {
+      background: radial-gradient(circle at top right, rgba(251, 113, 133, 0.16), transparent 60%);
+    }
+
+    .skills-block:nth-child(3)::before {
+      background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.22), transparent 60%);
     }
 
     .skills-block h3 {
       margin: 0 0 0.4rem;
       font-size: 0.9rem;
+      color: var(--ink);
+      position: relative;
+      z-index: 1;
     }
 
     .skills-list {
@@ -666,23 +805,81 @@
       padding: 0;
       font-size: 0.85rem;
       color: var(--muted-soft);
+      position: relative;
+      z-index: 1;
     }
 
     .skills-list li {
       margin-bottom: 0.18rem;
     }
 
-    /* =========
-       WRITING
-       ========= */
-    .writing-item {
-      margin-bottom: 0.9rem;
-      font-size: 0.87rem;
-      color: var(--muted-soft);
+    .skill-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.4rem;
     }
 
-    .writing-item strong {
-      color: var(--ink);
+    .skill-chip {
+      font-size: 0.74rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      white-space: nowrap;
+    }
+
+    /* =========
+       WRITING — CARD ROW
+       ========= */
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 980px) {
+      .writing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      .writing-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .writing-card {
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem 0.85rem;
+      background: var(--panel-soft);
+      border: 1px solid #1e293b;
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.18s ease-out, border-color 0.18s ease-out, box-shadow 0.18s ease-out;
+    }
+
+    .writing-card::before {
+      content: "";
+      position: absolute;
+      inset-inline: -20%;
+      bottom: -40%;
+      height: 55%;
+      background: radial-gradient(circle at top center, rgba(45, 212, 191, 0.18), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .writing-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-teal);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+    }
+
+    .writing-card:hover::before {
+      opacity: 1;
     }
 
     .writing-tag {
@@ -692,13 +889,24 @@
       color: var(--muted-soft);
     }
 
+    .writing-card strong {
+      display: block;
+      margin: 0.25rem 0 0.25rem;
+      color: var(--ink);
+    }
+
+    .writing-card p {
+      margin: 0;
+    }
+
     /* =========
-       CONTACT / NOW & NEXT
+       CONTACT / NOW & NEXT — FULL CALL TO ACTION
        ========= */
     .contact-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
       gap: 1.4rem;
+      align-items: stretch;
     }
 
     @media (max-width: 900px) {
@@ -712,17 +920,80 @@
       color: var(--muted-soft);
     }
 
-    .contact-card {
-      padding: 1.05rem 1.15rem;
-      border-radius: var(--radius-md);
-      background: var(--panel-soft);
-      border: 1px solid rgba(148, 163, 184, 0.65);
+    .contact-list {
+      list-style: none;
+      margin: 0.5rem 0 0;
+      padding: 0;
       font-size: 0.86rem;
       color: var(--muted-soft);
     }
 
+    .contact-list li {
+      margin-bottom: 0.22rem;
+    }
+
+    .contact-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.65rem;
+    }
+
+    .contact-pill {
+      font-size: 0.78rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--muted-soft);
+      white-space: nowrap;
+    }
+
+    .contact-card {
+      padding: 1.05rem 1.15rem;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at top left, rgba(45, 212, 191, 0.2), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(251, 113, 133, 0.22), transparent 60%),
+        var(--panel-alt);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+    }
+
     .contact-card strong {
       color: var(--ink);
+    }
+
+    .contact-links {
+      margin-top: 0.7rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.38rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      color: var(--ink);
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    .contact-link span:last-child {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      border-color: var(--accent-teal);
+      background: var(--accent-teal-soft);
     }
 
     footer {
@@ -1016,41 +1287,54 @@
         </p>
       </div>
 
-      <div class="skills-grid">
-        <div class="skills-block reveal">
-          <h3>Designing the system, not just the moment</h3>
-          <ul class="skills-list">
-            <li>Start with the ecosystem: policies, people, incentives, and constraints.</li>
-            <li>Define clear roles and rhythms so teams know how work moves and who holds what.</li>
-            <li>Design for sustainability: what will still work when the pilot glow fades.</li>
-          </ul>
+      <div class="practice-grid">
+        <div class="reveal">
+          <div class="practice-quote-wrap">
+            <p class="practice-quote">
+              I treat every initiative as a <span class="practice-quote-em">learning ecosystem</span>—a living structure
+              of roles, rituals, constraints, and possibilities. The work is to make that structure legible, humane, and
+              capable of holding real change.
+            </p>
+            <p class="practice-note">
+              That means noticing who has voice, who has margin, and how people actually move through the system—not just
+              how it looks on a slide.
+            </p>
+          </div>
+          <div class="practice-badges">
+            <span class="badge-soft">Systems lens</span>
+            <span class="badge-soft">Pattern spotting</span>
+            <span class="badge-soft">Sense-making under ambiguity</span>
+            <span class="badge-soft">Care for people &amp; pace</span>
+          </div>
         </div>
 
-        <div class="skills-block reveal">
-          <h3>Making evidence usable</h3>
-          <ul class="skills-list">
-            <li>Co-create evaluation questions that matter to both funders and practitioners.</li>
-            <li>Translate data into patterns, tensions, and decisions—not just dashboards.</li>
-            <li>Close the loop by returning findings to the people whose work they describe.</li>
-          </ul>
-        </div>
+        <div class="practice-columns reveal" aria-label="Working principles">
+          <article class="practice-card">
+            <h3>Designing the system, not just the moment</h3>
+            <ul>
+              <li>Start with the ecosystem: policies, people, incentives, and constraints.</li>
+              <li>Clarify roles, decision rights, and rhythms so teams know how work moves.</li>
+              <li>Design for sustainability—what will still work when pilot energy fades.</li>
+            </ul>
+          </article>
 
-        <div class="skills-block reveal">
-          <h3>Holding equity as a design constraint</h3>
-          <ul class="skills-list">
-            <li>Ask who benefits, who is burdened, and whose expertise is missing from the table.</li>
-            <li>Design roles, pathways, and communication so first-gen, transfer, and historically excluded communities can see themselves in the system.</li>
-            <li>Treat belonging as architectural, programmatic, and relational—not an afterthought.</li>
-          </ul>
-        </div>
+          <article class="practice-card">
+            <h3>Making evidence usable</h3>
+            <ul>
+              <li>Co-create evaluation questions that matter to both funders and practitioners.</li>
+              <li>Translate data into patterns, tensions, and decisions—not just dashboards.</li>
+              <li>Close the loop by returning findings to the people whose work they describe.</li>
+            </ul>
+          </article>
 
-        <div class="skills-block reveal">
-          <h3>Communicating with clarity and care</h3>
-          <ul class="skills-list">
-            <li>Write leadership-ready briefs that synthesize complexity without flattening it.</li>
-            <li>Facilitate cross-sector conversations where scientists, administrators, and educators can hear each other.</li>
-            <li>Use story, metaphor, and visuals to make abstract structures feel graspable.</li>
-          </ul>
+          <article class="practice-card">
+            <h3>Holding equity as a design constraint</h3>
+            <ul>
+              <li>Ask who benefits, who is burdened, and whose expertise is missing from the table.</li>
+              <li>Design roles, pathways, and communication so first-gen, transfer, and historically excluded communities can see themselves in the system.</li>
+              <li>Treat belonging as architectural, programmatic, and relational—not an afterthought.</li>
+            </ul>
+          </article>
         </div>
       </div>
     </section>
@@ -1074,6 +1358,11 @@
             <li>Learning environment &amp; experience strategy (formal and informal)</li>
             <li>Space-use &amp; journey logic (adjacencies, use-cases, narrative flow)</li>
           </ul>
+          <div class="skill-chip-row">
+            <span class="skill-chip">Portfolio architecture</span>
+            <span class="skill-chip">Scenario design</span>
+            <span class="skill-chip">Change roadmapping</span>
+          </div>
         </div>
 
         <div class="skills-block reveal">
@@ -1084,6 +1373,11 @@
             <li>Equity-centered stakeholder engagement &amp; facilitation</li>
             <li>Policy and ecosystem fluency across community college, state, R1, and elite contexts</li>
           </ul>
+          <div class="skill-chip-row">
+            <span class="skill-chip">Logic models</span>
+            <span class="skill-chip">Qual/quant integration</span>
+            <span class="skill-chip">Learning agendas</span>
+          </div>
         </div>
 
         <div class="skills-block reveal">
@@ -1094,6 +1388,11 @@
             <li>Mentoring emerging staff and shaping reflective team cultures</li>
             <li>Public speaking and storytelling for complex science and systems</li>
           </ul>
+          <div class="skill-chip-row">
+            <span class="skill-chip">Story architecture</span>
+            <span class="skill-chip">Board-level framing</span>
+            <span class="skill-chip">Team mentorship</span>
+          </div>
         </div>
 
         <div class="skills-block reveal">
@@ -1103,6 +1402,31 @@
             <li>Power BI (working proficiency) &amp; data visualization</li>
             <li>Notion, MURAL, Smartsheet, Monday.com</li>
             <li>GitHub Pages &amp; hand-coded HTML/CSS/JS for lightweight web experiences</li>
+          </ul>
+          <div class="skill-chip-row">
+            <span class="skill-chip">Information design</span>
+            <span class="skill-chip">Lightweight prototyping</span>
+            <span class="skill-chip">System documentation</span>
+          </div>
+        </div>
+
+        <div class="skills-block reveal">
+          <h3>Domains</h3>
+          <ul class="skills-list">
+            <li>Higher education &amp; student success</li>
+            <li>STEM education &amp; science communication</li>
+            <li>Informal learning &amp; museum practice</li>
+            <li>Equity-centered leadership &amp; organizational learning</li>
+          </ul>
+        </div>
+
+        <div class="skills-block reveal">
+          <h3>Ways of Working</h3>
+          <ul class="skills-list">
+            <li>Calm, steady presence in complex systems</li>
+            <li>Bridge-builder across disciplines and roles</li>
+            <li>Iterative design with reflective pauses built in</li>
+            <li>Grounded optimism—serious about the work, light with people</li>
           </ul>
         </div>
       </div>
@@ -1118,26 +1442,52 @@
         </p>
       </div>
 
-      <article class="writing-item reveal">
-        <div class="writing-tag">Substack · The Echo Jar</div>
-        <strong>Soft Physics, Echoes of Now, Letters to the Abyss, Collected Breezes</strong><br />
-        A slow, layered writing practice where I explore time, systems, identity, and wonder—often using space
-        science, mythology, and lived experience as shared language.
-      </article>
+      <div class="writing-grid">
+        <article class="writing-card reveal">
+          <div class="writing-tag">Substack · The Echo Jar</div>
+          <strong>Soft Physics</strong>
+          <p>
+            Mythic, science-inflected essays where astrophysics, systems thinking, and emotion meet—using the cosmos as
+            a mirror for how we live, lead, and learn.
+          </p>
+        </article>
 
-      <article class="writing-item reveal">
-        <div class="writing-tag">Harvard · Reflective Practice &amp; Leadership</div>
-        <strong>Reflection as Resistance</strong><br />
-        Graduate work on reflective practice as an act of resistance within systems that reward speed and output over
-        meaning and care.
-      </article>
+        <article class="writing-card reveal">
+          <div class="writing-tag">Substack · The Echo Jar</div>
+          <strong>Echoes of Now &amp; Letters to the Abyss</strong>
+          <p>
+            Short, sensory reflections and open letters that hold the texture of the present—small rituals of
+            attention, grief, humor, and hope.
+          </p>
+        </article>
 
-      <article class="writing-item reveal">
-        <div class="writing-tag">NASA &amp; STScI · Internal Narratives</div>
-        <strong>Strategy &amp; synthesis briefs</strong><br />
-        Regular internal writing that translates complex scientific, evaluative, and portfolio information into clear,
-        direction-setting narratives for leadership and partners.
-      </article>
+        <article class="writing-card reveal">
+          <div class="writing-tag">Harvard · Reflective Practice &amp; Leadership</div>
+          <strong>Reflection as Resistance</strong>
+          <p>
+            Graduate work on reflective practice as an act of resistance within systems that reward speed and output over
+            meaning and care—offering tools for leaders who want to choose differently.
+          </p>
+        </article>
+
+        <article class="writing-card reveal">
+          <div class="writing-tag">NASA &amp; STScI</div>
+          <strong>Strategy &amp; Synthesis Briefs</strong>
+          <p>
+            Internal narratives that translate complex scientific, evaluative, and portfolio information into clear,
+            direction-setting documents for leadership and partners.
+          </p>
+        </article>
+
+        <article class="writing-card reveal">
+          <div class="writing-tag">In progress</div>
+          <strong>Science, Story, and the Systems In Between</strong>
+          <p>
+            Emerging work that connects my practice across NASA, Harvard, and museum worlds—toward a more coherent
+            language for “designing for learning” at scale.
+          </p>
+        </article>
+      </div>
     </section>
 
     <!-- CONTACT / NOW & NEXT -->
@@ -1153,25 +1503,38 @@
             science &amp; society, and equitable design.
           </p>
           <p>I’m especially interested in:</p>
-          <ul class="skills-list">
+          <ul class="contact-list">
             <li>Program Officer / Director roles in philanthropy &amp; higher-ed innovation</li>
             <li>Higher Education or Learning Environment Strategist roles in design firms</li>
             <li>Science &amp; society / STEM equity leadership roles in mission-driven organizations</li>
           </ul>
+
+          <div class="contact-pill-row">
+            <span class="contact-pill">Research-informed strategy</span>
+            <span class="contact-pill">Justice-centered design</span>
+            <span class="contact-pill">Cross-sector coalitions</span>
+            <span class="contact-pill">Calm, brave leadership</span>
+          </div>
         </div>
 
         <aside class="contact-card reveal" aria-label="Contact details">
           <strong>Let’s be in conversation.</strong><br /><br />
-          Email:
-          <a href="mailto:yperez@gse.harvard.edu">yperez@gse.harvard.edu</a><br />
-          LinkedIn:
-          <a href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
-            Yesenia Perez
-          </a><br />
-          Substack:
-          <a href="https://theechojar.substack.com" target="_blank" rel="noopener">The Echo Jar</a><br /><br />
-          Even a brief note is welcome—especially if you’re thinking about how to align
-          <span style="color: var(--accent-teal);">learning, equity, and future-facing design</span> in your work.
+          I’m always open to thoughtful inquiries—whether you’re shaping a role, seeking a collaborator, or just
+          wondering how to make your learning ecosystem feel more alive and equitable.
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:yperez@gse.harvard.edu">
+              <span>Email · yperez@gse.harvard.edu</span>
+              <span>✉</span>
+            </a>
+            <a class="contact-link" href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
+              <span>Connect on LinkedIn</span>
+              <span>↗</span>
+            </a>
+            <a class="contact-link" href="https://theechojar.substack.com" target="_blank" rel="noopener">
+              <span>Read <em>The Echo Jar</em></span>
+              <span>★</span>
+            </a>
+          </div>
         </aside>
       </div>
     </section>
