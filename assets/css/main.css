@@ -259,6 +259,7 @@ body {
   padding: 4rem 0 3.4rem;
   opacity: 0;
   transform: translateY(12px);
+  position: relative; /* for section-glow */
   transition:
     opacity 0.6s ease-out,
     transform 0.6s ease-out;
@@ -822,82 +823,4 @@ body {
   padding: 0.26rem 0.8rem;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(253, 216, 167, 0.4);
-  background: rgba(16, 24, 22, 0.95);
-  font-size: 0.8rem;
-  color: var(--ink-soft);
-  text-decoration: none;
-  transition:
-    background-color 0.16s ease-out,
-    box-shadow 0.16s ease-out,
-    transform 0.12s ease-out,
-    border-color 0.16s ease-out;
-}
-.pill-link:hover,
-.pill-link:focus-visible {
-  transform: translateY(-1px);
-  background: #10201c;
-  border-color: var(--accent-gold);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
-}
-.pill-link--full {
-  justify-content: space-between;
-  width: 100%;
-}
-
-.contact-links {
-  margin-top: 0.8rem;
-  display: grid;
-  gap: 0.45rem;
-}
-
-/* =========
-   FOOTER
-   ========= */
-
-.site-footer {
-  border-top: 1px solid rgba(253, 216, 167, 0.32);
-  background: #111915;
-}
-
-/* =========
-   RESPONSIVE TWEAKS
-   ========= */
-
-@media (max-width: 640px) {
-  .shell {
-    padding-inline: 1.2rem;
-  }
-  .section--hero {
-    padding-top: 2.4rem;
-    padding-bottom: 2.6rem;
-  }
-  .site::before {
-    inset: 0.9rem 0.5rem;
-    border-width: 0.5px;
-    border-radius: 20px;
-  }
-}
-
-/* =========
-   REDUCED MOTION SUPPORT
-   ========= */
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .section {
-    transition: none;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  .card,
-  .button,
-  .pill-link,
-  .chip {
-    transition: none;
-    transform: none !important;
-  }
-}
+  background: rgba(
