@@ -8,6 +8,15 @@
     name="description"
     content="Portfolio of Yesenia Perez, higher education & learning strategist working across NASA, higher education, museums, and public engagement."
   />
+
+  <!-- Type: serif + geometric sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
   <link rel="stylesheet" href="assets/css/main.css" />
 
   <!-- Fallback so content is visible even if JS/IntersectionObserver fail -->
@@ -23,103 +32,58 @@
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<div class="site">
-  <!-- LEFT SPINE / IDENTITY -->
-  <header class="site-header" aria-label="Profile & navigation">
-    <div class="header-block">
-      <div class="brand">
-        <div class="brand-orbit" aria-hidden="true"></div>
-        <div class="brand-text">
-          <h1 class="brand-name">Yesenia Perez</h1>
-          <p class="brand-tagline">Higher Education &amp; Learning Strategist</p>
-        </div>
+<header class="site-header">
+  <div class="shell header-inner">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div>
+        <div class="brand-name">Yesenia Perez</div>
+        <div class="brand-tagline">Higher Education &amp; Learning Strategist</div>
       </div>
+    </div>
 
-      <div class="header-intro stack gap-sm">
-        <p class="header-line">
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="#about" class="nav-link is-active">About</a>
+      <a href="#trajectory" class="nav-link">Trajectory</a>
+      <a href="#work" class="nav-link">Work</a>
+      <a href="#practice" class="nav-link">Practice</a>
+      <a href="#skills" class="nav-link">Capabilities</a>
+      <a href="#writing" class="nav-link">Writing</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO / ABOUT -->
+  <section id="about" class="section section--hero" data-section>
+    <div class="hero-canvas-wrap" aria-hidden="true">
+      <canvas id="orbitCanvas"></canvas>
+    </div>
+
+    <div class="hero-ornament hero-ornament--top" aria-hidden="true"></div>
+    <div class="hero-ornament hero-ornament--bottom" aria-hidden="true"></div>
+
+    <div class="shell hero-grid">
+      <div class="hero-main stack gap-md">
+        <p class="eyebrow">Higher Education · Science &amp; Society · Design for Learning</p>
+        <h1 class="hero-title">
           I design learning ecosystems where more people can belong, persist, and thrive.
+        </h1>
+        <p class="hero-lead">
+          I’m a higher education and learning strategist working across NASA, universities, museums,
+          and community partners—building programs and environments that connect rigorous science,
+          institutional strategy, and lived experience.
         </p>
+
         <div class="chip-row">
           <span class="chip chip-primary">Strategist</span>
           <span class="chip">Scholar</span>
           <span class="chip">Creator</span>
           <span class="chip">Navigator</span>
         </div>
-      </div>
 
-      <!-- Section nav -->
-      <nav class="site-nav" aria-label="Page sections">
-        <ul class="stack gap-xs nav-list">
-          <li><a href="#about" class="nav-link is-active">About</a></li>
-          <li><a href="#trajectory" class="nav-link">Trajectory</a></li>
-          <li><a href="#work" class="nav-link">Work</a></li>
-          <li><a href="#practice" class="nav-link">Practice</a></li>
-          <li><a href="#skills" class="nav-link">Capabilities</a></li>
-          <li><a href="#writing" class="nav-link">Writing</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
-        </ul>
-      </nav>
-
-      <!-- Quick contact -->
-      <div class="header-contact stack gap-xs">
-        <a class="pill-link" href="mailto:yperez@gse.harvard.edu">
-          <span>Email</span><span aria-hidden="true">↗</span>
-        </a>
-        <a
-          class="pill-link"
-          href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/"
-          target="_blank"
-          rel="noopener"
-        >
-          <span>LinkedIn</span><span aria-hidden="true">↗</span>
-        </a>
-        <a
-          class="pill-link"
-          href="https://theechojar.substack.com"
-          target="_blank"
-          rel="noopener"
-        >
-          <span>The Echo Jar</span><span aria-hidden="true">★</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- RIGHT COLUMN / SCROLLING STORY -->
-  <main id="main" class="site-main">
-    <!-- ABOUT / HERO -->
-    <section id="about" class="section section--hero" data-section>
-      <div class="hero-bg" aria-hidden="true">
-        <canvas id="orbitCanvas"></canvas>
-      </div>
-
-      <div class="stack gap-lg">
-        <header class="stack gap-sm">
-          <p class="eyebrow">Higher Education · Science &amp; Society · Design for Learning</p>
-
-          <p class="lead">
-            I’m a higher education and learning strategist working across NASA, universities,
-            museums, and community partners—building programs and environments that connect
-            rigorous science, institutional strategy, and lived experience.
-          </p>
-
-          <div class="grid grid-3 gap-md metrics">
-            <div class="card card-metric">
-              <strong>7+ years</strong>
-              <span>Leading national learning initiatives at NASA’s Space Telescope Science Institute</span>
-            </div>
-            <div class="card card-metric">
-              <strong>30+ states &amp; Puerto Rico</strong>
-              <span>Reached through multi-institutional public engagement work</span>
-            </div>
-            <div class="card card-metric">
-              <strong>Community college → Harvard</strong>
-              <span>First-gen, transfer-informed lens on higher education systems</span>
-            </div>
-          </div>
-        </header>
-
-        <p class="body">
+        <p class="hero-body">
           Over seven years at NASA’s Space Telescope Science Institute, I’ve led research-driven,
           multi-institutional initiatives that connect astrophysics to learners in 30+ states and
           Puerto Rico. As an Ed.M. candidate in Education Leadership at Harvard, I study how leaders
@@ -128,32 +92,73 @@
           alive for more people.
         </p>
 
-        <div class="grid grid-2 gap-md">
-          <article class="card">
-            <p class="label">Current roles</p>
-            <p>
-              <strong>Senior Education Specialist &amp; Strategic Lead</strong><br />
-              NASA Universe of Learning · Space Telescope Science Institute<br /><br />
-              <strong>Ed.M. Candidate, Education Leadership</strong><br />
-              Harvard Graduate School of Education (OEL)
-            </p>
-          </article>
-
-          <article class="card">
-            <p class="label">Work terrain</p>
-            <p>
-              I steward national learning initiatives and cross-sector collaborations across
-              community colleges, public and research universities, MSIs, museums, and
-              community-based organizations—often as the connective tissue between scientists,
-              educators, and institutional leaders.
-            </p>
-          </article>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#contact">Explore my next orbit</a>
+          <a
+            class="btn-ghost"
+            href="https://theechojar.substack.com"
+            target="_blank"
+            rel="noopener"
+          >
+            Read <span class="btn-ghost-em">The Echo Jar</span> ↗
+          </a>
         </div>
       </div>
-    </section>
 
-    <!-- TRAJECTORY -->
-    <section id="trajectory" class="section" data-section>
+      <aside class="hero-side stack gap-md" aria-label="Snapshot">
+        <article class="card">
+          <p class="label">Current roles</p>
+          <p>
+            <strong>Senior Education Specialist &amp; Strategic Lead</strong><br />
+            NASA Universe of Learning · Space Telescope Science Institute
+          </p>
+          <p>
+            <strong>Ed.M. Candidate, Education Leadership</strong><br />
+            Harvard Graduate School of Education (OEL)
+          </p>
+        </article>
+
+        <article class="card">
+          <p class="label">Work terrain</p>
+          <p>
+            I steward national learning initiatives and cross-sector collaborations across community
+            colleges, public and research universities, MSIs, museums, and community-based
+            organizations—often as the connective tissue between scientists, educators, and
+            institutional leaders.
+          </p>
+        </article>
+
+        <div class="card hero-contact">
+          <p class="label">Connect</p>
+          <div class="stack gap-xs">
+            <a class="contact-link" href="mailto:yperez@gse.harvard.edu">
+              <span>Email · yperez@gse.harvard.edu</span><span aria-hidden="true">✉</span>
+            </a>
+            <a
+              class="contact-link"
+              href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>LinkedIn</span><span aria-hidden="true">↗</span>
+            </a>
+            <a
+              class="contact-link"
+              href="https://theechojar.substack.com"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>The Echo Jar</span><span aria-hidden="true">★</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- TRAJECTORY -->
+  <section id="trajectory" class="section" data-section>
+    <div class="shell stack gap-lg">
       <header class="stack gap-xs">
         <h2>Trajectory &amp; Modes of Practice</h2>
         <p class="kicker">
@@ -163,9 +168,9 @@
         </p>
       </header>
 
-      <div class="grid grid-2 gap-lg">
-        <!-- LEFT: timeline -->
-        <div class="timeline stack gap-md" aria-label="Career and education timeline">
+      <div class="grid grid-2 gap-xl">
+        <!-- Timeline -->
+        <div class="stack gap-md timeline" aria-label="Career and education timeline">
           <article class="timeline-item">
             <div class="timeline-marker"></div>
             <p class="timeline-label">Now</p>
@@ -230,48 +235,46 @@
           </article>
         </div>
 
-        <!-- RIGHT: modes of practice -->
+        <!-- Modes -->
         <div class="stack gap-md" aria-label="Modes of practice">
-          <div class="grid grid-2 gap-md">
-            <article class="card">
-              <h3>Strategist</h3>
-              <p>
-                I design portfolios, initiatives, and learning environments that connect mission,
-                data, and lived experience. I help teams see the system, not just the project.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Scholar</h3>
-              <p>
-                I draw from research in higher education, learning sciences, and organizational
-                leadership to inform how we structure programs, roles, and systems for long-term
-                health.
-              </p>
-            </article>
-          </div>
-          <div class="grid grid-2 gap-md">
-            <article class="card">
-              <h3>Creator</h3>
-              <p>
-                Through visual storytelling and writing—including my Substack,
-                <em>The Echo Jar</em>—I translate complex science and systems work into narratives
-                that feel accessible and worth caring about.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Navigator</h3>
-              <p>
-                I help teams move through ambiguity with clarity and care, holding both timelines
-                and people so that change work is brave but not reckless.
-              </p>
-            </article>
-          </div>
+          <article class="card">
+            <h3>Strategist</h3>
+            <p>
+              I design portfolios, initiatives, and learning environments that connect mission,
+              data, and lived experience. I help teams see the system, not just the project.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Scholar</h3>
+            <p>
+              I draw from research in higher education, learning sciences, and organizational
+              leadership to inform how we structure programs, roles, and systems for long-term
+              health.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Creator</h3>
+            <p>
+              Through visual storytelling and writing—including my Substack,
+              <em>The Echo Jar</em>—I translate complex science and systems work into narratives
+              that feel accessible and worth caring about.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Navigator</h3>
+            <p>
+              I help teams move through ambiguity with clarity and care, holding both timelines and
+              people so that change work is brave but not reckless.
+            </p>
+          </article>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- SIGNATURE WORK -->
-    <section id="work" class="section" data-section>
+  <!-- SIGNATURE WORK -->
+  <section id="work" class="section" data-section>
+    <div class="shell stack gap-lg">
       <header class="stack gap-xs">
         <h2>Signature Work Across NASA, Higher Ed &amp; Public Engagement</h2>
         <p class="kicker">
@@ -280,10 +283,11 @@
         </p>
       </header>
 
-      <div class="grid grid-2 gap-lg">
-        <!-- Hero case -->
+      <div class="grid grid-2 gap-xl">
         <article class="card card-emphasis">
-          <h3 class="case-title">NASA Universe of Learning — National Learning Ecosystem Strategy</h3>
+          <h3 class="case-title">
+            NASA Universe of Learning — National Learning Ecosystem Strategy
+          </h3>
           <p class="case-meta">
             Strategic Lead · 100+ institutions · universities, MSIs, museums &amp; libraries
           </p>
@@ -298,8 +302,8 @@
               studies, and environmental scans.
             </li>
             <li>
-              Facilitated multi-stakeholder sessions with faculty, institutional leaders,
-              educators, and community partners.
+              Facilitated multi-stakeholder sessions with faculty, institutional leaders, educators,
+              and community partners.
             </li>
             <li>
               Mapped learner journeys and space-use patterns across physical, digital, and
@@ -316,7 +320,6 @@
           </p>
         </article>
 
-        <!-- Stacked secondary cases -->
         <div class="stack gap-md">
           <article class="card">
             <h3 class="case-title">Webb First Images — National Activation &amp; Experience Design</h3>
@@ -385,10 +388,12 @@
           </article>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PRACTICE / HOW I WORK -->
-    <section id="practice" class="section" data-section>
+  <!-- PRACTICE -->
+  <section id="practice" class="section" data-section>
+    <div class="shell stack gap-lg">
       <header class="stack gap-xs">
         <h2>How I Work</h2>
         <p class="kicker">
@@ -397,7 +402,7 @@
         </p>
       </header>
 
-      <div class="grid grid-2 gap-lg">
+      <div class="grid grid-2 gap-xl">
         <div class="stack gap-md">
           <div class="practice-quote-wrap">
             <p class="practice-quote">
@@ -419,7 +424,7 @@
           </div>
         </div>
 
-        <div class="practice-columns stack gap-md" aria-label="Working principles">
+        <div class="stack gap-md" aria-label="Working principles">
           <article class="card">
             <h3>Designing the system, not just the moment</h3>
             <ul class="practice-list">
@@ -453,10 +458,12 @@
           </article>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CAPABILITIES -->
-    <section id="skills" class="section" data-section>
+  <!-- CAPABILITIES -->
+  <section id="skills" class="section" data-section>
+    <div class="shell stack gap-lg">
       <header class="stack gap-xs">
         <h2>Capabilities &amp; Tools</h2>
         <p class="kicker">
@@ -465,7 +472,7 @@
         </p>
       </header>
 
-      <div class="grid grid-3 gap-lg">
+      <div class="grid grid-3 gap-xl">
         <article class="card">
           <h3>Strategy &amp; Design for Learning</h3>
           <ul class="skills-list">
@@ -550,10 +557,12 @@
           </ul>
         </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- WRITING -->
-    <section id="writing" class="section" data-section>
+  <!-- WRITING -->
+  <section id="writing" class="section" data-section>
+    <div class="shell stack gap-lg">
       <header class="stack gap-xs">
         <h2>Writing &amp; Thought Practice</h2>
         <p class="kicker">
@@ -614,15 +623,18 @@
           </p>
         </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CONTACT / NOW & NEXT -->
-    <section id="contact" class="section" data-section>
+  <!-- CONTACT -->
+  <section id="contact" class="section" data-section>
+    <div class="shell stack gap-lg">
       <header class="stack gap-xs">
         <h2>What I’m Looking Toward</h2>
       </header>
-      <div class="grid grid-2 gap-lg">
-        <div class="contact-text stack gap-md">
+
+      <div class="grid grid-2 gap-xl">
+        <div class="stack gap-md">
           <p class="eyebrow contact-eyebrow">Next orbit</p>
           <p>
             I’m exploring roles where I can help design and steward
@@ -651,12 +663,12 @@
           collaborator, or just wondering how to make your learning ecosystem feel more alive and
           equitable.
           <div class="contact-links stack gap-xs">
-            <a class="pill-link" href="mailto:yperez@gse.harvard.edu">
+            <a class="contact-link" href="mailto:yperez@gse.harvard.edu">
               <span>Email · yperez@gse.harvard.edu</span>
               <span aria-hidden="true">✉</span>
             </a>
             <a
-              class="pill-link"
+              class="contact-link"
               href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/"
               target="_blank"
               rel="noopener"
@@ -665,7 +677,7 @@
               <span aria-hidden="true">↗</span>
             </a>
             <a
-              class="pill-link"
+              class="contact-link"
               href="https://theechojar.substack.com"
               target="_blank"
               rel="noopener"
@@ -676,12 +688,15 @@
           </div>
         </aside>
       </div>
-    </section>
-  </main>
-</div>
+    </div>
+  </section>
+</main>
 
 <footer class="site-footer">
-  © <span id="year"></span> Yesenia Perez · Coded in HTML, CSS &amp; JavaScript · Hosted on GitHub Pages
+  <div class="shell footer-inner">
+    <span>© <span id="year"></span> Yesenia Perez</span>
+    <span>Coded in HTML, CSS &amp; JavaScript · Hosted on GitHub Pages</span>
+  </div>
 </footer>
 
 <script src="assets/js/main.js"></script>
