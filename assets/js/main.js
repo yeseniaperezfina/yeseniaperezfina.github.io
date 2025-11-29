@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========
-  // Role chips → role note
+  // Role chips → role note + accent tint
   // =========
   const chips = document.querySelectorAll("[data-role-chip]");
   const roleNote = document.getElementById("role-note");
@@ -23,6 +23,40 @@ document.addEventListener("DOMContentLoaded", () => {
     Navigator:
       "As a Navigator, I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change."
   };
+
+  // Optional: per-role accent colors (all from the forest palette family)
+  const roleTheme = {
+    Strategist: {
+      "--accent-sage": "#2E4B47", // moss
+      "--accent-berry": "#886B55", // earth
+      "--accent-gold": "#FDD8A7"  // dawn
+    },
+    Scholar: {
+      "--accent-sage": "#96806C", // canopy
+      "--accent-berry": "#2E4B47",
+      "--accent-gold": "#FDD8A7"
+    },
+    Creator: {
+      "--accent-sage": "#886B55",
+      "--accent-berry": "#FDD8A7",
+      "--accent-gold": "#96806C"
+    },
+    Navigator: {
+      "--accent-sage": "#2E4B47",
+      "--accent-berry": "#96806C",
+      "--accent-gold": "#FDD8A7"
+    }
+  };
+
+  const rootStyle = document.documentElement.style;
+
+  function applyRoleTheme(role) {
+    const theme = roleTheme[role];
+    if (!theme) return;
+    Object.entries(theme).forEach(([varName, value]) => {
+      rootStyle.setProperty(varName, value);
+    });
+  }
 
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
@@ -39,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
           `<strong>${role}</strong>`
         );
       }
+
+      // optional palette morph
+      applyRoleTheme(role);
     });
   });
 
