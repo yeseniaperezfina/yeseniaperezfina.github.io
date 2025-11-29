@@ -1,152 +1,80 @@
-# Yesenia Perez · Higher Education & Learning Strategist
+# yeseniaperezfina.github.io
 
-A single-page portfolio site that sits at the intersection of learning design, systems thinking, and modern front-end craft. Built as a lightweight, hand-tuned experience on top of GitHub Pages using only HTML, CSS, and a small amount of JavaScript.
+Personal portfolio site for **Yesenia (Yessi) Perez** — higher education & learning strategist working across NASA, higher education, museums, and community partners.
 
----
-
-## Overview
-
-This site has two jobs:
-
-1. **Professional** – Clearly communicate how I operate as a higher education and learning strategist across NASA, higher ed, museums, and community partners.
-2. **Technical** – Demonstrate that I can think like a design systems / front-end engineer: intentional layout, accessible motion, clean architecture, and a small but expressive interaction layer.
-
-The stack is intentionally minimal:
-
-- No framework
-- No build tools
-- Just `index.html`, `assets/css/main.css`, and `assets/js/main.js`
-
-That choice mirrors my work in learning environments: start with the essentials, design the system, and only add complexity when it serves the people using it.
+The site is intentionally lightweight: **hand-coded HTML, CSS, and vanilla JavaScript**, deployed via **GitHub Pages**.
 
 ---
 
-## Design System
+## Design & Experience Strategy
 
-The visual language is built around a small, coherent token set defined in CSS custom properties:
+### Visual language — “Midnight Studio”
 
-- **Color palette**  
-  - Twilight background (`--bg`, `--panel`, `--panel-soft`) for a deep, observatory-like feel.
-  - Accent trinity: `--accent-teal`, `--accent-coral`, `--accent-indigo` representing research, care, and imagination.
-  - Muted neutrals (`--muted`, `--muted-soft`) to keep body text calm and legible.
+The palette is built around a **twilight studio** feel:
 
-- **Shape & depth**  
-  - Radii tokens (`--radius-md`, `--radius-lg`, `--radius-xxl`) to keep cards, panels, and pills consistent.
-  - A single soft shadow token (`--shadow-soft`) used for the hero and key calls-to-action.
+- Deep navy backgrounds (`--bg`, `--panel`) mirror the night sky and GitHub’s dark UI.
+- Aurora **teal** (`--accent-primary`) anchors links and active navigation.
+- Candlelight **amber** (`--accent-secondary`) highlights metrics and key phrases.
+- Soft **plum / indigo** (`--accent-quaternary`) adds depth in borders and glows.
+- Typography pairs a bookish serif for headings with a system sans for body copy — think _“researcher in a planetarium library.”_
 
-- **Type & hierarchy**  
-  - System UI stack for fast rendering and platform alignment.
-  - “Eyebrow” labels (uppercase, tracked-out) used to signal structure: section intros, constellations of practice, and “Next Orbit” in the contact section.
+Color roles are explicitly scoped:
 
-By centralizing these tokens, the site reads as one coherent artifact instead of a collage of individually styled pieces.
+- `--accent-primary` → links, active nav, key CTAs  
+- `--accent-secondary` → metrics, subtle highlights  
+- `--accent-tertiary` → chips and soft emphasis  
+- `--accent-quaternary` → borders, glows, and subtle gradients  
 
----
+### Information architecture
 
-## Layout & Information Architecture
+The single-page layout follows a narrative arc:
 
-The page is structured as a set of “orbits”:
+1. **About** – who I am, where I sit in the ecosystem, and immediate proof points  
+2. **Trajectory** – career and education timeline + four practice modes  
+3. **Work** – selected projects across NASA, higher ed, and museums  
+4. **How I Work** – principles and working agreements  
+5. **Capabilities** – what I actually do on teams  
+6. **Writing** – reflective and public-facing work  
+7. **Contact** – “next orbit” roles and ways to connect  
 
-1. **Hero** – Who I am and where I sit in the ecosystem.
-2. **Trajectory & Modes of Practice** – How I got here and the lenses I bring (Strategist, Scholar, Creator, Navigator).
-3. **Signature Work** – Concrete examples at NASA, museums, and networks.
-4. **How I Work** – My operating system: systems design, evidence use, equity as a design constraint.
-5. **Capabilities & Tools** – How I show up on teams and what I’m fluent in.
-6. **Writing & Thought Practice** – Where my reflective work lives.
-7. **What I’m Looking Toward** – The roles and collaborations I’m seeking next.
+The hero includes **metric pills** (years of experience, network reach, educational arc) to support quick skimming by hiring managers.
 
-Implementation details:
+### Interaction & motion
 
-- Layout is done with CSS Grid and `minmax(0, 1fr)` patterns for resilient columns.
-- Cards share a common structural vocabulary (radius, padding, subtle radial highlights) but vary accents and gradients by section.
-- Breakpoints are content-driven:
-  - ~900–980px: shift two-column grids into stacked layouts.
-  - ~640px: optimize padding and grid behavior for small screens.
+- **Sticky nav with scroll spy** using `IntersectionObserver`
+- Hero **constellation canvas** that reacts gently in the background
+- **Scroll-reveal** for sections (also via `IntersectionObserver`)
+- Focus states and hover effects are tuned for clarity, not spectacle
 
----
+All motion respects user preferences:
 
-## Interaction & Motion
+- `prefers-reduced-motion: reduce` disables CSS animations and transitions.
+- The canvas animation early-exits if reduced motion is requested, and pauses when the tab is hidden.
 
-Motion in this site is intentionally subtle and tied to meaning:
+### Accessibility
 
-- **Hero “orbit” gradient**  
-  A slow conic gradient rotation suggests orbital motion without overwhelming the content.
-
-- **Canvas constellation**  
-  A lightweight particle network animates behind the hero content. It’s a nod to my work in astrophysics and learning ecosystems: individual nodes, connected by invisible lines of relationship.
-
-- **Scroll-based interactions**
-  - **Scroll spy**: Nav highlights the section currently in view using `IntersectionObserver`.
-  - **Scroll reveal**: Sections fade and slide in once, gently suggesting progression through the story.
-
-### Performance considerations
-
-The canvas animation is tuned to feel alive but remain efficient:
-
-- Particle connections are computed with a small cap on particle count, adjusted based on viewport area.
-- Canvas is sized with device pixel ratio and updated on debounced resize events.
-
-### Accessibility & motion
-
-Not everyone enjoys motion. The site respects `prefers-reduced-motion`:
-
-- Disables the hero rotation animation.
-- Hides the animated canvas constellation.
-- Neutralizes reveal transitions.
-- Resets `scroll-behavior` to `auto`.
-
-This keeps the experience visually rich for those who want it, and stable for those who don’t.
+- Semantic structure: single `<h1>`, sectioned `<h2>`, `<nav>` with labels.
+- **Skip link** to jump directly to main content.
+- Explicit `:focus-visible` outlines for navigation and interactive pills.
+- `aria-current="page"` applied to the active nav item via scroll spy.
 
 ---
 
-## Accessibility
+## Tech stack
 
-Some key decisions:
+- HTML5
+- CSS3 (custom properties, modern layout)
+- Vanilla JavaScript (no frameworks)
+- Hosted on **GitHub Pages**
 
-- **Semantic structure**
-  - `header`, `main`, `section`, `aside`, and `footer` used intentionally.
-  - Each section has a unique `id` and a corresponding `aria-labelledby` heading.
-  - The primary nav is a `<nav>` with an explicit `aria-label`.
-
-- **Keyboard & screen reader support**
-  - A “Skip to main content” link is available and becomes visible on focus.
-  - Interactive elements (links, nav, contact actions) use natural semantics with no custom roles.
-  - Hover effects always have a safe default state and are never the only way to access information.
-
-- **Color & contrast**
-  - Text and UI elements are tested against dark backgrounds to maintain strong contrast.
-  - Accent colors are used primarily for emphasis, not as the only carrier of meaning.
-
----
-
-## JavaScript Architecture
-
-JavaScript is intentionally small and scoped:
-
-- **No global namespace pollution**
-  - All behavior lives inside IIFEs in `assets/js/main.js`.
-  - Constants and internal helpers are encapsulated.
-
-- **Features implemented**
-  1. **Dynamic year** in the footer.
-  2. **Canvas constellation** with an adaptive particle count and debounced resize.
-  3. **Scroll spy** using `IntersectionObserver` to keep the nav aligned with scroll position.
-  4. **Scroll reveal** that adds a `.visible` class to sections as they enter the viewport.
-
-- **Progressive enhancement**
-  - If `IntersectionObserver` isn’t supported, sections simply render visible and links still work.
-  - If `canvas.getContext` isn’t available, the hero gracefully falls back to a static gradient background.
-
----
-
-## Project Structure
+Folder structure:
 
 ```text
-.
+/
 ├── index.html
-├── assets
-│   ├── css
+├── assets/
+│   ├── css/
 │   │   └── main.css
-│   └── js
+│   └── js/
 │       └── main.js
 └── README.md
-
