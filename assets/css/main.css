@@ -19,7 +19,7 @@
   --accent-gold: #c19a55;
 
   --border-subtle: rgba(176, 158, 133, 0.5);
-  --shadow-soft: 0 24px 60px rgba(31, 41, 55, 0.24);
+  --shadow-soft: 0 16px 40px rgba(148, 163, 184, 0.4);
 
   --radius-xl: 24px;
   --radius-lg: 18px;
@@ -49,7 +49,7 @@ body {
   background:
     radial-gradient(circle at top left, #fdf9f0 0, #f5f3eb 40%, #ece4d4 100%);
   color: var(--ink);
-  line-height: 1.7;
+  line-height: 1.6; /* slightly tightened for modern readability */
   font-size: 16px;
 }
 
@@ -128,7 +128,11 @@ body {
   top: 0;
   z-index: 20;
   backdrop-filter: blur(16px);
-  background: linear-gradient(to bottom, rgba(245, 241, 231, 0.92), rgba(245, 241, 231, 0.78));
+  background: linear-gradient(
+    to bottom,
+    rgba(245, 241, 231, 0.92),
+    rgba(245, 241, 231, 0.78)
+  );
   border-bottom: 1px solid rgba(217, 200, 173, 0.4);
 }
 
@@ -144,7 +148,13 @@ body {
   border-radius: 999px;
   background:
     radial-gradient(circle at 30% 20%, #fef9c3, transparent 55%),
-    conic-gradient(from 200deg, var(--accent-sage), var(--accent-berry), var(--accent-gold), var(--accent-sage));
+    conic-gradient(
+      from 200deg,
+      var(--accent-sage),
+      var(--accent-berry),
+      var(--accent-gold),
+      var(--accent-sage)
+    );
   box-shadow:
     0 0 0 2px #fdf9f0,
     0 0 18px rgba(180, 85, 109, 0.5);
@@ -293,7 +303,7 @@ body {
 
 .section-header h2 {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 1.6rem;
+  font-size: 1.7rem; /* slightly enlarged for clearer hierarchy */
   line-height: 1.25;
   margin: 0.2rem 0 0.5rem;
 }
@@ -384,11 +394,12 @@ body {
     transform 0.12s ease-out;
 }
 .chip--active {
-  background: radial-gradient(circle at top left, rgba(106, 143, 122, 0.15), transparent 60%),
-              rgba(255, 255, 255, 0.95);
+  background:
+    radial-gradient(circle at top left, var(--accent-sage-soft), transparent 60%),
+    rgba(255, 255, 255, 0.95);
   border-color: var(--accent-sage);
   color: var(--ink);
-  box-shadow: 0 10px 24px rgba(148, 163, 184, 0.35);
+  box-shadow: 0 8px 18px rgba(148, 163, 184, 0.28); /* slightly eased */
   transform: translateY(-1px);
 }
 .chip:hover {
@@ -414,8 +425,9 @@ body {
   justify-content: center;
   border-radius: var(--radius-pill);
   border: 1px solid var(--accent-sage);
-  background: radial-gradient(circle at top left, rgba(106, 143, 122, 0.18), transparent 60%),
-              #fefdf9;
+  background:
+    radial-gradient(circle at top left, var(--accent-sage-soft), transparent 60%),
+    #fefdf9;
   padding: 0.46rem 1.1rem;
   font-size: 0.86rem;
   color: var(--ink);
@@ -452,11 +464,12 @@ body {
 .card {
   border-radius: var(--radius-lg);
   border: 1px solid rgba(176, 158, 133, 0.7);
-  background: radial-gradient(circle at top left, rgba(250, 249, 246, 0.9), rgba(248, 245, 239, 0.98));
+  background:
+    radial-gradient(circle at top left, rgba(250, 249, 246, 0.9), rgba(248, 245, 239, 0.98));
   padding: 1rem 1.1rem 0.95rem;
   font-size: 0.9rem;
   color: var(--ink-soft);
-  box-shadow: 0 16px 40px rgba(148, 163, 184, 0.4);
+  box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
   transition:
@@ -475,12 +488,21 @@ body {
   transition: opacity 0.18s ease-out;
 }
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 22px 52px rgba(148, 163, 184, 0.5);
+  transform: translateY(-1px); /* slightly gentler hover for informational cards */
+  box-shadow: 0 18px 44px rgba(148, 163, 184, 0.45);
   border-color: rgba(193, 154, 85, 0.7);
 }
 .card:hover::before {
   opacity: 1;
+}
+
+/* Interactive card variant: use when the entire card is clickable */
+.card--interactive {
+  cursor: pointer;
+}
+.card--interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 52px rgba(148, 163, 184, 0.5);
 }
 
 .card--hero {
@@ -603,7 +625,11 @@ body {
   top: 0.4rem;
   bottom: 0.4rem;
   width: 1px;
-  background: linear-gradient(to bottom, rgba(106, 143, 122, 0.8), rgba(180, 85, 109, 0.7));
+  background: linear-gradient(
+    to bottom,
+    rgba(106, 143, 122, 0.8),
+    rgba(180, 85, 109, 0.7)
+  );
   opacity: 0.7;
 }
 
@@ -694,7 +720,8 @@ body {
    ========= */
 
 .section--band .card {
-  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), rgba(250, 248, 242, 0.98));
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), rgba(250, 248, 242, 0.98));
 }
 
 .card--case {
@@ -743,8 +770,8 @@ body {
 
 .section--botanical {
   background:
-    radial-gradient(circle at top left, rgba(106, 143, 122, 0.12), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(180, 85, 109, 0.08), transparent 70%),
+    radial-gradient(circle at top left, var(--accent-sage-soft), transparent 60%),
+    radial-gradient(circle at bottom right, var(--accent-berry-soft), transparent 70%),
     var(--bg-band);
 }
 
@@ -837,5 +864,31 @@ body {
   }
   .site::before {
     inset: 0.9rem 0.5rem;
+    border-width: 0.5px;
+    border-radius: 20px;
+  }
+}
+
+/* =========
+   REDUCED MOTION SUPPORT
+   ========= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .section {
+    transition: none;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .card,
+  .button,
+  .pill-link,
+  .chip {
+    transition: none;
+    transform: none !important;
   }
 }
