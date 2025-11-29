@@ -1,25 +1,26 @@
 /* =========
-   DESIGN SYSTEM — TWILIGHT / TEAL / CORAL
+   DESIGN SYSTEM — MIDNIGHT STUDIO
    ========= */
 :root {
-  --bg: #020617;
-  --bg-soft: #030713;
-  --panel: #050b18;
-  --panel-soft: #07111f;
-  --panel-alt: #0b1527;
+  /* Surfaces */
+  --bg: #030718;
+  --bg-soft: #050a1f;
+  --panel: #050b20;
+  --panel-soft: #070f26;
+  --panel-alt: #0c1634;
 
-  --accent-teal: #2dd4bf;
-  --accent-teal-soft: rgba(45, 212, 191, 0.16);
-  --accent-coral: #fb7185;
-  --accent-coral-soft: rgba(251, 113, 133, 0.16);
-  --accent-indigo: #6366f1;
+  /* Accents: clearly scoped roles */
+  --accent-primary: #38bdf8;      /* links, active nav, key CTAs */
+  --accent-secondary: #fbbf77;    /* highlights, metrics */
+  --accent-tertiary: #fb7185;     /* chips, subtle emphasis */
+  --accent-quaternary: #a5b4fc;   /* borders, glows */
 
   --ink: #f9fafb;
-  --muted: #c7d2fe;
+  --muted: #cbd5f5;
   --muted-soft: #9ca3af;
 
   --border-subtle: #111827;
-  --shadow-soft: 0 32px 90px rgba(15, 23, 42, 0.95);
+  --shadow-soft: 0 32px 90px rgba(3, 4, 15, 0.96);
 
   --radius-xxl: 30px;
   --radius-xl: 24px;
@@ -41,13 +42,19 @@ html {
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top left, #020617 0, #000 55%, #020617 100%);
+  background:
+    radial-gradient(circle at top left, #0b1024 0, #020617 45%, #020617 100%);
   color: var(--ink);
   line-height: 1.6;
 }
 
+h1, h2, h3 {
+  font-family: "Iowan Old Style", "Book Antiqua", Georgia, "Times New Roman", serif;
+  letter-spacing: 0.01em;
+}
+
 a {
-  color: var(--accent-teal);
+  color: var(--accent-primary);
   text-decoration: none;
 }
 a:hover,
@@ -76,8 +83,8 @@ a:focus-visible {
   left: -999px;
   top: 0.75rem;
   padding: 0.5rem 0.8rem;
-  background: #0f172a;
-  color: var(--ink);
+  background: #0b1120;
+  color: #f9fafb;
   border-radius: 8px;
   z-index: 1000;
 }
@@ -101,14 +108,11 @@ a:focus-visible {
   justify-content: space-between;
   padding: 0.7rem 1.2rem;
   border-radius: var(--radius-pill);
-  background: linear-gradient(
-    130deg,
-    rgba(15, 23, 42, 0.98),
-    rgba(8, 47, 73, 0.96)
-  );
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(18px);
+  background:
+    linear-gradient(130deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.96));
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  box-shadow: 0 22px 60px rgba(3, 7, 18, 0.96);
+  backdrop-filter: blur(16px);
 }
 
 .nav-brand {
@@ -121,20 +125,21 @@ a:focus-visible {
   width: 22px;
   height: 22px;
   border-radius: 999px;
-  background: conic-gradient(
-    from 210deg,
-    var(--accent-teal),
-    var(--accent-coral),
-    #38bdf8,
-    var(--accent-indigo),
-    var(--accent-teal)
-  );
+  background:
+    conic-gradient(from 210deg,
+      var(--accent-primary),
+      var(--accent-tertiary),
+      var(--accent-secondary),
+      var(--accent-quaternary),
+      var(--accent-primary)
+    );
   box-shadow:
     0 0 0 2px #020617,
     0 0 22px rgba(56, 189, 248, 0.85);
   position: relative;
   overflow: hidden;
 }
+
 .nav-orbit::after {
   content: "";
   position: absolute;
@@ -173,7 +178,7 @@ a:focus-visible {
   bottom: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent-teal), var(--accent-coral));
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
   transition: width 0.2s ease-out;
 }
 
@@ -204,6 +209,15 @@ a:focus-visible {
   }
 }
 
+/* Explicit focus styles */
+.nav-links a:focus-visible,
+.hero-pill:focus-visible,
+.contact-link:focus-visible,
+.case-link-pill:focus-visible {
+  outline: 2px solid var(--accent-secondary);
+  outline-offset: 2px;
+}
+
 /* =========
    HERO WITH CANVAS BACKGROUND
    ========= */
@@ -213,10 +227,10 @@ a:focus-visible {
   padding: 2.1rem 2rem 2.2rem;
   border-radius: var(--radius-xxl);
   background:
-    radial-gradient(circle at top left, rgba(45, 212, 191, 0.2), transparent 55%),
-    radial-gradient(circle at top right, rgba(251, 113, 133, 0.2), transparent 60%),
-    radial-gradient(circle at bottom, rgba(79, 70, 229, 0.22), transparent 65%),
-    linear-gradient(145deg, #020617, #020b17 40%, #04101e 100%);
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(circle at top right, rgba(248, 250, 252, 0.04), transparent 60%),
+    radial-gradient(circle at bottom, rgba(129, 140, 248, 0.28), transparent 65%),
+    linear-gradient(145deg, #020617, #02091b 45%, #020617 100%);
   border: 1px solid rgba(148, 163, 184, 0.65);
   box-shadow: var(--shadow-soft);
   display: grid;
@@ -231,14 +245,14 @@ a:focus-visible {
   inset: -40%;
   background: conic-gradient(
     from 200deg,
-    rgba(45, 212, 191, 0.06),
-    rgba(251, 113, 133, 0.08),
-    rgba(56, 189, 248, 0.06),
+    rgba(56, 189, 248, 0.1),
+    rgba(251, 191, 80, 0.12),
+    rgba(129, 140, 248, 0.12),
     transparent 60%
   );
-  opacity: 0.8;
-  mix-blend-mode: screen;
-  animation: heroGlow 18s linear infinite;
+  opacity: 0.9;
+  mix-blend-mode: soft-light;
+  animation: heroGlow 22s linear infinite;
   pointer-events: none;
 }
 
@@ -253,7 +267,7 @@ a:focus-visible {
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 #orbitCanvas {
@@ -285,8 +299,37 @@ a:focus-visible {
   font-size: clamp(2.15rem, 3vw, 2.7rem);
 }
 
+/* Metrics row */
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0.7rem 0 0.9rem;
+}
+
+.metric-pill {
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-md);
+  background: rgba(15, 23, 42, 0.86);
+  border: 1px solid rgba(251, 191, 80, 0.55);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.85);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.metric-pill strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--accent-secondary);
+}
+
+.metric-pill span {
+  display: block;
+  margin-top: 0.1rem;
+}
+
 .hero-tagline {
-  margin: 0 0 1rem;
+  margin: 0 0 0.9rem;
   font-size: 0.98rem;
   color: var(--muted-soft);
   max-width: 36rem;
@@ -303,15 +346,15 @@ a:focus-visible {
   font-size: 0.8rem;
   padding: 0.32rem 0.78rem;
   border-radius: var(--radius-pill);
-  background: rgba(15, 23, 42, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.6);
   color: var(--muted-soft);
   white-space: nowrap;
 }
 
 .chip-primary {
-  border-color: var(--accent-teal);
-  background: var(--accent-teal-soft);
+  border-color: var(--accent-primary);
+  background: rgba(56, 189, 248, 0.16);
   color: var(--ink);
 }
 
@@ -332,8 +375,8 @@ a:focus-visible {
 .hero-card {
   padding: 0.95rem 1.05rem;
   border-radius: var(--radius-lg);
-  background: rgba(5, 11, 24, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.7);
 }
 
 .hero-label {
@@ -362,7 +405,7 @@ a:focus-visible {
   gap: 0.35rem;
   padding: 0.38rem 0.86rem;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(148, 163, 184, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.85);
   background: rgba(15, 23, 42, 0.96);
   font-size: 0.8rem;
   color: var(--ink);
@@ -373,10 +416,15 @@ a:focus-visible {
   font-size: 1rem;
 }
 
-.hero-pill:hover,
-.hero-pill:focus-visible {
-  border-color: var(--accent-coral);
-  background: var(--accent-coral-soft);
+.hero-pill:hover {
+  border-color: var(--accent-tertiary);
+  background: rgba(251, 113, 133, 0.14);
+}
+
+@media (max-width: 980px) {
+  .hero-metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 880px) {
@@ -385,7 +433,7 @@ a:focus-visible {
     padding-inline: 1.6rem;
   }
   .hero-canvas-wrap {
-    opacity: 0.55;
+    opacity: 0.6;
   }
 }
 
@@ -412,11 +460,7 @@ main section.section-block::before {
   content: "";
   position: absolute;
   inset: -40%;
-  background: radial-gradient(
-    circle at top right,
-    rgba(45, 212, 191, 0.08),
-    transparent 58%
-  );
+  background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 58%);
   opacity: 0;
   transition: opacity 0.4s ease-out;
   pointer-events: none;
@@ -435,14 +479,6 @@ main section.section-block h2 {
   font-size: 0.86rem;
   color: var(--muted-soft);
   margin-bottom: 1rem;
-}
-
-.section-eyebrow {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: rgba(148, 163, 184, 0.8);
-  margin-bottom: 0.45rem;
 }
 
 @media (max-width: 640px) {
@@ -480,11 +516,11 @@ main section.section-block h2 {
   width: 2px;
   background: linear-gradient(
     to bottom,
-    var(--accent-teal),
-    var(--accent-indigo),
-    var(--accent-coral)
+    var(--accent-primary),
+    var(--accent-quaternary),
+    var(--accent-tertiary)
   );
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 .timeline-item {
@@ -500,9 +536,9 @@ main section.section-block h2 {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--accent-teal);
-  box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.15);
+  background: var(--panel);
+  border: 2px solid var(--accent-primary);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.18);
 }
 
 .timeline-label {
@@ -554,11 +590,8 @@ main section.section-block h2 {
 .mode-card {
   border-radius: var(--radius-md);
   padding: 0.9rem 1rem 0.8rem;
-  background: radial-gradient(
-      circle at top left,
-      rgba(45, 212, 191, 0.18),
-      transparent 58%
-    ),
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 58%),
     var(--panel-soft);
   border: 1px solid rgba(148, 163, 184, 0.6);
   font-size: 0.86rem;
@@ -566,11 +599,8 @@ main section.section-block h2 {
 }
 
 .mode-card:nth-child(2) {
-  background: radial-gradient(
-      circle at top left,
-      rgba(251, 113, 133, 0.18),
-      transparent 60%
-    ),
+  background:
+    radial-gradient(circle at top left, rgba(251, 113, 133, 0.18), transparent 60%),
     var(--panel-soft);
 }
 
@@ -589,7 +619,7 @@ main section.section-block h2 {
   gap: 1.4rem;
 }
 
-.case-grid-bottom {
+.case-grid-secondary {
   margin-top: 1.05rem;
 }
 
@@ -609,21 +639,14 @@ main section.section-block h2 {
   color: var(--muted-soft);
   overflow: hidden;
   transform: translateY(0);
-  transition:
-    transform 0.18s ease-out,
-    border-color 0.18s ease-out,
-    box-shadow 0.18s ease-out;
+  transition: transform 0.18s ease-out, border-color 0.18s ease-out, box-shadow 0.18s ease-out;
 }
 
 .case-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at top right,
-    rgba(45, 212, 191, 0.18),
-    transparent 62%
-  );
+  background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), transparent 62%);
   opacity: 0;
   transition: opacity 0.2s ease-out;
   pointer-events: none;
@@ -631,7 +654,7 @@ main section.section-block h2 {
 
 .case-card:hover {
   transform: translateY(-3px);
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.9);
 }
 
@@ -665,19 +688,36 @@ main section.section-block h2 {
   margin-bottom: 0.12rem;
 }
 
+/* Case links */
+.case-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+}
+
+.case-link-label {
+  color: var(--muted-soft);
+}
+
+.case-link-pill {
+  padding: 0.18rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  cursor: default;
+}
+
 /* =========
-   PRACTICE (HOW I WORK)
+   PRACTICE
    ========= */
 #practice.section-block {
   background:
-    linear-gradient(
-      90deg,
-      rgba(45, 212, 191, 0.14),
-      rgba(99, 102, 241, 0.12) 40%,
-      transparent 70%
-    ),
+    linear-gradient(90deg, rgba(56,189,248,0.14), rgba(129,140,248,0.12) 40%, transparent 70%),
     var(--panel);
-  border-color: rgba(148, 163, 184, 0.6);
+  border-color: rgba(148, 163, 184, 0.7);
 }
 
 .practice-grid {
@@ -696,7 +736,7 @@ main section.section-block h2 {
 .practice-quote-wrap {
   position: relative;
   padding-left: 1.2rem;
-  border-left: 2px solid rgba(148, 163, 184, 0.7);
+  border-left: 2px solid rgba(148, 163, 184, 0.85);
   margin-bottom: 1rem;
 }
 
@@ -706,7 +746,7 @@ main section.section-block h2 {
 }
 
 .practice-quote-em {
-  color: var(--accent-teal);
+  color: var(--accent-secondary);
 }
 
 .practice-note {
@@ -727,7 +767,7 @@ main section.section-block h2 {
   padding: 0.25rem 0.7rem;
   border-radius: var(--radius-pill);
   background: rgba(15, 23, 42, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.7);
   color: var(--muted-soft);
   white-space: nowrap;
 }
@@ -741,32 +781,23 @@ main section.section-block h2 {
 .practice-card {
   border-radius: var(--radius-md);
   padding: 0.95rem 1.05rem 0.9rem;
-  background: radial-gradient(
-      circle at top left,
-      rgba(251, 113, 133, 0.18),
-      transparent 60%
-    ),
+  background:
+    radial-gradient(circle at top left, rgba(251, 113, 133, 0.18), transparent 60%),
     var(--panel-soft);
-  border: 1px solid rgba(148, 163, 184, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.7);
   font-size: 0.86rem;
   color: var(--muted-soft);
 }
 
 .practice-card:nth-child(2) {
-  background: radial-gradient(
-      circle at top left,
-      rgba(45, 212, 191, 0.18),
-      transparent 55%
-    ),
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
     var(--panel-soft);
 }
 
 .practice-card:nth-child(3) {
-  background: radial-gradient(
-      circle at top left,
-      rgba(99, 102, 241, 0.21),
-      transparent 58%
-    ),
+  background:
+    radial-gradient(circle at top left, rgba(129, 140, 248, 0.21), transparent 58%),
     var(--panel-soft);
 }
 
@@ -786,7 +817,7 @@ main section.section-block h2 {
 }
 
 /* =========
-   CAPABILITIES — “CONSTELLATION” GRID
+   CAPABILITIES — CONSTELLATION GRID
    ========= */
 .skills-grid {
   display: grid;
@@ -802,7 +833,7 @@ main section.section-block h2 {
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: rgba(148, 163, 184, 0.7);
+  color: rgba(148, 163, 184, 0.9);
 }
 
 @media (max-width: 980px) {
@@ -821,19 +852,16 @@ main section.section-block h2 {
   border-radius: var(--radius-md);
   padding: 1rem 1.05rem 0.9rem;
   background: var(--panel-soft);
-  border: 1px solid rgba(148, 163, 184, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.7);
   font-size: 0.86rem;
   color: var(--muted-soft);
   overflow: hidden;
-  transition:
-    transform 0.18s ease-out,
-    box-shadow 0.18s ease-out,
-    border-color 0.18s ease-out;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s ease-out;
 }
 
 .skills-block:hover {
   transform: translateY(-2px);
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
 }
 
@@ -841,38 +869,23 @@ main section.section-block h2 {
   content: "";
   position: absolute;
   inset: -30%;
-  background: radial-gradient(
-    circle at top right,
-    rgba(45, 212, 191, 0.16),
-    transparent 60%
-  );
+  background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.16), transparent 60%);
   opacity: 0.5;
   pointer-events: none;
 }
 
 .skills-block:nth-child(2)::before {
-  background: radial-gradient(
-    circle at top right,
-    rgba(251, 113, 133, 0.18),
-    transparent 60%
-  );
+  background: radial-gradient(circle at top right, rgba(251, 113, 133, 0.18), transparent 60%);
 }
 
 .skills-block:nth-child(3)::before {
-  background: radial-gradient(
-    circle at top right,
-    rgba(99, 102, 241, 0.24),
-    transparent 60%
-  );
+  background: radial-gradient(circle at top right, rgba(129, 140, 248, 0.24), transparent 60%);
 }
 
 /* first row slightly stronger */
-.skills-block:nth-child(-n + 3) {
-  background: radial-gradient(
-      circle at top left,
-      rgba(15, 23, 42, 0.3),
-      transparent 60%
-    ),
+.skills-block:nth-child(-n+3) {
+  background:
+    radial-gradient(circle at top left, rgba(15, 23, 42, 0.3), transparent 60%),
     var(--panel-soft);
 }
 
@@ -910,12 +923,12 @@ main section.section-block h2 {
   padding: 0.18rem 0.55rem;
   border-radius: var(--radius-pill);
   background: rgba(15, 23, 42, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.7);
   white-space: nowrap;
 }
 
 /* =========
-   WRITING — FEATURED CARD
+   WRITING
    ========= */
 .writing-grid {
   display: grid;
@@ -953,10 +966,7 @@ main section.section-block h2 {
   color: var(--muted-soft);
   position: relative;
   overflow: hidden;
-  transition:
-    transform 0.18s ease-out,
-    border-color 0.18s ease-out,
-    box-shadow 0.18s ease-out;
+  transition: transform 0.18s ease-out, border-color 0.18s ease-out, box-shadow 0.18s ease-out;
 }
 
 .writing-card::before {
@@ -965,18 +975,14 @@ main section.section-block h2 {
   inset-inline: -20%;
   bottom: -40%;
   height: 55%;
-  background: radial-gradient(
-    circle at top center,
-    rgba(45, 212, 191, 0.18),
-    transparent 60%
-  );
+  background: radial-gradient(circle at top center, rgba(56, 189, 248, 0.18), transparent 60%);
   opacity: 0;
   transition: opacity 0.2s ease-out;
 }
 
 .writing-card:hover {
   transform: translateY(-2px);
-  border-color: var(--accent-teal);
+  border-color: var(--accent-primary);
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
 }
 
@@ -986,11 +992,8 @@ main section.section-block h2 {
 
 /* spotlight first card */
 .writing-grid > article:first-child .writing-card {
-  background: radial-gradient(
-      circle at top left,
-      rgba(45, 212, 191, 0.2),
-      transparent 65%
-    ),
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 65%),
     var(--panel-soft);
   border-color: rgba(148, 163, 184, 0.85);
 }
@@ -1012,13 +1015,13 @@ main section.section-block h2 {
   margin: 0;
 }
 
-.writing-link {
+.writing-cta {
   margin-top: 0.4rem;
   font-size: 0.8rem;
 }
 
 /* =========
-   CONTACT / NOW & NEXT
+   CONTACT
    ========= */
 .contact-grid {
   display: grid;
@@ -1036,6 +1039,14 @@ main section.section-block h2 {
 .contact-text {
   font-size: 0.9rem;
   color: var(--muted-soft);
+}
+
+.contact-eyebrow {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(148, 163, 184, 0.95);
+  margin-bottom: 0.45rem;
 }
 
 .contact-list {
@@ -1062,7 +1073,7 @@ main section.section-block h2 {
   padding: 0.2rem 0.65rem;
   border-radius: var(--radius-pill);
   background: rgba(15, 23, 42, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.7);
   color: var(--muted-soft);
   white-space: nowrap;
 }
@@ -1071,13 +1082,13 @@ main section.section-block h2 {
   padding: 1.05rem 1.15rem;
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle at top left, rgba(45, 212, 191, 0.2), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(251, 113, 133, 0.22), transparent 60%),
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.22), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(251, 113, 133, 0.24), transparent 60%),
     var(--panel-alt);
-  border: 1px solid rgba(148, 163, 184, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.9);
   font-size: 0.86rem;
   color: var(--muted-soft);
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+  box-shadow: 0 24px 60px rgba(3, 7, 18, 0.96);
 }
 
 .contact-card strong {
@@ -1097,7 +1108,7 @@ main section.section-block h2 {
   padding: 0.38rem 0.75rem;
   border-radius: var(--radius-pill);
   background: rgba(15, 23, 42, 0.96);
-  border: 1px solid rgba(148, 163, 184, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.9);
   color: var(--ink);
   font-size: 0.8rem;
   text-decoration: none;
@@ -1108,10 +1119,9 @@ main section.section-block h2 {
   font-size: 0.9rem;
 }
 
-.contact-link:hover,
-.contact-link:focus-visible {
-  border-color: var(--accent-teal);
-  background: var(--accent-teal-soft);
+.contact-link:hover {
+  border-color: var(--accent-primary);
+  background: rgba(56, 189, 248, 0.16);
 }
 
 /* =========
@@ -1126,19 +1136,13 @@ footer {
   text-align: center;
 }
 
-footer a {
-  font-size: 0.78rem;
-}
-
 /* =========
    SCROLL REVEAL
    ========= */
 .reveal {
   opacity: 0;
   transform: translateY(14px);
-  transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .visible .reveal {
@@ -1147,30 +1151,13 @@ footer a {
 }
 
 /* =========
-   REDUCED MOTION SUPPORT
+   REDUCED MOTION
    ========= */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   * {
+    scroll-behavior: auto !important;
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-
-  .hero::before {
-    animation: none;
-  }
-
-  .hero-canvas-wrap {
-    display: none;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
 }
-
