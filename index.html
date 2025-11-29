@@ -17,7 +17,6 @@
   <meta name="twitter:title" content="Yesenia Perez · Higher Education & Learning Strategist" />
   <meta name="twitter:description" content="Designing learning ecosystems where more people can belong, persist, and thrive." />
 
-  <!-- Icons (optional: add files later) -->
   <link rel="icon" href="assets/icon/favicon.ico" />
   <link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
 
@@ -25,6 +24,23 @@
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- Hand-drawn leaf symbol (reusable) -->
+<svg class="visually-hidden" aria-hidden="true" focusable="false">
+  <symbol id="leaf-scribble" viewBox="0 0 64 64">
+    <path
+      d="M10 46C20 34 32 22 48 14
+         M14 18c4 6 9 10 16 12
+         m6-20c-1 9-4 16-10 24
+         m-8 8c8 0 16-2 24-6"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </symbol>
+</svg>
 
 <div class="site">
   <!-- HEADER -->
@@ -59,7 +75,13 @@
       <div class="shell">
         <div class="grid grid--hero">
           <div class="stack hero-copy">
-            <p class="eyebrow">Higher education · Science &amp; society · Design for learning</p>
+            <div class="hero-label-row">
+              <svg class="leaf-icon" aria-hidden="true">
+                <use href="#leaf-scribble"></use>
+              </svg>
+              <p class="eyebrow">Higher education · Science &amp; society · Design for learning</p>
+            </div>
+
             <h1 id="about-heading">I design learning ecosystems where more people can belong, persist, and thrive.</h1>
             <p class="lead">
               I work across NASA, universities, museums, and community partners—designing programs and environments
@@ -476,7 +498,7 @@
           </p>
         </header>
 
-        <div class="grid grid--Three">
+        <div class="grid grid--three">
           <article class="card card--writing">
             <p class="meta">Substack · The Echo Jar</p>
             <h3>Soft Physics</h3>
