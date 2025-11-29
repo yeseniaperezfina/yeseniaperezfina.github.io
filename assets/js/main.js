@@ -18,7 +18,7 @@ function setYear() {
 }
 
 /**
- * Scroll spy: highlight nav-link based on section in view
+ * Scroll spy: highlight .nav-link based on section in view
  */
 function initScrollSpy() {
   const sections = document.querySelectorAll('[data-section]');
