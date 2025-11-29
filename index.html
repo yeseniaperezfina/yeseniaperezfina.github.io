@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Yesenia Perez · Higher Education & Learning Strategist</title>
   <meta name="description" content="Portfolio of Yesenia Perez, higher education & learning strategist working across NASA, higher education, and public engagement." />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://yeseniaperezfina.github.io/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Yesenia Perez · Higher Education & Learning Strategist" />
+  <meta property="og:description" content="Higher education & learning strategist working across NASA, higher education, and public engagement." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yeseniaperezfina.github.io/" />
+  <meta property="og:image" content="https://yeseniaperezfina.github.io/assets/preview.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Yesenia Perez · Higher Education & Learning Strategist" />
+  <meta name="twitter:description" content="Designing learning ecosystems where more people can belong, persist, and thrive." />
+
+  <!-- Icons (optional, add files later) -->
+  <link rel="icon" href="assets/icon/favicon.ico" />
+  <link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png" />
+
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body>
@@ -23,13 +43,15 @@
       </div>
 
       <nav class="site-nav" aria-label="Primary">
-        <a class="nav-link is-active" href="#about">About</a>
-        <a class="nav-link" href="#trajectory">Trajectory</a>
-        <a class="nav-link" href="#work">Work</a>
-        <a class="nav-link" href="#practice">Practice</a>
-        <a class="nav-link" href="#skills">Capabilities</a>
-        <a class="nav-link" href="#writing">Writing</a>
-        <a class="nav-link" href="#contact">Contact</a>
+        <ul class="site-nav-list">
+          <li><a class="nav-link is-active" href="#about">About</a></li>
+          <li><a class="nav-link" href="#trajectory">Trajectory</a></li>
+          <li><a class="nav-link" href="#work">Work</a></li>
+          <li><a class="nav-link" href="#practice">Practice</a></li>
+          <li><a class="nav-link" href="#skills">Capabilities</a></li>
+          <li><a class="nav-link" href="#writing">Writing</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
       </nav>
     </div>
   </header>
@@ -37,12 +59,17 @@
   <!-- MAIN -->
   <main id="main" class="site-main">
     <!-- HERO / ABOUT -->
-    <section id="about" class="section section--hero" data-section>
+    <section
+      id="about"
+      class="section section--hero"
+      data-section
+      aria-labelledby="about-heading"
+    >
       <div class="shell">
         <div class="grid grid--hero">
           <div class="stack hero-copy">
             <p class="eyebrow">Higher education · Science &amp; society · Design for learning</p>
-            <h1>I design learning ecosystems where more people can belong, persist, and thrive.</h1>
+            <h1 id="about-heading">I design learning ecosystems where more people can belong, persist, and thrive.</h1>
             <p class="lead">
               I work across NASA, universities, museums, and community partners—designing programs and environments
               that connect rigorous science, institutional strategy, and lived experience.
@@ -66,8 +93,8 @@
             </div>
           </div>
 
-          <aside class="hero-panel">
-            <div class="card card--hero" aria-label="Snapshot">
+          <aside class="hero-panel" aria-label="Current snapshot">
+            <div class="card card--hero">
               <div class="hero-portrait" aria-hidden="true">
                 <div class="hero-portrait-inner"></div>
               </div>
@@ -115,11 +142,16 @@
     </section>
 
     <!-- TRAJECTORY -->
-    <section id="trajectory" class="section" data-section>
+    <section
+      id="trajectory"
+      class="section"
+      data-section
+      aria-labelledby="trajectory-heading"
+    >
       <div class="shell">
-        <div class="section-header">
+        <header class="section-header">
           <p class="eyebrow">Arc of the work</p>
-          <h2>Trajectory</h2>
+          <h2 id="trajectory-heading">Trajectory</h2>
           <p class="section-intro">
             From community college to Harvard, and from local museums to NASA, I’ve moved through the full arc of
             U.S. higher education while building a practice at the intersection of science, culture, and learning systems.
@@ -127,14 +159,19 @@
           <p class="section-note">
             What this shows: lived higher-ed experience, national portfolio leadership, and cross-sector practice.
           </p>
-        </div>
+        </header>
 
         <div class="grid grid--split">
           <div class="stack timeline" aria-label="Career and education timeline">
             <article class="timeline-item card">
-              <p class="timeline-label">2019 — Present</p>
+              <p class="timeline-label">
+                <time datetime="2019">2019</time> — <time datetime="2025">Present</time>
+              </p>
               <h3 class="timeline-title">Senior Education Specialist &amp; Strategic Lead — NASA Universe of Learning</h3>
-              <p class="timeline-meta">Space Telescope Science Institute · Baltimore, MD</p>
+              <p class="timeline-meta">
+                <span>Space Telescope Science Institute</span> ·
+                <span aria-label="Baltimore, Maryland">Baltimore, MD</span>
+              </p>
               <p class="timeline-body">
                 Lead national, research-driven initiatives that connect NASA astrophysics with learners through a network
                 of 100+ universities, MSIs, museums, libraries, and community organizations.
@@ -147,9 +184,13 @@
             </article>
 
             <article class="timeline-item card">
-              <p class="timeline-label">2015 — 2019</p>
+              <p class="timeline-label">
+                <time datetime="2015">2015</time> — <time datetime="2019">2019</time>
+              </p>
               <h3 class="timeline-title">Museums &amp; Public Engagement</h3>
-              <p class="timeline-meta">Allentown Art Museum · Worcester Art Museum</p>
+              <p class="timeline-meta">
+                <span>Allentown Art Museum</span> · <span>Worcester Art Museum</span>
+              </p>
               <p class="timeline-body">
                 Designed intergenerational, bilingual, and community-centered museum programs that treated galleries as
                 laboratories for curiosity, identity, and shared meaning.
@@ -211,19 +252,25 @@
     </section>
 
     <!-- SIGNATURE WORK -->
-    <section id="work" class="section section--band" data-section>
+    <section
+      id="work"
+      class="section section--band"
+      data-section
+      aria-labelledby="work-heading"
+    >
       <div class="shell">
-        <div class="section-header">
+        <header class="section-header">
           <p class="eyebrow">Selected projects</p>
-          <h2>Signature Work Across NASA, Higher Ed &amp; Public Engagement</h2>
+          <h2 id="work-heading">Signature Work Across NASA, Higher Ed &amp; Public Engagement</h2>
           <p class="section-intro">
             A few projects that show how I braid research, strategy, and design to shape learning ecosystems and public
             engagement at scale.
           </p>
           <p class="section-note">
-            What this shows: portfolio strategy, mixed-method research, facilitation, large-scale activation.
+            What this shows: portfolio strategy, mixed-method research, facilitation, large-scale activation.<br />
+            <strong>Hiring managers:</strong> start with the NASA ecosystem strategy.
           </p>
-        </div>
+        </header>
 
         <div class="grid grid--two">
           <article class="card card--case">
@@ -293,18 +340,23 @@
     </section>
 
     <!-- HOW I WORK -->
-    <section id="practice" class="section" data-section>
+    <section
+      id="practice"
+      class="section"
+      data-section
+      aria-labelledby="practice-heading"
+    >
       <div class="shell">
-        <div class="section-header">
+        <header class="section-header">
           <p class="eyebrow">Practice</p>
-          <h2>How I Work</h2>
+          <h2 id="practice-heading">How I Work</h2>
           <p class="section-intro">
             Underneath every project is a way of working: how we ask questions, invite people in, and make decisions visible.
           </p>
           <p class="section-note">
             What this shows: leadership style, decision-making, and how I show up on teams.
           </p>
-        </div>
+        </header>
 
         <div class="grid grid--three">
           <div class="stack">
@@ -351,11 +403,16 @@
     </section>
 
     <!-- CAPABILITIES -->
-    <section id="skills" class="section section--band section--botanical" data-section>
+    <section
+      id="skills"
+      class="section section--band section--botanical"
+      data-section
+      aria-labelledby="skills-heading"
+    >
       <div class="shell">
-        <div class="section-header">
+        <header class="section-header">
           <p class="eyebrow">Constellation of practice</p>
-          <h2>Capabilities &amp; Tools</h2>
+          <h2 id="skills-heading">Capabilities &amp; Tools</h2>
           <p class="section-intro">
             How I tend to contribute—from early-phase visioning and research design to storytelling, synthesis,
             and operational stewardship.
@@ -363,7 +420,7 @@
           <p class="section-note">
             What this shows: where to plug me into a team or portfolio.
           </p>
-        </div>
+        </header>
 
         <div class="grid grid--three">
           <article class="card">
@@ -430,11 +487,16 @@
     </section>
 
     <!-- WRITING -->
-    <section id="writing" class="section" data-section>
+    <section
+      id="writing"
+      class="section"
+      data-section
+      aria-labelledby="writing-heading"
+    >
       <div class="shell">
-        <div class="section-header">
+        <header class="section-header">
           <p class="eyebrow">Thought practice</p>
-          <h2>Writing &amp; Story Work</h2>
+          <h2 id="writing-heading">Writing &amp; Story Work</h2>
           <p class="section-intro">
             Writing is where I braid analysis, memory, and imagination—from reflective leadership work at Harvard to
             public-facing essays in <em>The Echo Jar</em>.
@@ -442,7 +504,7 @@
           <p class="section-note">
             What this shows: voice, sense-making, and how I translate complex systems for others.
           </p>
-        </div>
+        </header>
 
         <div class="grid grid--three">
           <article class="card card--writing">
@@ -497,12 +559,17 @@
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="section section--band section--contact" data-section>
+    <section
+      id="contact"
+      class="section section--band section--contact"
+      data-section
+      aria-labelledby="contact-heading"
+    >
       <div class="shell">
         <div class="grid grid--split">
           <div class="stack">
             <p class="eyebrow">Next orbit</p>
-            <h2>What I’m Looking Toward</h2>
+            <h2 id="contact-heading">What I’m Looking Toward</h2>
             <p>
               I’m exploring roles where I can help design and steward
               <strong>large-scale learning initiatives, portfolios, and environments</strong>
@@ -527,8 +594,8 @@
             </p>
           </div>
 
-          <aside class="card card--contact" aria-label="Contact details">
-            <h3>Let’s be in conversation.</h3>
+          <aside class="card card--contact" aria-labelledby="contact-card-title">
+            <h3 id="contact-card-title">Let’s be in conversation.</h3>
             <p>
               I’m open to thoughtful inquiries—whether you’re exploring a potential role, seeking a collaborator, or
               wondering how to make your learning ecosystem feel more alive and equitable.
