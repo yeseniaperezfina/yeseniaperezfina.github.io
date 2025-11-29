@@ -94,7 +94,7 @@ function initRoleChips() {
     Strategist:
       'As a <strong>Strategist</strong>, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.',
     Scholar:
-      'As a <strong>Scholar</strong>, I draw from higher education research, learning sciences, and organizational theory to shape systems that are rigorous, humane, and sustainable.',
+      'As a <strong>Scholar</strong>, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.',
     Creator:
       'As a <strong>Creator</strong>, I use visual storytelling and writing—including <em>The Echo Jar</em>—to translate complex science and systems into narratives that feel accessible and worth caring about.',
     Navigator:
