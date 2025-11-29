@@ -1,115 +1,95 @@
-// Main script for Yesenia's portfolio
-
-document.addEventListener('DOMContentLoaded', () => {
-  setYear();
-  initScrollSpy();
-  initSectionReveal();
-  initRoleChips();
-});
-
-/**
- * Set footer year
- */
-function setYear() {
-  const yearSpan = document.getElementById('year');
+// =========
+// Year stamp
+// =========
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
-}
 
-/**
- * Scroll spy: highlight .nav-link based on section in view
- */
-function initScrollSpy() {
-  const sections = document.querySelectorAll('[data-section]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  // =========
+  // Role chips → role note
+  // =========
+  const chips = document.querySelectorAll("[data-role-chip]");
+  const roleNote = document.getElementById("role-note");
 
-  if (!sections.length || !navLinks.length || !('IntersectionObserver' in window)) return;
+  const roleCopy = {
+    Strategist:
+      "As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.",
+    Scholar:
+      "As a Scholar, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.",
+    Creator:
+      "As a Creator, I use visual storytelling and writing—including The Echo Jar—to translate complex science and systems work into narratives that feel accessible and worth caring about.",
+    Navigator:
+      "As a Navigator, I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change."
+  };
 
-  const linkMap = {};
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href') || '';
-    if (href.startsWith('#')) {
-      const id = href.slice(1);
-      linkMap[id] = link;
-    }
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const role = chip.getAttribute("data-role-chip");
+      if (!role || !roleNote) return;
+
+      chips.forEach((c) => c.classList.remove("chip--active"));
+      chip.classList.add("chip--active");
+
+      const text = roleCopy[role] || "";
+      if (text) {
+        roleNote.innerHTML = text.replace(
+          role,
+          `<strong>${role}</strong>`
+        );
+      }
+    });
   });
 
-  let currentId = null;
+  // =========
+  // Scroll spy on sections → .nav-link
+  // =========
+  const sections = document.querySelectorAll("[data-section]");
+  const navLinks = document.querySelectorAll(".nav-link");
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+  const linkMap = {};
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+    const id = href.slice(1);
+    linkMap[id] = link;
+  });
+
+  const navObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const id = entry.target.id;
         if (!id || !linkMap[id]) return;
-        if (currentId === id) return;
 
-        currentId = id;
-        navLinks.forEach(link => link.classList.remove('is-active'));
-        linkMap[id].classList.add('is-active');
+        navLinks.forEach((link) => link.classList.remove("is-active"));
+        linkMap[id].classList.add("is-active");
       });
     },
     {
-      threshold: 0.4
+      threshold: 0.45
     }
   );
 
-  sections.forEach(section => observer.observe(section));
-}
+  sections.forEach((section) => navObserver.observe(section));
 
-/**
- * Section reveal: add .section-visible when sections intersect
- */
-function initSectionReveal() {
-  const sections = document.querySelectorAll('.section');
-  if (!sections.length || !('IntersectionObserver' in window)) return;
-
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+  // =========
+  // Section reveal (.section-visible)
+  // =========
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('section-visible');
+          entry.target.classList.add("section-visible");
           observer.unobserve(entry.target);
         }
       });
     },
     {
-      threshold: 0.25
+      threshold: 0.3
     }
   );
 
-  sections.forEach(section => observer.observe(section));
-}
-
-/**
- * Role chips: update note text and active state
- */
-function initRoleChips() {
-  const chips = document.querySelectorAll('[data-role-chip]');
-  const note = document.getElementById('role-note');
-  if (!chips.length || !note) return;
-
-  const copy = {
-    Strategist:
-      'As a <strong>Strategist</strong>, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.',
-    Scholar:
-      'As a <strong>Scholar</strong>, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.',
-    Creator:
-      'As a <strong>Creator</strong>, I use visual storytelling and writing—including <em>The Echo Jar</em>—to translate complex science and systems into narratives that feel accessible and worth caring about.',
-    Navigator:
-      'As a <strong>Navigator</strong>, I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change.'
-  };
-
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const role = chip.getAttribute('data-role-chip');
-      chips.forEach(c => c.classList.remove('chip--active'));
-      chip.classList.add('chip--active');
-
-      if (role && copy[role]) {
-        note.innerHTML = copy[role];
-      }
-    });
-  });
-}
+  sections.forEach((section) => revealObserver.observe(section));
+});
