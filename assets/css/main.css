@@ -136,13 +136,15 @@ a:focus-visible {
 }
 
 .section--botanical::before {
-  background: radial-gradient(circle at top left, #e3efe6, transparent 60%) ,
-              radial-gradient(circle at bottom right, #fbe7e4, transparent 60%);
+  background:
+    radial-gradient(circle at top left, #e3efe6, transparent 60%),
+    radial-gradient(circle at bottom right, #fbe7e4, transparent 60%);
 }
 
 .section--contact::before {
-  background: radial-gradient(circle at top left, #fbe7e4, transparent 60%),
-              radial-gradient(circle at bottom right, #e3efe6, transparent 60%);
+  background:
+    radial-gradient(circle at top left, #fbe7e4, transparent 60%),
+    radial-gradient(circle at bottom right, #e3efe6, transparent 60%);
 }
 
 /* Grid & Stack primitives */
@@ -372,6 +374,12 @@ p {
   font-size: 0.96rem;
 }
 
+.section-note {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted-soft);
+}
+
 /* ===========================
    HERO
    =========================== */
@@ -584,6 +592,25 @@ p {
 
 .meta--link {
   margin-top: 0.5rem;
+}
+
+/* details / summary in cases */
+
+.case-more {
+  margin-top: 0.45rem;
+  font-size: 0.84rem;
+}
+
+.case-more summary {
+  list-style: none;
+  cursor: pointer;
+  color: var(--accent-rose);
+}
+.case-more summary::-webkit-details-marker {
+  display: none;
+}
+.case-more[open] summary {
+  color: var(--muted-soft);
 }
 
 /* Timeline */
