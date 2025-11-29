@@ -1,14 +1,20 @@
 // =========
-// Year stamp
+// Forest Dawn Interactions
 // =========
 document.addEventListener("DOMContentLoaded", () => {
+  // =========
+  // Year stamp
+  // =========
   const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
 
+  const prefersReducedMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   // =========
-  // Role chips → role note + accent tint
+  // Role chips → role note
   // =========
   const chips = document.querySelectorAll("[data-role-chip]");
   const roleNote = document.getElementById("role-note");
@@ -24,40 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "As a Navigator, I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change."
   };
 
-  // Optional: per-role accent colors (all from the forest palette family)
-  const roleTheme = {
-    Strategist: {
-      "--accent-sage": "#2E4B47", // moss
-      "--accent-berry": "#886B55", // earth
-      "--accent-gold": "#FDD8A7"  // dawn
-    },
-    Scholar: {
-      "--accent-sage": "#96806C", // canopy
-      "--accent-berry": "#2E4B47",
-      "--accent-gold": "#FDD8A7"
-    },
-    Creator: {
-      "--accent-sage": "#886B55",
-      "--accent-berry": "#FDD8A7",
-      "--accent-gold": "#96806C"
-    },
-    Navigator: {
-      "--accent-sage": "#2E4B47",
-      "--accent-berry": "#96806C",
-      "--accent-gold": "#FDD8A7"
-    }
-  };
-
-  const rootStyle = document.documentElement.style;
-
-  function applyRoleTheme(role) {
-    const theme = roleTheme[role];
-    if (!theme) return;
-    Object.entries(theme).forEach(([varName, value]) => {
-      rootStyle.setProperty(varName, value);
-    });
-  }
-
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
       const role = chip.getAttribute("data-role-chip");
@@ -68,65 +40,133 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const text = roleCopy[role] || "";
       if (text) {
-        roleNote.innerHTML = text.replace(
-          role,
-          `<strong>${role}</strong>`
-        );
+        roleNote.innerHTML = text.replace(role, `<strong>${role}</strong>`);
       }
-
-      // optional palette morph
-      applyRoleTheme(role);
     });
   });
 
   // =========
-  // Scroll spy on sections → .nav-link
+  // Utility: hex → rgba
+  // =========
+  function hexToRgba(hex, alpha) {
+    const clean = hex.replace("#", "");
+    if (clean.length !== 6) return `rgba(255,255,255,${alpha})`;
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  // =========
+  // Section glow overlays
   // =========
   const sections = document.querySelectorAll("[data-section]");
-  const navLinks = document.querySelectorAll(".nav-link");
+  const sectionArray = Array.from(sections);
 
-  const linkMap = {};
-  navLinks.forEach((link) => {
-    const href = link.getAttribute("href");
-    if (!href || !href.startsWith("#")) return;
-    const id = href.slice(1);
-    linkMap[id] = link;
+  // Palette in the same order as your image
+  const glowPalette = [
+    "#FDD8A7", // dawn
+    "#96806C", // canopy
+    "#886B55", // earth
+    "#2E4B47", // moss
+    "#23322D"  // night
+  ];
+
+  // WeakMap: section → glow element
+  const sectionGlows = new WeakMap();
+
+  sectionArray.forEach((section, index) => {
+    const glow = document.createElement("div");
+    glow.className = "section-glow";
+    glow.style.position = "absolute";
+    glow.style.inset = "-12% 0 -10% 0";
+    glow.style.pointerEvents = "none";
+    glow.style.opacity = "0";
+    glow.style.transition = "opacity 600ms ease-out";
+    glow.style.zIndex = "-1";
+
+    // Ensure section can host absolutely-positioned child
+    section.style.position = section.style.position || "relative";
+
+    section.insertBefore(glow, section.firstChild);
+    sectionGlows.set(section, glow);
+
+    // Initial background (subtle, all the same)
+    const baseColor = glowPalette[index % glowPalette.length];
+    glow.dataset.baseColor = baseColor;
+    glow.style.background = `radial-gradient(circle at top center, ${hexToRgba(
+      baseColor,
+      0.22
+    )}, transparent 65%)`;
   });
 
-  const navObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const id = entry.target.id;
-        if (!id || !linkMap[id]) return;
+  function setActiveSectionGlow(activeSection) {
+    sectionArray.forEach((section, index) => {
+      const glow = sectionGlows.get(section);
+      if (!glow) return;
 
-        navLinks.forEach((link) => link.classList.remove("is-active"));
-        linkMap[id].classList.add("is-active");
-      });
-    },
-    {
-      threshold: 0.45
-    }
-  );
-
-  sections.forEach((section) => navObserver.observe(section));
+      if (section === activeSection) {
+        const color = glowPalette[index % glowPalette.length];
+        glow.style.background = `radial-gradient(circle at top center, ${hexToRgba(
+          color,
+          0.35
+        )}, transparent 70%)`;
+        glow.style.opacity = "1";
+      } else {
+        const baseColor =
+          glow.dataset.baseColor || glowPalette[index % glowPalette.length];
+        glow.style.background = `radial-gradient(circle at top center, ${hexToRgba(
+          baseColor,
+          0.18
+        )}, transparent 65%)`;
+        glow.style.opacity = "0.25";
+      }
+    });
+  }
 
   // =========
-  // Section reveal (.section-visible)
+  // Firefly background orbs
   // =========
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("section-visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.3
-    }
-  );
+  const site = document.querySelector(".site") || document.body;
+  const fireflies = [];
+  const fireflyCount = prefersReducedMotion ? 1 : 3;
 
-  sections.forEach((section) => revealObserver.observe(section));
-});
+  for (let i = 0; i < fireflyCount; i++) {
+    const orb = document.createElement("div");
+    orb.className = "firefly-orb";
+    orb.style.position = "fixed";
+    orb.style.width = "220px";
+    orb.style.height = "220px";
+    orb.style.borderRadius = "999px";
+    orb.style.pointerEvents = "none";
+    orb.style.mixBlendMode = "screen";
+    orb.style.opacity = "0.7";
+    orb.style.zIndex = "-2";
+    orb.style.transition = "background 320ms ease-out";
+
+    const depth = 0.2 + Math.random() * 0.6;
+    const baseX = Math.random() * window.innerWidth;
+    const baseY = Math.random() * window.innerHeight;
+
+    fireflies.push({ el: orb, depth, baseX, baseY });
+    site.appendChild(orb);
+  }
+
+  function tintFireflies(color) {
+    const soft = hexToRgba(color, 0.22);
+    fireflies.forEach(({ el }) => {
+      el.style.background = `radial-gradient(circle, ${soft}, transparent 60%)`;
+    });
+  }
+
+  let pointerX = 0.5;
+  let pointerY = 0.3;
+
+  if (!prefersReducedMotion) {
+    window.addEventListener("pointermove", (event) => {
+      pointerX = event.clientX / window.innerWidth;
+      pointerY = event.clientY / window.innerHeight;
+    });
+
+    const animateFireflies = () => {
+      fireflies.forEach(({ el, depth, baseX, baseY }) => {
