@@ -3,13 +3,1092 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yesenia Perez · Higher Education & Learning Strategist</title>
-  <meta
-    name="description"
-    content="Portfolio of Yesenia Perez, higher education & learning strategist working across NASA, higher education, and public engagement."
-  />
-  <link rel="stylesheet" href="assets/css/main.css" />
-  <script src="assets/js/main.js" defer></script>
+  <title>Yesenia Perez · Higher Education &amp; Learning Strategist</title>
+  <meta name="description" content="Portfolio of Yesenia Perez, higher education &amp; learning strategist working across NASA, higher education, and public engagement." />
+
+  <style>
+    /* =========
+       DESIGN SYSTEM — SAGE / TERRACOTTA / CREAM / VINTAGE BLUE
+       ========= */
+    :root {
+      --bg: #f4ebde;
+      --bg-soft: #f7efe4;
+      --panel: #fbf6ed;
+      --panel-soft: #f1e3d3;
+      --panel-alt: #e6d3bf;
+
+      --accent-teal: #a3b59b; /* dusty sage */
+      --accent-teal-soft: rgba(163, 181, 155, 0.18);
+      --accent-coral: #b76747; /* muted terracotta */
+      --accent-coral-soft: rgba(183, 103, 71, 0.2);
+      --accent-indigo: #3c6a78; /* vintage blue */
+      --accent-rosewood: #7b362e;
+
+      --ink: #2c2926;
+      --muted: #6f5b4a;
+      --muted-soft: #8a7462;
+
+      --border-subtle: #dac9b4;
+      --shadow-soft: 0 32px 80px rgba(118, 89, 63, 0.35);
+
+      --radius-xxl: 30px;
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-pill: 999px;
+
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, #f4ebde 0, #f0e2d0 45%, #f5ecdf 100%);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: "Iowan Old Style", "Book Antiqua", Georgia, "Times New Roman", serif;
+      letter-spacing: 0.01em;
+    }
+
+    a {
+      color: var(--accent-coral);
+      text-decoration: none;
+    }
+    a:hover,
+    a:focus-visible {
+      text-decoration: underline;
+    }
+
+    /* =========
+       LAYOUT SHELL
+       ========= */
+    .shell {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 1.8rem 1.6rem 3.6rem;
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        padding-inline: 1.1rem;
+      }
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 0.75rem;
+      padding: 0.5rem 0.8rem;
+      background: #2c2926;
+      color: #fdfaf5;
+      border-radius: 8px;
+      z-index: 1000;
+    }
+    .skip-link:focus {
+      left: 0.75rem;
+    }
+
+    /* =========
+       NAVIGATION WITH SCROLL SPY
+       ========= */
+    .nav {
+      position: sticky;
+      top: 0.8rem;
+      z-index: 50;
+      margin-bottom: 1.7rem;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.2rem;
+      border-radius: var(--radius-pill);
+      background:
+        linear-gradient(130deg, rgba(251, 246, 237, 0.98), rgba(244, 232, 215, 0.96));
+      border: 1px solid rgba(163, 137, 108, 0.45);
+      box-shadow: 0 18px 55px rgba(132, 102, 77, 0.35);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .nav-orbit {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 210deg,
+          var(--accent-teal),
+          var(--accent-coral),
+          var(--accent-indigo),
+          var(--accent-rosewood),
+          var(--accent-teal)
+        );
+      box-shadow:
+        0 0 0 2px #fbf6ed,
+        0 0 22px rgba(183, 103, 71, 0.75);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-orbit::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #fdfaf5, transparent 60%);
+      opacity: 0.9;
+    }
+
+    .nav-name {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .nav-tagline {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.1rem;
+      font-size: 0.84rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      color: var(--muted-soft);
+      padding-bottom: 0.18rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-coral));
+      transition: width 0.2s ease-out;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a:focus-visible::after {
+      width: 100%;
+    }
+
+    .nav-links a.is-active {
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .nav-links a.is-active::after {
+      width: 100%;
+    }
+
+    @media (max-width: 780px) {
+      .nav-inner {
+        padding-inline: 0.85rem;
+        border-radius: 18px;
+      }
+      .nav-tagline {
+        display: none;
+      }
+      .nav-links {
+        gap: 0.7rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* =========
+       HERO WITH CANVAS BACKGROUND
+       ========= */
+    .hero {
+      position: relative;
+      margin-bottom: 2.4rem;
+      padding: 2.1rem 2rem 2.2rem;
+      border-radius: var(--radius-xxl);
+      background:
+        radial-gradient(circle at top left, rgba(163, 181, 155, 0.25), transparent 55%),
+        radial-gradient(circle at top right, rgba(183, 103, 71, 0.22), transparent 60%),
+        radial-gradient(circle at bottom, rgba(60, 106, 120, 0.22), transparent 65%),
+        linear-gradient(145deg, #fdf7ee, #f7ecdf 40%, #f1e3d3 100%);
+      border: 1px solid rgba(171, 143, 112, 0.5);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+      gap: 2.1rem;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(
+        from 200deg,
+        rgba(163, 181, 155, 0.18),
+        rgba(183, 103, 71, 0.16),
+        rgba(60, 106, 120, 0.16),
+        transparent 60%
+      );
+      opacity: 0.7;
+      mix-blend-mode: soft-light;
+      animation: heroGlow 26s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes heroGlow {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero-canvas-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    #orbitCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-side {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted-soft);
+      margin-bottom: 0.55rem;
+    }
+
+    .hero h1 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(2.15rem, 3vw, 2.7rem);
+    }
+
+    .hero-tagline {
+      margin: 0 0 1rem;
+      font-size: 0.98rem;
+      color: var(--muted-soft);
+      max-width: 36rem;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .chip {
+      font-size: 0.8rem;
+      padding: 0.32rem 0.78rem;
+      border-radius: var(--radius-pill);
+      background: rgba(249, 242, 233, 0.96);
+      border: 1px solid rgba(183, 155, 124, 0.6);
+      color: var(--muted-soft);
+      white-space: nowrap;
+    }
+
+    .chip-primary {
+      border-color: var(--accent-coral);
+      background: var(--accent-coral-soft);
+      color: var(--ink);
+    }
+
+    .hero-body {
+      font-size: 0.9rem;
+      color: var(--muted-soft);
+      max-width: 40rem;
+    }
+
+    .hero-side-grid {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      gap: 0.8rem;
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+    }
+
+    .hero-card {
+      padding: 0.95rem 1.05rem;
+      border-radius: var(--radius-lg);
+      background: rgba(251, 246, 237, 0.98);
+      border: 1px solid rgba(189, 162, 133, 0.7);
+    }
+
+    .hero-label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted-soft);
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    .hero-status {
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.3rem;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.38rem 0.86rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(171, 143, 112, 0.9);
+      background: rgba(248, 240, 229, 0.98);
+      font-size: 0.8rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .hero-pill span {
+      font-size: 1rem;
+    }
+
+    .hero-pill:hover,
+    .hero-pill:focus-visible {
+      border-color: var(--accent-rosewood);
+      background: var(--accent-teal-soft);
+    }
+
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding-inline: 1.6rem;
+      }
+      .hero-canvas-wrap {
+        opacity: 0.55;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-inline: 1.1rem;
+      }
+    }
+
+    /* =========
+       GENERIC SECTIONS
+       ========= */
+    main section.section-block {
+      margin-bottom: 2.2rem;
+      padding: 1.9rem 1.8rem 1.6rem;
+      border-radius: var(--radius-xl);
+      background: var(--panel);
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      overflow: hidden;
+    }
+
+    main section.section-block::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(
+        circle at top right,
+        rgba(163, 181, 155, 0.16),
+        transparent 58%
+      );
+      opacity: 0;
+      transition: opacity 0.4s ease-out;
+      pointer-events: none;
+    }
+
+    main section.section-block.visible::before {
+      opacity: 1;
+    }
+
+    main section.section-block h2 {
+      margin: 0 0 0.55rem;
+      font-size: 1.08rem;
+    }
+
+    .section-kicker {
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      main section.section-block {
+        padding-inline: 1.2rem;
+      }
+    }
+
+    /* =========
+       TRAJECTORY / EXPERIENCE
+       ========= */
+    .trajectory-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+      gap: 1.6rem;
+    }
+
+    @media (max-width: 900px) {
+      .trajectory-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0.45rem;
+      top: 0.4rem;
+      bottom: 0.4rem;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        var(--accent-teal),
+        var(--accent-indigo),
+        var(--accent-coral)
+      );
+      opacity: 0.7;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.4rem;
+      padding-left: 0.4rem;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -0.05rem;
+      top: 0.35rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--panel);
+      border: 2px solid var(--accent-teal);
+      box-shadow: 0 0 0 4px rgba(163, 181, 155, 0.28);
+    }
+
+    .timeline-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted-soft);
+    }
+
+    .timeline-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      margin: 0.12rem 0 0.12rem;
+      color: var(--ink);
+    }
+
+    .timeline-meta {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-body {
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+    }
+
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.33rem;
+    }
+
+    .exp-tag {
+      padding: 0.18rem 0.56rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(189, 162, 133, 0.6);
+      background: var(--panel-soft);
+      font-size: 0.76rem;
+      color: var(--muted-soft);
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .mode-card {
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem 0.8rem;
+      background:
+        radial-gradient(circle at top left, rgba(163, 181, 155, 0.26), transparent 58%),
+        var(--panel-soft);
+      border: 1px solid rgba(189, 162, 133, 0.75);
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+    }
+
+    .mode-card:nth-child(2) {
+      background:
+        radial-gradient(circle at top left, rgba(183, 103, 71, 0.22), transparent 60%),
+        var(--panel-soft);
+    }
+
+    .mode-card h3 {
+      margin: 0 0 0.3rem;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    /* =========
+       SIGNATURE WORK
+       ========= */
+    .case-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+      gap: 1.4rem;
+    }
+
+    @media (max-width: 900px) {
+      .case-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .case-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      padding: 1rem 1.15rem 0.9rem;
+      background: var(--panel-soft);
+      border: 1px solid #d4c3af;
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      overflow: hidden;
+      transform: translateY(0);
+      transition: transform 0.18s ease-out, border-color 0.18s ease-out, box-shadow 0.18s ease-out;
+    }
+
+    .case-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(163, 181, 155, 0.2), transparent 62%);
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+      pointer-events: none;
+    }
+
+    .case-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-indigo);
+      box-shadow: 0 20px 45px rgba(132, 102, 77, 0.45);
+    }
+
+    .case-card:hover::before {
+      opacity: 1;
+    }
+
+    .case-title {
+      margin: 0 0 0.18rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .case-meta {
+      font-size: 0.8rem;
+      color: var(--muted-soft);
+      margin-bottom: 0.5rem;
+    }
+
+    .case-card p {
+      margin: 0.15rem 0;
+    }
+
+    .case-card ul {
+      margin: 0.4rem 0 0.25rem 1.15rem;
+      padding: 0;
+    }
+
+    .case-card ul li {
+      margin-bottom: 0.12rem;
+    }
+
+    /* =========
+       PRACTICE (HOW I WORK)
+       ========= */
+    #practice.section-block {
+      background:
+        linear-gradient(90deg, rgba(163,181,155,0.18), rgba(60,106,120,0.14) 40%, transparent 70%),
+        var(--panel);
+      border-color: rgba(189, 162, 133, 0.7);
+    }
+
+    .practice-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+      gap: 1.8rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .practice-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .practice-quote-wrap {
+      position: relative;
+      padding-left: 1.2rem;
+      border-left: 2px solid rgba(171, 143, 112, 0.8);
+      margin-bottom: 1rem;
+    }
+
+    .practice-quote {
+      font-size: 0.96rem;
+      color: var(--muted);
+    }
+
+    .practice-quote-em {
+      color: var(--accent-rosewood);
+    }
+
+    .practice-note {
+      font-size: 0.82rem;
+      color: var(--muted-soft);
+      margin-top: 0.5rem;
+    }
+
+    .practice-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.7rem;
+    }
+
+    .badge-soft {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-pill);
+      background: rgba(249, 242, 233, 0.96);
+      border: 1px solid rgba(189, 162, 133, 0.7);
+      color: var(--muted-soft);
+      white-space: nowrap;
+    }
+
+    .practice-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .practice-card {
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1.05rem 0.9rem;
+      background:
+        radial-gradient(circle at top left, rgba(183, 103, 71, 0.22), transparent 60%),
+        var(--panel-soft);
+      border: 1px solid rgba(189, 162, 133, 0.75);
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+    }
+
+    .practice-card:nth-child(2) {
+      background:
+        radial-gradient(circle at top left, rgba(163, 181, 155, 0.24), transparent 55%),
+        var(--panel-soft);
+    }
+
+    .practice-card:nth-child(3) {
+      background:
+        radial-gradient(circle at top left, rgba(60, 106, 120, 0.26), transparent 58%),
+        var(--panel-soft);
+    }
+
+    .practice-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    .practice-card ul {
+      margin: 0.35rem 0 0.2rem 1.05rem;
+      padding: 0;
+    }
+
+    .practice-card ul li {
+      margin-bottom: 0.14rem;
+    }
+
+    /* =========
+       CAPABILITIES — “CONSTELLATION” GRID
+       ========= */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      position: relative;
+    }
+
+    .skills-grid::before {
+      content: "constellation of practice";
+      position: absolute;
+      top: -1.4rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(138, 116, 98, 0.85);
+    }
+
+    @media (max-width: 980px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 640px) {
+      .skills-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .skills-block {
+      position: relative;
+      border-radius: var(--radius-md);
+      padding: 1rem 1.05rem 0.9rem;
+      background: var(--panel-soft);
+      border: 1px solid rgba(189, 162, 133, 0.75);
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      overflow: hidden;
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s ease-out;
+    }
+
+    .skills-block:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-indigo);
+      box-shadow: 0 18px 40px rgba(132, 102, 77, 0.45);
+    }
+
+    .skills-block::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle at top right, rgba(163, 181, 155, 0.2), transparent 60%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .skills-block:nth-child(2)::before {
+      background: radial-gradient(circle at top right, rgba(183, 103, 71, 0.22), transparent 60%);
+    }
+
+    .skills-block:nth-child(3)::before {
+      background: radial-gradient(circle at top right, rgba(60, 106, 120, 0.28), transparent 60%);
+    }
+
+    .skills-block:nth-child(-n+3) {
+      background:
+        radial-gradient(circle at top left, rgba(249, 242, 233, 0.7), transparent 60%),
+        var(--panel-soft);
+    }
+
+    .skills-block h3 {
+      margin: 0 0 0.4rem;
+      font-size: 0.9rem;
+      color: var(--ink);
+      position: relative;
+      z-index: 1;
+    }
+
+    .skills-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 0.85rem;
+      color: var(--muted-soft);
+      position: relative;
+      z-index: 1;
+    }
+
+    .skills-list li {
+      margin-bottom: 0.18rem;
+    }
+
+    .skill-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.4rem;
+    }
+
+    .skill-chip {
+      font-size: 0.74rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: var(--radius-pill);
+      background: rgba(249, 242, 233, 0.96);
+      border: 1px solid rgba(189, 162, 133, 0.7);
+      white-space: nowrap;
+    }
+
+    /* =========
+       WRITING — FEATURED CARD
+       ========= */
+    .writing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .writing-grid > article:first-child {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 980px) {
+      .writing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .writing-grid > article:first-child {
+        grid-column: span 2;
+      }
+    }
+    @media (max-width: 640px) {
+      .writing-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .writing-grid > article:first-child {
+        grid-column: span 1;
+      }
+    }
+
+    .writing-card {
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem 0.85rem;
+      background: var(--panel-soft);
+      border: 1px solid #d4c3af;
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.18s ease-out, border-color 0.18s ease-out, box-shadow 0.18s ease-out;
+    }
+
+    .writing-card::before {
+      content: "";
+      position: absolute;
+      inset-inline: -20%;
+      bottom: -40%;
+      height: 55%;
+      background: radial-gradient(circle at top center, rgba(163, 181, 155, 0.22), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .writing-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-indigo);
+      box-shadow: 0 18px 40px rgba(132, 102, 77, 0.45);
+    }
+
+    .writing-card:hover::before {
+      opacity: 1;
+    }
+
+    .writing-grid > article:first-child .writing-card {
+      background:
+        radial-gradient(circle at top left, rgba(163, 181, 155, 0.28), transparent 65%),
+        var(--panel-soft);
+      border-color: rgba(189, 162, 133, 0.9);
+    }
+
+    .writing-tag {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted-soft);
+    }
+
+    .writing-card strong {
+      display: block;
+      margin: 0.25rem 0 0.25rem;
+      color: var(--ink);
+    }
+
+    .writing-card p {
+      margin: 0;
+    }
+
+    /* =========
+       CONTACT / NOW & NEXT — FULL CALL TO ACTION
+       ========= */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
+      gap: 1.4rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .contact-text {
+      font-size: 0.9rem;
+      color: var(--muted-soft);
+    }
+
+    .contact-list {
+      list-style: none;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+    }
+
+    .contact-list li {
+      margin-bottom: 0.22rem;
+    }
+
+    .contact-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.65rem;
+    }
+
+    .contact-pill {
+      font-size: 0.78rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-pill);
+      background: rgba(249, 242, 233, 0.96);
+      border: 1px solid rgba(189, 162, 133, 0.7);
+      color: var(--muted-soft);
+      white-space: nowrap;
+    }
+
+    .contact-card {
+      padding: 1.05rem 1.15rem;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at top left, rgba(163, 181, 155, 0.26), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(183, 103, 71, 0.24), transparent 60%),
+        var(--panel-alt);
+      border: 1px solid rgba(171, 143, 112, 0.9);
+      font-size: 0.86rem;
+      color: var(--muted-soft);
+      box-shadow: 0 24px 60px rgba(118, 89, 63, 0.45);
+    }
+
+    .contact-card strong {
+      color: var(--ink);
+    }
+
+    .contact-links {
+      margin-top: 0.7rem;
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.38rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background: rgba(249, 242, 233, 0.98);
+      border: 1px solid rgba(171, 143, 112, 0.9);
+      color: var(--ink);
+      font-size: 0.8rem;
+      text-decoration: none;
+    }
+
+    .contact-link span:last-child {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      border-color: var(--accent-indigo);
+      background: var(--accent-teal-soft);
+    }
+
+    footer {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.8rem 1.6rem 1.2rem;
+      font-size: 0.78rem;
+      color: var(--muted-soft);
+      text-align: center;
+    }
+
+    /* =========
+       SCROLL REVEAL
+       ========= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -37,25 +1116,19 @@
     </div>
   </header>
 
-  <!-- MAIN -->
+  <!-- HERO -->
   <main id="main">
-    <!-- HERO -->
     <section id="about" class="hero" aria-labelledby="about-heading" data-section>
       <div class="hero-canvas-wrap" aria-hidden="true">
         <canvas id="orbitCanvas"></canvas>
       </div>
 
       <div class="hero-content reveal">
-        <div class="hero-eyebrow">
-          Higher Education · Science &amp; Society · Design for Learning
-        </div>
-        <h1 id="about-heading">
-          I design learning ecosystems where more people can belong, persist, and thrive.
-        </h1>
+        <div class="hero-eyebrow">Higher Education · Science &amp; Society · Design for Learning</div>
+        <h1 id="about-heading">I design learning ecosystems where more people can belong, persist, and thrive.</h1>
         <p class="hero-tagline">
-          I’m a higher education and learning strategist working across NASA, universities, museums, and
-          community partners—building programs and environments that connect rigorous science,
-          institutional strategy, and lived experience.
+          I’m a higher education and learning strategist working across NASA, universities, museums, and community
+          partners—building programs and environments that connect rigorous science, institutional strategy, and lived experience.
         </p>
 
         <div class="hero-chips">
@@ -67,11 +1140,11 @@
         </div>
 
         <p class="hero-body">
-          Over seven years at NASA’s Space Telescope Science Institute, I’ve led research-driven,
-          multi-institutional initiatives that connect astrophysics to learners in 30+ states and Puerto Rico.
-          As an Ed.M. candidate in Education Leadership at Harvard, I study how leaders design systems that are
-          both effective and humane. My through-line: align mission, data, and story so that learning spaces—
-          physical or programmatic—feel possible, legible, and alive for more people.
+          Over seven years at NASA’s Space Telescope Science Institute, I’ve led research-driven, multi-institutional
+          initiatives that connect astrophysics to learners in 30+ states and Puerto Rico. As an Ed.M. candidate in
+          Education Leadership at Harvard, I study how leaders design systems that are both effective and humane.
+          My through-line: align mission, data, and story so that learning spaces—physical or programmatic—feel possible,
+          legible, and alive for more people.
         </p>
       </div>
 
@@ -88,9 +1161,9 @@
 
         <div class="hero-card">
           <span class="hero-label">Work terrain</span>
-          I steward national learning initiatives and cross-sector collaborations across community colleges,
-          public and research universities, MSIs, museums, and community-based organizations—often as the
-          connective tissue between scientists, educators, and institutional leaders.
+          I steward national learning initiatives and cross-sector collaborations across community colleges, public and
+          research universities, MSIs, museums, and community-based organizations—often as the connective tissue between
+          scientists, educators, and institutional leaders.
         </div>
 
         <div class="hero-card">
@@ -99,20 +1172,10 @@
             <a class="hero-pill" href="mailto:yperez@gse.harvard.edu">
               <span aria-hidden="true">✉</span> Email
             </a>
-            <a
-              class="hero-pill"
-              href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/"
-              target="_blank"
-              rel="noopener"
-            >
+            <a class="hero-pill" href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
               <span aria-hidden="true">↗</span> LinkedIn
             </a>
-            <a
-              class="hero-pill"
-              href="https://theechojar.substack.com"
-              target="_blank"
-              rel="noopener"
-            >
+            <a class="hero-pill" href="https://theechojar.substack.com" target="_blank" rel="noopener">
               <span aria-hidden="true">★</span> The Echo Jar
             </a>
           </div>
@@ -125,9 +1188,8 @@
       <div class="reveal">
         <h2 id="trajectory-heading">Trajectory &amp; Modes of Practice</h2>
         <p class="section-kicker">
-          I’ve lived the full arc of U.S. higher education—from community college to public university, to
-          graduate study and Harvard—while building a career at the intersection of science, culture, and
-          learning systems.
+          I’ve lived the full arc of U.S. higher education—from community college to public university, to graduate
+          study and Harvard—while building a career at the intersection of science, culture, and learning systems.
         </p>
       </div>
 
@@ -136,17 +1198,12 @@
           <article class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-label">Now</div>
-            <h3 class="timeline-title">
-              Senior Education Specialist &amp; Strategic Lead — NASA Universe of Learning
-            </h3>
-            <p class="timeline-meta">
-              Space Telescope Science Institute · 2019–Present · Baltimore, MD
-            </p>
+            <h3 class="timeline-title">Senior Education Specialist &amp; Strategic Lead — NASA Universe of Learning</h3>
+            <p class="timeline-meta">Space Telescope Science Institute · 2019–Present · Baltimore, MD</p>
             <p class="timeline-body">
-              Lead national, research-driven initiatives that connect NASA astrophysics with learners through
-              a network of universities, MSIs, museums, libraries, and community organizations. Architect
-              learning ecosystems, portfolio strategies, and partnership models that align mission, evidence,
-              and equity.
+              Lead national, research-driven initiatives that connect NASA astrophysics with learners through a network
+              of universities, MSIs, museums, libraries, and community organizations. Architect learning ecosystems,
+              portfolio strategies, and partnership models that align mission, evidence, and equity.
             </p>
             <div class="exp-tags">
               <span class="exp-tag">National portfolio strategy</span>
@@ -158,14 +1215,12 @@
           <article class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-label">Museums &amp; public engagement</div>
-            <h3 class="timeline-title">
-              Education &amp; Public Programs — Allentown &amp; Worcester Art Museums
-            </h3>
+            <h3 class="timeline-title">Education &amp; Public Programs — Allentown &amp; Worcester Art Museums</h3>
             <p class="timeline-meta">2015–2019</p>
             <p class="timeline-body">
-              Designed intergenerational and community-centered learning experiences, treating galleries and
-              public spaces as laboratories for curiosity, identity, and shared meaning. Built bilingual
-              family programs rooted in local context and visitor research.
+              Designed intergenerational and community-centered learning experiences, treating galleries and public
+              spaces as laboratories for curiosity, identity, and shared meaning. Built bilingual family programs rooted
+              in local context and visitor research.
             </p>
             <div class="exp-tags">
               <span class="exp-tag">Experience design</span>
@@ -177,17 +1232,12 @@
           <article class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-label">Higher education journey</div>
-            <h3 class="timeline-title">
-              Community college → State university → Georgetown → Harvard
-            </h3>
-            <p class="timeline-meta">
-              Northampton CC · University of Pittsburgh · Georgetown MA · Harvard Ed.M.
-            </p>
+            <h3 class="timeline-title">Community college → State university → Georgetown → Harvard</h3>
+            <p class="timeline-meta">Northampton CC · University of Pittsburgh · Georgetown MA · Harvard Ed.M.</p>
             <p class="timeline-body">
-              As a first-generation Puerto Rican student moving from community college to a four-year public
-              university, graduate study, and Harvard, I’ve navigated advising queues, bursar’s lines,
-              graduate seminars, and leadership classrooms. That lived experience informs how I design systems
-              for access, clarity, and care.
+              As a first-generation Puerto Rican student moving from community college to a four-year public university,
+              graduate study, and Harvard, I’ve navigated advising queues, bursar’s lines, graduate seminars, and
+              leadership classrooms. That lived experience informs how I design systems for access, clarity, and care.
             </p>
             <div class="exp-tags">
               <span class="exp-tag">First-gen &amp; transfer insight</span>
@@ -206,19 +1256,18 @@
             </article>
             <article class="mode-card">
               <h3>Scholar</h3>
-              I draw from research in higher education, learning sciences, and organizational leadership to
-              inform how we structure programs, roles, and systems for long-term health.
+              I draw from research in higher education, learning sciences, and organizational leadership to inform how
+              we structure programs, roles, and systems for long-term health.
             </article>
             <article class="mode-card">
               <h3>Creator</h3>
-              Through visual storytelling and writing—including my Substack,
-              <em>The Echo Jar</em>—I translate complex science and systems work into narratives that feel
-              accessible and worth caring about.
+              Through visual storytelling and writing—including my Substack, <em>The Echo Jar</em>—I translate complex
+              science and systems work into narratives that feel accessible and worth caring about.
             </article>
             <article class="mode-card">
               <h3>Navigator</h3>
-              I help teams move through ambiguity with clarity and care, holding both timelines and people so
-              that change work is brave but not reckless.
+              I help teams move through ambiguity with clarity and care, holding both timelines and people so that
+              change work is brave but not reckless.
             </article>
           </div>
         </div>
@@ -237,109 +1286,62 @@
 
       <div class="case-grid">
         <article class="case-card reveal">
-          <h3 class="case-title">
-            NASA Universe of Learning — National Learning Ecosystem Strategy
-          </h3>
-          <p class="case-meta">
-            Strategic Lead · 100+ institutions · universities, MSIs, museums &amp; libraries
-          </p>
-          <p>
-            <strong>Through-line:</strong> Build a coherent, research-driven STEM learning ecosystem across a
-            diverse national network.
-          </p>
+          <h3 class="case-title">NASA Universe of Learning — National Learning Ecosystem Strategy</h3>
+          <p class="case-meta">Strategic Lead · 100+ institutions · universities, MSIs, museums &amp; libraries</p>
+          <p><strong>Through-line:</strong> Build a coherent, research-driven STEM learning ecosystem across a diverse
+            national network.</p>
           <p><strong>What I did:</strong></p>
           <ul>
-            <li>
-              Designed and led mixed-method research: interviews, workshops, surveys, observational studies,
-              and environmental scans.
-            </li>
-            <li>
-              Facilitated multi-stakeholder sessions with faculty, institutional leaders, educators, and
-              community partners.
-            </li>
-            <li>
-              Mapped learner journeys and space-use patterns across physical, digital, and community
-              environments.
-            </li>
-            <li>
-              Translated findings into program requirements, partnership models, and experience implications
-              for future initiatives.
-            </li>
+            <li>Designed and led mixed-method research: interviews, workshops, surveys, observational studies, and environmental scans.</li>
+            <li>Facilitated multi-stakeholder sessions with faculty, institutional leaders, educators, and community partners.</li>
+            <li>Mapped learner journeys and space-use patterns across physical, digital, and community environments.</li>
+            <li>Translated findings into program requirements, partnership models, and experience implications for future initiatives.</li>
           </ul>
-          <p>
-            <strong>Impact:</strong> Produced frameworks now used by NASA and partners to guide program design,
-            staffing, and engagement strategies rooted in equity and evidence.
-          </p>
+          <p><strong>Impact:</strong> Produced frameworks now used by NASA and partners to guide program design,
+            staffing, and engagement strategies rooted in equity and evidence.</p>
         </article>
 
         <article class="case-card reveal">
           <h3 class="case-title">Webb First Images — National Activation &amp; Experience Design</h3>
           <p class="case-meta">Lead Strategist &amp; Coordinator · 100+ activation sites</p>
-          <p>
-            <strong>Through-line:</strong> Turn a once-in-a-generation science moment into a coordinated, locally
-            resonant learning experience.
-          </p>
+          <p><strong>Through-line:</strong> Turn a once-in-a-generation science moment into a coordinated, locally
+            resonant learning experience.</p>
           <p><strong>What I did:</strong></p>
           <ul>
             <li>Coordinated timelines, evaluation, and communication across more than 100 institutions.</li>
-            <li>
-              Developed adaptable program frameworks partners could tailor to their spaces and communities.
-            </li>
-            <li>
-              Integrated evaluation data into real-time adjustments and post-event learning for future
-              large-scale activations.
-            </li>
+            <li>Developed adaptable program frameworks partners could tailor to their spaces and communities.</li>
+            <li>Integrated evaluation data into real-time adjustments and post-event learning for future large-scale activations.</li>
           </ul>
-          <p>
-            <strong>Impact:</strong> Enabled cohesive, meaningful public experiences across the network and
-            earned recognition within NASA for community activation and strategic design.
-          </p>
+          <p><strong>Impact:</strong> Enabled cohesive, meaningful public experiences across the network and earned
+            recognition within NASA for community activation and strategic design.</p>
         </article>
       </div>
 
-      <div class="case-grid case-grid-bottom">
+      <div class="case-grid" style="margin-top: 1.05rem;">
         <article class="case-card reveal">
           <h3 class="case-title">Informal Learning Network &amp; Exoplanet Year 10 Pilot</h3>
           <p class="case-meta">Portfolio design · multi-year experimentation</p>
-          <p>
-            <strong>Through-line:</strong> Refresh a national informal learning network to better support
-            equity, experimentation, and staff well-being.
-          </p>
+          <p><strong>Through-line:</strong> Refresh a national informal learning network to better support equity,
+            experimentation, and staff well-being.</p>
           <p><strong>What I did:</strong></p>
           <ul>
             <li>Led strategic reviews of network structure, incentives, and learning agendas.</li>
-            <li>
-              Co-designed pilots testing new engagement models, stipends, and partnership structures.
-            </li>
-            <li>
-              Worked with evaluators to transform feedback into concrete design decisions for future cycles.
-            </li>
+            <li>Co-designed pilots testing new engagement models, stipends, and partnership structures.</li>
+            <li>Worked with evaluators to transform feedback into concrete design decisions for future cycles.</li>
           </ul>
-          <p>
-            <strong>Impact:</strong> Helped shift the network toward more sustainable, equity-aware practices
-            and clearer value for participating institutions.
-          </p>
+          <p><strong>Impact:</strong> Helped shift the network toward more sustainable, equity-aware practices and clearer value for participating institutions.</p>
         </article>
 
         <article class="case-card reveal">
           <h3 class="case-title">Museum-Based Learning Labs &amp; Family Programs</h3>
           <p class="case-meta">Allentown Art Museum · Worcester Art Museum</p>
-          <p>
-            <strong>Through-line:</strong> Build spaces where families and communities can engage with art,
-            story, and each other in ways that feel culturally grounded and welcoming.
-          </p>
+          <p><strong>Through-line:</strong> Build spaces where families and communities can engage with art, story, and
+            each other in ways that feel culturally grounded and welcoming.</p>
           <p><strong>What I did:</strong></p>
           <ul>
-            <li>
-              Designed learning labs, intergenerational programs, and bilingual engagement experiences.
-            </li>
-            <li>
-              Conducted visitor studies and observational research to refine spatial layouts and program
-              design.
-            </li>
-            <li>
-              Collaborated with curatorial and education teams to align experience, story, and space.
-            </li>
+            <li>Designed learning labs, intergenerational programs, and bilingual engagement experiences.</li>
+            <li>Conducted visitor studies and observational research to refine spatial layouts and program design.</li>
+            <li>Collaborated with curatorial and education teams to align experience, story, and space.</li>
           </ul>
         </article>
       </div>
@@ -350,8 +1352,7 @@
       <div class="reveal">
         <h2 id="practice-heading">How I Work</h2>
         <p class="section-kicker">
-          Underneath every project is a way of working: how we ask questions, invite people in, and make
-          decisions visible.
+          Underneath every project is a way of working: how we ask questions, invite people in, and make decisions visible.
         </p>
       </div>
 
@@ -359,14 +1360,13 @@
         <div class="reveal">
           <div class="practice-quote-wrap">
             <p class="practice-quote">
-              I treat every initiative as a
-              <span class="practice-quote-em">learning ecosystem</span>—a living structure of roles, rituals,
-              constraints, and possibilities. The work is to make that structure legible, humane, and capable of
-              holding real change.
+              I treat every initiative as a <span class="practice-quote-em">learning ecosystem</span>—a living structure
+              of roles, rituals, constraints, and possibilities. The work is to make that structure legible, humane, and
+              capable of holding real change.
             </p>
             <p class="practice-note">
-              That means noticing who has voice, who has margin, and how people actually move through the
-              system—not just how it looks on a slide.
+              That means noticing who has voice, who has margin, and how people actually move through the system—not just
+              how it looks on a slide.
             </p>
           </div>
           <div class="practice-badges">
@@ -400,13 +1400,8 @@
             <h3>Holding equity as a design constraint</h3>
             <ul>
               <li>Ask who benefits, who is burdened, and whose expertise is missing from the table.</li>
-              <li>
-                Design roles, pathways, and communication so first-gen, transfer, and historically excluded
-                communities can see themselves in the system.
-              </li>
-              <li>
-                Treat belonging as architectural, programmatic, and relational—not an afterthought.
-              </li>
+              <li>Design roles, pathways, and communication so first-gen, transfer, and historically excluded communities can see themselves in the system.</li>
+              <li>Treat belonging as architectural, programmatic, and relational—not an afterthought.</li>
             </ul>
           </article>
         </div>
@@ -418,8 +1413,8 @@
       <div class="reveal">
         <h2 id="skills-heading">Capabilities &amp; Tools</h2>
         <p class="section-kicker">
-          The ways I tend to show up on teams—from early-phase visioning and research design to storytelling,
-          synthesis, and steady operational leadership.
+          The ways I tend to show up on teams—from early-phase visioning and research design to storytelling, synthesis,
+          and steady operational leadership.
         </p>
       </div>
 
@@ -445,9 +1440,7 @@
             <li>Mixed-method research design (interviews, workshops, surveys, observation)</li>
             <li>Evaluation synthesis &amp; evidence-informed recommendations</li>
             <li>Equity-centered stakeholder engagement &amp; facilitation</li>
-            <li>
-              Policy and ecosystem fluency across community college, state, R1, and elite contexts
-            </li>
+            <li>Policy and ecosystem fluency across community college, state, R1, and elite contexts</li>
           </ul>
           <div class="skill-chip-row">
             <span class="skill-chip">Logic models</span>
@@ -460,9 +1453,7 @@
           <h3>Communication &amp; Leadership</h3>
           <ul class="skills-list">
             <li>Executive-ready memos, decks, and strategy narratives</li>
-            <li>
-              Cross-sector facilitation (scientists, administrators, educators, community partners)
-            </li>
+            <li>Cross-sector facilitation (scientists, administrators, educators, community partners)</li>
             <li>Mentoring emerging staff and shaping reflective team cultures</li>
             <li>Public speaking and storytelling for complex science and systems</li>
           </ul>
@@ -479,7 +1470,7 @@
             <li>Adobe Creative Suite (Illustrator, InDesign, Photoshop)</li>
             <li>Power BI (working proficiency) &amp; data visualization</li>
             <li>Notion, MURAL, Smartsheet, Monday.com</li>
-            <li>GitHub Pages &amp; coded HTML/CSS/JS for lightweight web experiences</li>
+            <li>GitHub Pages &amp; hand-coded HTML/CSS/JS for lightweight web experiences</li>
           </ul>
           <div class="skill-chip-row">
             <span class="skill-chip">Information design</span>
@@ -515,8 +1506,8 @@
       <div class="reveal">
         <h2 id="writing-heading">Writing &amp; Thought Practice</h2>
         <p class="section-kicker">
-          I use writing to braid analysis, memory, and imagination—from reflective leadership work at Harvard
-          to public-facing essays in <em>The Echo Jar</em>.
+          I use writing to braid analysis, memory, and imagination—from reflective leadership work at Harvard to
+          public-facing essays in <em>The Echo Jar</em>.
         </p>
       </div>
 
@@ -526,15 +1517,11 @@
             <div class="writing-tag">Substack · The Echo Jar</div>
             <strong>Soft Physics</strong>
             <p>
-              Mythic, science-inflected essays where astrophysics, systems thinking, and emotion meet—using
-              the cosmos as a mirror for how we live, lead, and learn.
+              Mythic, science-inflected essays where astrophysics, systems thinking, and emotion meet—using the cosmos as
+              a mirror for how we live, lead, and learn.
             </p>
-            <p class="writing-link">
-              <a
-                href="https://theechojar.substack.com"
-                target="_blank"
-                rel="noopener"
-              >Read more on Substack ↗</a>
+            <p style="margin-top:0.4rem; font-size:0.8rem;">
+              <a href="https://theechojar.substack.com" target="_blank" rel="noopener">Read more on Substack ↗</a>
             </p>
           </div>
         </article>
@@ -544,8 +1531,8 @@
             <div class="writing-tag">Substack · The Echo Jar</div>
             <strong>Echoes of Now &amp; Letters to the Abyss</strong>
             <p>
-              Short, sensory reflections and open letters that hold the texture of the present—small rituals
-              of attention, grief, humor, and hope.
+              Short, sensory reflections and open letters that hold the texture of the present—small rituals of
+              attention, grief, humor, and hope.
             </p>
           </div>
         </article>
@@ -555,8 +1542,8 @@
             <div class="writing-tag">Harvard · Reflective Practice &amp; Leadership</div>
             <strong>Reflection as Resistance</strong>
             <p>
-              Graduate work on reflective practice as an act of resistance within systems that reward speed
-              and output over meaning and care—offering tools for leaders who want to choose differently.
+              Graduate work on reflective practice as an act of resistance within systems that reward speed and output over
+              meaning and care—offering tools for leaders who want to choose differently.
             </p>
           </div>
         </article>
@@ -566,8 +1553,8 @@
             <div class="writing-tag">NASA &amp; STScI</div>
             <strong>Strategy &amp; Synthesis Briefs</strong>
             <p>
-              Internal narratives that translate complex scientific, evaluative, and portfolio information
-              into clear, direction-setting documents for leadership and partners.
+              Internal narratives that translate complex scientific, evaluative, and portfolio information into clear,
+              direction-setting documents for leadership and partners.
             </p>
           </div>
         </article>
@@ -577,8 +1564,8 @@
             <div class="writing-tag">In progress</div>
             <strong>Science, Story, and the Systems In Between</strong>
             <p>
-              Emerging work that connects my practice across NASA, Harvard, and museum worlds—toward a more
-              coherent language for “designing for learning” at scale.
+              Emerging work that connects my practice across NASA, Harvard, and museum worlds—toward a more coherent
+              language for “designing for learning” at scale.
             </p>
           </div>
         </article>
@@ -592,11 +1579,13 @@
       </div>
       <div class="contact-grid">
         <div class="contact-text reveal">
-          <p class="section-eyebrow">NEXT ORBIT</p>
+          <p style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.18em; color:rgba(138,116,98,0.95); margin-bottom:0.45rem;">
+            NEXT ORBIT
+          </p>
           <p>
-            I’m exploring roles where I can help design and steward
-            <strong>large-scale learning initiatives, portfolios, and environments</strong> at the intersection
-            of higher education, philanthropy, science &amp; society, and equitable design.
+            I’m exploring roles where I can help design and steward <strong>large-scale learning initiatives,
+            portfolios, and environments</strong> at the intersection of higher education, philanthropy,
+            science &amp; society, and equitable design.
           </p>
           <p>I’m especially interested in:</p>
           <ul class="contact-list">
@@ -615,28 +1604,18 @@
 
         <aside class="contact-card reveal" aria-label="Contact details">
           <strong>Let’s be in conversation.</strong><br /><br />
-          I’m always open to thoughtful inquiries—whether you’re shaping a role, seeking a collaborator, or
-          just wondering how to make your learning ecosystem feel more alive and equitable.
+          I’m always open to thoughtful inquiries—whether you’re shaping a role, seeking a collaborator, or just
+          wondering how to make your learning ecosystem feel more alive and equitable.
           <div class="contact-links">
             <a class="contact-link" href="mailto:yperez@gse.harvard.edu">
               <span>Email · yperez@gse.harvard.edu</span>
               <span>✉</span>
             </a>
-            <a
-              class="contact-link"
-              href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/"
-              target="_blank"
-              rel="noopener"
-            >
+            <a class="contact-link" href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
               <span>Connect on LinkedIn</span>
               <span>↗</span>
             </a>
-            <a
-              class="contact-link"
-              href="https://theechojar.substack.com"
-              target="_blank"
-              rel="noopener"
-            >
+            <a class="contact-link" href="https://theechojar.substack.com" target="_blank" rel="noopener">
               <span>Read <em>The Echo Jar</em></span>
               <span>★</span>
             </a>
@@ -648,13 +1627,151 @@
 </div>
 
 <footer>
-  © <span id="year"></span> Yesenia Perez · Coded in HTML, CSS &amp; JavaScript · Deployed via GitHub Pages
-  <br />
+  © <span id="year"></span> Yesenia Perez · Coded in HTML, CSS &amp; JavaScript · Hosted on GitHub Pages<br />
   <a
-    href="https://github.com/YOUR_USERNAME/YOUR_REPO_NAME"
+    href="https://github.com/yeseniaperezfina/yeseniaperezfina.github.io"
     target="_blank"
     rel="noopener"
   >View source on GitHub ↗</a>
 </footer>
+
+<script>
+  // =========
+  // Year
+  // =========
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // =========
+  // Canvas constellation — simple particle network
+  // =========
+  (function() {
+    const canvas = document.getElementById('orbitCanvas');
+    if (!canvas || !canvas.getContext) return;
+
+    const ctx = canvas.getContext('2d');
+    let width, height, particles;
+    const PARTICLE_COUNT = 70;
+    const MAX_DISTANCE = 130;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      initParticles();
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35
+        });
+      }
+    }
+
+    function step() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const p1 = particles[i];
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MAX_DISTANCE) {
+            const alpha = 1 - dist / MAX_DISTANCE;
+            ctx.strokeStyle = `rgba(138, 116, 98, ${alpha * 0.5})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const p of particles) {
+        ctx.fillStyle = 'rgba(111, 91, 74, 0.95)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(step);
+  })();
+
+  // =========
+  // Scroll spy for nav
+  // =========
+  (function() {
+    const sections = document.querySelectorAll('[data-section]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const linkMap = {};
+    navLinks.forEach(link => {
+      const id = link.getAttribute('href').replace('#', '');
+      linkMap[id] = link;
+    });
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (!id || !linkMap[id]) return;
+            navLinks.forEach(l => l.classList.remove('is-active'));
+            linkMap[id].classList.add('is-active');
+          }
+        });
+      },
+      {
+        threshold: 0.45
+      }
+    );
+
+    sections.forEach(section => observer.observe(section));
+  })();
+
+  // =========
+  // Scroll reveal for sections
+  // =========
+  (function() {
+    const blocks = document.querySelectorAll('.section-block, .hero');
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    blocks.forEach(block => observer.observe(block));
+  })();
+</script>
 </body>
 </html>
