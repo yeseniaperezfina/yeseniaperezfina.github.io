@@ -1,9 +1,6 @@
-# yeseniaperezfina.github.io
-Public-facing portfolio site for Yesenia Pérez — higher education &amp; learning strategist working at the intersection of STEM, design, and public engagement.
-# Yesenia “Yessi” Pérez — Portfolio
-
+Yesenia Pérez — Portfolio
 This repository powers **yeseniaperezfina.github.io**, the public-facing portfolio site for  
-**Yesenia “Yessi” Pérez — a higher education & learning strategist working at the intersection of STEM, design, and public engagement.**
+**Yesenia Pérez — a higher education & learning strategist working at the intersection of STEM, design, and public engagement.**
 
 The site is built with **GitHub Pages** as a lightweight, easily maintained home for my professional work.
 
