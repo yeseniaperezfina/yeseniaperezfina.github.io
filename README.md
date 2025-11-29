@@ -1,80 +1,72 @@
 # yeseniaperezfina.github.io
 
-Personal portfolio site for **Yesenia (Yessi) Perez** — higher education & learning strategist working across NASA, higher education, museums, and community partners.
+Personal portfolio site for **Yesenia Pérez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
 
-The site is intentionally lightweight: **hand-coded HTML, CSS, and vanilla JavaScript**, deployed via **GitHub Pages**.
-
----
-
-## Design & Experience Strategy
-
-### Visual language — “Midnight Studio”
-
-The palette is built around a **twilight studio** feel:
-
-- Deep navy backgrounds (`--bg`, `--panel`) mirror the night sky and GitHub’s dark UI.
-- Aurora **teal** (`--accent-primary`) anchors links and active navigation.
-- Candlelight **amber** (`--accent-secondary`) highlights metrics and key phrases.
-- Soft **plum / indigo** (`--accent-quaternary`) adds depth in borders and glows.
-- Typography pairs a bookish serif for headings with a system sans for body copy — think _“researcher in a planetarium library.”_
-
-Color roles are explicitly scoped:
-
-- `--accent-primary` → links, active nav, key CTAs  
-- `--accent-secondary` → metrics, subtle highlights  
-- `--accent-tertiary` → chips and soft emphasis  
-- `--accent-quaternary` → borders, glows, and subtle gradients  
-
-### Information architecture
-
-The single-page layout follows a narrative arc:
-
-1. **About** – who I am, where I sit in the ecosystem, and immediate proof points  
-2. **Trajectory** – career and education timeline + four practice modes  
-3. **Work** – selected projects across NASA, higher ed, and museums  
-4. **How I Work** – principles and working agreements  
-5. **Capabilities** – what I actually do on teams  
-6. **Writing** – reflective and public-facing work  
-7. **Contact** – “next orbit” roles and ways to connect  
-
-The hero includes **metric pills** (years of experience, network reach, educational arc) to support quick skimming by hiring managers.
-
-### Interaction & motion
-
-- **Sticky nav with scroll spy** using `IntersectionObserver`
-- Hero **constellation canvas** that reacts gently in the background
-- **Scroll-reveal** for sections (also via `IntersectionObserver`)
-- Focus states and hover effects are tuned for clarity, not spectacle
-
-All motion respects user preferences:
-
-- `prefers-reduced-motion: reduce` disables CSS animations and transitions.
-- The canvas animation early-exits if reduced motion is requested, and pauses when the tab is hidden.
-
-### Accessibility
-
-- Semantic structure: single `<h1>`, sectioned `<h2>`, `<nav>` with labels.
-- **Skip link** to jump directly to main content.
-- Explicit `:focus-visible` outlines for navigation and interactive pills.
-- `aria-current="page"` applied to the active nav item via scroll spy.
+This repository powers my public portfolio on **GitHub Pages**, designed and coded in plain **HTML, CSS, and JavaScript**. The goal is not to showcase a heavy framework, but to show **clarity of structure, intentional interaction, and a point of view about how experiences are designed.**
 
 ---
 
-## Tech stack
+## Experience & Design Principles
 
-- HTML5
-- CSS3 (custom properties, modern layout)
-- Vanilla JavaScript (no frameworks)
-- Hosted on **GitHub Pages**
+This site is built around a few core beliefs:
 
-Folder structure:
+1. **Identity should be stable; stories should scroll.**  
+   The layout uses a **left spine / right narrative** pattern:
+   - The left column anchors my identity, roles, and navigation.
+   - The right column is a scrolling “studio scroll” of my work, practice, and writing.
+   This separation mirrors how I work: a stable core, with evolving stories.
+
+2. **Motion should feel like breathing, not a light show.**  
+   Interaction is subtle and deliberate:
+   - A **canvas-based particle field** in the hero creates ambient “cosmic” motion.
+   - Sections **fade and lift in** as they enter the viewport, using the `IntersectionObserver` API.
+   - Hover states on cards and links are restrained, signaling interactivity without shouting.
+   All animations respect `prefers-reduced-motion` so users can opt out.
+
+3. **Content comes first, then components.**  
+   Content was written and structured first. Components (`.section`, `.card`, `.stack`, `.grid-*`, `.pill`, `.chip`) were then abstracted from the real narrative, not the other way around.  
+   The result: a tiny design system that fits this portfolio but can scale to more pages and use-cases.
+
+4. **Demonstrate systems-thinking in the code itself.**  
+   The repo intentionally avoids heavy tooling and frameworks. Instead it shows:
+   - Clean separation of concerns (HTML / CSS / JS).
+   - Minimal but modern browser APIs (IntersectionObserver, canvas, `prefers-reduced-motion`).
+   - A **token-based design** in CSS (`:root` variables) for colors, radii, and shadows.
+
+---
+
+## Information Architecture
+
+The site is a **single-page portfolio** with distinct, scannable chapters:
+
+- **Left Spine (Persistent)**
+  - Name, role, and a short “what I do” line.
+  - Four identity “modes” as chips: Strategist, Scholar, Creator, Navigator.
+  - Section navigation (scroll-spy driven).
+  - Quick contact links (Email, LinkedIn, The Echo Jar).
+
+- **Right Column (Scrolling Narrative)**
+  - `#about` — Hero / overview, current roles, and working terrain.
+  - `#trajectory` — Career & education timeline + modes of practice.
+  - `#work` — Signature work across NASA, higher ed, and public engagement.
+  - `#practice` — How I work: principles, equity lens, and process.
+  - `#skills` — Capabilities, tools, and domains.
+  - `#writing` — Writing & thought practice (Substack, Harvard, NASA).
+  - `#contact` — “Next orbit” roles and ways to connect.
+
+Each major area is a `.section` with a consistent visual shell and internal layout.
+
+---
+
+## Technical Architecture
+
+The site uses a simple three-file structure:
 
 ```text
-/
+.
 ├── index.html
-├── assets/
-│   ├── css/
-│   │   └── main.css
-│   └── js/
-│       └── main.js
-└── README.md
+└── assets
+    ├── css
+    │   └── main.css
+    └── js
+        └── main.js
