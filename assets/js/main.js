@@ -1,37 +1,35 @@
-// assets/js/main.js
-
-// ==========
-// Year stamp
-// ==========
+// ======================
+// Year in footer
+// ======================
 (function setYear() {
   const yearEl = document.getElementById("year");
   if (!yearEl) return;
   yearEl.textContent = new Date().getFullYear();
 })();
 
-// ===============================
-// Canvas constellation background
-// ===============================
+// ===================================
+// Canvas constellation — soft backdrop
+// ===================================
 (function initCanvasConstellation() {
   const canvas = document.getElementById("orbitCanvas");
   if (!canvas || !canvas.getContext) return;
 
-  const prefersReducedMotion = window.matchMedia &&
+  const prefersReducedMotion =
+    window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
   let particles = [];
-  const PARTICLE_COUNT = 60;
-  const MAX_DISTANCE = 130;
+  const PARTICLE_COUNT = 55;
+  const MAX_DISTANCE = 120;
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
-
-    if (width === 0 || height === 0) return;
+    if (!width || !height) return;
 
     const ratio = window.devicePixelRatio || 1;
     canvas.width = width * ratio;
@@ -43,41 +41,31 @@
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
       });
     }
 
-    // If user prefers reduced motion, draw a static field once
     if (prefersReducedMotion) {
-      drawFrame();
+      drawFrame(true);
     }
   }
 
-  function step() {
-    if (prefersReducedMotion) return; // animation skipped; static frame already drawn
-
-    drawFrame();
-    requestAnimationFrame(step);
-  }
-
-  function drawFrame() {
+  function drawFrame(staticOnly) {
     if (!width || !height) return;
 
     ctx.clearRect(0, 0, width, height);
 
-    // update positions only if motion allowed
-    if (!prefersReducedMotion) {
+    if (!staticOnly) {
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
-
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
       }
     }
 
-    // draw connections
+    // connections
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const p1 = particles[i];
@@ -87,7 +75,7 @@
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < MAX_DISTANCE) {
           const alpha = 1 - dist / MAX_DISTANCE;
-          ctx.strokeStyle = `rgba(148, 163, 184, ${alpha * 0.45})`;
+          ctx.strokeStyle = `rgba(110, 96, 84, ${alpha * 0.35})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
@@ -97,13 +85,19 @@
       }
     }
 
-    // draw particles
+    // particles
     for (const p of particles) {
-      ctx.fillStyle = "rgba(248, 250, 252, 0.9)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
       ctx.beginPath();
-      ctx.arc(p.x, p.y, 1.7, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
       ctx.fill();
     }
+  }
+
+  function step() {
+    if (prefersReducedMotion) return;
+    drawFrame(false);
+    requestAnimationFrame(step);
   }
 
   window.addEventListener("resize", resize);
@@ -121,7 +115,6 @@
   const navLinks = document.querySelectorAll(".nav-link");
   if (!sections.length || !navLinks.length) return;
 
-  // Map section id -> nav-link
   const linkMap = {};
   navLinks.forEach((link) => {
     const href = link.getAttribute("href");
@@ -130,37 +123,35 @@
     linkMap[id] = link;
   });
 
-  // Helper: set active class
   function setActive(id) {
     if (!id || !linkMap[id]) return;
     navLinks.forEach((link) => link.classList.remove("is-active"));
     linkMap[id].classList.add("is-active");
   }
 
-  // Feature-detect IntersectionObserver
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActive(entry.target.id);
+            const id = entry.target.id;
+            setActive(id);
           }
         });
       },
       {
-        threshold: 0.45,
+        threshold: 0.4,
       }
     );
 
     sections.forEach((section) => observer.observe(section));
   } else {
-    // Fallback: simple scroll event
     window.addEventListener("scroll", () => {
       let bestId = null;
       let bestOffset = Infinity;
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        const offset = Math.abs(rect.top - 120); // 120px-ish from top
+        const offset = Math.abs(rect.top - 120);
         if (offset < bestOffset) {
           bestOffset = offset;
           bestId = section.id;
@@ -170,7 +161,6 @@
     });
   }
 
-  // Smooth-scroll on click (respect reduced motion)
   const prefersReducedMotion =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -200,7 +190,6 @@
   const sections = document.querySelectorAll(".section");
   if (!sections.length) return;
 
-  // If IntersectionObserver is missing, just show everything
   if (!("IntersectionObserver" in window)) {
     sections.forEach((section) => {
       section.classList.add("section-visible");
