@@ -1,25 +1,29 @@
 /* =========
-   DESIGN SYSTEM — BOTANICAL EDITORIAL
+   DESIGN SYSTEM — FOREST DAWN
    ========= */
 
 :root {
-  --bg: #f5f1e7;
-  --bg-soft: #f9f5ed;
-  --bg-band: #f1ece0;
+  /* Base surfaces */
+  --bg: #23322d;         /* forest night */
+  --bg-soft: #2e4b47;    /* deep moss */
+  --bg-band: #1c2623;    /* darker band */
 
-  --ink: #1f2933;
-  --ink-soft: #4b5563;
-  --muted: #6b7280;
-  --muted-soft: #9ca3af;
+  /* Typography */
+  --ink: #fdf5ea;        /* main text (warm light) */
+  --ink-soft: #e4d2ba;   /* softer text */
+  --muted: #c8b89d;      /* muted text */
+  --muted-soft: #a89a82; /* softer muted */
 
-  --accent-sage: #6a8f7a;
-  --accent-sage-soft: rgba(106, 143, 122, 0.12);
-  --accent-berry: #b4556d;
-  --accent-berry-soft: rgba(180, 85, 109, 0.12);
-  --accent-gold: #c19a55;
+  /* Accents mapped to palette */
+  --accent-sage: #2e4b47;                           /* moss */
+  --accent-sage-soft: rgba(46, 75, 71, 0.35);
+  --accent-berry: #886b55;                          /* earth */
+  --accent-berry-soft: rgba(136, 107, 85, 0.45);
+  --accent-gold: #fdd8a7;                           /* dawn */
 
-  --border-subtle: rgba(176, 158, 133, 0.5);
-  --shadow-soft: 0 16px 40px rgba(148, 163, 184, 0.4);
+  /* Frame + elevation */
+  --border-subtle: rgba(253, 216, 167, 0.32);
+  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.55);
 
   --radius-xl: 24px;
   --radius-lg: 18px;
@@ -47,9 +51,10 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at top left, #fdf9f0 0, #f5f3eb 40%, #ece4d4 100%);
+    radial-gradient(circle at top, rgba(253, 216, 167, 0.24) 0, transparent 55%),
+    linear-gradient(to bottom, #111a17, var(--bg-soft));
   color: var(--ink);
-  line-height: 1.6; /* slightly tightened for modern readability */
+  line-height: 1.6;
   font-size: 16px;
 }
 
@@ -63,7 +68,7 @@ body {
   top: 0.75rem;
   padding: 0.5rem 0.9rem;
   border-radius: 999px;
-  background: #111827;
+  background: #020617;
   color: white;
   font-size: 0.85rem;
   z-index: 1000;
@@ -130,10 +135,10 @@ body {
   backdrop-filter: blur(16px);
   background: linear-gradient(
     to bottom,
-    rgba(245, 241, 231, 0.92),
-    rgba(245, 241, 231, 0.78)
+    rgba(12, 19, 17, 0.96),
+    rgba(12, 19, 17, 0.82)
   );
-  border-bottom: 1px solid rgba(217, 200, 173, 0.4);
+  border-bottom: 1px solid rgba(253, 216, 167, 0.36);
 }
 
 .brand {
@@ -147,17 +152,17 @@ body {
   height: 28px;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 30% 20%, #fef9c3, transparent 55%),
+    radial-gradient(circle at 30% 20%, #fdd8a7, transparent 60%),
     conic-gradient(
       from 200deg,
-      var(--accent-sage),
-      var(--accent-berry),
-      var(--accent-gold),
-      var(--accent-sage)
+      #2e4b47,
+      #886b55,
+      #96806c,
+      #2e4b47
     );
   box-shadow:
-    0 0 0 2px #fdf9f0,
-    0 0 18px rgba(180, 85, 109, 0.5);
+    0 0 0 2px rgba(8, 12, 11, 0.9),
+    0 0 18px rgba(253, 216, 167, 0.65);
   position: relative;
   overflow: hidden;
 }
@@ -166,7 +171,7 @@ body {
   position: absolute;
   inset: 5px;
   border-radius: inherit;
-  border: 1px solid rgba(248, 250, 252, 0.6);
+  border: 1px solid rgba(253, 244, 230, 0.7);
 }
 
 .brand-text {
@@ -215,7 +220,7 @@ body {
 .nav-link:hover,
 .nav-link:focus-visible {
   color: var(--ink);
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(253, 216, 167, 0.1);
 }
 .nav-link:hover::after,
 .nav-link:focus-visible::after {
@@ -224,7 +229,7 @@ body {
 .nav-link.is-active {
   color: var(--ink);
   font-weight: 500;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(253, 216, 167, 0.18);
 }
 .nav-link.is-active::after {
   width: 80%;
@@ -303,7 +308,7 @@ body {
 
 .section-header h2 {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: 1.7rem; /* slightly enlarged for clearer hierarchy */
+  font-size: 1.7rem;
   line-height: 1.25;
   margin: 0.2rem 0 0.5rem;
 }
@@ -380,10 +385,10 @@ body {
 
 .chip {
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(176, 158, 133, 0.7);
+  border: 1px solid rgba(253, 216, 167, 0.5);
   padding: 0.24rem 0.75rem;
   font-size: 0.8rem;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(16, 24, 22, 0.8);
   color: var(--muted);
   cursor: pointer;
   transition:
@@ -395,16 +400,16 @@ body {
 }
 .chip--active {
   background:
-    radial-gradient(circle at top left, var(--accent-sage-soft), transparent 60%),
-    rgba(255, 255, 255, 0.95);
-  border-color: var(--accent-sage);
-  color: var(--ink);
-  box-shadow: 0 8px 18px rgba(148, 163, 184, 0.28); /* slightly eased */
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.3), transparent 60%),
+    #fdd8a7;
+  border-color: var(--accent-gold);
+  color: #3a2a1a;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
   transform: translateY(-1px);
 }
 .chip:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: var(--accent-sage);
+  background: rgba(29, 42, 38, 0.95);
+  border-color: var(--accent-gold);
 }
 
 .role-note {
@@ -424,16 +429,16 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--accent-sage);
+  border: 1px solid var(--accent-gold);
   background:
-    radial-gradient(circle at top left, var(--accent-sage-soft), transparent 60%),
-    #fefdf9;
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.28), transparent 60%),
+    #fdd8a7;
   padding: 0.46rem 1.1rem;
   font-size: 0.86rem;
-  color: var(--ink);
+  color: #3a2817;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 14px 32px rgba(107, 114, 128, 0.35);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6);
   transition:
     box-shadow 0.18s ease-out,
     transform 0.12s ease-out,
@@ -442,17 +447,18 @@ body {
 .button:hover,
 .button:focus-visible {
   transform: translateY(-1px);
-  box-shadow: 0 18px 40px rgba(107, 114, 128, 0.4);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
 }
 .button--ghost {
   background: transparent;
-  border-color: rgba(176, 158, 133, 0.7);
+  border-color: rgba(253, 216, 167, 0.45);
   box-shadow: none;
+  color: var(--accent-gold);
 }
 .button--ghost:hover,
 .button--ghost:focus-visible {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 18px rgba(148, 163, 184, 0.35);
+  background: rgba(253, 216, 167, 0.14);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
 }
 
 /* hero right card */
@@ -463,9 +469,10 @@ body {
 
 .card {
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(176, 158, 133, 0.7);
+  border: 1px solid rgba(253, 216, 167, 0.4);
   background:
-    radial-gradient(circle at top left, rgba(250, 249, 246, 0.9), rgba(248, 245, 239, 0.98));
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.18), transparent 60%),
+    linear-gradient(145deg, #23322d, #2e4b47);
   padding: 1rem 1.1rem 0.95rem;
   font-size: 0.9rem;
   color: var(--ink-soft);
@@ -482,27 +489,27 @@ body {
   content: "";
   position: absolute;
   inset: -20%;
-  background: radial-gradient(circle at top right, rgba(193, 154, 85, 0.16), transparent 65%);
+  background: radial-gradient(circle at top right, rgba(253, 216, 167, 0.22), transparent 65%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.18s ease-out;
 }
 .card:hover {
-  transform: translateY(-1px); /* slightly gentler hover for informational cards */
-  box-shadow: 0 18px 44px rgba(148, 163, 184, 0.45);
-  border-color: rgba(193, 154, 85, 0.7);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.65);
+  border-color: rgba(253, 216, 167, 0.7);
 }
 .card:hover::before {
   opacity: 1;
 }
 
-/* Interactive card variant: use when the entire card is clickable */
+/* Interactive card variant */
 .card--interactive {
   cursor: pointer;
 }
 .card--interactive:hover {
   transform: translateY(-2px);
-  box-shadow: 0 22px 52px rgba(148, 163, 184, 0.5);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.75);
 }
 
 .card--hero {
@@ -516,21 +523,21 @@ body {
   width: 80px;
   height: 80px;
   border-radius: 24px;
-  border: 1px solid rgba(176, 158, 133, 0.7);
+  border: 1px solid rgba(253, 216, 167, 0.5);
   background:
-    radial-gradient(circle at top left, rgba(250, 250, 249, 0.9), transparent 70%),
-    linear-gradient(145deg, #d8c7b1, #b9896f);
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.25), transparent 70%),
+    linear-gradient(145deg, #96806c, #886b55);
   position: relative;
-  box-shadow: 0 16px 40px rgba(107, 114, 128, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
 }
 .hero-portrait-inner {
   position: absolute;
   inset: 6px;
   border-radius: 18px;
-  border: 1px dashed rgba(254, 252, 232, 0.8);
+  border: 1px dashed rgba(253, 244, 230, 0.85);
   background:
-    linear-gradient(160deg, rgba(250, 249, 246, 0.85), transparent 40%),
-    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.9), transparent 55%);
+    linear-gradient(160deg, rgba(253, 244, 230, 0.8), transparent 40%),
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.8), transparent 55%);
 }
 
 .card-title {
@@ -554,7 +561,7 @@ body {
   width: 160px;
   height: 160px;
   border-radius: 999px;
-  border: 1px solid rgba(193, 154, 85, 0.15);
+  border: 1px solid rgba(253, 216, 167, 0.16);
   pointer-events: none;
 }
 .hero-ornament--left {
@@ -573,13 +580,13 @@ body {
   width: 130px;
   height: auto;
   opacity: 0.45;
-  stroke: rgba(106, 143, 122, 0.8);
+  stroke: rgba(150, 128, 108, 0.9);
   stroke-width: 1.2;
   fill: none;
   pointer-events: none;
 }
 .botanical-stem circle {
-  fill: rgba(180, 85, 109, 0.55);
+  fill: rgba(253, 216, 167, 0.7);
 }
 
 @media (max-width: 960px) {
@@ -627,10 +634,10 @@ body {
   width: 1px;
   background: linear-gradient(
     to bottom,
-    rgba(106, 143, 122, 0.8),
-    rgba(180, 85, 109, 0.7)
+    rgba(46, 75, 71, 0.9),
+    rgba(136, 107, 85, 0.85)
   );
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .timeline-item {
@@ -644,9 +651,9 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #fdfaf4;
-  border: 2px solid var(--accent-sage);
-  box-shadow: 0 0 0 4px rgba(106, 143, 122, 0.16);
+  background: #111915;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 0 0 4px rgba(253, 216, 167, 0.18);
 }
 
 .timeline-label {
@@ -692,8 +699,8 @@ body {
 .tag-row--chips li {
   padding: 0.18rem 0.6rem;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(176, 158, 133, 0.6);
-  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(253, 216, 167, 0.4);
+  background: rgba(15, 23, 21, 0.92);
 }
 
 .what-this-shows {
@@ -721,7 +728,8 @@ body {
 
 .section--band .card {
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), rgba(250, 248, 242, 0.98));
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.18), transparent 60%),
+    linear-gradient(145deg, #1c2623, #23322d);
 }
 
 .card--case {
@@ -761,7 +769,7 @@ body {
   padding-top: 1.2rem;
 }
 .card--quote .highlight {
-  color: var(--accent-berry);
+  color: var(--accent-gold);
 }
 
 /* =========
@@ -789,7 +797,8 @@ body {
 
 .section--contact {
   background:
-    radial-gradient(circle at top left, rgba(249, 250, 251, 0.95), rgba(245, 241, 231, 1));
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.16), transparent 55%),
+    linear-gradient(to bottom right, #111915, #1b2623);
 }
 
 .card--contact {
@@ -812,8 +821,8 @@ body {
   gap: 0.3rem;
   padding: 0.26rem 0.8rem;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(176, 158, 133, 0.7);
-  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(253, 216, 167, 0.4);
+  background: rgba(16, 24, 22, 0.95);
   font-size: 0.8rem;
   color: var(--ink-soft);
   text-decoration: none;
@@ -826,9 +835,9 @@ body {
 .pill-link:hover,
 .pill-link:focus-visible {
   transform: translateY(-1px);
-  background: #ffffff;
-  border-color: var(--accent-sage);
-  box-shadow: 0 10px 26px rgba(148, 163, 184, 0.4);
+  background: #10201c;
+  border-color: var(--accent-gold);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
 }
 .pill-link--full {
   justify-content: space-between;
@@ -846,8 +855,8 @@ body {
    ========= */
 
 .site-footer {
-  border-top: 1px solid rgba(217, 200, 173, 0.6);
-  background: rgba(249, 246, 238, 0.98);
+  border-top: 1px solid rgba(253, 216, 167, 0.32);
+  background: #111915;
 }
 
 /* =========
