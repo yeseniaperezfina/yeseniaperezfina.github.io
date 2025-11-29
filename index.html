@@ -3,30 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yesenia Perez – Higher Education & Learning Strategist</title>
-  <meta name="description"
-        content="Portfolio of Yesenia Perez, higher education & learning strategist working across NASA, higher ed, and public engagement." />
+  <title>Yesenia Perez · Higher Education & Learning Strategist</title>
+  <meta name="description" content="Portfolio of Yesenia Perez, higher education & learning strategist working across NASA, higher education, and public engagement." />
 
-  <!-- Simple, evergreen CSS-only design -->
   <style>
+    /* =========
+       DESIGN TOKENS
+       ========= */
     :root {
-      /* Twilight + gold palette */
       --bg: #050816;
-      --bg-alt: #080f1f;
-      --panel: #0c1226;
-      --panel-soft: #111827;
+      --bg-alt: #070c1a;
+      --surface: #0b1021;
+      --surface-soft: #10172a;
       --accent: #f4c26b;
       --accent-soft: rgba(244, 194, 107, 0.16);
-      --accent-softer: rgba(244, 194, 107, 0.08);
-      --text-main: #f9fafb;
-      --text-muted: #a5b1d2;
-      --border-subtle: rgba(148, 163, 184, 0.45);
+      --accent-soft-2: rgba(244, 194, 107, 0.08);
+      --ink: #f9fafb;
+      --muted: #a5b1d2;
+      --muted-soft: rgba(148, 163, 184, 0.5);
+      --border-subtle: #1f2937;
       --pill-bg: rgba(15, 23, 42, 0.96);
       --shadow-soft: 0 28px 70px rgba(0, 0, 0, 0.75);
       --radius-lg: 22px;
       --radius-md: 16px;
       --radius-sm: 999px;
-      --max-width: 1120px;
+      --max-width: 1160px;
     }
 
     * {
@@ -42,7 +43,7 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
-      color: var(--text-main);
+      color: var(--ink);
       line-height: 1.6;
     }
 
@@ -55,29 +56,42 @@
       text-decoration: underline;
     }
 
-    /* Layout shell */
+    /* =========
+       LAYOUT
+       ========= */
 
-    .shell {
+    .frame {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 1.8rem 1.4rem 3.4rem;
+      padding: 2rem 1.6rem 3.4rem;
+      display: grid;
+      grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+      gap: 1.9rem;
+    }
+
+    @media (max-width: 880px) {
+      .frame {
+        grid-template-columns: minmax(0, 1fr);
+        padding-inline: 1.2rem;
+      }
     }
 
     @media (max-width: 640px) {
-      .shell {
+      .frame {
         padding-inline: 1rem;
       }
     }
 
-    /* Skip link for accessibility */
-
+    /* =========
+       SKIP LINK
+       ========= */
     .skip-link {
       position: absolute;
       left: -999px;
-      top: 0.5rem;
-      padding: 0.5rem 0.75rem;
+      top: 0.75rem;
+      padding: 0.5rem 0.8rem;
       background: #0f172a;
-      color: var(--text-main);
+      color: var(--ink);
       border-radius: 8px;
       z-index: 1000;
     }
@@ -85,270 +99,220 @@
       left: 0.75rem;
     }
 
-    /* NAV */
+    /* =========
+       SIDEBAR
+       ========= */
 
-    .nav {
+    .sidebar {
       position: sticky;
-      top: 0.75rem;
-      z-index: 50;
-      margin-bottom: 1.6rem;
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.7rem 1.1rem;
-      border-radius: 999px;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(18px);
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      font-size: 0.95rem;
-    }
-
-    .nav-orbit {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle at 30% 20%, #fefce8 0, #facc15 35%, #f97316 100%);
-      box-shadow: 0 0 18px rgba(250, 204, 21, 0.9);
-    }
-
-    .nav-name {
-      font-weight: 600;
-    }
-
-    .nav-tag {
-      display: none;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.85rem;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      padding-bottom: 0.12rem;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #f4c26b, #bfdbfe);
-      transition: width 0.16s ease-out;
-    }
-
-    .nav-links a:hover::after,
-    .nav-links a:focus-visible::after {
-      width: 100%;
-    }
-
-    .nav-links a.nav-primary {
-      color: var(--text-main);
-      font-weight: 500;
-    }
-
-    @media (max-width: 720px) {
-      .nav-inner {
-        padding-inline: 0.85rem;
-        border-radius: 16px;
-      }
-      .nav-links {
-        gap: 0.75rem;
-        font-size: 0.8rem;
-      }
-      .nav-tag {
-        display: none;
-      }
-    }
-
-    /* HERO */
-
-    .hero {
-      margin-top: 1.8rem;
-      margin-bottom: 2.6rem;
-      padding: 1.9rem 1.8rem 1.8rem;
+      top: 1.4rem;
+      align-self: flex-start;
+      padding: 1.5rem 1.4rem 1.4rem;
       border-radius: var(--radius-lg);
       background:
-        radial-gradient(circle at top left, rgba(244, 194, 107, 0.18) 0, transparent 60%),
+        radial-gradient(circle at top left, rgba(244, 194, 107, 0.22), transparent 60%),
         linear-gradient(140deg, rgba(15, 23, 42, 0.98), rgba(8, 47, 73, 0.96));
       border: 1px solid rgba(148, 163, 184, 0.5);
       box-shadow: var(--shadow-soft);
-      display: grid;
-      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.2fr);
-      gap: 1.8rem;
     }
 
-    .hero-eyebrow {
-      font-size: 0.84rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.55rem;
-    }
-
-    .hero h1 {
-      margin: 0 0 0.45rem;
-      font-size: clamp(2.1rem, 3.1vw, 2.6rem);
-    }
-
-    .hero-tagline {
-      margin: 0 0 1rem;
-      font-size: 0.96rem;
-      color: var(--text-muted);
-      max-width: 36rem;
-    }
-
-    .hero-chips {
+    .sidebar-header {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .orbit-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 30% 20%, #fefce8 0, #facc15 35%, #f97316 100%);
+      box-shadow: 0 0 22px rgba(250, 204, 21, 0.9);
+      position: relative;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(15, 23, 42, 0.9);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+      opacity: 0.7;
+    }
+
+    .sidebar-name {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .sidebar-role {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      margin: 1rem 0 0.9rem;
+      background: linear-gradient(90deg, rgba(148, 163, 184, 0.6), rgba(15, 23, 42, 0));
+    }
+
+    .sidebar-text {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .sidebar-keyline {
+      font-size: 0.8rem;
+      color: var(--muted);
       margin-bottom: 1.1rem;
     }
 
-    .chip {
-      font-size: 0.8rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: var(--radius-sm);
-      background: var(--pill-bg);
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      color: var(--text-muted);
-      white-space: nowrap;
+    .sidebar-keyline strong {
+      color: var(--ink);
     }
 
-    .chip-key {
+    .sidebar-nav {
+      list-style: none;
+      margin: 0 0 1.1rem;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .sidebar-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.96);
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .sidebar-nav a span {
+      font-size: 0.92rem;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a:focus-visible {
+      border-color: var(--accent);
+      color: var(--ink);
+      background: var(--accent-soft-2);
+    }
+
+    .sidebar-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .chip {
+      padding: 0.28rem 0.65rem;
+      border-radius: var(--radius-sm);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .chip-main {
       border-color: var(--accent);
       background: var(--accent-soft);
-      color: var(--text-main);
+      color: var(--ink);
     }
 
-    .hero-body {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      max-width: 38rem;
-    }
-
-    .hero-side {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .hero-side-block {
-      padding: 0.8rem 0.9rem;
-      border-radius: var(--radius-md);
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.45);
-    }
-
-    .inline-label {
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-      display: block;
-      margin-bottom: 0.25rem;
-    }
-
-    .hero-links {
+    .sidebar-links {
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
-      margin-top: 0.35rem;
     }
 
-    .hero-link-pill {
-      padding: 0.35rem 0.8rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.95);
+    .sidebar-link-pill {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      font-size: 0.82rem;
-      color: var(--text-main);
+      padding: 0.34rem 0.8rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      font-size: 0.8rem;
+      color: var(--ink);
       text-decoration: none;
     }
 
-    .hero-link-pill span {
-      font-size: 1.05rem;
+    .sidebar-link-pill span {
+      font-size: 1rem;
     }
 
-    .hero-link-pill:hover,
-    .hero-link-pill:focus-visible {
+    .sidebar-link-pill:hover,
+    .sidebar-link-pill:focus-visible {
       border-color: var(--accent);
-      background: var(--accent-softer);
+      background: var(--accent-soft-2);
     }
 
     @media (max-width: 880px) {
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-        padding-inline: 1.35rem;
+      .sidebar {
+        position: static;
       }
     }
 
-    @media (max-width: 640px) {
-      .hero {
-        padding-inline: 1.05rem;
-      }
+    /* =========
+       MAIN CONTENT
+       ========= */
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.7rem;
     }
 
-    /* Sections */
-
-    main section {
-      margin-bottom: 2.4rem;
-      padding: 1.8rem 1.7rem 1.5rem;
+    section {
+      padding: 1.7rem 1.6rem 1.55rem;
       border-radius: var(--radius-lg);
-      background: var(--panel);
-      border: 1px solid #1f2937;
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
     }
 
-    main section h2 {
-      margin: 0 0 0.5rem;
-      font-size: 1.12rem;
+    section h2 {
+      margin: 0 0 0.55rem;
+      font-size: 1.1rem;
     }
 
     .section-kicker {
-      font-size: 0.86rem;
-      color: var(--text-muted);
+      font-size: 0.85rem;
+      color: var(--muted);
       margin-bottom: 1rem;
     }
 
     @media (max-width: 640px) {
-      main section {
+      section {
         padding-inline: 1.1rem;
       }
     }
 
-    /* Experience / Modes */
+    /* Experience */
 
     .exp-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
-      gap: 1.6rem;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 920px) {
+      .exp-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
     .exp-role {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.1rem;
     }
 
     .exp-title {
@@ -358,32 +322,32 @@
 
     .exp-meta {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: var(--muted);
       margin-bottom: 0.25rem;
     }
 
     .exp-desc {
       font-size: 0.88rem;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
-    .exp-pill-row {
+    .exp-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
       margin-top: 0.35rem;
     }
 
-    .exp-pill {
+    .exp-tag {
       padding: 0.18rem 0.55rem;
-      border-radius: 999px;
+      border-radius: var(--radius-sm);
       border: 1px solid rgba(148, 163, 184, 0.35);
+      background: var(--surface-soft);
       font-size: 0.76rem;
-      color: var(--text-muted);
-      background: var(--panel-soft);
+      color: var(--muted);
     }
 
-    .modes-grid {
+    .mode-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 0.9rem;
@@ -393,23 +357,17 @@
       border-radius: var(--radius-md);
       padding: 0.85rem 0.95rem 0.75rem;
       background:
-        radial-gradient(circle at top left, rgba(148, 163, 184, 0.15) 0, transparent 55%),
-        var(--panel-soft);
+        radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 60%),
+        var(--surface-soft);
       border: 1px solid rgba(148, 163, 184, 0.45);
       font-size: 0.86rem;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
     .mode-card h3 {
       margin: 0 0 0.3rem;
       font-size: 0.9rem;
-      color: var(--text-main);
-    }
-
-    @media (max-width: 880px) {
-      .exp-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
+      color: var(--ink);
     }
 
     /* Case studies */
@@ -420,14 +378,20 @@
       gap: 1.4rem;
     }
 
+    @media (max-width: 920px) {
+      .case-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
     .case-card {
+      position: relative;
       border-radius: var(--radius-md);
       padding: 0.95rem 1rem 0.8rem;
-      background: var(--panel-soft);
+      background: var(--surface-soft);
       border: 1px solid #334155;
       font-size: 0.86rem;
-      color: var(--text-muted);
-      position: relative;
+      color: var(--muted);
       overflow: hidden;
     }
 
@@ -435,7 +399,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top right, rgba(244, 194, 107, 0.18), transparent 60%);
+      background: radial-gradient(circle at top right, rgba(244, 194, 107, 0.22), transparent 60%);
       opacity: 0;
       transition: opacity 0.25s ease-out;
       pointer-events: none;
@@ -447,14 +411,14 @@
 
     .case-title {
       margin: 0 0 0.15rem;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--ink);
     }
 
     .case-meta {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: var(--muted);
       margin-bottom: 0.5rem;
     }
 
@@ -471,18 +435,12 @@
       margin-bottom: 0.12rem;
     }
 
-    @media (max-width: 880px) {
-      .case-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
     /* Skills */
 
-    .skills-columns {
+    .skills-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 1.2rem;
+      gap: 1.25rem;
     }
 
     .skills-block h3 {
@@ -495,11 +453,11 @@
       margin: 0;
       padding: 0;
       font-size: 0.85rem;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
     .skills-list li {
-      margin-bottom: 0.15rem;
+      margin-bottom: 0.18rem;
     }
 
     /* Writing */
@@ -507,20 +465,21 @@
     .writing-item {
       margin-bottom: 0.9rem;
       font-size: 0.87rem;
+      color: var(--muted);
     }
 
     .writing-item strong {
-      color: var(--text-main);
+      color: var(--ink);
     }
 
     .writing-tag {
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.13em;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
-    /* Contact / Next */
+    /* Contact */
 
     .contact-grid {
       display: grid;
@@ -528,400 +487,375 @@
       gap: 1.4rem;
     }
 
-    .contact-grid p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .contact-card {
-      padding: 0.95rem 1rem;
-      border-radius: var(--radius-md);
-      background: var(--panel-soft);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .contact-card strong {
-      color: var(--text-main);
-    }
-
-    @media (max-width: 880px) {
+    @media (max-width: 920px) {
       .contact-grid {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
+    .contact-text {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .contact-card {
+      padding: 0.95rem 1rem;
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .contact-card strong {
+      color: var(--ink);
+    }
+
     footer {
-      text-align: center;
-      padding: 0.6rem 1.5rem 0.8rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.7rem 1.6rem 1rem;
       font-size: 0.78rem;
-      color: var(--text-muted);
+      color: var(--muted);
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+<a href="#main" class="skip-link">Skip to main content</a>
 
-  <div class="shell">
-
-    <!-- Navigation -->
-    <header class="nav" aria-label="Primary navigation">
-      <div class="nav-inner">
-        <div class="nav-brand">
-          <div class="nav-orbit" aria-hidden="true"></div>
-          <div>
-            <div class="nav-name">Yesenia Perez</div>
-            <div class="nav-tag">Higher Education & Learning Strategist</div>
-          </div>
-        </div>
-        <nav class="nav-links" aria-label="Section links">
-          <a href="#about" class="nav-primary">About</a>
-          <a href="#experience">Experience</a>
-          <a href="#work">Selected Work</a>
-          <a href="#skills">Capabilities</a>
-          <a href="#writing">Writing</a>
-          <a href="#contact">Contact</a>
-        </nav>
+<div class="frame">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Profile">
+    <div class="sidebar-header">
+      <div class="orbit-mark" aria-hidden="true">
+        <div class="orbit-ring"></div>
       </div>
-    </header>
+      <div>
+        <div class="sidebar-name">Yesenia Perez</div>
+        <div class="sidebar-role">Higher Education &amp; Learning Strategist</div>
+      </div>
+    </div>
 
-    <!-- Hero -->
-    <main id="main" tabindex="-1">
-      <section class="hero" id="about" aria-labelledby="about-heading">
+    <div class="sidebar-divider"></div>
+
+    <p class="sidebar-text">
+      I design and steward learning ecosystems that connect people to knowledge, opportunity, and a sense of belonging—
+      from community colleges and museums to NASA and Harvard.
+    </p>
+
+    <p class="sidebar-keyline">
+      Currently a <strong>Senior Education Specialist &amp; Strategic Lead</strong> with NASA’s Universe of Learning at
+      the Space Telescope Science Institute, and an <strong>Ed.M. candidate in Education Leadership</strong> at Harvard.
+    </p>
+
+    <ul class="sidebar-nav" aria-label="Page sections">
+      <li><a href="#experience"><span>▹</span> Experience</a></li>
+      <li><a href="#work"><span>▹</span> Selected Work</a></li>
+      <li><a href="#skills"><span>▹</span> Capabilities</a></li>
+      <li><a href="#writing"><span>▹</span> Writing</a></li>
+      <li><a href="#contact"><span>▹</span> Contact</a></li>
+    </ul>
+
+    <div class="sidebar-chips">
+      <span class="chip chip-main">Higher education strategy</span>
+      <span class="chip">STEM &amp; public engagement</span>
+      <span class="chip">Evidence &amp; evaluation</span>
+      <span class="chip">Justice-centered design</span>
+    </div>
+
+    <div class="sidebar-links" aria-label="External links">
+      <a class="sidebar-link-pill" href="mailto:yperez@gse.harvard.edu">
+        <span aria-hidden="true">✉</span> Email
+      </a>
+      <a class="sidebar-link-pill" href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
+        <span aria-hidden="true">↗</span> LinkedIn
+      </a>
+      <a class="sidebar-link-pill" href="https://theechojar.substack.com" target="_blank" rel="noopener">
+        <span aria-hidden="true">★</span> The Echo Jar
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main id="main">
+    <!-- EXPERIENCE -->
+    <section id="experience" aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Experience &amp; Modes of Practice</h2>
+      <p class="section-kicker">
+        I move between strategist, scholar, and storyteller—designing initiatives, translating research into direction,
+        and building reflective spaces where teams can think clearly about what they are making.
+      </p>
+
+      <div class="exp-grid">
         <div>
-          <div class="hero-eyebrow">Higher Education · Science & Society · Design for Learning</div>
-          <h1 id="about-heading">I design learning ecosystems where more people can belong, persist, and thrive.</h1>
-          <p class="hero-tagline">
-            I’m a higher education and learning strategist working across NASA, universities, museums, and community partners—
-            building programs and environments that connect rigorous science, institutional strategy, and lived experience.
-          </p>
-
-          <div class="hero-chips" aria-label="Key themes">
-            <span class="chip chip-key">Strategy & Portfolio Design</span>
-            <span class="chip">Higher Education Ecosystem Fluency</span>
-            <span class="chip">STEM & Public Engagement</span>
-            <span class="chip">Evidence & Evaluation</span>
-            <span class="chip">Justice-Centered Practice</span>
-          </div>
-
-          <p class="hero-body">
-            Over the last seven years I have led national, research-driven initiatives for NASA’s Space Telescope Science
-            Institute, working with universities, MSIs, museums, and public-serving institutions across the U.S. I am also
-            an Ed.M. candidate in Education Leadership at Harvard, where I study how leaders design systems that are both
-            effective and humane. My through-line: align mission, data, and story so that learning spaces—physical or
-            programmatic—feel possible, legible, and alive for more people.
-          </p>
-        </div>
-
-        <aside class="hero-side" aria-label="Snapshot">
-          <div class="hero-side-block">
-            <span class="inline-label">Current roles</span>
-            <strong>Senior Education Specialist & Strategic Lead, NASA Universe of Learning</strong><br />
-            Space Telescope Science Institute<br /><br />
-            <strong>Ed.M. Candidate, Education Leadership</strong><br />
-            Harvard Graduate School of Education (OEL)
-          </div>
-
-          <div class="hero-side-block">
-            <span class="inline-label">Where I work</span>
-            National learning initiatives · higher education partnerships · informal science networks ·
-            cross-institutional collaborations at the intersection of STEM, equity, and public meaning.
-          </div>
-
-          <div class="hero-side-block">
-            <span class="inline-label">Connect</span>
-            <div class="hero-links">
-              <a class="hero-link-pill" href="mailto:yperez@gse.harvard.edu">
-                <span aria-hidden="true">✉</span> Email
-              </a>
-              <a class="hero-link-pill" href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
-                <span aria-hidden="true">↗</span> LinkedIn
-              </a>
-              <a class="hero-link-pill" href="#" target="_blank" rel="noopener">
-                <span aria-hidden="true">★</span> The Echo Jar (Substack)
-              </a>
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <!-- Experience & Modes -->
-      <section id="experience" aria-labelledby="experience-heading">
-        <h2 id="experience-heading">Experience & Modes of Practice</h2>
-        <p class="section-kicker">
-          I move between strategist, scholar, and storyteller—designing initiatives, translating research into direction,
-          and building reflective spaces where teams can think clearly about what they are making.
-        </p>
-
-        <div class="exp-grid">
-          <div>
-            <article class="exp-role">
-              <h3 class="exp-title">Senior Education Specialist & Strategic Lead — NASA Universe of Learning</h3>
-              <p class="exp-meta">Space Telescope Science Institute · 2019–Present · Baltimore, MD</p>
-              <p class="exp-desc">
-                Lead national, research-driven initiatives that connect NASA astrophysics with learners through a network
-                of universities, MSIs, museums, libraries, and community organizations in 30+ states and Puerto Rico.
-              </p>
-              <div class="exp-pill-row">
-                <span class="exp-pill">Portfolio & initiative design</span>
-                <span class="exp-pill">Multi-institution collaboration</span>
-                <span class="exp-pill">Learning ecosystem strategy</span>
-                <span class="exp-pill">Evaluation synthesis</span>
-              </div>
-            </article>
-
-            <article class="exp-role">
-              <h3 class="exp-title">Museum & Cultural Sector Roles</h3>
-              <p class="exp-meta">Allentown Art Museum · Worcester Art Museum</p>
-              <p class="exp-desc">
-                Designed intergenerational and community-centered learning experiences, treating galleries and public
-                spaces as laboratories for curiosity, identity, and shared meaning.
-              </p>
-              <div class="exp-pill-row">
-                <span class="exp-pill">Experience design</span>
-                <span class="exp-pill">Community engagement</span>
-                <span class="exp-pill">Visitor research</span>
-              </div>
-            </article>
-
-            <article class="exp-role">
-              <h3 class="exp-title">Academic Trajectory</h3>
-              <p class="exp-meta">Northampton CC → University of Pittsburgh → Georgetown → Harvard</p>
-              <p class="exp-desc">
-                As a first-generation Puerto Rican student moving from community college to a four-year public university,
-                graduate study, and Harvard, I’ve lived the full arc of the U.S. higher-ed system—from advising queues and
-                bursar’s lines to governance, philanthropy, and leadership classrooms.
-              </p>
-              <div class="exp-pill-row">
-                <span class="exp-pill">Higher-ed ecosystem fluency</span>
-                <span class="exp-pill">Transfer & first-gen insight</span>
-                <span class="exp-pill">Equity & access lens</span>
-              </div>
-            </article>
-          </div>
-
-          <div aria-label="Ways I show up on teams">
-            <div class="modes-grid">
-              <article class="mode-card">
-                <h3>Strategist</h3>
-                I design portfolios, initiatives, and learning ecosystems that connect mission, evidence, and the lived
-                realities of students, educators, and communities.
-              </article>
-              <article class="mode-card">
-                <h3>Scholar</h3>
-                I draw from research in higher education, learning sciences, and organizational leadership to inform how
-                we structure programs, roles, and systems for long-term health.
-              </article>
-              <article class="mode-card">
-                <h3>Creator</h3>
-                Through visual storytelling and writing—including my Substack, <em>The Echo Jar</em>—I translate complex
-                science and systems work into narratives that feel accessible and worth caring about.
-              </article>
-              <article class="mode-card">
-                <h3>Navigator</h3>
-                I help teams move through ambiguity with clarity and care, holding both timelines and people so that
-                change work is brave but not reckless.
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Selected Work -->
-      <section id="work" aria-labelledby="work-heading">
-        <h2 id="work-heading">Selected Signature Work</h2>
-        <p class="section-kicker">
-          A few projects that show how I braid research, strategy, and design thinking to shape learning environments and
-          public engagement.
-        </p>
-
-        <div class="case-grid">
-          <article class="case-card">
-            <h3 class="case-title">NASA Universe of Learning — National Learning Ecosystem Strategy</h3>
-            <p class="case-meta">Strategic Lead · 100+ institutions · universities, MSIs, museums & libraries</p>
-            <p><strong>Through-line:</strong> Build a coherent, research-driven STEM learning ecosystem across a diverse
-              national network.</p>
-            <p><strong>What I did:</strong></p>
-            <ul>
-              <li>Designed and led mixed-method research: interviews, workshops, surveys, observational studies, and environmental scans.</li>
-              <li>Facilitated multi-stakeholder sessions with faculty, institutional leaders, educators, and community partners.</li>
-              <li>Mapped learner journeys and space-use patterns across physical, digital, and community environments.</li>
-              <li>Translated findings into program requirements, partnership models, and high-level spatial and experience implications.</li>
-            </ul>
-            <p><strong>Impact:</strong> Produced frameworks now used by NASA and partners to guide program design,
-              staffing, and engagement strategies rooted in equity and evidence.</p>
-          </article>
-
-          <article class="case-card">
-            <h3 class="case-title">Webb First Images — National Activation & Experience Design</h3>
-            <p class="case-meta">Lead Strategist & Coordinator · 100+ activation sites</p>
-            <p><strong>Through-line:</strong> Turn a once-in-a-generation science moment into a coordinated, locally
-              resonant learning experience.</p>
-            <p><strong>What I did:</strong></p>
-            <ul>
-              <li>Coordinated timelines, evaluation, and communication across more than 100 institutions.</li>
-              <li>Developed adaptable program frameworks that partners could tailor to their spaces and communities.</li>
-              <li>Integrated evaluation data into real-time adjustments and post-event learning for future large-scale activations.</li>
-            </ul>
-            <p><strong>Impact:</strong> Enabled cohesive, meaningful public experiences across the network and earned
-              recognition within NASA for community activation and strategic design.</p>
-          </article>
-        </div>
-
-        <div class="case-grid" style="margin-top: 1rem;">
-          <article class="case-card">
-            <h3 class="case-title">Informal Learning Network & Exoplanet Year 10 Pilot</h3>
-            <p class="case-meta">Portfolio design · multi-year experimentation</p>
-            <p><strong>Through-line:</strong> Refresh a national informal learning network to better support equity,
-              experimentation, and staff well-being.</p>
-            <p><strong>What I did:</strong></p>
-            <ul>
-              <li>Led strategic reviews of network structure, incentives, and learning agendas.</li>
-              <li>Co-designed pilots testing new engagement models, stipends, and partnership structures.</li>
-              <li>Worked with evaluators to convert feedback into concrete design decisions for future cycles.</li>
-            </ul>
-          </article>
-
-          <article class="case-card">
-            <h3 class="case-title">Museum-Based Learning Labs & Family Programs</h3>
-            <p class="case-meta">Allentown Art Museum · Worcester Art Museum</p>
-            <p><strong>Through-line:</strong> Build spaces where families and communities can engage with art, story, and
-              each other in ways that feel culturally grounded and welcoming.</p>
-            <p><strong>What I did:</strong></p>
-            <ul>
-              <li>Designed learning labs, intergenerational programs, and bilingual engagement experiences.</li>
-              <li>Conducted visitor studies and observational research to refine spatial layouts and program design.</li>
-              <li>Collaborated with curatorial and education teams to align experience, story, and space.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <!-- Skills -->
-      <section id="skills" aria-labelledby="skills-heading">
-        <h2 id="skills-heading">Capabilities & Tools</h2>
-        <p class="section-kicker">
-          The ways I tend to show up on teams—from early-phase visioning and research design to storytelling, synthesis,
-          and steady operational leadership.
-        </p>
-
-        <div class="skills-columns">
-          <div class="skills-block">
-            <h3>Strategy & Design for Learning</h3>
-            <ul class="skills-list">
-              <li>Program & portfolio strategy for higher education and public engagement</li>
-              <li>Early-phase visioning, concept framing, and scenario mapping</li>
-              <li>Learning environment & experience strategy (formal and informal)</li>
-              <li>Space-use & journey logic (adjacencies, use-cases, narrative flow)</li>
-            </ul>
-          </div>
-
-          <div class="skills-block">
-            <h3>Research & Evidence</h3>
-            <ul class="skills-list">
-              <li>Mixed-method research design (interviews, workshops, surveys, observation)</li>
-              <li>Evaluation synthesis & evidence-informed recommendations</li>
-              <li>Equity-centered stakeholder engagement & facilitation</li>
-              <li>Policy and ecosystem fluency across community college, state, R1, and elite contexts</li>
-            </ul>
-          </div>
-
-          <div class="skills-block">
-            <h3>Communication & Leadership</h3>
-            <ul class="skills-list">
-              <li>Executive-ready memos, decks, and strategy narratives</li>
-              <li>Cross-sector facilitation (scientists, administrators, educators, community partners)</li>
-              <li>Mentoring emerging staff and shaping reflective team cultures</li>
-              <li>Public speaking and storytelling for complex science and systems</li>
-            </ul>
-          </div>
-
-          <div class="skills-block">
-            <h3>Tools & Tech</h3>
-            <ul class="skills-list">
-              <li>Adobe Creative Suite (Illustrator, InDesign, Photoshop)</li>
-              <li>Power BI (working proficiency) & data visualization</li>
-              <li>Notion, MURAL, Smartsheet, Monday.com</li>
-              <li>GitHub Pages & hand-coded HTML/CSS for lightweight web experiences</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- Writing -->
-      <section id="writing" aria-labelledby="writing-heading">
-        <h2 id="writing-heading">Writing & Thought Practice</h2>
-        <p class="section-kicker">
-          I use writing to braid analysis, memory, and imagination—from reflective leadership work at Harvard to
-          public-facing essays in <em>The Echo Jar</em>.
-        </p>
-
-        <article class="writing-item">
-          <div class="writing-tag">Substack · The Echo Jar</div>
-          <strong>Soft Physics, Echoes of Now, Letters to the Abyss, Collected Breezes</strong><br />
-          A slow, layered writing practice where I explore time, systems, identity, and wonder—often using space
-          science, mythology, and lived experience as shared language.
-        </article>
-
-        <article class="writing-item">
-          <div class="writing-tag">Harvard · Reflective Practice & Leadership</div>
-          <strong>Reflection as Resistance</strong><br />
-          Graduate work on reflective practice as an act of resistance within systems that reward speed and output over
-          meaning and care.
-        </article>
-
-        <article class="writing-item">
-          <div class="writing-tag">NASA & STScI · Internal Narratives</div>
-          <strong>Strategy & synthesis briefs</strong><br />
-          Regular internal writing that translates complex scientific, evaluative, and portfolio information into clear,
-          direction-setting narratives for leadership and partners.
-        </article>
-      </section>
-
-      <!-- Contact / Next -->
-      <section id="contact" aria-labelledby="contact-heading">
-        <h2 id="contact-heading">What I’m Looking Toward</h2>
-        <div class="contact-grid">
-          <div>
-            <p>
-              I’m exploring roles where I can help design and steward <strong>large-scale learning initiatives,
-              portfolios, and environments</strong> at the intersection of higher education, philanthropy,
-              science & society, and equitable design.
+          <article class="exp-role">
+            <h3 class="exp-title">Senior Education Specialist &amp; Strategic Lead — NASA Universe of Learning</h3>
+            <p class="exp-meta">Space Telescope Science Institute · 2019–Present · Baltimore, MD</p>
+            <p class="exp-desc">
+              Lead national, research-driven initiatives that connect NASA astrophysics with learners through a network
+              of universities, MSIs, museums, libraries, and community organizations in 30+ states and Puerto Rico.
+              Design strategies, partnerships, and learning ecosystems that align mission, evidence, and equity.
             </p>
-            <p>I’m especially interested in:</p>
-            <ul class="skills-list">
-              <li>Program Officer / Director roles in philanthropy & higher-ed innovation</li>
-              <li>Higher Education or Learning Environment Strategist roles in design firms</li>
-              <li>Science & society / STEM equity leadership roles in mission-driven organizations</li>
-            </ul>
-          </div>
+            <div class="exp-tags">
+              <span class="exp-tag">Portfolio &amp; initiative design</span>
+              <span class="exp-tag">Multi-institution collaboration</span>
+              <span class="exp-tag">Learning ecosystem strategy</span>
+              <span class="exp-tag">Evaluation synthesis</span>
+            </div>
+          </article>
 
-          <aside class="contact-card" aria-label="Contact details">
-            <strong>Let’s be in conversation.</strong><br /><br />
-            Email:
-            <a href="mailto:yperez@gse.harvard.edu">yperez@gse.harvard.edu</a><br />
-            LinkedIn:
-            <a href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
-              Yesenia Perez
-            </a><br />
-            Substack:
-            <a href="#" target="_blank" rel="noopener">The Echo Jar</a><br /><br />
-            Even a brief note is welcome—especially if you’re thinking about how to align
-            <span style="color: var(--accent);">learning, equity, and future-facing design</span> in your work.
-          </aside>
+          <article class="exp-role">
+            <h3 class="exp-title">Museum &amp; Cultural Sector Roles</h3>
+            <p class="exp-meta">Allentown Art Museum · Worcester Art Museum</p>
+            <p class="exp-desc">
+              Designed intergenerational and community-centered learning experiences, treating galleries and public
+              spaces as laboratories for curiosity, identity, and shared meaning. Built bilingual and family programs
+              rooted in local context.
+            </p>
+            <div class="exp-tags">
+              <span class="exp-tag">Experience design</span>
+              <span class="exp-tag">Community engagement</span>
+              <span class="exp-tag">Visitor research</span>
+            </div>
+          </article>
+
+          <article class="exp-role">
+            <h3 class="exp-title">Higher Education Trajectory</h3>
+            <p class="exp-meta">Northampton Community College → University of Pittsburgh → Georgetown → Harvard</p>
+            <p class="exp-desc">
+              As a first-generation Puerto Rican student moving from community college to a four-year public university,
+              graduate study, and Harvard, I’ve lived the full arc of the U.S. higher-ed system—from advising queues and
+              bursar’s lines to governance, philanthropy, and leadership classrooms.
+            </p>
+            <div class="exp-tags">
+              <span class="exp-tag">Higher-ed ecosystem fluency</span>
+              <span class="exp-tag">Transfer &amp; first-gen insight</span>
+              <span class="exp-tag">Equity &amp; access lens</span>
+            </div>
+          </article>
         </div>
-      </section>
-    </main>
 
-    <footer>
-      © <span id="year"></span> Yesenia Perez · Hand-coded HTML/CSS · Hosted on GitHub Pages
-    </footer>
-  </div>
+        <div>
+          <div class="mode-grid">
+            <article class="mode-card">
+              <h3>Strategist</h3>
+              I design portfolios, initiatives, and learning environments that connect mission, data, and lived
+              experience. I help teams see the system, not just the project.
+            </article>
+            <article class="mode-card">
+              <h3>Scholar</h3>
+              I draw from research in higher education, learning sciences, and organizational leadership to inform how
+              we structure programs, roles, and systems for long-term health.
+            </article>
+            <article class="mode-card">
+              <h3>Creator</h3>
+              Through visual storytelling and writing—including my Substack, <em>The Echo Jar</em>—I translate complex
+              science and systems work into narratives that feel accessible and worth caring about.
+            </article>
+            <article class="mode-card">
+              <h3>Navigator</h3>
+              I help teams move through ambiguity with clarity and care, holding both timelines and people so that
+              change work is brave but not reckless.
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <script>
-    // Tiny enhancement: always-current year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+    <!-- SELECTED WORK -->
+    <section id="work" aria-labelledby="work-heading">
+      <h2 id="work-heading">Selected Signature Work</h2>
+      <p class="section-kicker">
+        A sampling of projects that show how I braid research, strategy, and design thinking to shape learning
+        environments and public engagement.
+      </p>
+
+      <div class="case-grid">
+        <article class="case-card">
+          <h3 class="case-title">NASA Universe of Learning — National Learning Ecosystem Strategy</h3>
+          <p class="case-meta">Strategic Lead · 100+ institutions · universities, MSIs, museums &amp; libraries</p>
+          <p><strong>Through-line:</strong> Build a coherent, research-driven STEM learning ecosystem across a diverse
+            national network.</p>
+          <p><strong>What I did:</strong></p>
+          <ul>
+            <li>Designed and led mixed-method research: interviews, workshops, surveys, observational studies, and environmental scans.</li>
+            <li>Facilitated multi-stakeholder sessions with faculty, institutional leaders, educators, and community partners.</li>
+            <li>Mapped learner journeys and space-use patterns across physical, digital, and community environments.</li>
+            <li>Translated findings into program requirements, partnership models, and experience implications for future initiatives.</li>
+          </ul>
+          <p><strong>Impact:</strong> Produced frameworks now used by NASA and partners to guide program design,
+            staffing, and engagement strategies rooted in equity and evidence.</p>
+        </article>
+
+        <article class="case-card">
+          <h3 class="case-title">Webb First Images — National Activation &amp; Experience Design</h3>
+          <p class="case-meta">Lead Strategist &amp; Coordinator · 100+ activation sites</p>
+          <p><strong>Through-line:</strong> Turn a once-in-a-generation science moment into a coordinated, locally
+            resonant learning experience.</p>
+          <p><strong>What I did:</strong></p>
+          <ul>
+            <li>Coordinated timelines, evaluation, and communication across more than 100 institutions.</li>
+            <li>Developed adaptable program frameworks partners could tailor to their spaces and communities.</li>
+            <li>Integrated evaluation data into real-time adjustments and post-event learning for future large-scale activations.</li>
+          </ul>
+          <p><strong>Impact:</strong> Enabled cohesive, meaningful public experiences across the network and earned
+            recognition within NASA for community activation and strategic design.</p>
+        </article>
+      </div>
+
+      <div class="case-grid" style="margin-top: 1rem;">
+        <article class="case-card">
+          <h3 class="case-title">Informal Learning Network &amp; Exoplanet Year 10 Pilot</h3>
+          <p class="case-meta">Portfolio design · multi-year experimentation</p>
+          <p><strong>Through-line:</strong> Refresh a national informal learning network to better support equity,
+            experimentation, and staff well-being.</p>
+          <p><strong>What I did:</strong></p>
+          <ul>
+            <li>Led strategic reviews of network structure, incentives, and learning agendas.</li>
+            <li>Co-designed pilots testing new engagement models, stipends, and partnership structures.</li>
+            <li>Worked with evaluators to transform feedback into concrete design decisions for future cycles.</li>
+          </ul>
+        </article>
+
+        <article class="case-card">
+          <h3 class="case-title">Museum-Based Learning Labs &amp; Family Programs</h3>
+          <p class="case-meta">Allentown Art Museum · Worcester Art Museum</p>
+          <p><strong>Through-line:</strong> Build spaces where families and communities can engage with art, story, and
+            each other in ways that feel culturally grounded and welcoming.</p>
+          <p><strong>What I did:</strong></p>
+          <ul>
+            <li>Designed learning labs, intergenerational programs, and bilingual engagement experiences.</li>
+            <li>Conducted visitor studies and observational research to refine spatial layouts and program design.</li>
+            <li>Collaborated with curatorial and education teams to align experience, story, and space.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" aria-labelledby="skills-heading">
+      <h2 id="skills-heading">Capabilities &amp; Tools</h2>
+      <p class="section-kicker">
+        The ways I tend to show up on teams—from early-phase visioning and research design to storytelling, synthesis,
+        and steady operational leadership.
+      </p>
+
+      <div class="skills-grid">
+        <div class="skills-block">
+          <h3>Strategy &amp; Design for Learning</h3>
+          <ul class="skills-list">
+            <li>Program &amp; portfolio strategy for higher education and public engagement</li>
+            <li>Early-phase visioning, concept framing, and scenario mapping</li>
+            <li>Learning environment &amp; experience strategy (formal and informal)</li>
+            <li>Space-use &amp; journey logic (adjacencies, use-cases, narrative flow)</li>
+          </ul>
+        </div>
+
+        <div class="skills-block">
+          <h3>Research &amp; Evidence</h3>
+          <ul class="skills-list">
+            <li>Mixed-method research design (interviews, workshops, surveys, observation)</li>
+            <li>Evaluation synthesis &amp; evidence-informed recommendations</li>
+            <li>Equity-centered stakeholder engagement &amp; facilitation</li>
+            <li>Policy and ecosystem fluency across community college, state, R1, and elite contexts</li>
+          </ul>
+        </div>
+
+        <div class="skills-block">
+          <h3>Communication &amp; Leadership</h3>
+          <ul class="skills-list">
+            <li>Executive-ready memos, decks, and strategy narratives</li>
+            <li>Cross-sector facilitation (scientists, administrators, educators, community partners)</li>
+            <li>Mentoring emerging staff and shaping reflective team cultures</li>
+            <li>Public speaking and storytelling for complex science and systems</li>
+          </ul>
+        </div>
+
+        <div class="skills-block">
+          <h3>Tools &amp; Technology</h3>
+          <ul class="skills-list">
+            <li>Adobe Creative Suite (Illustrator, InDesign, Photoshop)</li>
+            <li>Power BI (working proficiency) &amp; data visualization</li>
+            <li>Notion, MURAL, Smartsheet, Monday.com</li>
+            <li>GitHub Pages &amp; hand-coded HTML/CSS for lightweight web experiences</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section id="writing" aria-labelledby="writing-heading">
+      <h2 id="writing-heading">Writing &amp; Thought Practice</h2>
+      <p class="section-kicker">
+        I use writing to braid analysis, memory, and imagination—from reflective leadership work at Harvard to
+        public-facing essays in <em>The Echo Jar</em>.
+      </p>
+
+      <article class="writing-item">
+        <div class="writing-tag">Substack · The Echo Jar</div>
+        <strong>Soft Physics, Echoes of Now, Letters to the Abyss, Collected Breezes</strong><br />
+        A slow, layered writing practice where I explore time, systems, identity, and wonder—often using space
+        science, mythology, and lived experience as shared language.
+      </article>
+
+      <article class="writing-item">
+        <div class="writing-tag">Harvard · Reflective Practice &amp; Leadership</div>
+        <strong>Reflection as Resistance</strong><br />
+        Graduate work on reflective practice as an act of resistance within systems that reward speed and output over
+        meaning and care.
+      </article>
+
+      <article class="writing-item">
+        <div class="writing-tag">NASA &amp; STScI · Internal Narratives</div>
+        <strong>Strategy &amp; synthesis briefs</strong><br />
+        Regular internal writing that translates complex scientific, evaluative, and portfolio information into clear,
+        direction-setting narratives for leadership and partners.
+      </article>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">What I’m Looking Toward</h2>
+      <div class="contact-grid">
+        <div class="contact-text">
+          <p>
+            I’m exploring roles where I can help design and steward <strong>large-scale learning initiatives,
+            portfolios, and environments</strong> at the intersection of higher education, philanthropy,
+            science &amp; society, and equitable design.
+          </p>
+          <p>I’m especially interested in:</p>
+          <ul class="skills-list">
+            <li>Program Officer / Director roles in philanthropy &amp; higher-ed innovation</li>
+            <li>Higher Education or Learning Environment Strategist roles in design firms</li>
+            <li>Science &amp; society / STEM equity leadership roles in mission-driven organizations</li>
+          </ul>
+        </div>
+
+        <aside class="contact-card" aria-label="Contact details">
+          <strong>Let’s be in conversation.</strong><br /><br />
+          Email:
+          <a href="mailto:yperez@gse.harvard.edu">yperez@gse.harvard.edu</a><br />
+          LinkedIn:
+          <a href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
+            Yesenia Perez
+          </a><br />
+          Substack:
+          <a href="https://theechojar.substack.com" target="_blank" rel="noopener">The Echo Jar</a><br /><br />
+          Even a brief note is welcome—especially if you’re thinking about how to align
+          <span style="color: var(--accent);">learning, equity, and future-facing design</span> in your work.
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  © <span id="year"></span> Yesenia Perez · Hand-coded HTML/CSS · Hosted on GitHub Pages
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
