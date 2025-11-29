@@ -1,72 +1,135 @@
 # yeseniaperezfina.github.io
 
-Personal portfolio site for **Yesenia Pérez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
+Portfolio site for **Yesenia “Yessi” Perez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
 
-This repository powers my public portfolio on **GitHub Pages**, designed and coded in plain **HTML, CSS, and JavaScript**. The goal is not to showcase a heavy framework, but to show **clarity of structure, intentional interaction, and a point of view about how experiences are designed.**
+This repo powers the GitHub Pages site at:
 
----
-
-## Experience & Design Principles
-
-This site is built around a few core beliefs:
-
-1. **Identity should be stable; stories should scroll.**  
-   The layout uses a **left spine / right narrative** pattern:
-   - The left column anchors my identity, roles, and navigation.
-   - The right column is a scrolling “studio scroll” of my work, practice, and writing.
-   This separation mirrors how I work: a stable core, with evolving stories.
-
-2. **Motion should feel like breathing, not a light show.**  
-   Interaction is subtle and deliberate:
-   - A **canvas-based particle field** in the hero creates ambient “cosmic” motion.
-   - Sections **fade and lift in** as they enter the viewport, using the `IntersectionObserver` API.
-   - Hover states on cards and links are restrained, signaling interactivity without shouting.
-   All animations respect `prefers-reduced-motion` so users can opt out.
-
-3. **Content comes first, then components.**  
-   Content was written and structured first. Components (`.section`, `.card`, `.stack`, `.grid-*`, `.pill`, `.chip`) were then abstracted from the real narrative, not the other way around.  
-   The result: a tiny design system that fits this portfolio but can scale to more pages and use-cases.
-
-4. **Demonstrate systems-thinking in the code itself.**  
-   The repo intentionally avoids heavy tooling and frameworks. Instead it shows:
-   - Clean separation of concerns (HTML / CSS / JS).
-   - Minimal but modern browser APIs (IntersectionObserver, canvas, `prefers-reduced-motion`).
-   - A **token-based design** in CSS (`:root` variables) for colors, radii, and shadows.
+> `https://yeseniaperezfina.github.io`  
+> (or `https://yeseniaperezfina.github.io/` in a browser)
 
 ---
 
-## Information Architecture
+## Concept & Design
 
-The site is a **single-page portfolio** with distinct, scannable chapters:
+### Design Intent
 
-- **Left Spine (Persistent)**
-  - Name, role, and a short “what I do” line.
-  - Four identity “modes” as chips: Strategist, Scholar, Creator, Navigator.
-  - Section navigation (scroll-spy driven).
-  - Quick contact links (Email, LinkedIn, The Echo Jar).
+This site is built as a **single-page, editorial-style portfolio** optimized for:
 
-- **Right Column (Scrolling Narrative)**
-  - `#about` — Hero / overview, current roles, and working terrain.
-  - `#trajectory` — Career & education timeline + modes of practice.
-  - `#work` — Signature work across NASA, higher ed, and public engagement.
-  - `#practice` — How I work: principles, equity lens, and process.
-  - `#skills` — Capabilities, tools, and domains.
-  - `#writing` — Writing & thought practice (Substack, Harvard, NASA).
-  - `#contact` — “Next orbit” roles and ways to connect.
+- **Recruiters and hiring managers**: fast scanning, clear signals of scope, metrics, and “what this demonstrates.”
+- **Strategy & systems roles**: emphasis on portfolio architecture, mixed-method research, and cross-sector leadership.
+- **Yessi’s creative practice**: “Soft Physics” + botanical editorial — science, systems, and mythic/poetic undertones.
 
-Each major area is a `.section` with a consistent visual shell and internal layout.
+Visually, the site is a blend of:
+
+- **Botanical Editorial**: cream paper, sage and berry accents, subtle gold highlights.
+- **Book-cover framing**: a soft “dust jacket” frame around the viewport and chapter-style section headings.
+- **Quiet motion**: small card lifts, gentle gradients, and section fade-ins instead of aggressive animations.
+
+### Information Architecture
+
+The portfolio is intentionally **single-page** with anchored sections:
+
+1. **About (Hero)**  
+   - Who Yessi is and where she sits in the ecosystem.  
+   - Mode chips (Strategist, Scholar, Creator, Navigator) update a short description.  
+   - High-level metrics (years at NASA, size of network, education arc).  
+
+2. **Trajectory**  
+   - Career and education timeline from museums to NASA and Harvard.  
+   - Each timeline entry includes a short body, a **metric row**, and **“Demonstrates” tags** to signal capabilities.
+
+3. **Signature Work**  
+   - Four case cards across NASA, higher ed, and museums.  
+   - Each card includes:
+     - One-line blurb under the title for quick scanning.  
+     - A **metrics row** (scale, duration, complexity).  
+     - Bulleted responsibilities.  
+     - **“Demonstrates” tags** that translate into competencies.
+
+4. **How I Work (Practice)**  
+   - Core principles, leadership stance, and how teams tend to experience Yessi.  
+   - Mix of quote card, bullet lists, and subtle metrics to show process and presence.
+
+5. **Capabilities & Tools**  
+   - “Constellation of practice” — where to plug Yessi into a team or portfolio.  
+   - Split into strategy, research, communication/leadership, tools, domains, and ways of working.
+
+6. **Writing & Story Work**  
+   - Highlights selected writing threads (Soft Physics, Echoes of Now, Reflection as Resistance, internal strategy briefs).  
+   - Shows voice and sense-making, with a link out to Substack.
+
+7. **Contact / Next Orbit**  
+   - Future-facing orientation: what roles and sectors Yessi is exploring.  
+   - Clear contact calls to action (email, LinkedIn, The Echo Jar).
 
 ---
 
-## Technical Architecture
+## Front-End Architecture
 
-The site uses a simple three-file structure:
+The site is built as a **lightweight static SPA**: plain HTML/CSS/JS with zero dependencies, designed to work cleanly on GitHub Pages.
 
-```text
-.
-├── index.html
-└── assets
-    ├── css
-    │   └── main.css
-    └── js
-        └── main.js
+### Files
+
+- `index.html`  
+  Single-page markup with semantic sections and `data-section` attributes for scroll-spy and reveal.
+
+- `assets/css/main.css`  
+  Custom design system and layout primitives:
+  - CSS variables (colors, radii, shadows, max-width).
+  - Layout primitives: `.shell`, `.section`, `.grid`, `.stack`.
+  - Components: `.card`, `.chip`, `.button`, `.pill-link`, `.tag-row`, `.metric-row`.
+  - Page-level treatments: header, hero, botanical accent, “book cover” frame.
+
+- `assets/js/main.js`  
+  Small vanilla JS bundle:
+  - Sets current year in the footer.
+  - Handles **role chips** → updates hero role note.
+  - Implements **scroll-spy**: watches sections and toggles `.is-active` on `.nav-link`.
+  - Implements **section reveal**: IntersectionObserver adds `.section-visible` for soft fade/slide.
+
+No build step, no bundler, no external frameworks. This keeps it legible as “handcrafted” but still intentional and systematic.
+
+---
+
+## Interaction Design
+
+### Scroll Spy
+
+- Each primary section (`About`, `Trajectory`, `Work`, etc.) has `data-section` and an `id`.
+- `main.js` uses `IntersectionObserver` to:
+  - Detect which section is in view.
+  - Add `.is-active` to the corresponding `.nav-link`.
+- Threshold is tuned (`0.45`) for realistic reading rather than edge-trigger hopping.
+
+### Section Reveal
+
+- All `.section` elements start slightly translated down with reduced opacity.
+- A second `IntersectionObserver` adds `.section-visible` when a section enters the viewport.
+- This creates a **gentle page-turn effect** that fits the editorial/book metaphor.
+
+### Role Chips
+
+- Hero “mode chips” (`Strategist`, `Scholar`, `Creator`, `Navigator`) are `<button>` elements with `data-role-chip`.
+- On click, the script:
+  - Toggles `.chip--active`.
+  - Swaps in a short, mode-specific blurb that foregrounds a different facet of Yessi’s practice.
+
+### Cards & Hover States
+
+- All `.card` elements:
+  - Lift slightly on hover.
+  - Increase shadow depth.
+  - Subtly shift border color and reveal a soft radial highlight.
+- Cards remain accessible:
+  - No necessary information is only available on hover.
+  - Hover is purely an affordance and a bit of “magic,” not a requirement.
+
+---
+
+## Running & Editing Locally
+
+1. **Clone the repo**
+
+   ```bash
+   git clone https://github.com/yeseniaperezfina/yeseniaperezfina.github.io.git
+   cd yeseniaperezfina.github.io
