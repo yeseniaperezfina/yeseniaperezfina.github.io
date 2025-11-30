@@ -10,6 +10,16 @@
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
 
+<!-- Forest overlay system -->
+<div class="forest-canopy-wrap" aria-hidden="true">
+  <div class="forest-canopy-layer forest-canopy-layer--back"></div>
+  <div class="forest-canopy-layer forest-canopy-layer--front"></div>
+</div>
+
+<div class="root-column" aria-hidden="true"></div>
+
+<canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+
 <div class="site">
   <!-- HEADER -->
   <header class="site-header">
@@ -23,36 +33,76 @@
       </div>
 
       <nav class="site-nav" aria-label="Primary">
-        <ul class="site-nav-list">
-          <li><a class="nav-link is-active" href="#about">About</a></li>
-          <li><a class="nav-link" href="#trajectory">Trajectory</a></li>
-          <li><a class="nav-link" href="#work">Work</a></li>
-          <li><a class="nav-link" href="#practice">Practice</a></li>
-          <li><a class="nav-link" href="#skills">Capabilities</a></li>
-          <li><a class="nav-link" href="#writing">Writing</a></li>
-          <li><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
+        <a class="nav-link is-active" href="#about">About</a>
+        <a class="nav-link" href="#trajectory">Trajectory</a>
+        <a class="nav-link" href="#work">Work</a>
+        <a class="nav-link" href="#practice">Practice</a>
+        <a class="nav-link" href="#skills">Capabilities</a>
+        <a class="nav-link" href="#writing">Writing</a>
+        <a class="nav-link" href="#contact">Contact</a>
       </nav>
+
+      <button class="sound-toggle" id="forestSoundToggle" aria-label="Toggle forest ambience">
+        <span class="sound-toggle__icon" aria-hidden="true">🍃</span>
+        <span class="sound-toggle__label">Forest off</span>
+      </button>
     </div>
   </header>
 
   <!-- MAIN -->
   <main id="main" class="site-main">
     <!-- HERO / ABOUT -->
-    <section id="about" class="section section--hero section-visible" data-section>
-      <div class="hero-rays" aria-hidden="true"></div>
+    <section id="about" class="section section--hero" data-section>
+      <div class="hero-ornaments" aria-hidden="true">
+        <!-- Ink leaf SVGs -->
+        <svg class="leaf-svg leaf-svg--left" viewBox="0 0 80 140">
+          <path d="M40 5 C25 25, 15 45, 18 70 C22 95, 35 115, 40 135 C45 115, 58 95, 62 70 C65 45, 55 25, 40 5 Z"
+                fill="none"
+                stroke="rgba(240,228,208,0.7)"
+                stroke-width="1.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+          <path d="M40 10 C36 24, 32 40, 30 60 C28 80, 30 100, 40 125"
+                fill="none"
+                stroke="rgba(240,228,208,0.5)"
+                stroke-width="0.9"
+                stroke-linecap="round" />
+          <path d="M40 26 C33 35, 27 44, 24 54"
+                fill="none"
+                stroke="rgba(240,228,208,0.4)"
+                stroke-width="0.8" />
+          <path d="M40 36 C47 45, 52 54, 55 64"
+                fill="none"
+                stroke="rgba(240,228,208,0.4)"
+                stroke-width="0.8" />
+        </svg>
+
+        <svg class="leaf-svg leaf-svg--right" viewBox="0 0 80 140">
+          <path d="M40 8 C30 22, 20 38, 20 58 C20 80, 30 100, 40 132 C50 100, 60 80, 60 58 C60 38, 50 22, 40 8 Z"
+                fill="none"
+                stroke="rgba(240,228,208,0.6)"
+                stroke-width="1.1"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+          <path d="M40 14 C38 26, 36 40, 36 58 C36 78, 38 96, 40 120"
+                fill="none"
+                stroke="rgba(240,228,208,0.45)"
+                stroke-width="0.9" />
+          <path d="M38 28 C31 36, 26 44, 24 52"
+                fill="none"
+                stroke="rgba(240,228,208,0.4)"
+                stroke-width="0.8" />
+          <path d="M42 32 C49 40, 54 48, 56 58"
+                fill="none"
+                stroke="rgba(240,228,208,0.4)"
+                stroke-width="0.8" />
+        </svg>
+      </div>
 
       <div class="shell">
         <div class="grid grid--hero">
           <div class="stack hero-copy">
-            <div class="hero-label-row">
-              <span class="leaf-icon" aria-hidden="true">
-                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-                  <path d="M6 24C6 15.5 11.5 6.5 21 4c1.1-.3 2.1.6 1.9 1.7C21.7 14 16.3 19.7 9 22.4c2.3-3.1 5.4-5.9 9.5-8.4a1 1 0 0 0-1.1-1.7C12.7 15.1 9 18.6 6.8 22.5 6.4 23.1 6.1 23.6 6 24Z" />
-                </svg>
-              </span>
-              <p class="eyebrow">Higher education · Science &amp; society · Design for learning</p>
-            </div>
+            <p class="eyebrow">Higher education · Science &amp; society · Design for learning</p>
             <h1>I design learning ecosystems where more people can belong, persist, and thrive.</h1>
             <p class="lead">
               I work across NASA, universities, museums, and community partners—designing programs and environments
@@ -121,13 +171,15 @@
           </aside>
         </div>
       </div>
-
-      <div class="hero-ornament hero-ornament--left" aria-hidden="true"></div>
-      <div class="hero-ornament hero-ornament--right" aria-hidden="true"></div>
     </section>
 
     <!-- TRAJECTORY -->
     <section id="trajectory" class="section" data-section>
+      <div class="section-ornaments" aria-hidden="true">
+        <div class="section-orb section-orb--small"></div>
+        <div class="section-orb section-orb--medium"></div>
+      </div>
+
       <div class="shell">
         <div class="section-header">
           <p class="eyebrow">Arc of the work</p>
@@ -224,6 +276,11 @@
 
     <!-- SIGNATURE WORK -->
     <section id="work" class="section section--band" data-section>
+      <div class="section-ornaments" aria-hidden="true">
+        <div class="section-orb section-orb--small"></div>
+        <div class="section-orb section-orb--medium"></div>
+      </div>
+
       <div class="shell">
         <div class="section-header">
           <p class="eyebrow">Selected projects</p>
@@ -242,7 +299,7 @@
             <h3>NASA Universe of Learning — National Learning Ecosystem Strategy</h3>
             <p class="meta">Strategic Lead · 100+ institutions · universities, MSIs, museums &amp; libraries</p>
             <p><strong>Through-line:</strong> a coherent, research-driven STEM learning ecosystem across a diverse national network.</p>
-            <ul class="bullet-list">
+            <ul>
               <li>Led mixed-method research across interviews, workshops, surveys, and observational studies.</li>
               <li>Co-designed partnership and program models with faculty, MSI leaders, and evaluators.</li>
               <li>Mapped learner journeys across physical, digital, and community environments.</li>
@@ -262,7 +319,7 @@
             <h3>Webb First Images — National Activation &amp; Experience Design</h3>
             <p class="meta">Lead strategist &amp; coordinator · 100+ activation sites</p>
             <p><strong>Through-line:</strong> turn a once-in-a-generation science moment into coordinated, locally resonant experiences.</p>
-            <ul class="bullet-list">
+            <ul>
               <li>Coordinated timelines, evaluation, and communications across 100+ partner institutions.</li>
               <li>Developed adaptable program frameworks partners could tailor to their spaces and communities.</li>
               <li>Integrated real-time feedback to refine the activation and inform future large-scale efforts.</li>
@@ -282,7 +339,7 @@
             <h3>Informal Learning Network &amp; Exoplanet Year 10 Pilot</h3>
             <p class="meta">Portfolio design · multi-year experimentation</p>
             <p><strong>Through-line:</strong> refresh a national informal learning network to support equity, experimentation, and staff well-being.</p>
-            <ul class="bullet-list">
+            <ul>
               <li>Led strategic reviews of network structure, incentives, and learning agendas.</li>
               <li>Co-designed pilots testing new engagement models, stipends, and partnership structures.</li>
               <li>Worked with evaluators to turn feedback into concrete design decisions.</li>
@@ -294,7 +351,7 @@
             <h3>Museum-Based Learning Labs &amp; Family Programs</h3>
             <p class="meta">Allentown Art Museum · Worcester Art Museum</p>
             <p><strong>Through-line:</strong> build spaces where families and communities can engage with art, story, and one another in grounded, welcoming ways.</p>
-            <ul class="bullet-list">
+            <ul>
               <li>Designed learning labs, intergenerational programs, and bilingual experiences.</li>
               <li>Conducted visitor studies to refine spatial layouts and program design.</li>
               <li>Collaborated across curatorial and education teams to align story, space, and experience.</li>
@@ -306,6 +363,11 @@
 
     <!-- HOW I WORK -->
     <section id="practice" class="section" data-section>
+      <div class="section-ornaments" aria-hidden="true">
+        <div class="section-orb section-orb--small"></div>
+        <div class="section-orb section-orb--medium"></div>
+      </div>
+
       <div class="shell">
         <div class="section-header">
           <p class="eyebrow">Practice</p>
@@ -362,22 +424,27 @@
       </div>
     </section>
 
-    <!-- CAPABILITIES / MYCELIUM NETWORK -->
+    <!-- CAPABILITIES -->
     <section id="skills" class="section section--band section--botanical" data-section>
+      <div class="section-ornaments" aria-hidden="true">
+        <div class="section-orb section-orb--small"></div>
+        <div class="section-orb section-orb--medium"></div>
+      </div>
+
       <div class="shell">
         <div class="section-header">
-          <p class="eyebrow">Forest network of practice</p>
+          <p class="eyebrow">Constellation / mycelium of practice</p>
           <h2>Capabilities &amp; Tools</h2>
           <p class="section-intro">
             How I tend to contribute—from early-phase visioning and research design to storytelling, synthesis,
             and operational stewardship.
           </p>
           <p class="section-note">
-            Imagine this as a mycelium network: each cluster a node, all of it connected under the surface.
+            What this shows: where to plug me into a team or portfolio.
           </p>
         </div>
 
-        <div class="grid grid--split grid--skills">
+        <div class="grid grid--split">
           <div class="grid grid--two">
             <article class="card">
               <h3>Strategy &amp; Design for Learning</h3>
@@ -410,38 +477,20 @@
             </article>
 
             <article class="card">
-              <h3>Tools &amp; Technology</h3>
-              <ul class="bullet-list">
-                <li>Adobe Creative Suite (Illustrator, InDesign, Photoshop).</li>
-                <li>Power BI (working proficiency) &amp; data visualization.</li>
-                <li>Notion, MURAL, Smartsheet, Monday.com.</li>
-                <li>HTML/CSS/JS and GitHub Pages for lightweight web experiences.</li>
-              </ul>
-            </article>
-
-            <article class="card">
-              <h3>Domains</h3>
+              <h3>Domains &amp; Tools</h3>
               <ul class="bullet-list">
                 <li>Higher education &amp; student success.</li>
                 <li>STEM education &amp; science communication.</li>
                 <li>Informal learning &amp; museum practice.</li>
                 <li>Equity-centered leadership &amp; organizational learning.</li>
-              </ul>
-            </article>
-
-            <article class="card">
-              <h3>Ways of Working</h3>
-              <ul class="bullet-list">
-                <li>Bridge-builder across disciplines and institutions.</li>
-                <li>Iterative design with reflection built into the process.</li>
-                <li>Comfortable with ambiguity, clear on next steps.</li>
-                <li>Values-driven, people-focused, systems-aware.</li>
+                <li>Adobe Creative Suite, Power BI, Notion, MURAL, Smartsheet, Monday.com.</li>
+                <li>HTML/CSS/JS and GitHub Pages for lightweight web experiences.</li>
               </ul>
             </article>
           </div>
 
           <aside class="skills-network-wrap" aria-hidden="true">
-            <div class="skills-network-label">Mycelium of practice</div>
+            <div class="skills-network-label">Constellation → mycelium</div>
             <canvas id="forestNetwork" class="forest-network"></canvas>
           </aside>
         </div>
@@ -450,6 +499,11 @@
 
     <!-- WRITING -->
     <section id="writing" class="section" data-section>
+      <div class="section-ornaments" aria-hidden="true">
+        <div class="section-orb section-orb--small"></div>
+        <div class="section-orb section-orb--medium"></div>
+      </div>
+
       <div class="shell">
         <div class="section-header">
           <p class="eyebrow">Thought practice</p>
@@ -517,6 +571,11 @@
 
     <!-- CONTACT -->
     <section id="contact" class="section section--band section--contact" data-section>
+      <div class="section-ornaments" aria-hidden="true">
+        <div class="section-orb section-orb--small"></div>
+        <div class="section-orb section-orb--medium"></div>
+      </div>
+
       <div class="shell">
         <div class="grid grid--split">
           <div class="stack">
@@ -580,6 +639,8 @@
     </div>
   </footer>
 </div>
+
+<audio id="forestAudio" src="assets/audio/forest.mp3" preload="auto"></audio>
 
 <script src="assets/js/main.js" defer></script>
 </body>
