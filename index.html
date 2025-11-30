@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-scene="observatory">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,15 +10,9 @@
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<!-- Forest overlay system -->
-<div class="forest-canopy-wrap" aria-hidden="true">
-  <div class="forest-canopy-layer forest-canopy-layer--back"></div>
-  <div class="forest-canopy-layer forest-canopy-layer--front"></div>
-</div>
-
-<div class="root-column" aria-hidden="true"></div>
-
-<canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+<!-- Library illustration as full-page backdrop -->
+<div class="library-backdrop" aria-hidden="true"></div>
+<div class="library-overlay" aria-hidden="true"></div>
 
 <div class="site">
   <!-- HEADER -->
@@ -41,65 +35,19 @@
         <a class="nav-link" href="#writing">Writing</a>
         <a class="nav-link" href="#contact">Contact</a>
       </nav>
-
-      <button class="sound-toggle" id="forestSoundToggle" aria-label="Toggle forest ambience">
-        <span class="sound-toggle__icon" aria-hidden="true">🍃</span>
-        <span class="sound-toggle__label">Forest off</span>
-      </button>
     </div>
   </header>
 
   <!-- MAIN -->
   <main id="main" class="site-main">
     <!-- HERO / ABOUT -->
-    <section id="about" class="section section--hero" data-section data-scene="observatory">
-      <div class="hero-ornaments" aria-hidden="true">
-        <!-- Ink leaf SVGs -->
-        <svg class="leaf-svg leaf-svg--left" viewBox="0 0 80 140">
-          <path d="M40 5 C25 25, 15 45, 18 70 C22 95, 35 115, 40 135 C45 115, 58 95, 62 70 C65 45, 55 25, 40 5 Z"
-                fill="none"
-                stroke="rgba(240,228,208,0.7)"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-          <path d="M40 10 C36 24, 32 40, 30 60 C28 80, 30 100, 40 125"
-                fill="none"
-                stroke="rgba(240,228,208,0.5)"
-                stroke-width="0.9"
-                stroke-linecap="round" />
-          <path d="M40 26 C33 35, 27 44, 24 54"
-                fill="none"
-                stroke="rgba(240,228,208,0.4)"
-                stroke-width="0.8" />
-          <path d="M40 36 C47 45, 52 54, 55 64"
-                fill="none"
-                stroke="rgba(240,228,208,0.4)"
-                stroke-width="0.8" />
-        </svg>
+    <section id="about" class="section section--hero" data-section data-scene="study">
+      <div class="shell shell--hero">
+        <div class="hero-frame" aria-hidden="true">
+          <div class="hero-lamp-glow"></div>
+          <div class="hero-window-glow"></div>
+        </div>
 
-        <svg class="leaf-svg leaf-svg--right" viewBox="0 0 80 140">
-          <path d="M40 8 C30 22, 20 38, 20 58 C20 80, 30 100, 40 132 C50 100, 60 80, 60 58 C60 38, 50 22, 40 8 Z"
-                fill="none"
-                stroke="rgba(240,228,208,0.6)"
-                stroke-width="1.1"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-          <path d="M40 14 C38 26, 36 40, 36 58 C36 78, 38 96, 40 120"
-                fill="none"
-                stroke="rgba(240,228,208,0.45)"
-                stroke-width="0.9" />
-          <path d="M38 28 C31 36, 26 44, 24 52"
-                fill="none"
-                stroke="rgba(240,228,208,0.4)"
-                stroke-width="0.8" />
-          <path d="M42 32 C49 40, 54 48, 56 58"
-                fill="none"
-                stroke="rgba(240,228,208,0.4)"
-                stroke-width="0.8" />
-        </svg>
-      </div>
-
-      <div class="shell">
         <div class="grid grid--hero">
           <div class="stack hero-copy">
             <p class="eyebrow">Higher education · Science &amp; society · Design for learning</p>
@@ -127,10 +75,14 @@
             </div>
           </div>
 
-          <aside class="hero-panel">
-            <div class="card card--hero" aria-label="Snapshot">
-              <div class="hero-portrait" aria-hidden="true">
-                <div class="hero-portrait-inner"></div>
+          <aside class="hero-panel" aria-label="Snapshot">
+            <div class="card card--hero">
+              <div class="hero-vitrine" aria-hidden="true">
+                <div class="hero-vitrine__shelf hero-vitrine__shelf--top">
+                  <span class="vitrine-label">Specimens</span>
+                </div>
+                <div class="hero-vitrine__shelf hero-vitrine__shelf--middle"></div>
+                <div class="hero-vitrine__shelf hero-vitrine__shelf--bottom"></div>
               </div>
 
               <div class="stack stack--tight">
@@ -174,12 +126,7 @@
     </section>
 
     <!-- TRAJECTORY -->
-    <section id="trajectory" class="section" data-section data-scene="study">
-      <div class="section-ornaments" aria-hidden="true">
-        <div class="section-orb section-orb--small"></div>
-        <div class="section-orb section-orb--medium"></div>
-      </div>
-
+    <section id="trajectory" class="section" data-section data-scene="shelf">
       <div class="shell">
         <div class="section-header">
           <p class="eyebrow">Arc of the work</p>
@@ -275,12 +222,7 @@
     </section>
 
     <!-- SIGNATURE WORK -->
-    <section id="work" class="section section--band" data-section data-scene="study">
-      <div class="section-ornaments" aria-hidden="true">
-        <div class="section-orb section-orb--small"></div>
-        <div class="section-orb section-orb--medium"></div>
-      </div>
-
+    <section id="work" class="section section--band" data-section data-scene="desk">
       <div class="shell">
         <div class="section-header">
           <p class="eyebrow">Selected projects</p>
@@ -362,286 +304,10 @@
     </section>
 
     <!-- HOW I WORK -->
-    <section id="practice" class="section" data-section data-scene="study">
-      <div class="section-ornaments" aria-hidden="true">
-        <div class="section-orb section-orb--small"></div>
-        <div class="section-orb section-orb--medium"></div>
-      </div>
-
+    <section id="practice" class="section" data-section data-scene="nook">
       <div class="shell">
         <div class="section-header">
           <p class="eyebrow">Practice</p>
           <h2>How I Work</h2>
           <p class="section-intro">
-            Underneath every project is a way of working: how we ask questions, invite people in, and make decisions visible.
-          </p>
-          <p class="section-note">
-            What this shows: leadership style, decision-making, and how I show up on teams.
-          </p>
-        </div>
-
-        <div class="grid grid--three">
-          <div class="stack">
-            <div class="card card--quote">
-              <p>
-                I treat every initiative as a <span class="highlight">learning ecosystem</span>—a living structure of roles,
-                rituals, constraints, and possibilities.
-              </p>
-              <p class="muted">
-                The work is to make that structure legible and humane enough to hold real change.
-              </p>
-            </div>
-
-            <ul class="tag-row tag-row--wrap">
-              <li>Systems lens</li>
-              <li>Pattern spotting</li>
-              <li>Sense-making under ambiguity</li>
-              <li>Care for people &amp; pace</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Principles I work from</h3>
-            <ul class="bullet-list">
-              <li>Design the system, not just the event.</li>
-              <li>Let evidence change decisions, not just slides.</li>
-              <li>Hold equity as a design constraint, not an add-on.</li>
-              <li>Make roles, pathways, and decisions visible.</li>
-              <li>Build in reflective pauses, not just deadlines.</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>How teams tend to experience me</h3>
-            <ul class="bullet-list">
-              <li>Calm, steady presence in complex systems.</li>
-              <li>Bridge-builder across disciplines and roles.</li>
-              <li>Clear, structured thinking in messy spaces.</li>
-              <li>Grounded optimism—serious about the work, light with people.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CAPABILITIES -->
-    <section id="skills" class="section section--band section--botanical" data-section data-scene="observatory">
-      <div class="section-ornaments" aria-hidden="true">
-        <div class="section-orb section-orb--small"></div>
-        <div class="section-orb section-orb--medium"></div>
-      </div>
-
-      <div class="shell">
-        <div class="section-header">
-          <p class="eyebrow">Constellation / mycelium of practice</p>
-          <h2>Capabilities &amp; Tools</h2>
-          <p class="section-intro">
-            How I tend to contribute—from early-phase visioning and research design to storytelling, synthesis,
-            and operational stewardship.
-          </p>
-          <p class="section-note">
-            What this shows: where to plug me into a team or portfolio.
-          </p>
-        </div>
-
-        <div class="grid grid--split">
-          <div class="grid grid--two">
-            <article class="card">
-              <h3>Strategy &amp; Design for Learning</h3>
-              <ul class="bullet-list">
-                <li>Program &amp; portfolio strategy for higher ed and public engagement.</li>
-                <li>Concept framing, scenario mapping, and “what if” models.</li>
-                <li>Experience strategy for formal and informal learning environments.</li>
-                <li>Space-use &amp; journey logic (adjacencies, narrative flow).</li>
-              </ul>
-            </article>
-
-            <article class="card">
-              <h3>Research &amp; Evidence</h3>
-              <ul class="bullet-list">
-                <li>Mixed-method research design (interviews, workshops, surveys, observation).</li>
-                <li>Evaluation synthesis and evidence-informed recommendations.</li>
-                <li>Equity-centered stakeholder engagement &amp; facilitation.</li>
-                <li>Fluency across community college, state, R1, and selective contexts.</li>
-              </ul>
-            </article>
-
-            <article class="card">
-              <h3>Communication &amp; Leadership</h3>
-              <ul class="bullet-list">
-                <li>Executive-ready narratives, memos, and decks.</li>
-                <li>Facilitation across scientists, administrators, educators, and community partners.</li>
-                <li>Mentoring emerging staff and shaping reflective team cultures.</li>
-                <li>Public speaking and storytelling for complex science and systems.</li>
-              </ul>
-            </article>
-
-            <article class="card">
-              <h3>Domains &amp; Tools</h3>
-              <ul class="bullet-list">
-                <li>Higher education &amp; student success.</li>
-                <li>STEM education &amp; science communication.</li>
-                <li>Informal learning &amp; museum practice.</li>
-                <li>Equity-centered leadership &amp; organizational learning.</li>
-                <li>Adobe Creative Suite, Power BI, Notion, MURAL, Smartsheet, Monday.com.</li>
-                <li>HTML/CSS/JS and GitHub Pages for lightweight web experiences.</li>
-              </ul>
-            </article>
-          </div>
-
-          <aside class="skills-network-wrap" aria-hidden="true">
-            <div class="skills-network-label">Constellation → mycelium</div>
-            <canvas id="forestNetwork" class="forest-network"></canvas>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- WRITING -->
-    <section id="writing" class="section" data-section data-scene="nook">
-      <div class="section-ornaments" aria-hidden="true">
-        <div class="section-orb section-orb--small"></div>
-        <div class="section-orb section-orb--medium"></div>
-      </div>
-
-      <div class="shell">
-        <div class="section-header">
-          <p class="eyebrow">Thought practice</p>
-          <h2>Writing &amp; Story Work</h2>
-          <p class="section-intro">
-            Writing is where I braid analysis, memory, and imagination—from reflective leadership work at Harvard to
-            public-facing essays in <em>The Echo Jar</em>.
-          </p>
-          <p class="section-note">
-            What this shows: voice, sense-making, and how I translate complex systems for others.
-          </p>
-        </div>
-
-        <div class="grid grid--three">
-          <article class="card card--writing">
-            <p class="meta">Substack · The Echo Jar</p>
-            <h3>Soft Physics</h3>
-            <p>
-              Mythic, science-inflected essays where astrophysics, systems thinking, and emotion meet—using the cosmos as
-              a mirror for how we live, lead, and learn.
-            </p>
-            <p class="meta meta--link">
-              <a href="https://theechojar.substack.com" target="_blank" rel="noopener">Read on Substack ↗</a>
-            </p>
-          </article>
-
-          <article class="card card--writing">
-            <p class="meta">Substack · The Echo Jar</p>
-            <h3>Echoes of Now &amp; Letters to the Abyss</h3>
-            <p>
-              Short, sensory reflections and open letters that hold the texture of the present—small rituals of
-              attention, grief, humor, and hope.
-            </p>
-          </article>
-
-          <article class="card card--writing">
-            <p class="meta">Harvard · Reflective Practice &amp; Leadership</p>
-            <h3>Reflection as Resistance</h3>
-            <p>
-              Graduate work on reflective practice as an act of resistance within systems that reward speed and output
-              over meaning and care.
-            </p>
-          </article>
-
-          <article class="card card--writing">
-            <p class="meta">NASA &amp; STScI</p>
-            <h3>Strategy &amp; Synthesis Briefs</h3>
-            <p>
-              Internal narratives that translate scientific, evaluative, and portfolio information into clear,
-              direction-setting documents for leadership and partners.
-            </p>
-          </article>
-
-          <article class="card card--writing">
-            <p class="meta">In progress</p>
-            <h3>Science, Story, and the Systems In Between</h3>
-            <p>
-              Emerging work connecting my practice across NASA, Harvard, and museum worlds—toward a more coherent
-              language for “designing for learning” at scale.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section section--band section--contact" data-section data-scene="observatory">
-      <div class="section-ornaments" aria-hidden="true">
-        <div class="section-orb section-orb--small"></div>
-        <div class="section-orb section-orb--medium"></div>
-      </div>
-
-      <div class="shell">
-        <div class="grid grid--split">
-          <div class="stack">
-            <p class="eyebrow">Next orbit</p>
-            <h2>What I’m Looking Toward</h2>
-            <p>
-              I’m exploring roles where I can help design and steward
-              <strong>large-scale learning initiatives, portfolios, and environments</strong>
-              at the intersection of higher education, philanthropy, science &amp; society, and equitable design.
-            </p>
-            <p>I’m especially interested in:</p>
-            <ul class="bullet-list">
-              <li>Program Officer / Director roles in philanthropy &amp; higher-ed innovation.</li>
-              <li>Higher education or learning-environment strategist roles in design firms.</li>
-              <li>Science &amp; society / STEM equity leadership roles in mission-driven organizations.</li>
-            </ul>
-
-            <ul class="tag-row tag-row--wrap">
-              <li>Research-informed strategy</li>
-              <li>Justice-centered design</li>
-              <li>Cross-sector coalitions</li>
-              <li>Calm, brave leadership</li>
-            </ul>
-
-            <p class="section-note" style="margin-top:1rem;">
-              If you’re shaping a role and see a fit, I’d be glad to be in conversation.
-            </p>
-          </div>
-
-          <aside class="card card--contact" aria-label="Contact details">
-            <h3>Let’s be in conversation.</h3>
-            <p>
-              I’m open to thoughtful inquiries—whether you’re exploring a potential role, seeking a collaborator, or
-              wondering how to make your learning ecosystem feel more alive and equitable.
-            </p>
-
-            <div class="contact-links">
-              <a class="pill-link pill-link--full" href="mailto:yperez@gse.harvard.edu">
-                <span>Email · yperez@gse.harvard.edu</span>
-                <span aria-hidden="true">✉</span>
-              </a>
-              <a class="pill-link pill-link--full" href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
-                <span>Connect on LinkedIn</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-              <a class="pill-link pill-link--full" href="https://theechojar.substack.com" target="_blank" rel="noopener">
-                <span>Read <em>The Echo Jar</em></span>
-                <span aria-hidden="true">★</span>
-              </a>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell shell--footer">
-      <span>© <span id="year"></span> Yesenia Perez</span>
-      <span>Built with HTML/CSS/JS · Hosted on GitHub Pages</span>
-    </div>
-  </footer>
-</div>
-
-<audio id="forestAudio" src="assets/audio/forest.mp3" preload="auto"></audio>
-
-<script src="assets/js/main.js" defer></script>
-</body>
-</html>
+            Under
