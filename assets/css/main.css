@@ -1,958 +1,658 @@
-/* ===========================
-   DESIGN SYSTEM — MIDNIGHT FOREST
-   =========================== */
-
-:root {
-  /* Palette */
-  --ink: #f7f3ea;
-  --muted: #d1c6b5;
-  --muted-soft: #a69783;
-
-  --sand: #fdd8a7;
-  --fern: #96806c;
-  --bark: #886b55;
-  --moss: #2e4b47;
-  --deep-moss: #23322d;
-
-  --bg: #05070c;
-  --bg-alt: #080d11;
-  --card: #101518;
-  --card-alt: #121b1e;
-
-  --border-soft: rgba(104, 124, 113, 0.7);
-  --border-strong: rgba(190, 168, 135, 0.9);
-
-  --shadow-deep: 0 40px 120px rgba(0, 0, 0, 0.96);
-  --shadow-card: 0 22px 60px rgba(0, 0, 0, 0.96);
-
-  --radius-lg: 22px;
-  --radius-md: 16px;
-  --radius-pill: 999px;
-
-  --max-width: 1120px;
-
-  /* Scroll-driven values set by JS */
-  --root-progress: 0;   /* 0–1 vertical root fill */
-  --beam-shift: 0px;    /* vertical motion of light beams */
-  --beam-angle: 130deg; /* angle of moving beams */
+// ======================
+// UTILITIES
+// ======================
+function clamp01(value) {
+  return Math.min(1, Math.max(0, value));
 }
 
-/* ===========================
-   RESET / BASE
-   =========================== */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background:
-    radial-gradient(circle at top, #141b26 0, #05070c 30%, #020408 100%);
-  color: var(--ink);
-  line-height: 1.6;
-  position: relative;
-}
-
-/* Light beams overlay (scroll-shifting) */
-body::before {
-  content: "";
-  position: fixed;
-  inset: -10vh 0 auto 0;
-  height: 80vh;
-  pointer-events: none;
-  z-index: -2;
-  background:
-    conic-gradient(
-      from var(--beam-angle),
-      rgba(253, 216, 167, 0.12),
-      transparent 20%,
-      rgba(93, 126, 110, 0.15),
-      transparent 60%,
-      rgba(253, 216, 167, 0.12),
-      transparent 100%
-    );
-  mix-blend-mode: screen;
-  opacity: 0.4;
-  transform: translateY(var(--beam-shift));
-}
-
-/* Typography: serif-forward headings, editorial */
-h1, h2, h3, h4 {
-  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-
-p, li, a, button, span {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 0.9rem;
-}
-
-a {
-  color: var(--sand);
-  text-decoration: none;
-}
-a:hover,
-a:focus-visible {
-  text-decoration: underline;
-}
-
-/* Skip link */
-.skip-link {
-  position: absolute;
-  left: -999px;
-  top: 0.75rem;
-  padding: 0.45rem 0.75rem;
-  background: #111827;
-  color: #f9fafb;
-  border-radius: 8px;
-  z-index: 999;
-}
-.skip-link:focus {
-  left: 0.75rem;
-}
-
-/* ===========================
-   LAYOUT SHELL
-   =========================== */
-
-.site {
-  position: relative;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 1.5rem 1.4rem 3rem;
-}
-
-.shell {
-  position: relative;
-  z-index: 1;
-}
-
-.shell--header,
-.shell--footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.4rem;
-}
-
-.shell--footer {
-  font-size: 0.8rem;
-  color: var(--muted-soft);
-  padding-top: 1.6rem;
-  border-top: 1px solid rgba(78, 96, 85, 0.7);
-}
-
-@media (max-width: 720px) {
-  .site {
-    padding-inline: 1rem;
+// ======================
+// YEAR STAMP
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
   }
-  .shell--header,
-  .shell--footer {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
+});
 
-/* ===========================
-   FOREST OVERLAYS & ROOT LINE
-   =========================== */
+// ======================
+// ROLE CHIPS → ROLE NOTE
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const chips = document.querySelectorAll("[data-role-chip]");
+  const roleNote = document.getElementById("role-note");
 
-.forest-canopy-wrap {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: 40vh;
-  pointer-events: none;
-  z-index: -3;
-  overflow: hidden;
-}
+  if (!chips.length || !roleNote) return;
 
-.forest-canopy-layer {
-  position: absolute;
-  inset-inline: 0;
-  height: 100%;
-  background-repeat: repeat-x;
-  background-size: 260% 100%;
-  will-change: transform;
-}
+  const copy = {
+    Strategist:
+      "As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.",
+    Scholar:
+      "As a Scholar, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.",
+    Creator:
+      "As a Creator, I translate complex science and systems work into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.",
+    Navigator:
+      "As a Navigator, I help teams move through ambiguity with clarity and care, holding timelines and people so that change work is brave but not reckless."
+  };
 
-/* Back layer: deep forest gradients */
-.forest-canopy-layer--back {
-  top: 0;
-  background-image:
-    linear-gradient(to bottom, #050911 0, rgba(3, 7, 12, 0.7) 40%, transparent 100%),
-    radial-gradient(circle at 15% 15%, rgba(253, 216, 167, 0.18), transparent 60%);
-  opacity: 0.9;
-}
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.classList.remove("chip--active"));
+      chip.classList.add("chip--active");
 
-/* Front layer: silhouetted canopy */
-.forest-canopy-layer--front {
-  bottom: -12%;
-  background-image:
-    linear-gradient(to top, rgba(6, 12, 11, 1) 5%, rgba(6, 13, 11, 0.9) 30%, transparent 70%),
-    repeating-linear-gradient(
-      -8deg,
-      rgba(7, 21, 16, 0.95),
-      rgba(7, 21, 16, 0.95) 10px,
-      rgba(9, 25, 19, 0.9) 18px,
-      rgba(9, 25, 19, 0.9) 24px
-    );
-  mix-blend-mode: multiply;
-  opacity: 0.9;
-}
+      const role = chip.getAttribute("data-role-chip");
+      if (role && copy[role]) {
+        roleNote.innerHTML = copy[role].replace(
+          /^As a /,
+          () => `As a <strong>${role}</strong>, `
+        );
+      }
+    });
+  });
+});
 
-/* Root column down the left */
-.root-column {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 1rem;
-  width: 2px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0,
-    rgba(40, 54, 49, 0.75) 10%,
-    rgba(22, 36, 31, 0.75) 100%
+// ======================
+// SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const sections = document.querySelectorAll("[data-section]");
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  const linkMap = {};
+  navLinks.forEach((link) => {
+    const id = link.getAttribute("href").replace("#", "");
+    linkMap[id] = link;
+  });
+
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const id = entry.target.id;
+        if (entry.isIntersecting && id && linkMap[id]) {
+          navLinks.forEach((l) => l.classList.remove("is-active"));
+          linkMap[id].classList.add("is-active");
+        }
+        if (entry.isIntersecting) {
+          entry.target.classList.add("section-visible");
+        }
+      });
+    },
+    {
+      threshold: 0.4
+    }
   );
-  z-index: -1;
-}
-.root-column::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(190, 168, 135, 0.85) 0,
-      rgba(190, 168, 135, 0.95) calc(var(--root-progress) * 100%),
-      transparent calc(var(--root-progress) * 100%)
-    );
-  box-shadow: 0 0 18px rgba(253, 216, 167, 0.6);
-}
 
-/* Pollen / fireflies canvas */
-.particle-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -4;
-  pointer-events: none;
-}
+  sections.forEach((section) => sectionObserver.observe(section));
+});
 
-/* ===========================
-   HEADER / NAV / SOUND
-   =========================== */
+// ======================
+// ROOT COLUMN PROGRESSION
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const rootEl = document.documentElement;
 
-.site-header {
-  position: sticky;
-  top: 0.85rem;
-  z-index: 20;
-  margin-bottom: 1.7rem;
-}
-
-.site-header .shell--header {
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at top left, rgba(18, 30, 32, 0.96), rgba(6, 12, 16, 0.98));
-  border: 1px solid rgba(104, 124, 113, 0.9);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.98);
-  backdrop-filter: blur(18px);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.brand-mark {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(253, 216, 167, 0.95), transparent 60%),
-    radial-gradient(circle at 70% 80%, rgba(46, 75, 71, 0.92), transparent 60%);
-  box-shadow:
-    0 0 0 2px rgba(4, 7, 10, 1),
-    0 0 14px rgba(253, 216, 167, 0.8);
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-}
-.brand-name {
-  font-size: 0.96rem;
-  font-weight: 600;
-}
-.brand-role {
-  font-size: 0.78rem;
-  color: var(--muted-soft);
-}
-
-.site-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  font-size: 0.8rem;
-}
-
-.nav-link {
-  position: relative;
-  padding-bottom: 0.18rem;
-  color: rgba(220, 207, 190, 0.78);
-}
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--sand), var(--moss));
-  transition: width 0.18s ease-out;
-}
-.nav-link:hover::after,
-.nav-link:focus-visible::after {
-  width: 100%;
-}
-.nav-link.is-active {
-  color: var(--ink);
-  font-weight: 500;
-}
-.nav-link.is-active::after {
-  width: 100%;
-}
-
-/* Sound toggle */
-.sound-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(104, 124, 113, 0.9);
-  background: radial-gradient(circle at top left, rgba(23, 36, 34, 0.9), rgba(7, 15, 17, 0.96));
-  color: var(--muted);
-  font-size: 0.75rem;
-  cursor: pointer;
-}
-.sound-toggle__icon {
-  font-size: 0.95rem;
-}
-.sound-toggle__label {
-  white-space: nowrap;
-}
-
-/* ===========================
-   SECTIONS / GRID / STACK
-   =========================== */
-
-.section {
-  position: relative;
-  margin-bottom: 2.4rem;
-  padding: 1.9rem 1.5rem 1.7rem;
-  border-radius: var(--radius-lg);
-  background:
-    radial-gradient(circle at top right, rgba(253, 216, 167, 0.04), transparent 60%),
-    radial-gradient(circle at bottom, rgba(28, 44, 38, 0.45), transparent 55%),
-    var(--bg-alt);
-  border: 1px solid rgba(78, 96, 85, 0.85);
-  box-shadow: var(--shadow-deep);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.7s ease-out,
-    transform 0.7s ease-out,
-    background 1s ease-out,
-    box-shadow 1s ease-out;
-}
-
-.section.section-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Slightly different tones by index */
-.section:nth-of-type(2n) {
-  background:
-    radial-gradient(circle at top left, rgba(253, 216, 167, 0.03), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(25, 43, 37, 0.55), transparent 55%),
-    #060a0f;
-}
-.section:nth-of-type(3n) {
-  background:
-    radial-gradient(circle at 10% 0, rgba(126, 155, 140, 0.12), transparent 60%),
-    radial-gradient(circle at 90% 100%, rgba(21, 46, 40, 0.7), transparent 55%),
-    #05080d;
-}
-
-.section--band {
-  background:
-    radial-gradient(circle at top left, rgba(253, 216, 167, 0.06), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(26, 54, 43, 0.9), transparent 60%),
-    #05070c;
-}
-
-.section--hero {
-  margin-bottom: 2.6rem;
-  padding-top: 2.1rem;
-  padding-bottom: 2rem;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(253, 216, 167, 0.18), transparent 60%),
-    radial-gradient(circle at 85% 100%, rgba(25, 60, 51, 0.95), transparent 60%),
-    linear-gradient(145deg, #04070c, #070f16 40%, #071715 100%);
-}
-
-.section--contact {
-  background:
-    radial-gradient(circle at 10% 0%, rgba(253, 216, 167, 0.14), transparent 60%),
-    radial-gradient(circle at 90% 100%, rgba(26, 56, 46, 0.95), transparent 60%),
-    #05070c;
-}
-
-/* Orbs per section */
-.section-ornaments {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.section-orb {
-  position: absolute;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(253, 216, 167, 0.9), transparent 60%),
-    radial-gradient(circle at 70% 80%, rgba(35, 76, 62, 0.9), transparent 60%);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 1);
-  opacity: 0.18;
-  filter: blur(0.2px);
-}
-
-.section-orb--small {
-  width: 80px;
-  height: 80px;
-  top: 12%;
-  right: -40px;
-  animation: orbFloat 22s ease-in-out infinite alternate;
-}
-
-.section-orb--medium {
-  width: 140px;
-  height: 140px;
-  bottom: -70px;
-  left: 8%;
-  animation: orbFloat 30s ease-in-out infinite alternate-reverse;
-}
-
-/* Hero leaf ornaments */
-.hero-ornaments {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.leaf-svg {
-  position: absolute;
-  width: 120px;
-  height: auto;
-  opacity: 0.44;
-}
-.leaf-svg--left {
-  left: -30px;
-  top: 14%;
-}
-.leaf-svg--right {
-  right: -25px;
-  bottom: 4%;
-  transform: rotate(6deg);
-}
-
-/* Layout utilities */
-.grid {
-  display: grid;
-  gap: 1.4rem;
-}
-
-.grid--hero {
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
-  align-items: start;
-}
-
-.grid--split {
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.3fr);
-}
-
-.grid--two {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.grid--three {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.stack--tight {
-  gap: 0.8rem;
-}
-
-@media (max-width: 960px) {
-  .grid--hero,
-  .grid--split,
-  .grid--two,
-  .grid--three {
-    grid-template-columns: minmax(0, 1fr);
+  function updateRootProgress() {
+    const scrollTop = window.scrollY || window.pageYOffset;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
+    rootEl.style.setProperty("--root-progress", progress.toString());
   }
-}
 
-/* Section header */
-.section-header {
-  margin-bottom: 1.4rem;
-}
-.eyebrow {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(209, 198, 181, 0.85);
-  margin: 0 0 0.35rem;
-}
-.section-header h2 {
-  margin: 0 0 0.3rem;
-  font-size: 1.3rem;
-}
-.section-intro {
-  margin: 0 0 0.25rem;
-  font-size: 0.95rem;
-  color: var(--muted);
-  max-width: 36rem;
-}
-.section-note {
-  margin: 0;
-  font-size: 0.82rem;
-  color: var(--muted-soft);
-}
+  updateRootProgress();
+  window.addEventListener("scroll", updateRootProgress);
+  window.addEventListener("resize", updateRootProgress);
+});
 
-/* ===========================
-   HERO CONTENT / BUTTONS / CHIPS
-   =========================== */
+// ======================
+// FOREST CANOPY PARALLAX + LIGHT BEAM SHIFT
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const prefersReduced =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-.hero-copy {
-  position: relative;
-  z-index: 1;
-}
+  const back = document.querySelector(".forest-canopy-layer--back");
+  const front = document.querySelector(".forest-canopy-layer--front");
+  const rootEl = document.documentElement;
 
-.section--hero h1 {
-  margin: 0 0 0.6rem;
-  font-size: clamp(2.1rem, 3vw, 2.7rem);
-}
+  if (!back || !front) return;
 
-.lead {
-  margin: 0 0 1rem;
-  font-size: 0.98rem;
-  color: var(--muted);
-  max-width: 38rem;
-}
+  function handleScroll() {
+    const scrollTop = window.scrollY || window.pageYOffset;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
 
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-bottom: 0.7rem;
-}
+    const maxOffset = 120;
+    const offsetBack = scrollTop * 0.04;
+    const offsetFront = scrollTop * 0.08;
 
-.chip {
-  font-size: 0.78rem;
-  padding: 0.28rem 0.8rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(115, 135, 124, 0.9);
-  background: rgba(9, 17, 16, 0.96);
-  color: var(--muted);
-  cursor: pointer;
-  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, background 0.18s ease-out;
-}
-.chip--active {
-  background:
-    radial-gradient(circle at 30% 20%, rgba(253, 216, 167, 0.3), transparent 60%),
-    rgba(10, 20, 18, 0.98);
-  border-color: var(--border-strong);
-  color: var(--ink);
-  box-shadow: 0 0 12px rgba(253, 216, 167, 0.4);
-}
-.chip:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
-}
+    back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
+    front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
 
-.role-note {
-  margin: 0 0 1rem;
-  font-size: 0.9rem;
-  color: var(--muted);
-  max-width: 40rem;
-}
-
-.contact-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.48rem 1.2rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-strong);
-  background:
-    radial-gradient(circle at 20% 0%, rgba(253, 216, 167, 0.7), transparent 55%),
-    linear-gradient(135deg, rgba(78, 96, 85, 0.92), rgba(35, 76, 61, 0.97));
-  color: #080c0b;
-  font-size: 0.86rem;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
-}
-.button--ghost {
-  background: rgba(9, 17, 16, 0.97);
-  border-color: rgba(104, 124, 113, 0.9);
-  color: var(--muted);
-}
-.button:hover,
-.button:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.85);
-}
-
-/* Hero panel & cards */
-.hero-panel {
-  position: relative;
-  z-index: 1;
-}
-
-.card {
-  position: relative;
-  border-radius: var(--radius-md);
-  padding: 1rem 1.1rem 0.95rem;
-  background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.08), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(24, 48, 40, 0.7), transparent 55%),
-    var(--card);
-  border: 1px solid rgba(86, 104, 93, 0.95);
-  box-shadow: var(--shadow-card);
-  font-size: 0.88rem;
-  color: var(--muted);
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
-}
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.98);
-  border-color: rgba(190, 168, 135, 0.95);
-}
-
-.card--hero {
-  padding-top: 1.2rem;
-}
-
-.card-title {
-  margin: 0 0 0.2rem;
-  font-size: 0.92rem;
-  color: var(--ink);
-}
-
-.card-body {
-  margin: 0;
-  font-size: 0.86rem;
-}
-
-.muted {
-  color: var(--muted-soft);
-}
-
-/* Hero portrait */
-.hero-portrait {
-  margin-bottom: 0.8rem;
-}
-.hero-portrait-inner {
-  width: 100%;
-  height: 130px;
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(253, 216, 167, 0.23), transparent 60%),
-    radial-gradient(circle at 80% 90%, rgba(30, 74, 61, 0.9), transparent 60%),
-    linear-gradient(135deg, #050b0e, #081411 50%, #050b0c 100%);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 1);
-  animation: heroFloat 16s ease-in-out infinite alternate;
-}
-
-/* Pills / quick links */
-.link-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.pill-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.3rem;
-  padding: 0.28rem 0.8rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(108, 128, 117, 0.9);
-  background: rgba(9, 17, 16, 0.97);
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-decoration: none;
-  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, border-color 0.16s ease-out;
-}
-.pill-link--full {
-  width: 100%;
-}
-.pill-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.85);
-  border-color: rgba(190, 168, 135, 0.95);
-}
-
-/* ===========================
-   TIMELINE / TAGS
-   =========================== */
-
-.timeline {
-  position: relative;
-}
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 10px;
-  top: 4px;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(
-    to bottom,
-    rgba(190, 168, 135, 0.8),
-    rgba(46, 75, 71, 0.9)
-  );
-  opacity: 0.7;
-}
-.timeline-item {
-  position: relative;
-  padding-left: 1.4rem;
-}
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: 0.75rem;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: #050909;
-  border: 2px solid var(--sand);
-  box-shadow: 0 0 0 4px rgba(253, 216, 167, 0.15);
-}
-.timeline-label {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--muted-soft);
-  margin: 0 0 0.15rem;
-}
-.timeline-title {
-  margin: 0 0 0.15rem;
-  font-size: 0.98rem;
-}
-.timeline-meta {
-  margin: 0 0 0.3rem;
-  font-size: 0.8rem;
-  color: var(--muted-soft);
-}
-.timeline-body {
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.tag-row {
-  list-style: none;
-  margin: 0.55rem 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  font-size: 0.76rem;
-  color: var(--muted-soft);
-}
-.tag-row--wrap {
-  margin-top: 0.7rem;
-}
-.tag-row li {
-  padding: 0.2rem 0.65rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(102, 121, 110, 0.9);
-  background: rgba(9, 17, 16, 0.97);
-}
-
-/* ===========================
-   CASES / LISTS
-   =========================== */
-
-.card--case ul,
-.bullet-list {
-  margin: 0.35rem 0 0.25rem 1.1rem;
-  padding: 0;
-}
-.card--case ul li,
-.bullet-list li {
-  margin-bottom: 0.18rem;
-}
-
-.card--case .meta {
-  margin: 0.1rem 0 0.4rem;
-  font-size: 0.8rem;
-  color: var(--muted-soft);
-}
-
-.case-more summary {
-  font-size: 0.8rem;
-  color: var(--muted-soft);
-  cursor: pointer;
-}
-
-/* ===========================
-   QUOTE / PRACTICE
-   =========================== */
-
-.card--quote {
-  background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.16), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(24, 52, 42, 0.85), transparent 60%),
-    var(--card-alt);
-}
-.highlight {
-  color: var(--sand);
-}
-
-/* ===========================
-   SKILLS / NETWORK
-   =========================== */
-
-.section--botanical {
-  background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.12), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(23, 50, 42, 0.9), transparent 60%),
-    #05070c;
-}
-
-.skills-network-wrap {
-  position: relative;
-  border-radius: var(--radius-lg);
-  background:
-    radial-gradient(circle at 50% 0%, rgba(191, 190, 210, 0.16), transparent 60%), /* constellation */
-    radial-gradient(circle at 50% 100%, rgba(23, 50, 42, 0.9), transparent 55%),  /* mycelium floor */
-    var(--deep-moss);
-  border: 1px solid rgba(86, 104, 93, 0.95);
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 1);
-  overflow: hidden;
-}
-
-.skills-network-label {
-  position: absolute;
-  top: 0.8rem;
-  right: 1rem;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: rgba(235, 223, 207, 0.8);
-  z-index: 2;
-}
-
-.forest-network {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 260px;
-}
-
-/* ===========================
-   WRITING
-   =========================== */
-
-.card--writing .meta {
-  margin: 0 0 0.2rem;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--muted-soft);
-}
-.meta--link {
-  margin-top: 0.45rem;
-}
-
-/* ===========================
-   CONTACT
-   =========================== */
-
-.card--contact {
-  background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.2), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(29, 64, 50, 0.95), transparent 55%),
-    var(--card-alt);
-}
-
-/* ===========================
-   FOOTER
-   =========================== */
-
-.site-footer {
-  margin-top: 1.6rem;
-}
-
-/* ===========================
-   MOTION / ANIMATIONS
-   =========================== */
-
-@keyframes orbFloat {
-  0% {
-    transform: translateY(0) translateX(0);
+    const beamShift = (Math.sin(progress * Math.PI * 1.3) * 40).toFixed(2) + "px";
+    const beamAngle = 120 + progress * 40; // 120deg → 160deg
+    rootEl.style.setProperty("--beam-shift", beamShift);
+    rootEl.style.setProperty("--beam-angle", `${beamAngle}deg`);
   }
-  100% {
-    transform: translateY(-12px) translateX(6px);
-  }
-}
 
-@keyframes heroFloat {
-  0% {
-    transform: translateY(0) scale(1);
+  handleScroll();
+  if (!prefersReduced) {
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
   }
-  100% {
-    transform: translateY(-6px) scale(1.01);
-  }
-}
+});
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    scroll-behavior: auto !important;
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+// ======================
+// POLLEN / DUST + FIREFLIES
+// ======================
+(function pollenAndFireflies() {
+  const prefersReduced =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const canvas = document.getElementById("particleCanvas");
+  if (!canvas || !canvas.getContext || prefersReduced) return;
+
+  const ctx = canvas.getContext("2d");
+  let width = 0;
+  let height = 0;
+
+  const pollen = [];
+  const fireflies = [];
+  const POLLEN_COUNT = 90;
+  const FIREFLY_COUNT = 18;
+
+  function resize() {
+    const ratio = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
-}
+
+  function init() {
+    pollen.length = 0;
+    fireflies.length = 0;
+
+    for (let i = 0; i < POLLEN_COUNT; i++) {
+      pollen.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vy: 0.05 + Math.random() * 0.12,
+        vx: (Math.random() - 0.5) * 0.05,
+        size: 0.8 + Math.random() * 1.2,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+
+    for (let i = 0; i < FIREFLY_COUNT; i++) {
+      fireflies.push({
+        x: Math.random() * width,
+        y: Math.random() * height * 0.6,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.005 + Math.random() * 0.01
+      });
+    }
+  }
+
+  function step(ts) {
+    ctx.clearRect(0, 0, width, height);
+
+    // Pollen / dust motes
+    ctx.save();
+    for (const p of pollen) {
+      p.y += p.vy;
+      p.x += p.vx + Math.sin(p.phase + ts * 0.00008) * 0.08;
+
+      if (p.y > height) p.y = -10;
+      if (p.x < -10) p.x = width + 10;
+      if (p.x > width + 10) p.x = -10;
+
+      const alpha = 0.08 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.07;
+      ctx.fillStyle = `rgba(253, 216, 167, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // Fireflies (soft pulse)
+    ctx.save();
+    for (const f of fireflies) {
+      f.x += f.vx;
+      f.y += f.vy;
+      f.phase += f.speed;
+
+      if (f.x < -20) f.x = width + 20;
+      if (f.x > width + 20) f.x = -20;
+      if (f.y < 0) f.y = height * 0.4;
+      if (f.y > height * 0.7) f.y = 20;
+
+      const alpha = 0.05 + Math.abs(Math.sin(f.phase)) * 0.45;
+
+      const radius = 2.5;
+      const gradient = ctx.createRadialGradient(
+        f.x,
+        f.y,
+        0,
+        f.x,
+        f.y,
+        radius * 5
+      );
+      gradient.addColorStop(0, `rgba(253, 216, 167, ${alpha})`);
+      gradient.addColorStop(0.4, `rgba(126, 155, 140, ${alpha * 0.7})`);
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, radius * 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(255, 244, 230, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    requestAnimationFrame(step);
+  }
+
+  resize();
+  init();
+  window.addEventListener("resize", () => {
+    resize();
+    init();
+  });
+  requestAnimationFrame(step);
+})();
+
+// ======================
+// FOREST MYCELIUM / CONSTELLATION NETWORK
+// + ORBITING POINTS LAYER + TOOLTIP
+// ======================
+(function forestNetwork() {
+  const prefersReduced =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const canvas = document.getElementById("forestNetwork");
+  if (!canvas || !canvas.getContext || prefersReduced) return;
+
+  const ctx = canvas.getContext("2d");
+  let width = 0;
+  let height = 0;
+
+  let nodes = [];
+  const NODE_COUNT = 70;
+  const BASE_MAX_DIST = 130;
+
+  // Orbiting points (like a slow satellite ring)
+  const ORBIT_POINT_COUNT = 8;
+  let orbitPoints = [];
+  let orbitCenter = { x: 0, y: 0 };
+  let orbitRadius = 0;
+
+  // Tooltip DOM element
+  const tooltipEl = document.createElement("div");
+  tooltipEl.className = "orbit-tooltip";
+  tooltipEl.setAttribute("role", "status");
+  tooltipEl.style.opacity = "0";
+
+  // Ensure parent is positioned so tooltip can anchor correctly
+  const parent = canvas.parentElement || document.body;
+  if (parent && getComputedStyle(parent).position === "static") {
+    parent.style.position = "relative";
+  }
+  parent.appendChild(tooltipEl);
+
+  // Labels for each orbit point (your practice themes)
+  const ORBIT_LABELS = [
+    "Research",
+    "Practice",
+    "Partnerships",
+    "Systems",
+    "Story",
+    "Equity",
+    "Community",
+    "Leadership"
+  ];
+
+  let scrollFactor = 0; // 0 = top of page, 1 = bottom
+  let focusFactor = 0;  // 0 = section off-screen, 1 = fully visible
+  let mouseX = null;
+  let mouseY = null;
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    width = rect.width || 400;
+    height = rect.height || 260;
+    const ratio = window.devicePixelRatio || 1;
+
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    orbitCenter.x = width * 0.5;
+    orbitCenter.y = height * 0.4;
+    orbitRadius = Math.min(width, height) * 0.32;
+
+    initNodes();
+    initOrbitPoints();
+  }
+
+  function initNodes() {
+    nodes = [];
+    for (let i = 0; i < NODE_COUNT; i++) {
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
+        size: 0.9 + Math.random() * 1.4
+      });
+    }
+  }
+
+  function initOrbitPoints() {
+    orbitPoints = [];
+    for (let i = 0; i < ORBIT_POINT_COUNT; i++) {
+      orbitPoints.push({
+        angle: (Math.PI * 2 * i) / ORBIT_POINT_COUNT,
+        radius: orbitRadius * (0.8 + Math.random() * 0.15),
+        speed:
+          (0.0006 + Math.random() * 0.0008) *
+          (Math.random() < 0.5 ? 1 : -1),
+        label: ORBIT_LABELS[i] || `Node ${i + 1}`
+      });
+    }
+  }
+
+  function updateScrollFactors() {
+    const scrollTop = window.scrollY || window.pageYOffset;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    scrollFactor = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
+
+    const rect = canvas.getBoundingClientRect();
+    const viewHeight = window.innerHeight;
+    const visible =
+      Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
+    const ratio = clamp01(visible / rect.height);
+    focusFactor = ratio;
+  }
+
+  window.addEventListener("scroll", updateScrollFactors);
+  window.addEventListener("resize", () => {
+    resize();
+    updateScrollFactors();
+  });
+
+  canvas.addEventListener("pointermove", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = event.clientX - rect.left;
+    mouseY = event.clientY - rect.top;
+
+    // Tooltip logic: find nearest orbit point
+    let nearest = null;
+    let nearestDist = Infinity;
+    orbitPoints.forEach((op) => {
+      const px = orbitCenter.x + Math.cos(op.angle) * op.radius;
+      const py = orbitCenter.y + Math.sin(op.angle) * op.radius;
+      const dx = mouseX - px;
+      const dy = mouseY - py;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearest = { op, px, py };
+      }
+    });
+
+    const HOVER_RADIUS = 26; // pixels
+    if (nearest && nearestDist < HOVER_RADIUS) {
+      tooltipEl.textContent = nearest.op.label;
+      const parentRect = parent.getBoundingClientRect();
+      const tooltipX = event.clientX - parentRect.left + 10;
+      const tooltipY = event.clientY - parentRect.top - 12;
+      tooltipEl.style.left = `${tooltipX}px`;
+      tooltipEl.style.top = `${tooltipY}px`;
+      tooltipEl.style.opacity = focusFactor > 0.1 ? "1" : "0";
+    } else {
+      tooltipEl.style.opacity = "0";
+    }
+  });
+
+  canvas.addEventListener("pointerleave", () => {
+    mouseX = null;
+    mouseY = null;
+    tooltipEl.style.opacity = "0";
+  });
+
+  function step() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Background gradient: sky → forest floor
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
+    skyGrad.addColorStop(0, "rgba(8,14,30,1)");
+    skyGrad.addColorStop(0.45, "rgba(5,9,22,1)");
+    skyGrad.addColorStop(1, "rgba(6,13,17,1)");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, width, height);
+
+    // Constellation stars at top
+    const starAlpha = 0.6 * (1 - scrollFactor);
+    if (starAlpha > 0.02) {
+      ctx.save();
+      const starCount = 28;
+      ctx.fillStyle = `rgba(253, 244, 230, ${0.5 * starAlpha})`;
+      for (let i = 0; i < starCount; i++) {
+        const x = (i * 71) % width;
+        const y = (i * 23) % (height * 0.35);
+        ctx.beginPath();
+        ctx.arc(x, y, 0.8 + (i % 3) * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    // Understory roots hint at bottom
+    ctx.save();
+    ctx.strokeStyle = "rgba(33, 61, 50, 0.8)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 6; i++) {
+      const x = (width / 6) * i + (i % 2 === 0 ? 10 : -5);
+      ctx.beginPath();
+      ctx.moveTo(x, height * 0.45);
+      ctx.lineTo(x + (Math.random() - 0.5) * 20, height);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // ---- ORBITING POINTS LAYER (behind mycelium) ----
+    ctx.save();
+    const orbitAlpha = 0.18 + 0.25 * focusFactor;
+
+    // Orbit ring
+    ctx.strokeStyle = `rgba(177, 170, 232, ${orbitAlpha * 0.5})`;
+    ctx.lineWidth = 1.1;
+    ctx.beginPath();
+    ctx.arc(orbitCenter.x, orbitCenter.y, orbitRadius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Points gliding along the orbit
+    orbitPoints.forEach((op) => {
+      op.angle += op.speed;
+
+      const px = orbitCenter.x + Math.cos(op.angle) * op.radius;
+      const py = orbitCenter.y + Math.sin(op.angle) * op.radius;
+
+      const pulse =
+        0.4 + 0.6 * Math.abs(Math.sin(op.angle * 1.5 + scrollFactor * 4));
+
+      const grad = ctx.createRadialGradient(px, py, 0, px, py, 8);
+      grad.addColorStop(0, `rgba(246,212,147,${orbitAlpha * pulse})`);
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(px, py, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(255, 244, 230, ${orbitAlpha * (0.6 + pulse * 0.3)})`;
+      ctx.beginPath();
+      ctx.arc(px, py, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.restore();
+    // ---- end orbit layer ----
+
+    // Node dynamics
+    const ROOT_PULL = 0.02 + focusFactor * 0.05;
+    const maxDist = BASE_MAX_DIST + focusFactor * 40;
+
+    nodes.forEach((n) => {
+      const cx = width * 0.5;
+      const cy = height * (0.45 + focusFactor * 0.15);
+
+      n.vx += (cx - n.x) * ROOT_PULL * 0.0006;
+      n.vy += (cy - n.y) * ROOT_PULL * 0.0006;
+
+      if (mouseX != null && mouseY != null) {
+        const dx = mouseX - n.x;
+        const dy = mouseY - n.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const force = 0.03 * focusFactor;
+        n.vx += (dx / dist) * force * 0.02;
+        n.vy += (dy / dist) * force * 0.02;
+      }
+
+      n.x += n.vx;
+      n.y += n.vy;
+
+      if (n.x < -30) n.x = width + 30;
+      if (n.x > width + 30) n.x = -30;
+      if (n.y < -30) n.y = height + 30;
+      if (n.y > height + 30) n.y = -30;
+    });
+
+    // Mycelium connections
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const n1 = nodes[i];
+        const n2 = nodes[j];
+        const dx = n1.x - n2.x;
+        const dy = n1.y - n2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * (0.6 + focusFactor * 0.4);
+          ctx.strokeStyle = `rgba(191, 173, 144, ${alpha * 0.6})`;
+          ctx.lineWidth = 0.6 + focusFactor * 0.6;
+          ctx.beginPath();
+          ctx.moveTo(n1.x, n1.y);
+          ctx.lineTo(n2.x, n2.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Nodes
+    nodes.forEach((n) => {
+      const grad = ctx.createRadialGradient(
+        n.x,
+        n.y,
+        0,
+        n.x,
+        n.y,
+        n.size * 3.5
+      );
+      grad.addColorStop(0, "rgba(253, 216, 167, 0.9)");
+      grad.addColorStop(0.45, "rgba(126, 155, 140, 0.6)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.size * 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "rgba(255, 244, 230, 0.9)";
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(step);
+  }
+
+  resize();
+  updateScrollFactors();
+  requestAnimationFrame(step);
+})();
+
+// ======================
+// FOREST AUDIO TOGGLE
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const audio = document.getElementById("forestAudio");
+  const toggle = document.getElementById("forestSoundToggle");
+  if (!audio || !toggle) return;
+
+  let playing = false;
+  const label = toggle.querySelector(".sound-toggle__label");
+
+  toggle.addEventListener("click", () => {
+    if (!playing) {
+      audio
+        .play()
+        .then(() => {
+          playing = true;
+          if (label) label.textContent = "Forest on";
+        })
+        .catch(() => {
+          // autoplay block; do nothing
+        });
+    } else {
+      audio.pause();
+      playing = false;
+      if (label) label.textContent = "Forest off";
+    }
+  });
+});
+
+// ======================
+// WRITING SECTION — CAT CAMEO
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const writingSection = document.getElementById("writing");
+  if (!writingSection) return;
+
+  const cat = document.createElement("div");
+  cat.className = "cat-cameo";
+  cat.setAttribute("aria-hidden", "true");
+
+  const inner = document.createElement("div");
+  inner.className = "cat-cameo__inner";
+  cat.appendChild(inner);
+
+  writingSection.appendChild(cat);
+
+  // Optional: occasional automatic peek if in viewport
+  let lastPeek = 0;
+  function maybePeek() {
+    const now = Date.now();
+    if (now - lastPeek < 20000) return; // at most every ~20s
+
+    const rect = writingSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+
+    lastPeek = now;
+    cat.classList.add("cat-cameo--peek");
+    setTimeout(() => {
+      cat.classList.remove("cat-cameo--peek");
+    }, 3800);
+  }
+
+  window.addEventListener("scroll", () => {
+    window.requestAnimationFrame(maybePeek);
+  });
+});
