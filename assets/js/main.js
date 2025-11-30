@@ -8,8 +8,8 @@ function clamp01(value) {
 // ======================
 // YEAR STAMP
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const yearSpan = document.getElementById('year');
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
@@ -18,33 +18,33 @@ document.addEventListener('DOMContentLoaded', () => {
 // ======================
 // ROLE CHIPS → ROLE NOTE
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const chips = document.querySelectorAll('[data-role-chip]');
-  const roleNote = document.getElementById('role-note');
+document.addEventListener("DOMContentLoaded", () => {
+  const chips = document.querySelectorAll("[data-role-chip]");
+  const roleNote = document.getElementById("role-note");
 
   if (!chips.length || !roleNote) return;
 
   const copy = {
     Strategist:
-      'As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.',
+      "As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.",
     Scholar:
-      'As a Scholar, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.',
+      "As a Scholar, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.",
     Creator:
-      'As a Creator, I translate complex science and systems work into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.',
+      "As a Creator, I translate complex science and systems work into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.",
     Navigator:
-      'As a Navigator, I help teams move through ambiguity with clarity and care, holding timelines and people so that change work is brave but not reckless.'
+      "As a Navigator, I help teams move through ambiguity with clarity and care, holding timelines and people so that change work is brave but not reckless."
   };
 
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('chip--active'));
-      chip.classList.add('chip--active');
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.classList.remove("chip--active"));
+      chip.classList.add("chip--active");
 
-      const role = chip.getAttribute('data-role-chip');
+      const role = chip.getAttribute("data-role-chip");
       if (role && copy[role]) {
         roleNote.innerHTML = copy[role].replace(
           /^As a /,
-          match => `As a <strong>${role}</strong>, `
+          (match) => `As a <strong>${role}</strong>, `
         );
       }
     });
@@ -54,26 +54,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // ======================
 // SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const sections = document.querySelectorAll('[data-section]');
-  const navLinks = document.querySelectorAll('.nav-link');
+document.addEventListener("DOMContentLoaded", () => {
+  const sections = document.querySelectorAll("[data-section]");
+  const navLinks = document.querySelectorAll(".nav-link");
 
   const linkMap = {};
-  navLinks.forEach(link => {
-    const id = link.getAttribute('href').replace('#', '');
+  navLinks.forEach((link) => {
+    const id = link.getAttribute("href").replace("#", "");
     linkMap[id] = link;
   });
 
   const sectionObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+    (entries) => {
+      entries.forEach((entry) => {
         const id = entry.target.id;
         if (entry.isIntersecting && id && linkMap[id]) {
-          navLinks.forEach(l => l.classList.remove('is-active'));
-          linkMap[id].classList.add('is-active');
+          navLinks.forEach((l) => l.classList.remove("is-active"));
+          linkMap[id].classList.add("is-active");
         }
         if (entry.isIntersecting) {
-          entry.target.classList.add('section-visible');
+          entry.target.classList.add("section-visible");
         }
       });
     },
@@ -82,54 +82,66 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   );
 
-  sections.forEach(section => sectionObserver.observe(section));
+  sections.forEach((section) => sectionObserver.observe(section));
 });
 
 // ======================
 // ROOT COLUMN PROGRESSION
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const rootEl = document.documentElement;
 
   function updateRootProgress() {
     const scrollTop = window.scrollY || window.pageYOffset;
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
-    rootEl.style.setProperty('--root-progress', progress.toString());
+    rootEl.style.setProperty("--root-progress", progress.toString());
   }
 
   updateRootProgress();
-  window.addEventListener('scroll', updateRootProgress);
-  window.addEventListener('resize', updateRootProgress);
+  window.addEventListener("scroll", updateRootProgress);
+  window.addEventListener("resize", updateRootProgress);
 });
 
 // ======================
-// FOREST CANOPY PARALLAX
+// FOREST CANOPY PARALLAX + LIGHT BEAM SHIFT
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const prefersReduced =
     window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (prefersReduced) return;
-
-  const back = document.querySelector('.forest-canopy-layer--back');
-  const front = document.querySelector('.forest-canopy-layer--front');
+  const back = document.querySelector(".forest-canopy-layer--back");
+  const front = document.querySelector(".forest-canopy-layer--front");
+  const rootEl = document.documentElement;
 
   if (!back || !front) return;
 
   function handleScroll() {
-    const maxOffset = 120;
     const scrollTop = window.scrollY || window.pageYOffset;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
+
+    // parallax offsets
+    const maxOffset = 120;
     const offsetBack = scrollTop * 0.04;
     const offsetFront = scrollTop * 0.08;
 
     back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
     front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
+
+    // light beams shift + angle (softly changing with scroll)
+    const beamShift = (Math.sin(progress * Math.PI * 1.3) * 40).toFixed(2) + "px";
+    const beamAngle = 120 + progress * 40; // 120deg → 160deg
+    rootEl.style.setProperty("--beam-shift", beamShift);
+    rootEl.style.setProperty("--beam-angle", `${beamAngle}deg`);
   }
 
   handleScroll();
-  window.addEventListener('scroll', handleScroll);
+  if (!prefersReduced) {
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+  }
 });
 
 // ======================
@@ -138,12 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
 (function pollenAndFireflies() {
   const prefersReduced =
     window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const canvas = document.getElementById('particleCanvas');
+  const canvas = document.getElementById("particleCanvas");
   if (!canvas || !canvas.getContext || prefersReduced) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
 
@@ -191,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function step(ts) {
     ctx.clearRect(0, 0, width, height);
 
-    // pollen
+    // Pollen / dust motes
     ctx.save();
     for (const p of pollen) {
       p.y += p.vy;
@@ -209,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     ctx.restore();
 
-    // fireflies
+    // Fireflies (soft pulse)
     ctx.save();
     for (const f of fireflies) {
       f.x += f.vx;
@@ -232,9 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
         f.y,
         radius * 5
       );
+      // mossy + moonlit mix
       gradient.addColorStop(0, `rgba(253, 216, 167, ${alpha})`);
-      gradient.addColorStop(0.4, `rgba(253, 216, 167, ${alpha * 0.7})`);
-      gradient.addColorStop(1, 'rgba(253, 216, 167, 0)');
+      gradient.addColorStop(0.4, `rgba(126, 155, 140, ${alpha * 0.7})`);
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
       ctx.fillStyle = gradient;
       ctx.beginPath();
@@ -253,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   resize();
   init();
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     resize();
     init();
   });
@@ -266,12 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
 (function forestNetwork() {
   const prefersReduced =
     window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const canvas = document.getElementById('forestNetwork');
+  const canvas = document.getElementById("forestNetwork");
   if (!canvas || !canvas.getContext || prefersReduced) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
   let nodes = [];
@@ -279,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const BASE_MAX_DIST = 130;
 
   let scrollFactor = 0; // 0 = top of page, 1 = bottom
-  let focusFactor = 0;  // 0 = section off-screen, 1 = fully in view
+  let focusFactor = 0;  // 0 = section off-screen, 1 = fully visible
   let mouseX = null;
   let mouseY = null;
 
@@ -322,18 +335,18 @@ document.addEventListener('DOMContentLoaded', () => {
     focusFactor = ratio;
   }
 
-  window.addEventListener('scroll', updateScrollFactors);
-  window.addEventListener('resize', () => {
+  window.addEventListener("scroll", updateScrollFactors);
+  window.addEventListener("resize", () => {
     resize();
     updateScrollFactors();
   });
 
-  canvas.addEventListener('pointermove', event => {
+  canvas.addEventListener("pointermove", (event) => {
     const rect = canvas.getBoundingClientRect();
     mouseX = event.clientX - rect.left;
     mouseY = event.clientY - rect.top;
   });
-  canvas.addEventListener('pointerleave', () => {
+  canvas.addEventListener("pointerleave", () => {
     mouseX = null;
     mouseY = null;
   });
@@ -341,20 +354,20 @@ document.addEventListener('DOMContentLoaded', () => {
   function step() {
     ctx.clearRect(0, 0, width, height);
 
-    // Background: top = night sky, bottom = forest floor
+    // Background: top sky (constellation) fades → lower forest (mycelium)
     const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-    skyGrad.addColorStop(0, 'rgba(8,14,24,1)');
-    skyGrad.addColorStop(0.45, 'rgba(5,10,16,1)');
-    skyGrad.addColorStop(1, 'rgba(6,13,11,1)');
+    skyGrad.addColorStop(0, "rgba(8,14,24,1)");
+    skyGrad.addColorStop(0.45, "rgba(5,10,16,1)");
+    skyGrad.addColorStop(1, "rgba(6,13,11,1)");
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // Constellation stars (fade as scrollFactor increases; more mycelium later)
-    const starAlpha = 0.5 * (1 - scrollFactor);
+    // Constellation stars fade as scrollFactor increases (cosmos → roots)
+    const starAlpha = 0.6 * (1 - scrollFactor);
     if (starAlpha > 0.02) {
       ctx.save();
-      ctx.fillStyle = `rgba(253, 244, 230, ${0.5 * starAlpha})`;
       const starCount = 28;
+      ctx.fillStyle = `rgba(253, 244, 230, ${0.5 * starAlpha})`;
       for (let i = 0; i < starCount; i++) {
         const x = (i * 71) % width;
         const y = (i * 23) % (height * 0.35);
@@ -365,9 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.restore();
     }
 
-    // Vertical root hints
+    // Subtle downward root hints at bottom
     ctx.save();
-    ctx.strokeStyle = 'rgba(33, 61, 50, 0.7)';
+    ctx.strokeStyle = "rgba(33, 61, 50, 0.8)";
     ctx.lineWidth = 1;
     for (let i = 0; i < 6; i++) {
       const x = (width / 6) * i + (i % 2 === 0 ? 10 : -5);
@@ -379,18 +392,18 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.restore();
 
     // Node dynamics
-    const ROOT_PULL = 0.02 + focusFactor * 0.05; // stronger when in view
+    const ROOT_PULL = 0.02 + focusFactor * 0.05; // stronger clustering in view
     const maxDist = BASE_MAX_DIST + focusFactor * 40;
 
     for (const n of nodes) {
       const cx = width * 0.5;
       const cy = height * (0.45 + focusFactor * 0.15);
 
-      // gentle pull toward center
+      // gentle pull toward center (mycelium center)
       n.vx += (cx - n.x) * ROOT_PULL * 0.0006;
       n.vy += (cy - n.y) * ROOT_PULL * 0.0006;
 
-      // pointer attraction
+      // pointer attraction (brain synapse / mycelium responsiveness)
       if (mouseX != null && mouseY != null) {
         const dx = mouseX - n.x;
         const dy = mouseY - n.y;
@@ -403,14 +416,14 @@ document.addEventListener('DOMContentLoaded', () => {
       n.x += n.vx;
       n.y += n.vy;
 
-      // wrap around
+      // wrap
       if (n.x < -30) n.x = width + 30;
       if (n.x > width + 30) n.x = -30;
       if (n.y < -30) n.y = height + 30;
       if (n.y > height + 30) n.y = -30;
     }
 
-    // Connections (mycelium threads)
+    // Connections (mycelium threads), thicker/more luminous as section is focused
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const n1 = nodes[i];
@@ -420,8 +433,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < maxDist) {
           const alpha = (1 - dist / maxDist) * (0.6 + focusFactor * 0.4);
+          // blend of mossy + moonlit
           ctx.strokeStyle = `rgba(191, 173, 144, ${alpha * 0.6})`;
-          ctx.lineWidth = 0.9;
+          ctx.lineWidth = 0.6 + focusFactor * 0.6;
           ctx.beginPath();
           ctx.moveTo(n1.x, n1.y);
           ctx.lineTo(n2.x, n2.y);
@@ -430,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Nodes themselves
+    // Nodes (soft pulses)
     for (const n of nodes) {
       const grad = ctx.createRadialGradient(
         n.x,
@@ -440,15 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
         n.y,
         n.size * 3.5
       );
-      grad.addColorStop(0, 'rgba(253, 216, 167, 0.9)');
-      grad.addColorStop(0.45, 'rgba(253, 216, 167, 0.5)');
-      grad.addColorStop(1, 'rgba(253, 216, 167, 0)');
+      grad.addColorStop(0, "rgba(253, 216, 167, 0.9)");
+      grad.addColorStop(0.45, "rgba(126, 155, 140, 0.6)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = grad;
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.size * 3.5, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(255, 244, 230, 0.9)';
+      ctx.fillStyle = "rgba(255, 244, 230, 0.9)";
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
       ctx.fill();
@@ -465,29 +479,29 @@ document.addEventListener('DOMContentLoaded', () => {
 // ======================
 // FOREST AUDIO TOGGLE
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const audio = document.getElementById('forestAudio');
-  const toggle = document.getElementById('forestSoundToggle');
+document.addEventListener("DOMContentLoaded", () => {
+  const audio = document.getElementById("forestAudio");
+  const toggle = document.getElementById("forestSoundToggle");
   if (!audio || !toggle) return;
 
   let playing = false;
-  const label = toggle.querySelector('.sound-toggle__label');
+  const label = toggle.querySelector(".sound-toggle__label");
 
-  toggle.addEventListener('click', () => {
+  toggle.addEventListener("click", () => {
     if (!playing) {
       audio
         .play()
         .then(() => {
           playing = true;
-          if (label) label.textContent = 'Forest on';
+          if (label) label.textContent = "Forest on";
         })
         .catch(() => {
-          // ignore autoplay errors
+          // autoplay block; do nothing
         });
     } else {
       audio.pause();
       playing = false;
-      if (label) label.textContent = 'Forest off';
+      if (label) label.textContent = "Forest off";
     }
   });
 });
