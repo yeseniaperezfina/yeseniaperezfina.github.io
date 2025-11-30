@@ -61,7 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const linkMap = {};
   navLinks.forEach((link) => {
-    const id = link.getAttribute("href").replace("#", "");
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+    const id = href.replace("#", "");
     linkMap[id] = link;
   });
 
@@ -319,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   parent.appendChild(tooltipEl);
 
-  // Labels for each orbit point (your practice themes)
+  // Labels for each orbit point (practice themes)
   const ORBIT_LABELS = [
     "Research",
     "Practice",
@@ -645,7 +647,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   writingSection.appendChild(cat);
 
-  // Optional: occasional automatic peek if in viewport
+  // Occasional automatic peek if in viewport
   let lastPeek = 0;
   function maybePeek() {
     const now = Date.now();
