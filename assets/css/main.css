@@ -1,6 +1,45 @@
-/* =========================
-   RESET & BASE
-   ========================= */
+/* ======================
+   BASE THEME & GLOBAL
+   ====================== */
+
+:root {
+  --bg: #020617;
+  --bg-soft: #030712;
+  --bg-soft-alt: #020617;
+  --surface: #050816;
+  --surface-soft: #050816;
+  --surface-alt: #050b18;
+
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-soft: #6b7280;
+
+  --accent: #f6d493;
+  --accent-soft: rgba(246, 212, 147, 0.5);
+  --accent-strong: #facc6b;
+  --accent-alt: #a5b4fc;
+
+  --border-subtle: rgba(148, 163, 184, 0.35);
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.65);
+
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  --orbit-tooltip-bg: rgba(15, 23, 42, 0.95);
+  --orbit-tooltip-border: rgba(148, 163, 184, 0.7);
+
+  --scene-ambient: rgba(15, 23, 42, 0.65);
+  --scene-ambient-highlight: rgba(148, 163, 184, 0.22);
+  --scene-panel-glow: 0 0 0 rgba(0, 0, 0, 0.0);
+  --scene-hero-glass: rgba(226, 232, 240, 0.18);
+  --scene-texture: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.09), transparent 60%);
+
+  --root-progress: 0;
+  --transition-fast: 160ms ease-out;
+  --transition-med: 260ms ease-out;
+  --transition-slow: 420ms ease-out;
+}
 
 *,
 *::before,
@@ -8,132 +47,653 @@
   box-sizing: border-box;
 }
 
-:root {
-  --bg: #020617;
-  --bg-soft: #030815;
-  --panel: #050b18;
-  --panel-soft: #070d20;
-  --panel-alt: #050b14;
-  --accent: #f5d7a4;
-  --accent-soft: rgba(245, 215, 164, 0.55);
-  --accent-strong: #fbbf77;
-  --teal: #5fb3a2;
-  --ink: #e9dfcc;
-  --ink-soft: #c6bfae;
-  --ink-muted: #9b9687;
-  --border-subtle: rgba(233, 223, 204, 0.16);
-  --nav-bg: rgba(3, 7, 18, 0.92);
-  --nav-blur: 18px;
-  --radius-lg: 22px;
-  --radius-md: 16px;
-  --radius-pill: 999px;
-  --shadow-soft: 0 26px 60px rgba(0, 0, 0, 0.55);
-  --shadow-subtle: 0 14px 40px rgba(0, 0, 0, 0.4);
-  --shadow-pill: 0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 18px 40px rgba(0, 0, 0, 0.55);
-
-  --root-progress: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  background: radial-gradient(circle at 10% 0%, #0b1220 0, #020617 52%);
-  color-scheme: dark;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    "Segoe UI", sans-serif;
-  color: var(--ink);
+    "Inter", sans-serif;
+  color: var(--text-main);
   background:
-    radial-gradient(circle at 50% -10%, rgba(15, 118, 110, 0.28), transparent 60%),
-    radial-gradient(circle at 80% -12%, rgba(94, 234, 212, 0.18), transparent 52%),
-    linear-gradient(to bottom, #020617, #020617 40%, #020617);
-  line-height: 1.6;
-}
-
-/* Scene theming driven by [data-scene] attribute on <html> */
-html[data-scene="study"] body {
-  background:
-    radial-gradient(circle at 0% -20%, rgba(234, 179, 8, 0.35), transparent 60%),
-    linear-gradient(to bottom, #020617, #020617 45%, #020617);
-}
-
-html[data-scene="nook"] body {
-  background:
-    radial-gradient(circle at 100% -20%, rgba(56, 189, 248, 0.3), transparent 58%),
-    linear-gradient(to bottom, #020617, #020617 45%, #020617);
-}
-
-html[data-scene="observatory"] body {
-  background:
-    radial-gradient(circle at 50% -25%, rgba(147, 197, 253, 0.42), transparent 64%),
-    linear-gradient(to bottom, #020617, #020617 50%, #020617);
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-p {
-  margin: 0 0 0.75rem;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  margin: 0 0 0.5rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-/* Smooth section snapping-ish feel */
-section {
-  scroll-margin-top: 5.5rem;
-}
-
-/* =========================
-   GLOBAL LAYOUT ELEMENTS
-   ========================= */
-
-.site {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 5.5rem 1.5rem 3.5rem;
+    radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(6, 78, 59, 0.85), transparent 55%),
+    linear-gradient(to bottom, #020617, #020617 40%, #000814 100%);
+  background-attachment: fixed;
   position: relative;
-  z-index: 10;
+  overflow-x: hidden;
 }
 
-.shell {
-  max-width: 1120px;
-  margin: 0 auto;
+/* Light atmospheric overlays driven by scene + scroll */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
 }
 
-.shell--header,
-.shell--footer {
+/* Ambient scene texture (wood grain / knit / glassy stars) */
+body::before {
+  background-image: var(--scene-texture);
+  background-size: 320px 320px;
+  mix-blend-mode: soft-light;
+  opacity: 0.35;
+}
+
+/* Scroll glint near lower edge of viewport, tied to --root-progress */
+body::after {
+  background:
+    radial-gradient(ellipse at bottom, rgba(248, 250, 252, 0.14), transparent 60%),
+    linear-gradient(to top, rgba(15, 23, 42, 0.7), transparent 70%);
+  opacity: calc(0.08 + var(--root-progress) * 0.18);
+  transition: opacity 240ms ease-out;
+}
+
+/* Content shell should sit above overlays */
+.page-shell,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ======================
+   SECTIONS + NAV SCROLL REVEAL
+   ====================== */
+
+section[data-section] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 520ms ease-out,
+    transform 520ms cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: opacity, transform;
+}
+
+section[data-section].section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav {
   display: flex;
+  gap: 0.75rem;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.25rem;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
 }
 
-.site-main {
+.nav-link::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.35);
+  box-shadow: 0 0 0 0 rgba(161, 172, 245, 0.0);
+  transition:
+    background-color var(--transition-fast),
+    box-shadow var(--transition-med);
+}
+
+.nav-link:hover {
+  color: var(--accent-strong);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.65);
+}
+
+.nav-link.is-active {
+  color: var(--accent-strong);
+  background: rgba(30, 64, 175, 0.15);
+  border-color: rgba(129, 140, 248, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(129, 140, 248, 0.5),
+    0 18px 40px rgba(15, 23, 42, 0.9);
+}
+
+.nav-link.is-active::after {
+  background: #a5b4fc;
+  box-shadow:
+    0 0 0 4px rgba(129, 140, 248, 0.2),
+    0 0 12px rgba(129, 140, 248, 0.85);
+}
+
+/* ======================
+   ROLE CHIPS → BOOKSHELF SPINES
+   ====================== */
+
+.role-chips {
   display: flex;
-  flex-direction: column;
-  gap: 4.5rem;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.4rem 0.15rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.6));
+  box-shadow:
+    inset 0 0 0 1px rgba(15, 23, 42, 0.4),
+    0 16px 34px rgba(15, 23, 42, 0.9);
+  position: relative;
 }
 
-/* =========================
+/* Faint shelf line */
+.role-chips::before {
+  content: "";
+  position: absolute;
+  inset-inline: 4%;
+  bottom: 2px;
+  height: 1px;
+  background:
+    linear-gradient(to right, transparent, rgba(148, 163, 184, 0.35), transparent);
+  opacity: 0.8;
+}
+
+/* Generic chip */
+[data-role-chip] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.06), transparent 60%),
+              linear-gradient(to bottom, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
+  color: var(--text-main);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform-origin: left center;
+  transform: translateX(0) translateY(0);
+  box-shadow:
+    0 4px 10px rgba(15, 23, 42, 0.8),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+  transition:
+    transform 200ms cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 220ms ease-out,
+    border-color 180ms ease-out,
+    background 220ms ease-out,
+    color 180ms ease-out;
+}
+
+/* Spine edge */
+[data-role-chip]::before {
+  content: "";
+  position: absolute;
+  inset-block: 5%;
+  left: 0.35rem;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(249, 250, 251, 0.4), rgba(55, 65, 81, 0.4));
+  opacity: 0.85;
+}
+
+/* Top bevel highlight */
+[data-role-chip]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 10%;
+  top: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to right, rgba(249, 250, 251, 0.22), transparent);
+  opacity: 0.8;
+}
+
+/* Hover → like pulling a book slightly */
+[data-role-chip]:hover {
+  transform: translateX(4px) translateY(-1px);
+  box-shadow:
+    0 10px 22px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(148, 163, 184, 0.8);
+  border-color: rgba(209, 213, 219, 0.8);
+}
+
+/* Active → book fully slid out */
+[data-role-chip].chip--active {
+  transform: translateX(8px) translateY(-2px);
+  box-shadow:
+    0 18px 36px rgba(15, 23, 42, 0.95),
+    0 0 0 1px rgba(148, 163, 184, 0.9),
+    0 0 18px rgba(240, 171, 252, 0.18);
+}
+
+/* Role-specific tints */
+[data-role-chip="Strategist"] {
+  border-color: rgba(245, 158, 11, 0.85);
+  background:
+    radial-gradient(circle at 0 0, rgba(251, 191, 36, 0.3), transparent 60%),
+    linear-gradient(to bottom, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 0.98));
+}
+
+[data-role-chip="Scholar"] {
+  border-color: rgba(129, 140, 248, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(129, 140, 248, 0.28), transparent 60%),
+    linear-gradient(to bottom, rgba(30, 64, 175, 0.9), rgba(15, 23, 42, 0.98));
+}
+
+[data-role-chip="Creator"] {
+  border-color: rgba(244, 114, 182, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(244, 114, 182, 0.32), transparent 60%),
+    linear-gradient(to bottom, rgba(76, 29, 149, 0.8), rgba(15, 23, 42, 0.98));
+}
+
+[data-role-chip="Navigator"] {
+  border-color: rgba(52, 211, 153, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(45, 212, 191, 0.3), transparent 60%),
+    linear-gradient(to bottom, rgba(6, 78, 59, 0.9), rgba(15, 23, 42, 0.98));
+}
+
+/* ======================
+   ROLE NOTE
+   ====================== */
+
+#role-note {
+  margin-top: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background:
+    radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 60%),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.85);
+}
+
+/* ======================
+   ORBIT TOOLTIP
+   ====================== */
+
+.orbit-tooltip {
+  position: absolute;
+  min-width: 120px;
+  max-width: 220px;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  background: var(--orbit-tooltip-bg);
+  border: 1px solid var(--orbit-tooltip-border);
+  color: var(--text-main);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow:
+    0 16px 34px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity 180ms ease-out,
+    transform 180ms ease-out;
+  z-index: 40;
+}
+
+/* ======================
+   CAT CAMEO (WRITING SECTION)
+   ====================== */
+
+#writing {
+  position: relative;
+}
+
+.cat-cameo {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 1rem;
+  width: 76px;
+  height: 54px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cat-cameo__inner {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+  width: 68px;
+  height: 48px;
+  background: radial-gradient(circle at 30% 0, #fefce8, #fee2e2, #fecaca);
+  border-radius: 999px 999px 26px 26px;
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(148, 163, 184, 0.7);
+  transform: translateY(100%);
+  transform-origin: bottom center;
+  transition: transform 420ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Face + ears pseudo-elements */
+.cat-cameo__inner::before,
+.cat-cameo__inner::after {
+  content: "";
+  position: absolute;
+  background: #0f172a;
+}
+
+/* Eyes */
+.cat-cameo__inner::before {
+  width: 28px;
+  height: 10px;
+  border-radius: 999px;
+  left: 50%;
+  top: 24%;
+  transform: translateX(-50%);
+  box-shadow:
+    -9px 0 0 0 #0f172a,
+    9px 0 0 0 #0f172a;
+}
+
+/* Ears */
+.cat-cameo__inner::after {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  top: -5px;
+  left: 12px;
+  box-shadow:
+    18px 0 0 0 #0f172a;
+}
+
+/* Hoverable area: when writing section is hovered, cat peeks */
+#writing:hover .cat-cameo__inner,
+.cat-cameo--peek .cat-cameo__inner {
+  transform: translateY(0%);
+}
+
+/* ======================
+   CURSOR LANTERN GLOW
+   ====================== */
+
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(248, 250, 252, 0.55), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(129, 140, 248, 0.55), transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  filter: blur(18px);
+  transform: translate3d(-999px, -999px, 0);
+  transition: opacity 260ms ease-out;
+  z-index: 999;
+}
+
+/* ======================
+   FOREST CANOPY LAYERS
+   ====================== */
+
+.forest-canopy {
+  position: relative;
+  overflow: hidden;
+}
+
+.forest-canopy-layer--back,
+.forest-canopy-layer--front {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Ensure parallax layers sit behind content */
+.forest-canopy-layer--back {
+  z-index: 0;
+}
+
+.forest-canopy-layer--front {
+  z-index: 1;
+}
+
+/* ======================
+   CANVASES
+   ====================== */
+
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#forestNetwork {
+  width: 100%;
+  height: 260px;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
+  box-shadow: 0 24px 40px rgba(15, 23, 42, 0.95);
+  overflow: hidden;
+}
+
+/* ======================
+   SCENE THEMING
+   html[data-scene="study" | "nook" | "observatory"]
+   ====================== */
+
+/* Default scene (no data-scene set) already defined via base vars */
+
+html[data-scene="study"] {
+  --scene-ambient: rgba(15, 23, 42, 0.7);
+  --scene-ambient-highlight: rgba(250, 204, 21, 0.14);
+  --scene-panel-glow: 0 0 0 1px rgba(251, 191, 36, 0.18);
+  --scene-hero-glass: rgba(248, 250, 252, 0.2);
+  --scene-texture: repeating-linear-gradient(
+      135deg,
+      rgba(148, 163, 184, 0.12),
+      rgba(148, 163, 184, 0.12) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+}
+
+html[data-scene="nook"] {
+  --scene-ambient: rgba(15, 23, 42, 0.75);
+  --scene-ambient-highlight: rgba(45, 212, 191, 0.16);
+  --scene-panel-glow: 0 0 0 1px rgba(45, 212, 191, 0.2);
+  --scene-hero-glass: rgba(34, 211, 238, 0.25);
+  --scene-texture: radial-gradient(circle at 10% 0, rgba(56, 189, 248, 0.16), transparent 60%);
+}
+
+html[data-scene="observatory"] {
+  --scene-ambient: rgba(15, 23, 42, 0.8);
+  --scene-ambient-highlight: rgba(129, 140, 248, 0.2);
+  --scene-panel-glow: 0 0 0 1px rgba(129, 140, 248, 0.23);
+  --scene-hero-glass: rgba(191, 219, 254, 0.2);
+  --scene-texture: radial-gradient(circle at 80% 0, rgba(129, 140, 248, 0.24), transparent 65%);
+}
+
+/* Panels and cards respond to scene glow */
+
+.panel,
+.section-panel,
+.card {
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background:
+    linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.94)),
+    radial-gradient(circle at top left, var(--scene-ambient-highlight), transparent 65%);
+  box-shadow:
+    var(--shadow-soft),
+    var(--scene-panel-glow);
+  backdrop-filter: blur(18px);
+}
+
+/* When in focus (section-visible) give a slightly stronger rim light */
+.section-visible .panel,
+.section-visible .section-panel,
+.section-visible .card {
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.95),
+    0 0 0 1px rgba(148, 163, 184, 0.5),
+    var(--scene-panel-glow);
+}
+
+/* ======================
+   HERO PORTRAIT WINDOW REFLECTION
+   ====================== */
+
+.hero-photo {
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(248, 250, 252, 0.16), transparent 60%),
+    linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+  box-shadow:
+    0 26px 48px rgba(15, 23, 42, 0.98),
+    0 0 0 1px rgba(148, 163, 184, 0.4);
+}
+
+.hero-photo img,
+.hero-photo__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Glass reflection sweep */
+.hero-photo::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(248, 250, 252, 0.08) 32%,
+      var(--scene-hero-glass) 48%,
+      rgba(248, 250, 252, 0.06) 62%,
+      transparent 82%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  transform: translate3d(-35%, -10%, 0) skewX(-12deg);
+  animation: heroGlassSweep 22s linear infinite;
+  pointer-events: none;
+}
+
+/* Faint secondary reflection on one side */
+.hero-photo::after {
+  content: "";
+  position: absolute;
+  inset-block: 6%;
+  right: 0;
+  width: 18%;
+  background: linear-gradient(to left, rgba(15, 23, 42, 0.0), rgba(191, 219, 254, 0.16));
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Optional “desk lamp” glow on study scene */
+html[data-scene="study"] .hero-photo::after {
+  background: radial-gradient(circle at 100% 0, rgba(251, 191, 36, 0.38), transparent 70%);
+}
+
+/* Slight parallax effect if you wrap hero in a hoverable container */
+.hero-photo:hover {
+  transform: translateY(-2px);
+  transition: transform 260ms ease-out;
+}
+
+/* ======================
+   ANIMATIONS
+   ====================== */
+
+@keyframes heroGlassSweep {
+  0% {
+    transform: translate3d(-50%, -10%, 0) skewX(-12deg);
+    opacity: 0.1;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  40% {
+    transform: translate3d(25%, 0%, 0) skewX(-12deg);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate3d(60%, 3%, 0) skewX(-12deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(110%, 6%, 0) skewX(-12deg);
+    opacity: 0.0;
+  }
+}
+
+/* (Cat cameo uses transform transitions instead of keyframes; scroll glint uses CSS vars) */
+
+/* ======================
+   SMALL SCREEN TWEAKS
+   ====================== */
+
+@media (max-width: 768px) {
+  .role-chips {
+    padding: 0.4rem 0.4rem;
+  }
+
+  [data-role-chip] {
+    padding-inline: 0.7rem;
+    font-size: 0.76rem;
+  }
+
+  #role-note {
+    font-size: 0.86rem;
+  }
+
+  #forestNetwork {
+    height: 220px;
+  }
+
+  .cat-cameo {
+    right: 0.4rem;
+    bottom: 0.5rem;
+  }
+
+  .hero-photo {
+    border-radius: 22px;
+  }
+}
