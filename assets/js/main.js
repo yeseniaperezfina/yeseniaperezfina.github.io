@@ -8,8 +8,8 @@ function clamp01(value) {
 // ======================
 // YEAR STAMP
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const yearSpan = document.getElementById('year');
+document.addEventListener("DOMContentLoaded", () => {
+  const yearSpan = document.getElementById("year");
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
@@ -18,33 +18,33 @@ document.addEventListener('DOMContentLoaded', () => {
 // ======================
 // ROLE CHIPS → ROLE NOTE
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const chips = document.querySelectorAll('[data-role-chip]');
-  const roleNote = document.getElementById('role-note');
+document.addEventListener("DOMContentLoaded", () => {
+  const chips = document.querySelectorAll("[data-role-chip]");
+  const roleNote = document.getElementById("role-note");
 
   if (!chips.length || !roleNote) return;
 
   const copy = {
     Strategist:
-      'As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.',
+      "As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.",
     Scholar:
-      'As a Scholar, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.',
+      "As a Scholar, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.",
     Creator:
-      'As a Creator, I translate complex science and systems work into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.',
+      "As a Creator, I translate complex science and systems work into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.",
     Navigator:
-      'As a Navigator, I help teams move through ambiguity with clarity and care, holding timelines and people so that change work is brave but not reckless.'
+      "As a Navigator, I help teams move through ambiguity with clarity and care, holding timelines and people so that change work is brave but not reckless."
   };
 
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('chip--active'));
-      chip.classList.add('chip--active');
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.classList.remove("chip--active"));
+      chip.classList.add("chip--active");
 
-      const role = chip.getAttribute('data-role-chip');
+      const role = chip.getAttribute("data-role-chip");
       if (role && copy[role]) {
         roleNote.innerHTML = copy[role].replace(
           /^As a /,
-          match => `As a <strong>${role}</strong>, `
+          (match) => `As a <strong>${role}</strong>, `
         );
       }
     });
@@ -54,28 +54,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // ======================
 // SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const sections = document.querySelectorAll('[data-section]');
-  const navLinks = document.querySelectorAll('.nav-link');
+document.addEventListener("DOMContentLoaded", () => {
+  const sections = document.querySelectorAll("[data-section]");
+  const navLinks = document.querySelectorAll(".nav-link");
 
   const linkMap = {};
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (!href || !href.startsWith('#')) return;
-    const id = href.slice(1);
+  navLinks.forEach((link) => {
+    const id = link.getAttribute("href").replace("#", "");
     linkMap[id] = link;
   });
 
   const sectionObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+    (entries) => {
+      entries.forEach((entry) => {
         const id = entry.target.id;
         if (entry.isIntersecting && id && linkMap[id]) {
-          navLinks.forEach(l => l.classList.remove('is-active'));
-          linkMap[id].classList.add('is-active');
+          navLinks.forEach((l) => l.classList.remove("is-active"));
+          linkMap[id].classList.add("is-active");
         }
         if (entry.isIntersecting) {
-          entry.target.classList.add('section-visible');
+          entry.target.classList.add("section-visible");
         }
       });
     },
@@ -84,110 +82,87 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   );
 
-  sections.forEach(section => sectionObserver.observe(section));
+  sections.forEach((section) => sectionObserver.observe(section));
 });
 
 // ======================
-// ROOT PROGRESSION (for potential future use)
+// ROOT COLUMN PROGRESSION
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const rootEl = document.documentElement;
 
   function updateRootProgress() {
     const scrollTop = window.scrollY || window.pageYOffset;
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
-    rootEl.style.setProperty('--root-progress', progress.toString());
+    rootEl.style.setProperty("--root-progress", progress.toString());
   }
 
   updateRootProgress();
-  window.addEventListener('scroll', updateRootProgress);
-  window.addEventListener('resize', updateRootProgress);
+  window.addEventListener("scroll", updateRootProgress);
+  window.addEventListener("resize", updateRootProgress);
 });
 
 // ======================
-// SCENE TINTING (study / nook / observatory)
+// FOREST CANOPY PARALLAX + LIGHT BEAM SHIFT
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
+  const prefersReduced =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const back = document.querySelector(".forest-canopy-layer--back");
+  const front = document.querySelector(".forest-canopy-layer--front");
   const rootEl = document.documentElement;
-  const sceneSections = document.querySelectorAll('[data-scene-name]');
-  if (!sceneSections.length) return;
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const scene = entry.target.getAttribute('data-scene-name');
-        if (scene) {
-          rootEl.setAttribute('data-scene', scene);
-        }
-      });
-    },
-    { threshold: 0.5 }
-  );
+  if (!back || !front) return;
 
-  sceneSections.forEach(section => observer.observe(section));
+  function handleScroll() {
+    const scrollTop = window.scrollY || window.pageYOffset;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
+
+    // parallax offsets
+    const maxOffset = 120;
+    const offsetBack = scrollTop * 0.04;
+    const offsetFront = scrollTop * 0.08;
+
+    back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
+    front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
+
+    // light beams shift + angle (softly changing with scroll)
+    const beamShift = (Math.sin(progress * Math.PI * 1.3) * 40).toFixed(2) + "px";
+    const beamAngle = 120 + progress * 40; // 120deg → 160deg
+    rootEl.style.setProperty("--beam-shift", beamShift);
+    rootEl.style.setProperty("--beam-angle", `${beamAngle}deg`);
+  }
+
+  handleScroll();
+  if (!prefersReduced) {
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+  }
 });
 
 // ======================
-// CURSOR LANTERN GLOW
+// POLLEN / DUST + FIREFLIES
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const glow = document.querySelector('.cursor-glow');
-  if (!glow) return;
-
+(function pollenAndFireflies() {
   const prefersReduced =
     window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (prefersReduced) {
-    glow.style.display = 'none';
-    return;
-  }
+  const canvas = document.getElementById("particleCanvas");
+  if (!canvas || !canvas.getContext || prefersReduced) return;
 
-  let targetX = -999;
-  let targetY = -999;
-  let currentX = -999;
-  let currentY = -999;
-  let rafId = null;
-
-  function animate() {
-    const dx = targetX - currentX;
-    const dy = targetY - currentY;
-    currentX += dx * 0.16;
-    currentY += dy * 0.16;
-    glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
-    rafId = requestAnimationFrame(animate);
-  }
-
-  window.addEventListener('pointermove', event => {
-    targetX = event.clientX;
-    targetY = event.clientY;
-    if (rafId === null) {
-      rafId = requestAnimationFrame(animate);
-    }
-  });
-});
-
-// ======================
-// DUST MOTES IN LAMPLIGHT
-// ======================
-(function dustMotes() {
-  const canvas = document.getElementById('dustCanvas');
-  if (!canvas || !canvas.getContext) return;
-
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (prefersReduced) return;
-
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
 
-  const motes = [];
-  const MOTE_COUNT = 80;
+  const pollen = [];
+  const fireflies = [];
+  const POLLEN_COUNT = 90;
+  const FIREFLY_COUNT = 18;
 
   function resize() {
     const ratio = window.devicePixelRatio || 1;
@@ -199,16 +174,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function init() {
-    motes.length = 0;
+    pollen.length = 0;
+    fireflies.length = 0;
 
-    for (let i = 0; i < MOTE_COUNT; i++) {
-      motes.push({
+    for (let i = 0; i < POLLEN_COUNT; i++) {
+      pollen.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vy: 0.02 + Math.random() * 0.06,
-        vx: (Math.random() - 0.5) * 0.03,
-        size: 0.6 + Math.random() * 1.4,
+        vy: 0.05 + Math.random() * 0.12,
+        vx: (Math.random() - 0.5) * 0.05,
+        size: 0.8 + Math.random() * 1.2,
         phase: Math.random() * Math.PI * 2
+      });
+    }
+
+    for (let i = 0; i < FIREFLY_COUNT; i++) {
+      fireflies.push({
+        x: Math.random() * width,
+        y: Math.random() * height * 0.6,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.005 + Math.random() * 0.01
       });
     }
   }
@@ -216,19 +203,60 @@ document.addEventListener('DOMContentLoaded', () => {
   function step(ts) {
     ctx.clearRect(0, 0, width, height);
 
+    // Pollen / dust motes
     ctx.save();
-    for (const m of motes) {
-      m.y += m.vy;
-      m.x += m.vx + Math.sin(m.phase + ts * 0.00005) * 0.04;
+    for (const p of pollen) {
+      p.y += p.vy;
+      p.x += p.vx + Math.sin(p.phase + ts * 0.00008) * 0.08;
 
-      if (m.y > height + 10) m.y = -10;
-      if (m.x < -10) m.x = width + 10;
-      if (m.x > width + 10) m.x = -10;
+      if (p.y > height) p.y = -10;
+      if (p.x < -10) p.x = width + 10;
+      if (p.x > width + 10) p.x = -10;
 
-      const alpha = 0.05 + Math.abs(Math.sin(m.phase + ts * 0.00025)) * 0.12;
-      ctx.fillStyle = `rgba(254, 243, 199, ${alpha})`;
+      const alpha = 0.08 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.07;
+      ctx.fillStyle = `rgba(253, 216, 167, ${alpha})`;
       ctx.beginPath();
-      ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // Fireflies (soft pulse)
+    ctx.save();
+    for (const f of fireflies) {
+      f.x += f.vx;
+      f.y += f.vy;
+      f.phase += f.speed;
+
+      if (f.x < -20) f.x = width + 20;
+      if (f.x > width + 20) f.x = -20;
+      if (f.y < 0) f.y = height * 0.4;
+      if (f.y > height * 0.7) f.y = 20;
+
+      const alpha = 0.05 + Math.abs(Math.sin(f.phase)) * 0.45;
+
+      const radius = 2.5;
+      const gradient = ctx.createRadialGradient(
+        f.x,
+        f.y,
+        0,
+        f.x,
+        f.y,
+        radius * 5
+      );
+      // mossy + moonlit mix
+      gradient.addColorStop(0, `rgba(253, 216, 167, ${alpha})`);
+      gradient.addColorStop(0.4, `rgba(126, 155, 140, ${alpha * 0.7})`);
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, radius * 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(255, 244, 230, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, radius, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
@@ -238,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   resize();
   init();
-  window.addEventListener('resize', () => {
+  window.addEventListener("resize", () => {
     resize();
     init();
   });
@@ -246,27 +274,25 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 // ======================
-// LIBRARY NIGHT-SKY NETWORK
+// FOREST MYCELIUM / CONSTELLATION NETWORK
 // ======================
-(function libraryNetwork() {
-  const canvas = document.getElementById('libraryNetwork');
-  if (!canvas || !canvas.getContext) return;
-
+(function forestNetwork() {
   const prefersReduced =
     window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (prefersReduced) return;
+  const canvas = document.getElementById("forestNetwork");
+  if (!canvas || !canvas.getContext || prefersReduced) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
   let nodes = [];
   const NODE_COUNT = 70;
   const BASE_MAX_DIST = 130;
 
-  let scrollFactor = 0;
-  let focusFactor = 0;
+  let scrollFactor = 0; // 0 = top of page, 1 = bottom
+  let focusFactor = 0;  // 0 = section off-screen, 1 = fully visible
   let mouseX = null;
   let mouseY = null;
 
@@ -289,8 +315,8 @@ document.addEventListener('DOMContentLoaded', () => {
       nodes.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.2,
-        vy: (Math.random() - 0.5) * 0.2,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
         size: 0.9 + Math.random() * 1.4
       });
     }
@@ -303,23 +329,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const rect = canvas.getBoundingClientRect();
     const viewHeight = window.innerHeight;
-    const visible = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
-    const ratio = clamp01(visible / Math.max(rect.height, 1));
+    const visible =
+      Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
+    const ratio = clamp01(visible / rect.height);
     focusFactor = ratio;
   }
 
-  window.addEventListener('scroll', updateScrollFactors);
-  window.addEventListener('resize', () => {
+  window.addEventListener("scroll", updateScrollFactors);
+  window.addEventListener("resize", () => {
     resize();
     updateScrollFactors();
   });
 
-  canvas.addEventListener('pointermove', event => {
+  canvas.addEventListener("pointermove", (event) => {
     const rect = canvas.getBoundingClientRect();
     mouseX = event.clientX - rect.left;
     mouseY = event.clientY - rect.top;
   });
-  canvas.addEventListener('pointerleave', () => {
+  canvas.addEventListener("pointerleave", () => {
     mouseX = null;
     mouseY = null;
   });
@@ -327,23 +354,23 @@ document.addEventListener('DOMContentLoaded', () => {
   function step() {
     ctx.clearRect(0, 0, width, height);
 
-    // Background: night sky
+    // Background: top sky (constellation) fades → lower forest (mycelium)
     const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-    skyGrad.addColorStop(0, 'rgba(10,16,35,1)');
-    skyGrad.addColorStop(0.4, 'rgba(6,10,24,1)');
-    skyGrad.addColorStop(1, 'rgba(5,8,18,1)');
+    skyGrad.addColorStop(0, "rgba(8,14,24,1)");
+    skyGrad.addColorStop(0.45, "rgba(5,10,16,1)");
+    skyGrad.addColorStop(1, "rgba(6,13,11,1)");
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // Faint star field
-    const starAlpha = 0.5 + 0.3 * focusFactor;
+    // Constellation stars fade as scrollFactor increases (cosmos → roots)
+    const starAlpha = 0.6 * (1 - scrollFactor);
     if (starAlpha > 0.02) {
       ctx.save();
-      ctx.fillStyle = `rgba(238, 242, 255, ${0.35 * starAlpha})`;
-      const starCount = 32;
+      const starCount = 28;
+      ctx.fillStyle = `rgba(253, 244, 230, ${0.5 * starAlpha})`;
       for (let i = 0; i < starCount; i++) {
-        const x = (i * 73) % width;
-        const y = (i * 29) % (height * 0.4);
+        const x = (i * 71) % width;
+        const y = (i * 23) % (height * 0.35);
         ctx.beginPath();
         ctx.arc(x, y, 0.8 + (i % 3) * 0.3, 0, Math.PI * 2);
         ctx.fill();
@@ -351,17 +378,32 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.restore();
     }
 
+    // Subtle downward root hints at bottom
+    ctx.save();
+    ctx.strokeStyle = "rgba(33, 61, 50, 0.8)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 6; i++) {
+      const x = (width / 6) * i + (i % 2 === 0 ? 10 : -5);
+      ctx.beginPath();
+      ctx.moveTo(x, height * 0.45);
+      ctx.lineTo(x + (Math.random() - 0.5) * 20, height);
+      ctx.stroke();
+    }
+    ctx.restore();
+
     // Node dynamics
-    const CENTER_PULL = 0.02 + focusFactor * 0.05;
+    const ROOT_PULL = 0.02 + focusFactor * 0.05; // stronger clustering in view
     const maxDist = BASE_MAX_DIST + focusFactor * 40;
 
     for (const n of nodes) {
       const cx = width * 0.5;
-      const cy = height * (0.5 + focusFactor * 0.1);
+      const cy = height * (0.45 + focusFactor * 0.15);
 
-      n.vx += (cx - n.x) * CENTER_PULL * 0.0006;
-      n.vy += (cy - n.y) * CENTER_PULL * 0.0006;
+      // gentle pull toward center (mycelium center)
+      n.vx += (cx - n.x) * ROOT_PULL * 0.0006;
+      n.vy += (cy - n.y) * ROOT_PULL * 0.0006;
 
+      // pointer attraction (brain synapse / mycelium responsiveness)
       if (mouseX != null && mouseY != null) {
         const dx = mouseX - n.x;
         const dy = mouseY - n.y;
@@ -381,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (n.y > height + 30) n.y = -30;
     }
 
-    // Connections
+    // Connections (mycelium threads), thicker/more luminous as section is focused
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const n1 = nodes[i];
@@ -391,8 +433,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < maxDist) {
           const alpha = (1 - dist / maxDist) * (0.6 + focusFactor * 0.4);
-          ctx.strokeStyle = `rgba(191, 219, 254, ${alpha * 0.6})`;
-          ctx.lineWidth = 0.9;
+          // blend of mossy + moonlit
+          ctx.strokeStyle = `rgba(191, 173, 144, ${alpha * 0.6})`;
+          ctx.lineWidth = 0.6 + focusFactor * 0.6;
           ctx.beginPath();
           ctx.moveTo(n1.x, n1.y);
           ctx.lineTo(n2.x, n2.y);
@@ -401,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Nodes
+    // Nodes (soft pulses)
     for (const n of nodes) {
       const grad = ctx.createRadialGradient(
         n.x,
@@ -411,15 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
         n.y,
         n.size * 3.5
       );
-      grad.addColorStop(0, 'rgba(254, 243, 199, 0.95)');
-      grad.addColorStop(0.45, 'rgba(254, 243, 199, 0.5)');
-      grad.addColorStop(1, 'rgba(254, 243, 199, 0)');
+      grad.addColorStop(0, "rgba(253, 216, 167, 0.9)");
+      grad.addColorStop(0.45, "rgba(126, 155, 140, 0.6)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = grad;
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.size * 3.5, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fillStyle = "rgba(255, 244, 230, 0.9)";
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
       ctx.fill();
@@ -434,25 +477,31 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 // ======================
-// CAT CAMEO: awake when writing section in view
+// FOREST AUDIO TOGGLE
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
-  const writingSection = document.getElementById('writing');
-  const cat = document.querySelector('.cat-cameo');
-  if (!writingSection || !cat) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const audio = document.getElementById("forestAudio");
+  const toggle = document.getElementById("forestSoundToggle");
+  if (!audio || !toggle) return;
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          cat.classList.add('cat-cameo--awake');
-        } else {
-          cat.classList.remove('cat-cameo--awake');
-        }
-      });
-    },
-    { threshold: 0.4 }
-  );
+  let playing = false;
+  const label = toggle.querySelector(".sound-toggle__label");
 
-  observer.observe(writingSection);
+  toggle.addEventListener("click", () => {
+    if (!playing) {
+      audio
+        .play()
+        .then(() => {
+          playing = true;
+          if (label) label.textContent = "Forest on";
+        })
+        .catch(() => {
+          // autoplay block; do nothing
+        });
+    } else {
+      audio.pause();
+      playing = false;
+      if (label) label.textContent = "Forest off";
+    }
+  });
 });
