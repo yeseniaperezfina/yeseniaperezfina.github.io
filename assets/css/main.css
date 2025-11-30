@@ -1,658 +1,699 @@
-// ======================
-// UTILITIES
-// ======================
-function clamp01(value) {
-  return Math.min(1, Math.max(0, value));
+/* ======================
+   BASE THEME & GLOBAL
+   ====================== */
+
+:root {
+  --bg: #020617;
+  --bg-soft: #030712;
+  --bg-soft-alt: #020617;
+  --surface: #050816;
+  --surface-soft: #050816;
+  --surface-alt: #050b18;
+
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --text-soft: #6b7280;
+
+  --accent: #f6d493;
+  --accent-soft: rgba(246, 212, 147, 0.5);
+  --accent-strong: #facc6b;
+  --accent-alt: #a5b4fc;
+
+  --border-subtle: rgba(148, 163, 184, 0.35);
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.65);
+
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  --orbit-tooltip-bg: rgba(15, 23, 42, 0.95);
+  --orbit-tooltip-border: rgba(148, 163, 184, 0.7);
+
+  --scene-ambient: rgba(15, 23, 42, 0.65);
+  --scene-ambient-highlight: rgba(148, 163, 184, 0.22);
+  --scene-panel-glow: 0 0 0 rgba(0, 0, 0, 0.0);
+  --scene-hero-glass: rgba(226, 232, 240, 0.18);
+  --scene-texture: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.09), transparent 60%);
+
+  --root-progress: 0;
+  --transition-fast: 160ms ease-out;
+  --transition-med: 260ms ease-out;
+  --transition-slow: 420ms ease-out;
 }
 
-// ======================
-// YEAR STAMP
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const yearSpan = document.getElementById("year");
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Inter", sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(6, 78, 59, 0.85), transparent 55%),
+    linear-gradient(to bottom, #020617, #020617 40%, #000814 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Light atmospheric overlays driven by scene + scroll */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Ambient scene texture (wood grain / knit / glassy stars) */
+body::before {
+  background-image: var(--scene-texture);
+  background-size: 320px 320px;
+  mix-blend-mode: soft-light;
+  opacity: 0.35;
+}
+
+/* Scroll glint near lower edge of viewport, tied to --root-progress */
+body::after {
+  background:
+    radial-gradient(ellipse at bottom, rgba(248, 250, 252, 0.14), transparent 60%),
+    linear-gradient(to top, rgba(15, 23, 42, 0.7), transparent 70%);
+  opacity: calc(0.08 + var(--root-progress) * 0.18);
+  transition: opacity 240ms ease-out;
+}
+
+/* Content shell should sit above overlays */
+.page-shell,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ======================
+   SECTIONS + NAV SCROLL REVEAL
+   ====================== */
+
+section[data-section] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 520ms ease-out,
+    transform 520ms cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: opacity, transform;
+}
+
+section[data-section].section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.nav {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.nav-link::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.35);
+  box-shadow: 0 0 0 0 rgba(161, 172, 245, 0.0);
+  transition:
+    background-color var(--transition-fast),
+    box-shadow var(--transition-med);
+}
+
+.nav-link:hover {
+  color: var(--accent-strong);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.65);
+}
+
+.nav-link.is-active {
+  color: var(--accent-strong);
+  background: rgba(30, 64, 175, 0.15);
+  border-color: rgba(129, 140, 248, 0.8);
+  box-shadow:
+    0 0 0 1px rgba(129, 140, 248, 0.5),
+    0 18px 40px rgba(15, 23, 42, 0.9);
+}
+
+.nav-link.is-active::after {
+  background: #a5b4fc;
+  box-shadow:
+    0 0 0 4px rgba(129, 140, 248, 0.2),
+    0 0 12px rgba(129, 140, 248, 0.85);
+}
+
+/* ======================
+   ROLE CHIPS → BOOKSHELF SPINES
+   ====================== */
+
+.role-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.4rem 0.15rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.6));
+  box-shadow:
+    inset 0 0 0 1px rgba(15, 23, 42, 0.4),
+    0 16px 34px rgba(15, 23, 42, 0.9);
+  position: relative;
+}
+
+/* Faint shelf line */
+.role-chips::before {
+  content: "";
+  position: absolute;
+  inset-inline: 4%;
+  bottom: 2px;
+  height: 1px;
+  background:
+    linear-gradient(to right, transparent, rgba(148, 163, 184, 0.35), transparent);
+  opacity: 0.8;
+}
+
+/* Generic chip */
+[data-role-chip] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.06), transparent 60%),
+              linear-gradient(to bottom, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
+  color: var(--text-main);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform-origin: left center;
+  transform: translateX(0) translateY(0);
+  box-shadow:
+    0 4px 10px rgba(15, 23, 42, 0.8),
+    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+  transition:
+    transform 200ms cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 220ms ease-out,
+    border-color 180ms ease-out,
+    background 220ms ease-out,
+    color 180ms ease-out;
+}
+
+/* Spine edge */
+[data-role-chip]::before {
+  content: "";
+  position: absolute;
+  inset-block: 5%;
+  left: 0.35rem;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(249, 250, 251, 0.4), rgba(55, 65, 81, 0.4));
+  opacity: 0.85;
+}
+
+/* Top bevel highlight */
+[data-role-chip]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 10%;
+  top: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to right, rgba(249, 250, 251, 0.22), transparent);
+  opacity: 0.8;
+}
+
+/* Hover → like pulling a book slightly */
+[data-role-chip]:hover {
+  transform: translateX(4px) translateY(-1px);
+  box-shadow:
+    0 10px 22px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(148, 163, 184, 0.8);
+  border-color: rgba(209, 213, 219, 0.8);
+}
+
+/* Active → book fully slid out */
+[data-role-chip].chip--active {
+  transform: translateX(8px) translateY(-2px);
+  box-shadow:
+    0 18px 36px rgba(15, 23, 42, 0.95),
+    0 0 0 1px rgba(148, 163, 184, 0.9),
+    0 0 18px rgba(240, 171, 252, 0.18);
+}
+
+/* Role-specific tints */
+[data-role-chip="Strategist"] {
+  border-color: rgba(245, 158, 11, 0.85);
+  background:
+    radial-gradient(circle at 0 0, rgba(251, 191, 36, 0.3), transparent 60%),
+    linear-gradient(to bottom, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 0.98));
+}
+
+[data-role-chip="Scholar"] {
+  border-color: rgba(129, 140, 248, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(129, 140, 248, 0.28), transparent 60%),
+    linear-gradient(to bottom, rgba(30, 64, 175, 0.9), rgba(15, 23, 42, 0.98));
+}
+
+[data-role-chip="Creator"] {
+  border-color: rgba(244, 114, 182, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(244, 114, 182, 0.32), transparent 60%),
+    linear-gradient(to bottom, rgba(76, 29, 149, 0.8), rgba(15, 23, 42, 0.98));
+}
+
+[data-role-chip="Navigator"] {
+  border-color: rgba(52, 211, 153, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(45, 212, 191, 0.3), transparent 60%),
+    linear-gradient(to bottom, rgba(6, 78, 59, 0.9), rgba(15, 23, 42, 0.98));
+}
+
+/* ======================
+   ROLE NOTE
+   ====================== */
+
+#role-note {
+  margin-top: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background:
+    radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 60%),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.85);
+}
+
+/* ======================
+   ORBIT TOOLTIP
+   ====================== */
+
+.orbit-tooltip {
+  position: absolute;
+  min-width: 120px;
+  max-width: 220px;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  background: var(--orbit-tooltip-bg);
+  border: 1px solid var(--orbit-tooltip-border);
+  color: var(--text-main);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow:
+    0 16px 34px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(15, 23, 42, 0.9);
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity 180ms ease-out,
+    transform 180ms ease-out;
+  z-index: 40;
+}
+
+/* ======================
+   CAT CAMEO (WRITING SECTION)
+   ====================== */
+
+#writing {
+  position: relative;
+}
+
+.cat-cameo {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 1rem;
+  width: 76px;
+  height: 54px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cat-cameo__inner {
+  position: absolute;
+  bottom: -40px;
+  right: 0;
+  width: 68px;
+  height: 48px;
+  background: radial-gradient(circle at 30% 0, #fefce8, #fee2e2, #fecaca);
+  border-radius: 999px 999px 26px 26px;
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.9),
+    0 0 0 1px rgba(148, 163, 184, 0.7);
+  transform: translateY(100%);
+  transform-origin: bottom center;
+  transition: transform 420ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Face + ears pseudo-elements */
+.cat-cameo__inner::before,
+.cat-cameo__inner::after {
+  content: "";
+  position: absolute;
+  background: #0f172a;
+}
+
+/* Eyes */
+.cat-cameo__inner::before {
+  width: 28px;
+  height: 10px;
+  border-radius: 999px;
+  left: 50%;
+  top: 24%;
+  transform: translateX(-50%);
+  box-shadow:
+    -9px 0 0 0 #0f172a,
+    9px 0 0 0 #0f172a;
+}
+
+/* Ears */
+.cat-cameo__inner::after {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  top: -5px;
+  left: 12px;
+  box-shadow:
+    18px 0 0 0 #0f172a;
+}
+
+/* Hoverable area: when writing section is hovered, cat peeks */
+#writing:hover .cat-cameo__inner,
+.cat-cameo--peek .cat-cameo__inner {
+  transform: translateY(0%);
+}
+
+/* ======================
+   CURSOR LANTERN GLOW
+   ====================== */
+
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(248, 250, 252, 0.55), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(129, 140, 248, 0.55), transparent 70%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  filter: blur(18px);
+  transform: translate3d(-999px, -999px, 0);
+  transition: opacity 260ms ease-out;
+  z-index: 999;
+}
+
+/* ======================
+   FOREST CANOPY LAYERS
+   ====================== */
+
+.forest-canopy {
+  position: relative;
+  overflow: hidden;
+}
+
+.forest-canopy-layer--back,
+.forest-canopy-layer--front {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Ensure parallax layers sit behind content */
+.forest-canopy-layer--back {
+  z-index: 0;
+}
+
+.forest-canopy-layer--front {
+  z-index: 1;
+}
+
+/* ======================
+   CANVASES
+   ====================== */
+
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#forestNetwork {
+  width: 100%;
+  height: 260px;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
+  box-shadow: 0 24px 40px rgba(15, 23, 42, 0.95);
+  overflow: hidden;
+}
+
+/* ======================
+   SCENE THEMING
+   html[data-scene="study" | "nook" | "observatory"]
+   ====================== */
+
+/* Default scene (no data-scene set) already defined via base vars */
+
+html[data-scene="study"] {
+  --scene-ambient: rgba(15, 23, 42, 0.7);
+  --scene-ambient-highlight: rgba(250, 204, 21, 0.14);
+  --scene-panel-glow: 0 0 0 1px rgba(251, 191, 36, 0.18);
+  --scene-hero-glass: rgba(248, 250, 252, 0.2);
+  --scene-texture: repeating-linear-gradient(
+      135deg,
+      rgba(148, 163, 184, 0.12),
+      rgba(148, 163, 184, 0.12) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+}
+
+html[data-scene="nook"] {
+  --scene-ambient: rgba(15, 23, 42, 0.75);
+  --scene-ambient-highlight: rgba(45, 212, 191, 0.16);
+  --scene-panel-glow: 0 0 0 1px rgba(45, 212, 191, 0.2);
+  --scene-hero-glass: rgba(34, 211, 238, 0.25);
+  --scene-texture: radial-gradient(circle at 10% 0, rgba(56, 189, 248, 0.16), transparent 60%);
+}
+
+html[data-scene="observatory"] {
+  --scene-ambient: rgba(15, 23, 42, 0.8);
+  --scene-ambient-highlight: rgba(129, 140, 248, 0.2);
+  --scene-panel-glow: 0 0 0 1px rgba(129, 140, 248, 0.23);
+  --scene-hero-glass: rgba(191, 219, 254, 0.2);
+  --scene-texture: radial-gradient(circle at 80% 0, rgba(129, 140, 248, 0.24), transparent 65%);
+}
+
+/* Panels and cards respond to scene glow */
+
+.panel,
+.section-panel,
+.card {
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background:
+    linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.94)),
+    radial-gradient(circle at top left, var(--scene-ambient-highlight), transparent 65%);
+  box-shadow:
+    var(--shadow-soft),
+    var(--scene-panel-glow);
+  backdrop-filter: blur(18px);
+}
+
+/* When in focus (section-visible) give a slightly stronger rim light */
+.section-visible .panel,
+.section-visible .section-panel,
+.section-visible .card {
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.95),
+    0 0 0 1px rgba(148, 163, 184, 0.5),
+    var(--scene-panel-glow);
+}
+
+/* ======================
+   HERO PORTRAIT WINDOW REFLECTION
+   ====================== */
+
+.hero-photo {
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(248, 250, 252, 0.16), transparent 60%),
+    linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+  box-shadow:
+    0 26px 48px rgba(15, 23, 42, 0.98),
+    0 0 0 1px rgba(148, 163, 184, 0.4);
+}
+
+.hero-photo img,
+.hero-photo__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Glass reflection sweep */
+.hero-photo::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(248, 250, 252, 0.08) 32%,
+      var(--scene-hero-glass) 48%,
+      rgba(248, 250, 252, 0.06) 62%,
+      transparent 82%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  transform: translate3d(-35%, -10%, 0) skewX(-12deg);
+  animation: heroGlassSweep 22s linear infinite;
+  pointer-events: none;
+}
+
+/* Faint secondary reflection on one side */
+.hero-photo::after {
+  content: "";
+  position: absolute;
+  inset-block: 6%;
+  right: 0;
+  width: 18%;
+  background: linear-gradient(to left, rgba(15, 23, 42, 0.0), rgba(191, 219, 254, 0.16));
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Optional “desk lamp” glow on study scene */
+html[data-scene="study"] .hero-photo::after {
+  background: radial-gradient(circle at 100% 0, rgba(251, 191, 36, 0.38), transparent 70%);
+}
+
+/* Slight parallax effect if you wrap hero in a hoverable container */
+.hero-photo:hover {
+  transform: translateY(-2px);
+  transition: transform 260ms ease-out;
+}
+
+/* ======================
+   ANIMATIONS
+   ====================== */
+
+@keyframes heroGlassSweep {
+  0% {
+    transform: translate3d(-50%, -10%, 0) skewX(-12deg);
+    opacity: 0.1;
   }
-});
-
-// ======================
-// ROLE CHIPS → ROLE NOTE
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const chips = document.querySelectorAll("[data-role-chip]");
-  const roleNote = document.getElementById("role-note");
-
-  if (!chips.length || !roleNote) return;
-
-  const copy = {
-    Strategist:
-      "As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.",
-    Scholar:
-      "As a Scholar, I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.",
-    Creator:
-      "As a Creator, I translate complex science and systems work into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.",
-    Navigator:
-      "As a Navigator, I help teams move through ambiguity with clarity and care, holding timelines and people so that change work is brave but not reckless."
-  };
-
-  chips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      chips.forEach((c) => c.classList.remove("chip--active"));
-      chip.classList.add("chip--active");
-
-      const role = chip.getAttribute("data-role-chip");
-      if (role && copy[role]) {
-        roleNote.innerHTML = copy[role].replace(
-          /^As a /,
-          () => `As a <strong>${role}</strong>, `
-        );
-      }
-    });
-  });
-});
-
-// ======================
-// SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll("[data-section]");
-  const navLinks = document.querySelectorAll(".nav-link");
-
-  const linkMap = {};
-  navLinks.forEach((link) => {
-    const id = link.getAttribute("href").replace("#", "");
-    linkMap[id] = link;
-  });
-
-  const sectionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const id = entry.target.id;
-        if (entry.isIntersecting && id && linkMap[id]) {
-          navLinks.forEach((l) => l.classList.remove("is-active"));
-          linkMap[id].classList.add("is-active");
-        }
-        if (entry.isIntersecting) {
-          entry.target.classList.add("section-visible");
-        }
-      });
-    },
-    {
-      threshold: 0.4
-    }
-  );
-
-  sections.forEach((section) => sectionObserver.observe(section));
-});
-
-// ======================
-// ROOT COLUMN PROGRESSION
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const rootEl = document.documentElement;
-
-  function updateRootProgress() {
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
-    rootEl.style.setProperty("--root-progress", progress.toString());
+  15% {
+    opacity: 0.7;
   }
-
-  updateRootProgress();
-  window.addEventListener("scroll", updateRootProgress);
-  window.addEventListener("resize", updateRootProgress);
-});
-
-// ======================
-// FOREST CANOPY PARALLAX + LIGHT BEAM SHIFT
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const back = document.querySelector(".forest-canopy-layer--back");
-  const front = document.querySelector(".forest-canopy-layer--front");
-  const rootEl = document.documentElement;
-
-  if (!back || !front) return;
-
-  function handleScroll() {
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
-
-    const maxOffset = 120;
-    const offsetBack = scrollTop * 0.04;
-    const offsetFront = scrollTop * 0.08;
-
-    back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
-    front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
-
-    const beamShift = (Math.sin(progress * Math.PI * 1.3) * 40).toFixed(2) + "px";
-    const beamAngle = 120 + progress * 40; // 120deg → 160deg
-    rootEl.style.setProperty("--beam-shift", beamShift);
-    rootEl.style.setProperty("--beam-angle", `${beamAngle}deg`);
+  40% {
+    transform: translate3d(25%, 0%, 0) skewX(-12deg);
+    opacity: 0.9;
   }
-
-  handleScroll();
-  if (!prefersReduced) {
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleScroll);
+  60% {
+    transform: translate3d(60%, 3%, 0) skewX(-12deg);
+    opacity: 0.5;
   }
-});
-
-// ======================
-// POLLEN / DUST + FIREFLIES
-// ======================
-(function pollenAndFireflies() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const canvas = document.getElementById("particleCanvas");
-  if (!canvas || !canvas.getContext || prefersReduced) return;
-
-  const ctx = canvas.getContext("2d");
-  let width = 0;
-  let height = 0;
-
-  const pollen = [];
-  const fireflies = [];
-  const POLLEN_COUNT = 90;
-  const FIREFLY_COUNT = 18;
-
-  function resize() {
-    const ratio = window.devicePixelRatio || 1;
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  100% {
+    transform: translate3d(110%, 6%, 0) skewX(-12deg);
+    opacity: 0.0;
   }
+}
 
-  function init() {
-    pollen.length = 0;
-    fireflies.length = 0;
+/* (Cat cameo uses transform transitions instead of keyframes; scroll glint uses CSS vars) */
 
-    for (let i = 0; i < POLLEN_COUNT; i++) {
-      pollen.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vy: 0.05 + Math.random() * 0.12,
-        vx: (Math.random() - 0.5) * 0.05,
-        size: 0.8 + Math.random() * 1.2,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
+/* ======================
+   SMALL SCREEN TWEAKS
+   ====================== */
 
-    for (let i = 0; i < FIREFLY_COUNT; i++) {
-      fireflies.push({
-        x: Math.random() * width,
-        y: Math.random() * height * 0.6,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.005 + Math.random() * 0.01
-      });
-    }
-  }
-
-  function step(ts) {
-    ctx.clearRect(0, 0, width, height);
-
-    // Pollen / dust motes
-    ctx.save();
-    for (const p of pollen) {
-      p.y += p.vy;
-      p.x += p.vx + Math.sin(p.phase + ts * 0.00008) * 0.08;
-
-      if (p.y > height) p.y = -10;
-      if (p.x < -10) p.x = width + 10;
-      if (p.x > width + 10) p.x = -10;
-
-      const alpha = 0.08 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.07;
-      ctx.fillStyle = `rgba(253, 216, 167, ${alpha})`;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.restore();
-
-    // Fireflies (soft pulse)
-    ctx.save();
-    for (const f of fireflies) {
-      f.x += f.vx;
-      f.y += f.vy;
-      f.phase += f.speed;
-
-      if (f.x < -20) f.x = width + 20;
-      if (f.x > width + 20) f.x = -20;
-      if (f.y < 0) f.y = height * 0.4;
-      if (f.y > height * 0.7) f.y = 20;
-
-      const alpha = 0.05 + Math.abs(Math.sin(f.phase)) * 0.45;
-
-      const radius = 2.5;
-      const gradient = ctx.createRadialGradient(
-        f.x,
-        f.y,
-        0,
-        f.x,
-        f.y,
-        radius * 5
-      );
-      gradient.addColorStop(0, `rgba(253, 216, 167, ${alpha})`);
-      gradient.addColorStop(0.4, `rgba(126, 155, 140, ${alpha * 0.7})`);
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, radius * 5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = `rgba(255, 244, 230, ${alpha})`;
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, radius, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.restore();
-
-    requestAnimationFrame(step);
-  }
-
-  resize();
-  init();
-  window.addEventListener("resize", () => {
-    resize();
-    init();
-  });
-  requestAnimationFrame(step);
-})();
-
-// ======================
-// FOREST MYCELIUM / CONSTELLATION NETWORK
-// + ORBITING POINTS LAYER + TOOLTIP
-// ======================
-(function forestNetwork() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const canvas = document.getElementById("forestNetwork");
-  if (!canvas || !canvas.getContext || prefersReduced) return;
-
-  const ctx = canvas.getContext("2d");
-  let width = 0;
-  let height = 0;
-
-  let nodes = [];
-  const NODE_COUNT = 70;
-  const BASE_MAX_DIST = 130;
-
-  // Orbiting points (like a slow satellite ring)
-  const ORBIT_POINT_COUNT = 8;
-  let orbitPoints = [];
-  let orbitCenter = { x: 0, y: 0 };
-  let orbitRadius = 0;
-
-  // Tooltip DOM element
-  const tooltipEl = document.createElement("div");
-  tooltipEl.className = "orbit-tooltip";
-  tooltipEl.setAttribute("role", "status");
-  tooltipEl.style.opacity = "0";
-
-  // Ensure parent is positioned so tooltip can anchor correctly
-  const parent = canvas.parentElement || document.body;
-  if (parent && getComputedStyle(parent).position === "static") {
-    parent.style.position = "relative";
-  }
-  parent.appendChild(tooltipEl);
-
-  // Labels for each orbit point (your practice themes)
-  const ORBIT_LABELS = [
-    "Research",
-    "Practice",
-    "Partnerships",
-    "Systems",
-    "Story",
-    "Equity",
-    "Community",
-    "Leadership"
-  ];
-
-  let scrollFactor = 0; // 0 = top of page, 1 = bottom
-  let focusFactor = 0;  // 0 = section off-screen, 1 = fully visible
-  let mouseX = null;
-  let mouseY = null;
-
-  function resize() {
-    const rect = canvas.getBoundingClientRect();
-    width = rect.width || 400;
-    height = rect.height || 260;
-    const ratio = window.devicePixelRatio || 1;
-
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-
-    orbitCenter.x = width * 0.5;
-    orbitCenter.y = height * 0.4;
-    orbitRadius = Math.min(width, height) * 0.32;
-
-    initNodes();
-    initOrbitPoints();
-  }
-
-  function initNodes() {
-    nodes = [];
-    for (let i = 0; i < NODE_COUNT; i++) {
-      nodes.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        size: 0.9 + Math.random() * 1.4
-      });
-    }
-  }
-
-  function initOrbitPoints() {
-    orbitPoints = [];
-    for (let i = 0; i < ORBIT_POINT_COUNT; i++) {
-      orbitPoints.push({
-        angle: (Math.PI * 2 * i) / ORBIT_POINT_COUNT,
-        radius: orbitRadius * (0.8 + Math.random() * 0.15),
-        speed:
-          (0.0006 + Math.random() * 0.0008) *
-          (Math.random() < 0.5 ? 1 : -1),
-        label: ORBIT_LABELS[i] || `Node ${i + 1}`
-      });
-    }
-  }
-
-  function updateScrollFactors() {
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    scrollFactor = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
-
-    const rect = canvas.getBoundingClientRect();
-    const viewHeight = window.innerHeight;
-    const visible =
-      Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
-    const ratio = clamp01(visible / rect.height);
-    focusFactor = ratio;
-  }
-
-  window.addEventListener("scroll", updateScrollFactors);
-  window.addEventListener("resize", () => {
-    resize();
-    updateScrollFactors();
-  });
-
-  canvas.addEventListener("pointermove", (event) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = event.clientX - rect.left;
-    mouseY = event.clientY - rect.top;
-
-    // Tooltip logic: find nearest orbit point
-    let nearest = null;
-    let nearestDist = Infinity;
-    orbitPoints.forEach((op) => {
-      const px = orbitCenter.x + Math.cos(op.angle) * op.radius;
-      const py = orbitCenter.y + Math.sin(op.angle) * op.radius;
-      const dx = mouseX - px;
-      const dy = mouseY - py;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < nearestDist) {
-        nearestDist = dist;
-        nearest = { op, px, py };
-      }
-    });
-
-    const HOVER_RADIUS = 26; // pixels
-    if (nearest && nearestDist < HOVER_RADIUS) {
-      tooltipEl.textContent = nearest.op.label;
-      const parentRect = parent.getBoundingClientRect();
-      const tooltipX = event.clientX - parentRect.left + 10;
-      const tooltipY = event.clientY - parentRect.top - 12;
-      tooltipEl.style.left = `${tooltipX}px`;
-      tooltipEl.style.top = `${tooltipY}px`;
-      tooltipEl.style.opacity = focusFactor > 0.1 ? "1" : "0";
-    } else {
-      tooltipEl.style.opacity = "0";
-    }
-  });
-
-  canvas.addEventListener("pointerleave", () => {
-    mouseX = null;
-    mouseY = null;
-    tooltipEl.style.opacity = "0";
-  });
-
-  function step() {
-    ctx.clearRect(0, 0, width, height);
-
-    // Background gradient: sky → forest floor
-    const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-    skyGrad.addColorStop(0, "rgba(8,14,30,1)");
-    skyGrad.addColorStop(0.45, "rgba(5,9,22,1)");
-    skyGrad.addColorStop(1, "rgba(6,13,17,1)");
-    ctx.fillStyle = skyGrad;
-    ctx.fillRect(0, 0, width, height);
-
-    // Constellation stars at top
-    const starAlpha = 0.6 * (1 - scrollFactor);
-    if (starAlpha > 0.02) {
-      ctx.save();
-      const starCount = 28;
-      ctx.fillStyle = `rgba(253, 244, 230, ${0.5 * starAlpha})`;
-      for (let i = 0; i < starCount; i++) {
-        const x = (i * 71) % width;
-        const y = (i * 23) % (height * 0.35);
-        ctx.beginPath();
-        ctx.arc(x, y, 0.8 + (i % 3) * 0.3, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-
-    // Understory roots hint at bottom
-    ctx.save();
-    ctx.strokeStyle = "rgba(33, 61, 50, 0.8)";
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 6; i++) {
-      const x = (width / 6) * i + (i % 2 === 0 ? 10 : -5);
-      ctx.beginPath();
-      ctx.moveTo(x, height * 0.45);
-      ctx.lineTo(x + (Math.random() - 0.5) * 20, height);
-      ctx.stroke();
-    }
-    ctx.restore();
-
-    // ---- ORBITING POINTS LAYER (behind mycelium) ----
-    ctx.save();
-    const orbitAlpha = 0.18 + 0.25 * focusFactor;
-
-    // Orbit ring
-    ctx.strokeStyle = `rgba(177, 170, 232, ${orbitAlpha * 0.5})`;
-    ctx.lineWidth = 1.1;
-    ctx.beginPath();
-    ctx.arc(orbitCenter.x, orbitCenter.y, orbitRadius, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // Points gliding along the orbit
-    orbitPoints.forEach((op) => {
-      op.angle += op.speed;
-
-      const px = orbitCenter.x + Math.cos(op.angle) * op.radius;
-      const py = orbitCenter.y + Math.sin(op.angle) * op.radius;
-
-      const pulse =
-        0.4 + 0.6 * Math.abs(Math.sin(op.angle * 1.5 + scrollFactor * 4));
-
-      const grad = ctx.createRadialGradient(px, py, 0, px, py, 8);
-      grad.addColorStop(0, `rgba(246,212,147,${orbitAlpha * pulse})`);
-      grad.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(px, py, 8, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = `rgba(255, 244, 230, ${orbitAlpha * (0.6 + pulse * 0.3)})`;
-      ctx.beginPath();
-      ctx.arc(px, py, 1.6, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    ctx.restore();
-    // ---- end orbit layer ----
-
-    // Node dynamics
-    const ROOT_PULL = 0.02 + focusFactor * 0.05;
-    const maxDist = BASE_MAX_DIST + focusFactor * 40;
-
-    nodes.forEach((n) => {
-      const cx = width * 0.5;
-      const cy = height * (0.45 + focusFactor * 0.15);
-
-      n.vx += (cx - n.x) * ROOT_PULL * 0.0006;
-      n.vy += (cy - n.y) * ROOT_PULL * 0.0006;
-
-      if (mouseX != null && mouseY != null) {
-        const dx = mouseX - n.x;
-        const dy = mouseY - n.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const force = 0.03 * focusFactor;
-        n.vx += (dx / dist) * force * 0.02;
-        n.vy += (dy / dist) * force * 0.02;
-      }
-
-      n.x += n.vx;
-      n.y += n.vy;
-
-      if (n.x < -30) n.x = width + 30;
-      if (n.x > width + 30) n.x = -30;
-      if (n.y < -30) n.y = height + 30;
-      if (n.y > height + 30) n.y = -30;
-    });
-
-    // Mycelium connections
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const n1 = nodes[i];
-        const n2 = nodes[j];
-        const dx = n1.x - n2.x;
-        const dy = n1.y - n2.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < maxDist) {
-          const alpha = (1 - dist / maxDist) * (0.6 + focusFactor * 0.4);
-          ctx.strokeStyle = `rgba(191, 173, 144, ${alpha * 0.6})`;
-          ctx.lineWidth = 0.6 + focusFactor * 0.6;
-          ctx.beginPath();
-          ctx.moveTo(n1.x, n1.y);
-          ctx.lineTo(n2.x, n2.y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Nodes
-    nodes.forEach((n) => {
-      const grad = ctx.createRadialGradient(
-        n.x,
-        n.y,
-        0,
-        n.x,
-        n.y,
-        n.size * 3.5
-      );
-      grad.addColorStop(0, "rgba(253, 216, 167, 0.9)");
-      grad.addColorStop(0.45, "rgba(126, 155, 140, 0.6)");
-      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.size * 3.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "rgba(255, 244, 230, 0.9)";
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
-      ctx.fill();
-    });
-
-    requestAnimationFrame(step);
-  }
-
-  resize();
-  updateScrollFactors();
-  requestAnimationFrame(step);
-})();
-
-// ======================
-// FOREST AUDIO TOGGLE
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const audio = document.getElementById("forestAudio");
-  const toggle = document.getElementById("forestSoundToggle");
-  if (!audio || !toggle) return;
-
-  let playing = false;
-  const label = toggle.querySelector(".sound-toggle__label");
-
-  toggle.addEventListener("click", () => {
-    if (!playing) {
-      audio
-        .play()
-        .then(() => {
-          playing = true;
-          if (label) label.textContent = "Forest on";
-        })
-        .catch(() => {
-          // autoplay block; do nothing
-        });
-    } else {
-      audio.pause();
-      playing = false;
-      if (label) label.textContent = "Forest off";
-    }
-  });
-});
-
-// ======================
-// WRITING SECTION — CAT CAMEO
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const writingSection = document.getElementById("writing");
-  if (!writingSection) return;
-
-  const cat = document.createElement("div");
-  cat.className = "cat-cameo";
-  cat.setAttribute("aria-hidden", "true");
-
-  const inner = document.createElement("div");
-  inner.className = "cat-cameo__inner";
-  cat.appendChild(inner);
-
-  writingSection.appendChild(cat);
-
-  // Optional: occasional automatic peek if in viewport
-  let lastPeek = 0;
-  function maybePeek() {
-    const now = Date.now();
-    if (now - lastPeek < 20000) return; // at most every ~20s
-
-    const rect = writingSection.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!inView) return;
-
-    lastPeek = now;
-    cat.classList.add("cat-cameo--peek");
-    setTimeout(() => {
-      cat.classList.remove("cat-cameo--peek");
-    }, 3800);
+@media (max-width: 768px) {
+  .role-chips {
+    padding: 0.4rem 0.4rem;
   }
 
-  window.addEventListener("scroll", () => {
-    window.requestAnimationFrame(maybePeek);
-  });
-});
+  [data-role-chip] {
+    padding-inline: 0.7rem;
+    font-size: 0.76rem;
+  }
+
+  #role-note {
+    font-size: 0.86rem;
+  }
+
+  #forestNetwork {
+    height: 220px;
+  }
+
+  .cat-cameo {
+    right: 0.4rem;
+    bottom: 0.5rem;
+  }
+
+  .hero-photo {
+    border-radius: 22px;
+  }
+}
