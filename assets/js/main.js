@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (role && copy[role]) {
         roleNote.innerHTML = copy[role].replace(
           /^As a /,
-          (match) => `As a <strong>${role}</strong>, `
+          () => `As a <strong>${role}</strong>, `
         );
       }
     });
@@ -122,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
 
-    // parallax offsets
     const maxOffset = 120;
     const offsetBack = scrollTop * 0.04;
     const offsetFront = scrollTop * 0.08;
@@ -130,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
     back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
     front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
 
-    // light beams shift + angle (softly changing with scroll)
     const beamShift = (Math.sin(progress * Math.PI * 1.3) * 40).toFixed(2) + "px";
     const beamAngle = 120 + progress * 40; // 120deg → 160deg
     rootEl.style.setProperty("--beam-shift", beamShift);
@@ -244,7 +242,6 @@ document.addEventListener("DOMContentLoaded", () => {
         f.y,
         radius * 5
       );
-      // mossy + moonlit mix
       gradient.addColorStop(0, `rgba(253, 216, 167, ${alpha})`);
       gradient.addColorStop(0.4, `rgba(126, 155, 140, ${alpha * 0.7})`);
       gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
@@ -275,6 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ======================
 // FOREST MYCELIUM / CONSTELLATION NETWORK
+// + ORBITING POINTS LAYER + TOOLTIP
 // ======================
 (function forestNetwork() {
   const prefersReduced =
@@ -287,9 +285,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
+
   let nodes = [];
   const NODE_COUNT = 70;
   const BASE_MAX_DIST = 130;
+
+  // Orbiting points (like a slow satellite ring)
+  const ORBIT_POINT_COUNT = 8;
+  let orbitPoints = [];
+  let orbitCenter = { x: 0, y: 0 };
+  let orbitRadius = 0;
+
+  // Tooltip DOM element
+  const tooltipEl = document.createElement("div");
+  tooltipEl.className = "orbit-tooltip";
+  tooltipEl.setAttribute("role", "status");
+  tooltipEl.style.opacity = "0";
+
+  // Ensure parent is positioned so tooltip can anchor correctly
+  const parent = canvas.parentElement || document.body;
+  if (parent && getComputedStyle(parent).position === "static") {
+    parent.style.position = "relative";
+  }
+  parent.appendChild(tooltipEl);
+
+  // Labels for each orbit point (your practice themes)
+  const ORBIT_LABELS = [
+    "Research",
+    "Practice",
+    "Partnerships",
+    "Systems",
+    "Story",
+    "Equity",
+    "Community",
+    "Leadership"
+  ];
 
   let scrollFactor = 0; // 0 = top of page, 1 = bottom
   let focusFactor = 0;  // 0 = section off-screen, 1 = fully visible
@@ -306,7 +336,12 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.height = height * ratio;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
+    orbitCenter.x = width * 0.5;
+    orbitCenter.y = height * 0.4;
+    orbitRadius = Math.min(width, height) * 0.32;
+
     initNodes();
+    initOrbitPoints();
   }
 
   function initNodes() {
@@ -318,6 +353,20 @@ document.addEventListener("DOMContentLoaded", () => {
         vx: (Math.random() - 0.5) * 0.22,
         vy: (Math.random() - 0.5) * 0.22,
         size: 0.9 + Math.random() * 1.4
+      });
+    }
+  }
+
+  function initOrbitPoints() {
+    orbitPoints = [];
+    for (let i = 0; i < ORBIT_POINT_COUNT; i++) {
+      orbitPoints.push({
+        angle: (Math.PI * 2 * i) / ORBIT_POINT_COUNT,
+        radius: orbitRadius * (0.8 + Math.random() * 0.15),
+        speed:
+          (0.0006 + Math.random() * 0.0008) *
+          (Math.random() < 0.5 ? 1 : -1),
+        label: ORBIT_LABELS[i] || `Node ${i + 1}`
       });
     }
   }
@@ -345,24 +394,54 @@ document.addEventListener("DOMContentLoaded", () => {
     const rect = canvas.getBoundingClientRect();
     mouseX = event.clientX - rect.left;
     mouseY = event.clientY - rect.top;
+
+    // Tooltip logic: find nearest orbit point
+    let nearest = null;
+    let nearestDist = Infinity;
+    orbitPoints.forEach((op) => {
+      const px = orbitCenter.x + Math.cos(op.angle) * op.radius;
+      const py = orbitCenter.y + Math.sin(op.angle) * op.radius;
+      const dx = mouseX - px;
+      const dy = mouseY - py;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearest = { op, px, py };
+      }
+    });
+
+    const HOVER_RADIUS = 26; // pixels
+    if (nearest && nearestDist < HOVER_RADIUS) {
+      tooltipEl.textContent = nearest.op.label;
+      const parentRect = parent.getBoundingClientRect();
+      const tooltipX = event.clientX - parentRect.left + 10;
+      const tooltipY = event.clientY - parentRect.top - 12;
+      tooltipEl.style.left = `${tooltipX}px`;
+      tooltipEl.style.top = `${tooltipY}px`;
+      tooltipEl.style.opacity = focusFactor > 0.1 ? "1" : "0";
+    } else {
+      tooltipEl.style.opacity = "0";
+    }
   });
+
   canvas.addEventListener("pointerleave", () => {
     mouseX = null;
     mouseY = null;
+    tooltipEl.style.opacity = "0";
   });
 
   function step() {
     ctx.clearRect(0, 0, width, height);
 
-    // Background: top sky (constellation) fades → lower forest (mycelium)
+    // Background gradient: sky → forest floor
     const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-    skyGrad.addColorStop(0, "rgba(8,14,24,1)");
-    skyGrad.addColorStop(0.45, "rgba(5,10,16,1)");
-    skyGrad.addColorStop(1, "rgba(6,13,11,1)");
+    skyGrad.addColorStop(0, "rgba(8,14,30,1)");
+    skyGrad.addColorStop(0.45, "rgba(5,9,22,1)");
+    skyGrad.addColorStop(1, "rgba(6,13,17,1)");
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // Constellation stars fade as scrollFactor increases (cosmos → roots)
+    // Constellation stars at top
     const starAlpha = 0.6 * (1 - scrollFactor);
     if (starAlpha > 0.02) {
       ctx.save();
@@ -378,7 +457,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.restore();
     }
 
-    // Subtle downward root hints at bottom
+    // Understory roots hint at bottom
     ctx.save();
     ctx.strokeStyle = "rgba(33, 61, 50, 0.8)";
     ctx.lineWidth = 1;
@@ -391,19 +470,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     ctx.restore();
 
+    // ---- ORBITING POINTS LAYER (behind mycelium) ----
+    ctx.save();
+    const orbitAlpha = 0.18 + 0.25 * focusFactor;
+
+    // Orbit ring
+    ctx.strokeStyle = `rgba(177, 170, 232, ${orbitAlpha * 0.5})`;
+    ctx.lineWidth = 1.1;
+    ctx.beginPath();
+    ctx.arc(orbitCenter.x, orbitCenter.y, orbitRadius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Points gliding along the orbit
+    orbitPoints.forEach((op) => {
+      op.angle += op.speed;
+
+      const px = orbitCenter.x + Math.cos(op.angle) * op.radius;
+      const py = orbitCenter.y + Math.sin(op.angle) * op.radius;
+
+      const pulse =
+        0.4 + 0.6 * Math.abs(Math.sin(op.angle * 1.5 + scrollFactor * 4));
+
+      const grad = ctx.createRadialGradient(px, py, 0, px, py, 8);
+      grad.addColorStop(0, `rgba(246,212,147,${orbitAlpha * pulse})`);
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(px, py, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(255, 244, 230, ${orbitAlpha * (0.6 + pulse * 0.3)})`;
+      ctx.beginPath();
+      ctx.arc(px, py, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.restore();
+    // ---- end orbit layer ----
+
     // Node dynamics
-    const ROOT_PULL = 0.02 + focusFactor * 0.05; // stronger clustering in view
+    const ROOT_PULL = 0.02 + focusFactor * 0.05;
     const maxDist = BASE_MAX_DIST + focusFactor * 40;
 
-    for (const n of nodes) {
+    nodes.forEach((n) => {
       const cx = width * 0.5;
       const cy = height * (0.45 + focusFactor * 0.15);
 
-      // gentle pull toward center (mycelium center)
       n.vx += (cx - n.x) * ROOT_PULL * 0.0006;
       n.vy += (cy - n.y) * ROOT_PULL * 0.0006;
 
-      // pointer attraction (brain synapse / mycelium responsiveness)
       if (mouseX != null && mouseY != null) {
         const dx = mouseX - n.x;
         const dy = mouseY - n.y;
@@ -416,14 +530,13 @@ document.addEventListener("DOMContentLoaded", () => {
       n.x += n.vx;
       n.y += n.vy;
 
-      // wrap
       if (n.x < -30) n.x = width + 30;
       if (n.x > width + 30) n.x = -30;
       if (n.y < -30) n.y = height + 30;
       if (n.y > height + 30) n.y = -30;
-    }
+    });
 
-    // Connections (mycelium threads), thicker/more luminous as section is focused
+    // Mycelium connections
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const n1 = nodes[i];
@@ -433,7 +546,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < maxDist) {
           const alpha = (1 - dist / maxDist) * (0.6 + focusFactor * 0.4);
-          // blend of mossy + moonlit
           ctx.strokeStyle = `rgba(191, 173, 144, ${alpha * 0.6})`;
           ctx.lineWidth = 0.6 + focusFactor * 0.6;
           ctx.beginPath();
@@ -444,8 +556,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Nodes (soft pulses)
-    for (const n of nodes) {
+    // Nodes
+    nodes.forEach((n) => {
       const grad = ctx.createRadialGradient(
         n.x,
         n.y,
@@ -466,7 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
       ctx.fill();
-    }
+    });
 
     requestAnimationFrame(step);
   }
@@ -503,5 +615,44 @@ document.addEventListener("DOMContentLoaded", () => {
       playing = false;
       if (label) label.textContent = "Forest off";
     }
+  });
+});
+
+// ======================
+// WRITING SECTION — CAT CAMEO
+// ======================
+document.addEventListener("DOMContentLoaded", () => {
+  const writingSection = document.getElementById("writing");
+  if (!writingSection) return;
+
+  const cat = document.createElement("div");
+  cat.className = "cat-cameo";
+  cat.setAttribute("aria-hidden", "true");
+
+  const inner = document.createElement("div");
+  inner.className = "cat-cameo__inner";
+  cat.appendChild(inner);
+
+  writingSection.appendChild(cat);
+
+  // Optional: occasional automatic peek if in viewport
+  let lastPeek = 0;
+  function maybePeek() {
+    const now = Date.now();
+    if (now - lastPeek < 20000) return; // at most every ~20s
+
+    const rect = writingSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+
+    lastPeek = now;
+    cat.classList.add("cat-cameo--peek");
+    setTimeout(() => {
+      cat.classList.remove("cat-cameo--peek");
+    }, 3800);
+  }
+
+  window.addEventListener("scroll", () => {
+    window.requestAnimationFrame(maybePeek);
   });
 });
