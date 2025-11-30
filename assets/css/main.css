@@ -1,45 +1,6 @@
-/* ======================
-   BASE THEME & GLOBAL
-   ====================== */
-
-:root {
-  --bg: #020617;
-  --bg-soft: #030712;
-  --bg-soft-alt: #020617;
-  --surface: #050816;
-  --surface-soft: #050816;
-  --surface-alt: #050b18;
-
-  --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
-  --text-soft: #6b7280;
-
-  --accent: #f6d493;
-  --accent-soft: rgba(246, 212, 147, 0.5);
-  --accent-strong: #facc6b;
-  --accent-alt: #a5b4fc;
-
-  --border-subtle: rgba(148, 163, 184, 0.35);
-  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.65);
-
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-  --radius-pill: 999px;
-
-  --orbit-tooltip-bg: rgba(15, 23, 42, 0.95);
-  --orbit-tooltip-border: rgba(148, 163, 184, 0.7);
-
-  --scene-ambient: rgba(15, 23, 42, 0.65);
-  --scene-ambient-highlight: rgba(148, 163, 184, 0.22);
-  --scene-panel-glow: 0 0 0 rgba(0, 0, 0, 0.0);
-  --scene-hero-glass: rgba(226, 232, 240, 0.18);
-  --scene-texture: radial-gradient(circle at 0 0, rgba(148, 163, 184, 0.09), transparent 60%);
-
-  --root-progress: 0;
-  --transition-fast: 160ms ease-out;
-  --transition-med: 260ms ease-out;
-  --transition-slow: 420ms ease-out;
-}
+/* =========================
+   RESET & BASE
+   ========================= */
 
 *,
 *::before,
@@ -47,653 +8,1178 @@
   box-sizing: border-box;
 }
 
-html,
+:root {
+  --bg: #020617;
+  --bg-soft: #030815;
+  --panel: #050b18;
+  --panel-soft: #070d20;
+  --panel-alt: #050b14;
+  --accent: #f5d7a4;
+  --accent-soft: rgba(245, 215, 164, 0.55);
+  --accent-strong: #fbbf77;
+  --teal: #5fb3a2;
+  --ink: #e9dfcc;
+  --ink-soft: #c6bfae;
+  --ink-muted: #9b9687;
+  --border-subtle: rgba(233, 223, 204, 0.16);
+  --nav-bg: rgba(3, 7, 18, 0.92);
+  --nav-blur: 18px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 26px 60px rgba(0, 0, 0, 0.55);
+  --shadow-subtle: 0 14px 40px rgba(0, 0, 0, 0.4);
+  --shadow-pill: 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 18px 40px rgba(0, 0, 0, 0.55);
+
+  --root-progress: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: radial-gradient(circle at 10% 0%, #0b1220 0, #020617 52%);
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
-  padding: 0;
-  min-height: 100%;
-}
-
-body {
+  min-height: 100vh;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    "Inter", sans-serif;
-  color: var(--text-main);
+    "Segoe UI", sans-serif;
+  color: var(--ink);
   background:
-    radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(6, 78, 59, 0.85), transparent 55%),
-    linear-gradient(to bottom, #020617, #020617 40%, #000814 100%);
-  background-attachment: fixed;
-  position: relative;
-  overflow-x: hidden;
+    radial-gradient(circle at 50% -10%, rgba(15, 118, 110, 0.28), transparent 60%),
+    radial-gradient(circle at 80% -12%, rgba(94, 234, 212, 0.18), transparent 52%),
+    linear-gradient(to bottom, #020617, #020617 40%, #020617);
+  line-height: 1.6;
 }
 
-/* Light atmospheric overlays driven by scene + scroll */
+/* Scene theming driven by [data-scene] on <html> */
+html[data-scene="study"] body {
+  background:
+    radial-gradient(circle at 0% -20%, rgba(234, 179, 8, 0.35), transparent 60%),
+    linear-gradient(to bottom, #020617, #020617 45%, #020617);
+}
 
-body::before,
-body::after {
-  content: "";
+html[data-scene="nook"] body {
+  background:
+    radial-gradient(circle at 100% -20%, rgba(56, 189, 248, 0.3), transparent 58%),
+    linear-gradient(to bottom, #020617, #020617 45%, #020617);
+}
+
+html[data-scene="observatory"] body {
+  background:
+    radial-gradient(circle at 50% -25%, rgba(147, 197, 253, 0.42), transparent 64%),
+    linear-gradient(to bottom, #020617, #020617 50%, #020617);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+p {
+  margin: 0 0 0.75rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Sections snap nicely with scroll-margin */
+section {
+  scroll-margin-top: 5.5rem;
+}
+
+/* =========================
+   GLOBAL LAYOUT ELEMENTS
+   ========================= */
+
+.site {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 5.5rem 1.5rem 3.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.shell {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.shell--header,
+.shell--footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.site-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+}
+
+/* =========================
+   SKIP LINK
+   ========================= */
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 1rem;
+  padding: 0.4rem 0.75rem;
+  background: #020617;
+  border-radius: 6px;
+  color: var(--ink);
+  transform: translateY(-150%);
+  transition: transform 0.2s ease;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* =========================
+   FOREST CANOPY + ROOT COLUMN + PARTICLES
+   ========================= */
+
+.forest-canopy-wrap {
   position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.forest-canopy-layer {
+  position: absolute;
+  inset-inline: 0;
+  height: 42vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
+}
+
+.forest-canopy-layer--back {
+  top: 0;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(15, 23, 42, 0.9), transparent 65%),
+    radial-gradient(circle at 20% -20%, rgba(34, 197, 94, 0.16), transparent 60%),
+    linear-gradient(to bottom, #020617, rgba(15, 23, 42, 0.9));
+}
+
+.forest-canopy-layer--front {
+  top: 0;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(circle at 10% -20%, rgba(253, 224, 171, 0.5), transparent 60%),
+    radial-gradient(circle at 90% -15%, rgba(45, 212, 191, 0.5), transparent 60%);
+  opacity: 0.4;
+  position: relative;
+}
+
+/* Light beams tied to --beam-angle and --beam-shift */
+.forest-canopy-layer--front::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    linear-gradient(
+      var(--beam-angle, 130deg),
+      rgba(248, 250, 252, 0.15),
+      rgba(248, 250, 252, 0.02) 35%,
+      transparent 70%
+    );
+  transform: translateX(var(--beam-shift, 0));
+  mix-blend-mode: screen;
+  opacity: 0.65;
+}
+
+/* Root column “measurement” bar driven by --root-progress */
+.root-column {
+  position: fixed;
+  right: 1.5rem;
+  top: 5.5rem;
+  width: 3px;
+  height: calc(100vh - 7rem);
+  border-radius: 999px;
+  background: linear-gradient(
+    to bottom,
+    rgba(148, 163, 184, 0.1),
+    rgba(15, 23, 42, 0.6)
+  );
+  overflow: hidden;
+  z-index: 2;
+}
+
+.root-column::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: calc(var(--root-progress) * 100%);
+  background: linear-gradient(
+    to top,
+    rgba(245, 215, 164, 0.9),
+    rgba(56, 189, 248, 0.58),
+    rgba(129, 140, 248, 0.75)
+  );
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+}
+
+/* Particles canvas */
+.particle-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* =========================
+   HEADER & NAV
+   ========================= */
+
+.site-header {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(var(--nav-blur));
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 6, 23, 0.96),
+    rgba(2, 6, 23, 0.88),
+    transparent
+  );
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  padding: 0.75rem 1.75rem 0.7rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 20%, #facc6b, transparent 55%),
+    radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.8), transparent 60%),
+    linear-gradient(145deg, #020617, #020617 40%, #020617);
+  box-shadow: 0 0 0 1px rgba(248, 250, 252, 0.03),
+    0 14px 40px rgba(0, 0, 0, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 14% 18%;
+  border-radius: 999px;
+  border: 1px solid rgba(248, 250, 252, 0.32);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.5);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.brand-name {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.brand-role {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.nav-link {
+  position: relative;
+  padding: 0.15rem 0;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.15rem;
+  width: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #facc6b, #4ade80);
+  transition: width 0.18s ease-out;
+}
+
+.nav-link:hover {
+  color: var(--ink);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  width: 100%;
+}
+
+.nav-link.is-active {
+  color: var(--ink);
+}
+
+/* Sound toggle */
+
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle at 0% 0%, #0f172a, #020617);
+  color: var(--ink-soft);
+  padding: 0.28rem 0.7rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-pill);
+}
+
+.sound-toggle__icon {
+  font-size: 1rem;
+}
+
+.sound-toggle__label {
+  white-space: nowrap;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.site-footer {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 1.5rem 2rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  background: radial-gradient(circle at 50% 0%, rgba(15, 23, 42, 0.9), #020617);
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+/* =========================
+   SECTIONS & GRIDS
+   ========================= */
+
+.section {
+  position: relative;
+  padding: 4.5rem 0 2.5rem;
+}
+
+.section--hero {
+  padding-top: 5rem;
+}
+
+.section--band {
+  background: radial-gradient(circle at 10% 0%, rgba(15, 23, 42, 0.9), #020617);
+  border-radius: 32px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: var(--shadow-soft);
+  padding-inline: 1.75rem;
+  margin-inline: -0.5rem;
+}
+
+.section--contact {
+  margin-bottom: 2.5rem;
+}
+
+.section--botanical::before {
+  content: "";
+  position: absolute;
+  inset-inline: 6%;
+  top: 0.8rem;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(148, 163, 184, 0.1),
+    rgba(148, 163, 184, 0.6),
+    rgba(148, 163, 184, 0.1)
+  );
+  opacity: 0.8;
+}
+
+.section-ornaments {
+  position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: -1;
 }
 
-/* Ambient scene texture (wood grain / knit / glassy stars) */
-body::before {
-  background-image: var(--scene-texture);
-  background-size: 320px 320px;
-  mix-blend-mode: soft-light;
-  opacity: 0.35;
+.section-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(32px);
 }
 
-/* Scroll glint near lower edge of viewport, tied to --root-progress */
-body::after {
-  background:
-    radial-gradient(ellipse at bottom, rgba(248, 250, 252, 0.14), transparent 60%),
-    linear-gradient(to top, rgba(15, 23, 42, 0.7), transparent 70%);
-  opacity: calc(0.08 + var(--root-progress) * 0.18);
-  transition: opacity 240ms ease-out;
+.section-orb--small {
+  width: 130px;
+  height: 130px;
+  top: -20px;
+  left: 6%;
+  background: radial-gradient(circle at 30% 0%, rgba(250, 204, 21, 0.5), transparent 70%);
+  opacity: 0.4;
 }
 
-/* Content shell should sit above overlays */
-.page-shell,
-main {
-  position: relative;
-  z-index: 1;
+.section-orb--medium {
+  width: 220px;
+  height: 220px;
+  top: -50px;
+  right: 4%;
+  background: radial-gradient(circle at 70% 0%, rgba(45, 212, 191, 0.45), transparent 70%);
+  opacity: 0.45;
 }
 
-/* ======================
-   SECTIONS + NAV SCROLL REVEAL
-   ====================== */
-
-section[data-section] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 520ms ease-out,
-    transform 520ms cubic-bezier(0.19, 1, 0.22, 1);
-  will-change: opacity, transform;
+.section-header {
+  max-width: 720px;
+  margin-bottom: 1.75rem;
 }
 
-section[data-section].section-visible {
-  opacity: 1;
-  transform: translateY(0);
+.section-intro {
+  color: var(--ink-soft);
 }
 
-.nav {
+.section-note {
+  color: var(--ink-muted);
+  font-size: 0.84rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.grid--hero {
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2.6fr);
+  align-items: flex-start;
+  gap: 2.3rem;
+}
+
+.grid--split {
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2.5fr);
+}
+
+.grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Stack utility */
+
+.stack {
   display: flex;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.nav-link {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.9rem;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  letter-spacing: 0.04em;
+.stack--tight {
+  gap: 0.8rem;
+}
+
+/* =========================
+   TYPO TREATMENTS
+   ========================= */
+
+.eyebrow {
   text-transform: uppercase;
-  color: var(--text-soft);
-  text-decoration: none;
-  border: 1px solid transparent;
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast),
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast),
-    transform var(--transition-fast);
+  letter-spacing: 0.18em;
+  font-size: 0.74rem;
+  color: var(--ink-muted);
+  margin-bottom: 0.35rem;
 }
 
-.nav-link::after {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: rgba(148, 163, 184, 0.35);
-  box-shadow: 0 0 0 0 rgba(161, 172, 245, 0.0);
-  transition:
-    background-color var(--transition-fast),
-    box-shadow var(--transition-med);
+.lead {
+  font-size: 1.02rem;
+  color: var(--ink-soft);
 }
 
-.nav-link:hover {
+.muted {
+  color: var(--ink-muted);
+  font-size: 0.86rem;
+}
+
+.meta {
+  font-size: 0.84rem;
+  color: var(--ink-muted);
+}
+
+.meta--link a {
+  color: var(--accent-soft);
+}
+
+.highlight {
   color: var(--accent-strong);
-  background: rgba(15, 23, 42, 0.9);
-  border-color: rgba(148, 163, 184, 0.5);
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.65);
 }
 
-.nav-link.is-active {
-  color: var(--accent-strong);
-  background: rgba(30, 64, 175, 0.15);
-  border-color: rgba(129, 140, 248, 0.8);
-  box-shadow:
-    0 0 0 1px rgba(129, 140, 248, 0.5),
-    0 18px 40px rgba(15, 23, 42, 0.9);
+/* =========================
+   HERO LAYOUT
+   ========================= */
+
+.hero-copy h1 {
+  font-size: clamp(2.05rem, 2.5vw + 1.4rem, 2.6rem);
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
 }
 
-.nav-link.is-active::after {
-  background: #a5b4fc;
-  box-shadow:
-    0 0 0 4px rgba(129, 140, 248, 0.2),
-    0 0 12px rgba(129, 140, 248, 0.85);
+.hero-ornaments {
+  position: absolute;
+  inset-inline: 0;
+  top: 4.2rem;
+  pointer-events: none;
+  z-index: -1;
 }
 
-/* ======================
-   ROLE CHIPS → BOOKSHELF SPINES
-   ====================== */
+.leaf-svg {
+  position: absolute;
+  width: 96px;
+  height: auto;
+  opacity: 0.7;
+}
 
-.role-chips {
+.leaf-svg--left {
+  left: 2%;
+  top: 0.8rem;
+}
+
+.leaf-svg--right {
+  right: 2%;
+  top: 1.1rem;
+  transform: scaleX(-1);
+}
+
+.contact-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  padding: 0.4rem 0.15rem;
-  border-radius: 999px;
-  background:
-    linear-gradient(to right, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.6));
-  box-shadow:
-    inset 0 0 0 1px rgba(15, 23, 42, 0.4),
-    0 16px 34px rgba(15, 23, 42, 0.9);
+  gap: 0.7rem;
+  margin-top: 0.75rem;
+}
+
+/* Hero side panel */
+
+.hero-panel {
   position: relative;
 }
 
-/* Faint shelf line */
-.role-chips::before {
+.card {
+  background: radial-gradient(circle at 0% 0%, #020617, #020617 55%, #020617);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  padding: 1.2rem 1.3rem;
+  box-shadow: var(--shadow-subtle);
+}
+
+.card--hero {
+  padding: 1.2rem 1.2rem 1.3rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(245, 215, 164, 0.2), transparent 45%),
+    radial-gradient(circle at 110% 0%, rgba(56, 189, 248, 0.23), transparent 50%),
+    linear-gradient(145deg, #020617, #030712 50%, #020617);
+}
+
+/* Hero portrait "window reflection" */
+
+.hero-portrait {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 210px;
+  margin-bottom: 1rem;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(15, 23, 42, 0.9), transparent 70%),
+    radial-gradient(circle at 15% 80%, rgba(56, 189, 248, 0.55), transparent 70%),
+    radial-gradient(circle at 85% 80%, rgba(132, 204, 22, 0.4), transparent 70%),
+    linear-gradient(to bottom, #020617, #020617 40%, #020617);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.95);
+}
+
+.hero-portrait-inner {
+  position: absolute;
+  inset: 12px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(15, 23, 42, 0.9), transparent 70%),
+    radial-gradient(circle at 20% 90%, rgba(56, 189, 248, 0.35), transparent 70%),
+    linear-gradient(to bottom, #020617, #020617 40%, #020617);
+  overflow: hidden;
+}
+
+/* Light streak / reflection */
+
+.hero-portrait-inner::before {
   content: "";
   position: absolute;
-  inset-inline: 4%;
-  bottom: 2px;
-  height: 1px;
-  background:
-    linear-gradient(to right, transparent, rgba(148, 163, 184, 0.35), transparent);
-  opacity: 0.8;
+  inset: -40%;
+  background: conic-gradient(
+    from 220deg,
+    rgba(248, 250, 252, 0.04),
+    rgba(248, 250, 252, 0.3),
+    transparent,
+    transparent,
+    rgba(248, 250, 252, 0.12),
+    rgba(248, 250, 252, 0.04)
+  );
+  mix-blend-mode: screen;
+  transform: translate3d(-10%, -5%, 0) skewX(-18deg);
+  opacity: 0.7;
 }
 
-/* Generic chip */
-[data-role-chip] {
-  position: relative;
+/* Quick links / card text */
+
+.card-title {
+  font-size: 0.98rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-muted);
+}
+
+.card-body {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+/* =========================
+   BUTTONS & CHIPS
+   ========================= */
+
+.button {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.35rem 0.85rem 0.35rem 0.7rem;
-  border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.55);
-  background: radial-gradient(circle at 0 0, rgba(248, 250, 252, 0.06), transparent 60%),
-              linear-gradient(to bottom, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
-  color: var(--text-main);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transform-origin: left center;
-  transform: translateX(0) translateY(0);
-  box-shadow:
-    0 4px 10px rgba(15, 23, 42, 0.8),
-    inset 0 0 0 1px rgba(15, 23, 42, 0.9);
-  transition:
-    transform 200ms cubic-bezier(0.19, 1, 0.22, 1),
-    box-shadow 220ms ease-out,
-    border-color 180ms ease-out,
-    background 220ms ease-out,
-    color 180ms ease-out;
+  justify-content: center;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(248, 250, 252, 0.18);
+  background: radial-gradient(circle at 0% 0%, #facc6b, #f97316);
+  color: #0f172a;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-pill);
 }
 
-/* Spine edge */
-[data-role-chip]::before {
+.button:hover {
+  text-decoration: none;
+  filter: brightness(1.03);
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  border-color: rgba(148, 163, 184, 0.45);
+  box-shadow: none;
+}
+
+/* Role chips bookshelf row */
+
+.chip-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  padding-top: 0.6rem;
+}
+
+.chip-row::before {
   content: "";
   position: absolute;
-  inset-block: 5%;
-  left: 0.35rem;
-  width: 2px;
+  inset-inline: 0;
+  top: 0.2rem;
+  height: 2px;
   border-radius: 999px;
-  background: linear-gradient(to bottom, rgba(249, 250, 251, 0.4), rgba(55, 65, 81, 0.4));
-  opacity: 0.85;
+  background: linear-gradient(
+    to right,
+    rgba(148, 163, 184, 0.1),
+    rgba(148, 163, 184, 0.6),
+    rgba(148, 163, 184, 0.1)
+  );
+  opacity: 0.7;
 }
 
-/* Top bevel highlight */
-[data-role-chip]::after {
+/* Chips = little book spines */
+
+.chip {
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0.28rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  position: relative;
+  transform: translateY(0);
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    background 0.18s ease-out,
+    border-color 0.18s ease-out;
+}
+
+.chip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.7);
+}
+
+/* spine shadow under each chip */
+.chip::after {
   content: "";
   position: absolute;
   inset-inline: 10%;
-  top: 0;
-  height: 2px;
+  bottom: -3px;
+  height: 4px;
   border-radius: 999px;
-  background: linear-gradient(to right, rgba(249, 250, 251, 0.22), transparent);
-  opacity: 0.8;
+  background: radial-gradient(circle, rgba(15, 23, 42, 0.8), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+  transform: translateY(0);
 }
 
-/* Hover → like pulling a book slightly */
-[data-role-chip]:hover {
-  transform: translateX(4px) translateY(-1px);
-  box-shadow:
-    0 10px 22px rgba(15, 23, 42, 0.9),
-    0 0 0 1px rgba(148, 163, 184, 0.8);
-  border-color: rgba(209, 213, 219, 0.8);
+.chip--active {
+  border-color: rgba(248, 250, 252, 0.7);
+  background: radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.8), #0f172a);
+  color: #0b1120;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.65);
 }
 
-/* Active → book fully slid out */
-[data-role-chip].chip--active {
-  transform: translateX(8px) translateY(-2px);
-  box-shadow:
-    0 18px 36px rgba(15, 23, 42, 0.95),
-    0 0 0 1px rgba(148, 163, 184, 0.9),
-    0 0 18px rgba(240, 171, 252, 0.18);
+.chip--active::before {
+  background: #facc15;
 }
 
-/* Role-specific tints */
-[data-role-chip="Strategist"] {
-  border-color: rgba(245, 158, 11, 0.85);
+.chip--active::after {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+.role-note {
+  margin-top: 0.9rem;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+/* Pill links */
+
+.pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle at 0% 0%, #020617, #020617 60%, #020617);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.pill-link span:last-child {
+  font-size: 0.85rem;
+}
+
+.pill-link--full {
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* =========================
+   LISTS & TAG ROWS
+   ========================= */
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tag-row--wrap {
+  margin-top: 0.35rem;
+}
+
+.tag-row li {
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.8);
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+.bullet-list {
+  padding-left: 1.1rem;
+  margin: 0.2rem 0 0;
+  font-size: 0.92rem;
+}
+
+.bullet-list li {
+  margin-bottom: 0.32rem;
+}
+
+/* =========================
+   TIMELINE & MODE GRID
+   ========================= */
+
+.timeline {
+  gap: 1.2rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 0.9rem;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.1rem;
+  bottom: 0.9rem;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(148, 163, 184, 0.8), transparent);
+}
+
+.timeline-label {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.timeline-title {
+  font-size: 0.98rem;
+  margin-bottom: 0.2rem;
+}
+
+.timeline-meta {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.timeline-body {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.mode-grid .card h3 {
+  font-size: 0.96rem;
+}
+
+/* =========================
+   CASE CARDS
+   ========================= */
+
+.card--case h3 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.card--case .meta {
+  margin-bottom: 0.4rem;
+}
+
+.case-more {
+  margin-top: 0.5rem;
+  font-size: 0.86rem;
+}
+
+.case-more summary {
+  cursor: pointer;
+  color: var(--accent-soft);
+}
+
+/* =========================
+   PRACTICE SECTION
+   ========================= */
+
+.card--quote {
   background:
-    radial-gradient(circle at 0 0, rgba(251, 191, 36, 0.3), transparent 60%),
-    linear-gradient(to bottom, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 0.98));
+    radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.13), transparent 55%),
+    linear-gradient(135deg, #020617, #020617 40%, #020617);
 }
 
-[data-role-chip="Scholar"] {
-  border-color: rgba(129, 140, 248, 0.9);
-  background:
-    radial-gradient(circle at 0 0, rgba(129, 140, 248, 0.28), transparent 60%),
-    linear-gradient(to bottom, rgba(30, 64, 175, 0.9), rgba(15, 23, 42, 0.98));
-}
+/* =========================
+   SKILLS CONSTELLATION / MYCELIUM
+   ========================= */
 
-[data-role-chip="Creator"] {
-  border-color: rgba(244, 114, 182, 0.9);
-  background:
-    radial-gradient(circle at 0 0, rgba(244, 114, 182, 0.32), transparent 60%),
-    linear-gradient(to bottom, rgba(76, 29, 149, 0.8), rgba(15, 23, 42, 0.98));
-}
-
-[data-role-chip="Navigator"] {
-  border-color: rgba(52, 211, 153, 0.9);
-  background:
-    radial-gradient(circle at 0 0, rgba(45, 212, 191, 0.3), transparent 60%),
-    linear-gradient(to bottom, rgba(6, 78, 59, 0.9), rgba(15, 23, 42, 0.98));
-}
-
-/* ======================
-   ROLE NOTE
-   ====================== */
-
-#role-note {
-  margin-top: 0.6rem;
-  padding: 0.75rem 1rem;
-  border-radius: 16px;
+.skills-network-wrap {
+  position: relative;
+  padding: 0.6rem;
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(148, 163, 184, 0.45);
   background:
-    radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 60%),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.85);
+    radial-gradient(circle at 0% 0%, rgba(245, 215, 164, 0.22), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.26), transparent 55%),
+    radial-gradient(circle at 50% 100%, rgba(22, 163, 74, 0.22), transparent 65%),
+    linear-gradient(160deg, #020617, #020617 60%, #020617);
+  box-shadow: var(--shadow-soft);
 }
 
-/* ======================
-   ORBIT TOOLTIP
-   ====================== */
+.skills-network-label {
+  position: absolute;
+  top: 0.85rem;
+  left: 1rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(226, 232, 240, 0.7);
+  z-index: 2;
+}
+
+.forest-network {
+  width: 100%;
+  height: 260px;
+  display: block;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* Orbit tooltip */
 
 .orbit-tooltip {
   position: absolute;
-  min-width: 120px;
-  max-width: 220px;
-  padding: 0.4rem 0.65rem;
-  border-radius: 999px;
-  background: var(--orbit-tooltip-bg);
-  border: 1px solid var(--orbit-tooltip-border);
-  color: var(--text-main);
-  font-size: 0.75rem;
-  line-height: 1.4;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   pointer-events: none;
-  white-space: nowrap;
-  box-shadow:
-    0 16px 34px rgba(15, 23, 42, 0.9),
-    0 0 0 1px rgba(15, 23, 42, 0.9);
-  opacity: 0;
+  padding: 0.22rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 0% 0%, #111827, #020617);
+  border: 1px solid rgba(248, 250, 252, 0.18);
+  color: var(--ink-soft);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
   transform: translate3d(0, 0, 0);
-  transition:
-    opacity 180ms ease-out,
-    transform 180ms ease-out;
-  z-index: 40;
+  transition: opacity 0.15s ease-out, transform 0.12s ease-out;
+  opacity: 0;
+  z-index: 5;
 }
 
-/* ======================
-   CAT CAMEO (WRITING SECTION)
-   ====================== */
+/* =========================
+   WRITING SECTION + CAT CAMEO
+   ========================= */
+
+.card--writing {
+  min-height: 180px;
+}
 
 #writing {
   position: relative;
 }
 
+/* Cat cameo */
+
 .cat-cameo {
   position: absolute;
-  bottom: 0.75rem;
-  right: 1rem;
-  width: 76px;
-  height: 54px;
-  overflow: visible;
-  pointer-events: none;
+  bottom: 0.2rem;
+  right: 0.8rem;
+  width: 46px;
+  height: 46px;
+  border-radius: 18px;
+  overflow: hidden;
+  pointer-events: auto;
+  transform: translateY(120%);
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .cat-cameo__inner {
-  position: absolute;
-  bottom: -40px;
-  right: 0;
-  width: 68px;
-  height: 48px;
-  background: radial-gradient(circle at 30% 0, #fefce8, #fee2e2, #fecaca);
-  border-radius: 999px 999px 26px 26px;
-  box-shadow:
-    0 8px 22px rgba(15, 23, 42, 0.9),
-    0 0 0 1px rgba(148, 163, 184, 0.7);
-  transform: translateY(100%);
-  transform-origin: bottom center;
-  transition: transform 420ms cubic-bezier(0.19, 1, 0.22, 1);
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 30% 30%, #fde68a, transparent 60%),
+    radial-gradient(circle at 75% 65%, #38bdf8, transparent 60%),
+    linear-gradient(145deg, #020617, #020617 50%, #020617);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+  position: relative;
 }
 
-/* Face + ears pseudo-elements */
+/* Tiny ears */
+
 .cat-cameo__inner::before,
 .cat-cameo__inner::after {
   content: "";
   position: absolute;
-  background: #0f172a;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px 4px 0 0;
+  background: #020617;
+  box-shadow: 0 0 0 1px rgba(248, 250, 252, 0.18);
 }
 
-/* Eyes */
 .cat-cameo__inner::before {
-  width: 28px;
-  height: 10px;
-  border-radius: 999px;
-  left: 50%;
-  top: 24%;
-  transform: translateX(-50%);
-  box-shadow:
-    -9px 0 0 0 #0f172a,
-    9px 0 0 0 #0f172a;
+  left: 9px;
+  transform: rotate(-12deg);
 }
 
-/* Ears */
 .cat-cameo__inner::after {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  top: -5px;
-  left: 12px;
-  box-shadow:
-    18px 0 0 0 #0f172a;
+  right: 9px;
+  transform: rotate(12deg);
 }
 
-/* Hoverable area: when writing section is hovered, cat peeks */
-#writing:hover .cat-cameo__inner,
-.cat-cameo--peek .cat-cameo__inner {
-  transform: translateY(0%);
+/* Peek animation (triggered via JS) */
+.cat-cameo--peek {
+  transform: translateY(0);
 }
 
-/* ======================
+/* =========================
+   CONTACT CARD
+   ========================= */
+
+.card--contact {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(250, 204, 21, 0.2), transparent 55%),
+    linear-gradient(145deg, #020617, #020617 55%, #020617);
+}
+
+/* =========================
    CURSOR LANTERN GLOW
-   ====================== */
+   ========================= */
 
 .cursor-glow {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 160px;
   height: 160px;
   border-radius: 999px;
+  background: radial-gradient(circle, rgba(248, 250, 252, 0.08), transparent 65%);
   pointer-events: none;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(248, 250, 252, 0.55), transparent 60%),
-    radial-gradient(circle at 70% 70%, rgba(129, 140, 248, 0.55), transparent 70%);
   mix-blend-mode: screen;
+  filter: blur(10px);
   opacity: 0;
-  filter: blur(18px);
-  transform: translate3d(-999px, -999px, 0);
-  transition: opacity 260ms ease-out;
-  z-index: 999;
+  transition: opacity 0.25s ease-out;
+  z-index: 9;
 }
 
-/* ======================
-   FOREST CANOPY LAYERS
-   ====================== */
+/* =========================
+   SECTION REVEAL
+   ========================= */
 
-.forest-canopy {
-  position: relative;
-  overflow: hidden;
+[data-section] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
-.forest-canopy-layer--back,
-.forest-canopy-layer--front {
-  position: absolute;
-  inset: 0;
-  background-repeat: no-repeat;
-  background-size: cover;
-  will-change: transform;
-  pointer-events: none;
+.section-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Ensure parallax layers sit behind content */
-.forest-canopy-layer--back {
-  z-index: 0;
-}
+/* =========================
+   RESPONSIVE
+   ========================= */
 
-.forest-canopy-layer--front {
-  z-index: 1;
-}
-
-/* ======================
-   CANVASES
-   ====================== */
-
-#particleCanvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#forestNetwork {
-  width: 100%;
-  height: 260px;
-  border-radius: 22px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), #020617);
-  box-shadow: 0 24px 40px rgba(15, 23, 42, 0.95);
-  overflow: hidden;
-}
-
-/* ======================
-   SCENE THEMING
-   html[data-scene="study" | "nook" | "observatory"]
-   ====================== */
-
-/* Default scene (no data-scene set) already defined via base vars */
-
-html[data-scene="study"] {
-  --scene-ambient: rgba(15, 23, 42, 0.7);
-  --scene-ambient-highlight: rgba(250, 204, 21, 0.14);
-  --scene-panel-glow: 0 0 0 1px rgba(251, 191, 36, 0.18);
-  --scene-hero-glass: rgba(248, 250, 252, 0.2);
-  --scene-texture: repeating-linear-gradient(
-      135deg,
-      rgba(148, 163, 184, 0.12),
-      rgba(148, 163, 184, 0.12) 1px,
-      transparent 1px,
-      transparent 6px
-    );
-}
-
-html[data-scene="nook"] {
-  --scene-ambient: rgba(15, 23, 42, 0.75);
-  --scene-ambient-highlight: rgba(45, 212, 191, 0.16);
-  --scene-panel-glow: 0 0 0 1px rgba(45, 212, 191, 0.2);
-  --scene-hero-glass: rgba(34, 211, 238, 0.25);
-  --scene-texture: radial-gradient(circle at 10% 0, rgba(56, 189, 248, 0.16), transparent 60%);
-}
-
-html[data-scene="observatory"] {
-  --scene-ambient: rgba(15, 23, 42, 0.8);
-  --scene-ambient-highlight: rgba(129, 140, 248, 0.2);
-  --scene-panel-glow: 0 0 0 1px rgba(129, 140, 248, 0.23);
-  --scene-hero-glass: rgba(191, 219, 254, 0.2);
-  --scene-texture: radial-gradient(circle at 80% 0, rgba(129, 140, 248, 0.24), transparent 65%);
-}
-
-/* Panels and cards respond to scene glow */
-
-.panel,
-.section-panel,
-.card {
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  background:
-    linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.94)),
-    radial-gradient(circle at top left, var(--scene-ambient-highlight), transparent 65%);
-  box-shadow:
-    var(--shadow-soft),
-    var(--scene-panel-glow);
-  backdrop-filter: blur(18px);
-}
-
-/* When in focus (section-visible) give a slightly stronger rim light */
-.section-visible .panel,
-.section-visible .section-panel,
-.section-visible .card {
-  box-shadow:
-    0 18px 40px rgba(15, 23, 42, 0.95),
-    0 0 0 1px rgba(148, 163, 184, 0.5),
-    var(--scene-panel-glow);
-}
-
-/* ======================
-   HERO PORTRAIT WINDOW REFLECTION
-   ====================== */
-
-.hero-photo {
-  position: relative;
-  border-radius: 26px;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at top left, rgba(248, 250, 252, 0.16), transparent 60%),
-    linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
-  box-shadow:
-    0 26px 48px rgba(15, 23, 42, 0.98),
-    0 0 0 1px rgba(148, 163, 184, 0.4);
-}
-
-.hero-photo img,
-.hero-photo__img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
-/* Glass reflection sweep */
-.hero-photo::before {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  background:
-    linear-gradient(
-      115deg,
-      transparent 0%,
-      rgba(248, 250, 252, 0.08) 32%,
-      var(--scene-hero-glass) 48%,
-      rgba(248, 250, 252, 0.06) 62%,
-      transparent 82%
-    );
-  mix-blend-mode: screen;
-  opacity: 0.65;
-  transform: translate3d(-35%, -10%, 0) skewX(-12deg);
-  animation: heroGlassSweep 22s linear infinite;
-  pointer-events: none;
-}
-
-/* Faint secondary reflection on one side */
-.hero-photo::after {
-  content: "";
-  position: absolute;
-  inset-block: 6%;
-  right: 0;
-  width: 18%;
-  background: linear-gradient(to left, rgba(15, 23, 42, 0.0), rgba(191, 219, 254, 0.16));
-  mix-blend-mode: screen;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-/* Optional “desk lamp” glow on study scene */
-html[data-scene="study"] .hero-photo::after {
-  background: radial-gradient(circle at 100% 0, rgba(251, 191, 36, 0.38), transparent 70%);
-}
-
-/* Slight parallax effect if you wrap hero in a hoverable container */
-.hero-photo:hover {
-  transform: translateY(-2px);
-  transition: transform 260ms ease-out;
-}
-
-/* ======================
-   ANIMATIONS
-   ====================== */
-
-@keyframes heroGlassSweep {
-  0% {
-    transform: translate3d(-50%, -10%, 0) skewX(-12deg);
-    opacity: 0.1;
+@media (max-width: 960px) {
+  .site {
+    padding-inline: 1.2rem;
   }
-  15% {
-    opacity: 0.7;
+
+  .grid--hero,
+  .grid--split,
+  .grid--two,
+  .grid--three {
+    grid-template-columns: minmax(0, 1fr);
   }
-  40% {
-    transform: translate3d(25%, 0%, 0) skewX(-12deg);
-    opacity: 0.9;
+
+  .section--band {
+    margin-inline: 0;
+    border-radius: 26px;
   }
-  60% {
-    transform: translate3d(60%, 3%, 0) skewX(-12deg);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translate3d(110%, 6%, 0) skewX(-12deg);
-    opacity: 0.0;
+
+  .root-column {
+    display: none;
   }
 }
 
-/* (Cat cameo uses transform transitions instead of keyframes; scroll glint uses CSS vars) */
-
-/* ======================
-   SMALL SCREEN TWEAKS
-   ====================== */
-
-@media (max-width: 768px) {
-  .role-chips {
-    padding: 0.4rem 0.4rem;
+@media (max-width: 720px) {
+  .site-header {
+    padding-inline: 1.1rem;
   }
 
-  [data-role-chip] {
-    padding-inline: 0.7rem;
-    font-size: 0.76rem;
+  .shell--header {
+    column-gap: 0.75rem;
   }
 
-  #role-note {
-    font-size: 0.86rem;
+  .site-nav {
+    display: none;
   }
 
-  #forestNetwork {
+  .hero-ornaments {
+    display: none;
+  }
+
+  .hero-portrait {
+    height: 190px;
+  }
+
+  .section {
+    padding-top: 3.8rem;
+  }
+
+  .section--hero {
+    padding-top: 4.4rem;
+  }
+
+  .section--band {
+    padding-inline: 1.25rem;
+  }
+
+  .forest-network {
     height: 220px;
   }
 
   .cat-cameo {
     right: 0.4rem;
-    bottom: 0.5rem;
-  }
-
-  .hero-photo {
-    border-radius: 22px;
   }
 }
