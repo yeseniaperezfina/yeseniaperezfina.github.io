@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================
-// ROLE CHIPS → ROLE NOTE
+// ROLE CHIPS → ROLE NOTE (bookshelf)
 // ======================
 document.addEventListener("DOMContentLoaded", () => {
   const chips = document.querySelectorAll("[data-role-chip]");
@@ -52,8 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================
-// SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
-// + SCENE THEMING (study / nook / observatory)
+// SCROLL SPY + SECTION REVEAL + SCENE THEMING
 // ======================
 document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("[data-section]");
@@ -61,9 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const linkMap = {};
   navLinks.forEach((link) => {
-    const href = link.getAttribute("href");
-    if (!href || !href.startsWith("#")) return;
-    const id = href.replace("#", "");
+    const id = link.getAttribute("href").replace("#", "");
     linkMap[id] = link;
   });
 
@@ -78,10 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (entry.isIntersecting) {
-          // Fade / slide in the section
           entry.target.classList.add("section-visible");
 
-          // Update global scene based on data-scene attribute
           const scene = entry.target.getAttribute("data-scene");
           if (scene) {
             document.documentElement.setAttribute("data-scene", scene);
@@ -89,9 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     },
-    {
-      threshold: 0.4
-    }
+    { threshold: 0.4 }
   );
 
   sections.forEach((section) => sectionObserver.observe(section));
@@ -116,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================
-// FOREST CANOPY PARALLAX + LIGHT BEAM SHIFT
+// WALL PARALLAX (back & front layers)
 // ======================
 document.addEventListener("DOMContentLoaded", () => {
   const prefersReduced =
@@ -125,26 +118,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const back = document.querySelector(".forest-canopy-layer--back");
   const front = document.querySelector(".forest-canopy-layer--front");
-  const rootEl = document.documentElement;
 
   if (!back || !front) return;
 
   function handleScroll() {
     const scrollTop = window.scrollY || window.pageYOffset;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
 
-    const maxOffset = 120;
-    const offsetBack = scrollTop * 0.04;
-    const offsetFront = scrollTop * 0.08;
+    const maxOffset = 80;
+    const offsetBack = scrollTop * 0.02;
+    const offsetFront = scrollTop * 0.05;
 
     back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
     front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
-
-    const beamShift = (Math.sin(progress * Math.PI * 1.3) * 40).toFixed(2) + "px";
-    const beamAngle = 120 + progress * 40; // 120deg → 160deg
-    rootEl.style.setProperty("--beam-shift", beamShift);
-    rootEl.style.setProperty("--beam-angle", `${beamAngle}deg`);
   }
 
   handleScroll();
@@ -155,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ======================
-// POLLEN / DUST + FIREFLIES
+// DUST MOTES / FIREFLIES (library dust + glows)
 // ======================
 (function pollenAndFireflies() {
   const prefersReduced =
@@ -171,8 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const pollen = [];
   const fireflies = [];
-  const POLLEN_COUNT = 90;
-  const FIREFLY_COUNT = 18;
+  const POLLEN_COUNT = 80;
+  const FIREFLY_COUNT = 12;
 
   function resize() {
     const ratio = window.devicePixelRatio || 1;
@@ -191,9 +176,9 @@ document.addEventListener("DOMContentLoaded", () => {
       pollen.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vy: 0.05 + Math.random() * 0.12,
-        vx: (Math.random() - 0.5) * 0.05,
-        size: 0.8 + Math.random() * 1.2,
+        vy: 0.02 + Math.random() * 0.08,
+        vx: (Math.random() - 0.5) * 0.04,
+        size: 0.6 + Math.random() * 1.1,
         phase: Math.random() * Math.PI * 2
       });
     }
@@ -201,9 +186,9 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < FIREFLY_COUNT; i++) {
       fireflies.push({
         x: Math.random() * width,
-        y: Math.random() * height * 0.6,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
+        y: Math.random() * height * 0.7,
+        vx: (Math.random() - 0.5) * 0.12,
+        vy: (Math.random() - 0.5) * 0.12,
         phase: Math.random() * Math.PI * 2,
         speed: 0.005 + Math.random() * 0.01
       });
@@ -213,25 +198,25 @@ document.addEventListener("DOMContentLoaded", () => {
   function step(ts) {
     ctx.clearRect(0, 0, width, height);
 
-    // Pollen / dust motes
+    // Dust motes
     ctx.save();
     for (const p of pollen) {
       p.y += p.vy;
-      p.x += p.vx + Math.sin(p.phase + ts * 0.00008) * 0.08;
+      p.x += p.vx + Math.sin(p.phase + ts * 0.00008) * 0.06;
 
       if (p.y > height) p.y = -10;
       if (p.x < -10) p.x = width + 10;
       if (p.x > width + 10) p.x = -10;
 
-      const alpha = 0.08 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.07;
-      ctx.fillStyle = `rgba(253, 216, 167, ${alpha})`;
+      const alpha = 0.05 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.06;
+      ctx.fillStyle = `rgba(248, 236, 218, ${alpha})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
 
-    // Fireflies (soft pulse)
+    // Firefly glows (lamp echoes)
     ctx.save();
     for (const f of fireflies) {
       f.x += f.vx;
@@ -240,12 +225,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (f.x < -20) f.x = width + 20;
       if (f.x > width + 20) f.x = -20;
-      if (f.y < 0) f.y = height * 0.4;
-      if (f.y > height * 0.7) f.y = 20;
+      if (f.y < 0) f.y = height * 0.3;
+      if (f.y > height) f.y = 0;
 
-      const alpha = 0.05 + Math.abs(Math.sin(f.phase)) * 0.45;
+      const alpha = 0.04 + Math.abs(Math.sin(f.phase)) * 0.45;
 
-      const radius = 2.5;
+      const radius = 2.4;
       const gradient = ctx.createRadialGradient(
         f.x,
         f.y,
@@ -254,8 +239,8 @@ document.addEventListener("DOMContentLoaded", () => {
         f.y,
         radius * 5
       );
-      gradient.addColorStop(0, `rgba(253, 216, 167, ${alpha})`);
-      gradient.addColorStop(0.4, `rgba(126, 155, 140, ${alpha * 0.7})`);
+      gradient.addColorStop(0, `rgba(243, 201, 139, ${alpha})`);
+      gradient.addColorStop(0.4, `rgba(54, 168, 109, ${alpha * 0.7})`);
       gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
       ctx.fillStyle = gradient;
@@ -263,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.arc(f.x, f.y, radius * 5, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = `rgba(255, 244, 230, ${alpha})`;
+      ctx.fillStyle = `rgba(255, 248, 230, ${alpha})`;
       ctx.beginPath();
       ctx.arc(f.x, f.y, radius, 0, Math.PI * 2);
       ctx.fill();
@@ -283,8 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 // ======================
-// FOREST MYCELIUM / CONSTELLATION NETWORK
-// + ORBITING POINTS LAYER + TOOLTIP
+// CONSTELLATION / MYCELIUM NETWORK + ORBIT TOOLTIP
 // ======================
 (function forestNetwork() {
   const prefersReduced =
@@ -302,7 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const NODE_COUNT = 70;
   const BASE_MAX_DIST = 130;
 
-  // Orbiting points (like a slow satellite ring)
   const ORBIT_POINT_COUNT = 8;
   let orbitPoints = [];
   let orbitCenter = { x: 0, y: 0 };
@@ -314,14 +297,13 @@ document.addEventListener("DOMContentLoaded", () => {
   tooltipEl.setAttribute("role", "status");
   tooltipEl.style.opacity = "0";
 
-  // Ensure parent is positioned so tooltip can anchor correctly
   const parent = canvas.parentElement || document.body;
   if (parent && getComputedStyle(parent).position === "static") {
     parent.style.position = "relative";
   }
   parent.appendChild(tooltipEl);
 
-  // Labels for each orbit point (practice themes)
+  // Labels for orbit points
   const ORBIT_LABELS = [
     "Research",
     "Practice",
@@ -333,8 +315,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "Leadership"
   ];
 
-  let scrollFactor = 0; // 0 = top of page, 1 = bottom
-  let focusFactor = 0;  // 0 = section off-screen, 1 = fully visible
+  let scrollFactor = 0;
+  let focusFactor = 0;
   let mouseX = null;
   let mouseY = null;
 
@@ -422,7 +404,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    const HOVER_RADIUS = 26; // pixels
+    const HOVER_RADIUS = 26;
     if (nearest && nearestDist < HOVER_RADIUS) {
       tooltipEl.textContent = nearest.op.label;
       const parentRect = parent.getBoundingClientRect();
@@ -431,6 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tooltipEl.style.left = `${tooltipX}px`;
       tooltipEl.style.top = `${tooltipY}px`;
       tooltipEl.style.opacity = focusFactor > 0.1 ? "1" : "0";
+      tooltipEl.style.transform = "translate3d(0, 0, 0)";
     } else {
       tooltipEl.style.opacity = "0";
     }
@@ -445,11 +428,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function step() {
     ctx.clearRect(0, 0, width, height);
 
-    // Background gradient: sky → forest floor
+    // Background gradient: star chart
     const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-    skyGrad.addColorStop(0, "rgba(8,14,30,1)");
-    skyGrad.addColorStop(0.45, "rgba(5,9,22,1)");
-    skyGrad.addColorStop(1, "rgba(6,13,17,1)");
+    skyGrad.addColorStop(0, "rgba(12, 19, 38, 1)");
+    skyGrad.addColorStop(0.5, "rgba(11, 18, 35, 1)");
+    skyGrad.addColorStop(1, "rgba(7, 9, 20, 1)");
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, width, height);
 
@@ -469,9 +452,9 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.restore();
     }
 
-    // Understory roots hint at bottom
+    // Underlay lines hinting at mycelium
     ctx.save();
-    ctx.strokeStyle = "rgba(33, 61, 50, 0.8)";
+    ctx.strokeStyle = "rgba(45, 64, 95, 0.9)";
     ctx.lineWidth = 1;
     for (let i = 0; i < 6; i++) {
       const x = (width / 6) * i + (i % 2 === 0 ? 10 : -5);
@@ -486,14 +469,12 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.save();
     const orbitAlpha = 0.18 + 0.25 * focusFactor;
 
-    // Orbit ring
     ctx.strokeStyle = `rgba(177, 170, 232, ${orbitAlpha * 0.5})`;
     ctx.lineWidth = 1.1;
     ctx.beginPath();
     ctx.arc(orbitCenter.x, orbitCenter.y, orbitRadius, 0, Math.PI * 2);
     ctx.stroke();
 
-    // Points gliding along the orbit
     orbitPoints.forEach((op) => {
       op.angle += op.speed;
 
@@ -601,36 +582,6 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 // ======================
-// FOREST AUDIO TOGGLE
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const audio = document.getElementById("forestAudio");
-  const toggle = document.getElementById("forestSoundToggle");
-  if (!audio || !toggle) return;
-
-  let playing = false;
-  const label = toggle.querySelector(".sound-toggle__label");
-
-  toggle.addEventListener("click", () => {
-    if (!playing) {
-      audio
-        .play()
-        .then(() => {
-          playing = true;
-          if (label) label.textContent = "Forest on";
-        })
-        .catch(() => {
-          // autoplay block; do nothing
-        });
-    } else {
-      audio.pause();
-      playing = false;
-      if (label) label.textContent = "Forest off";
-    }
-  });
-});
-
-// ======================
 // WRITING SECTION — CAT CAMEO
 // ======================
 document.addEventListener("DOMContentLoaded", () => {
@@ -645,13 +596,13 @@ document.addEventListener("DOMContentLoaded", () => {
   inner.className = "cat-cameo__inner";
   cat.appendChild(inner);
 
-  writingSection.appendChild(cat);
+  document.body.appendChild(cat);
 
   // Occasional automatic peek if in viewport
   let lastPeek = 0;
   function maybePeek() {
     const now = Date.now();
-    if (now - lastPeek < 20000) return; // at most every ~20s
+    if (now - lastPeek < 20000) return;
 
     const rect = writingSection.getBoundingClientRect();
     const inView = rect.top < window.innerHeight && rect.bottom > 0;
@@ -690,7 +641,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const x = event.clientX;
     const y = event.clientY;
 
-    // Center the glow around the pointer
     glow.style.transform = `translate3d(${x - 80}px, ${y - 80}px, 0)`;
 
     if (!visible) {
