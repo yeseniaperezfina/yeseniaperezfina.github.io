@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ======================
 // SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
-// + SCENE THEMING (study / nook / observatory)
 // ======================
 document.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("[data-section]");
@@ -69,21 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
     (entries) => {
       entries.forEach((entry) => {
         const id = entry.target.id;
-
         if (entry.isIntersecting && id && linkMap[id]) {
           navLinks.forEach((l) => l.classList.remove("is-active"));
           linkMap[id].classList.add("is-active");
         }
-
         if (entry.isIntersecting) {
-          // Fade / slide in the section
           entry.target.classList.add("section-visible");
-
-          // Update global scene based on data-scene attribute
-          const scene = entry.target.getAttribute("data-scene");
-          if (scene) {
-            document.documentElement.setAttribute("data-scene", scene);
-          }
         }
       });
     },
@@ -664,41 +654,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("scroll", () => {
     window.requestAnimationFrame(maybePeek);
-  });
-});
-
-// ======================
-// CURSOR LANTERN GLOW
-// ======================
-document.addEventListener("DOMContentLoaded", () => {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (prefersReduced) return;
-
-  const glow = document.createElement("div");
-  glow.className = "cursor-glow";
-  glow.setAttribute("aria-hidden", "true");
-  document.body.appendChild(glow);
-
-  let visible = false;
-
-  window.addEventListener("pointermove", (event) => {
-    const x = event.clientX;
-    const y = event.clientY;
-
-    // Center the glow around the pointer
-    glow.style.transform = `translate3d(${x - 80}px, ${y - 80}px, 0)`;
-
-    if (!visible) {
-      visible = true;
-      glow.style.opacity = "0.65";
-    }
-  });
-
-  window.addEventListener("pointerleave", () => {
-    visible = false;
-    glow.style.opacity = "0";
   });
 });
