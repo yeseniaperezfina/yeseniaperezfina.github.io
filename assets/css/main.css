@@ -3,6 +3,7 @@
    =========================== */
 
 :root {
+  /* Palette */
   --ink: #f7f3ea;
   --muted: #d1c6b5;
   --muted-soft: #a69783;
@@ -13,16 +14,16 @@
   --moss: #2e4b47;
   --deep-moss: #23322d;
 
-  --bg: #050911;
-  --bg-alt: #071019;
-  --card: #111b1a;
-  --card-alt: #15211f;
+  --bg: #05070c;
+  --bg-alt: #080d11;
+  --card: #101518;
+  --card-alt: #121b1e;
 
   --border-soft: rgba(104, 124, 113, 0.7);
-  --border-strong: rgba(188, 169, 139, 0.9);
+  --border-strong: rgba(190, 168, 135, 0.9);
 
-  --shadow-deep: 0 30px 90px rgba(0, 0, 0, 0.95);
-  --shadow-card: 0 18px 50px rgba(0, 0, 0, 0.95);
+  --shadow-deep: 0 40px 120px rgba(0, 0, 0, 0.96);
+  --shadow-card: 0 22px 60px rgba(0, 0, 0, 0.96);
 
   --radius-lg: 22px;
   --radius-md: 16px;
@@ -30,7 +31,10 @@
 
   --max-width: 1120px;
 
-  --root-progress: 0; /* 0–1, controlled by JS */
+  /* Scroll-driven values set by JS */
+  --root-progress: 0;   /* 0–1 vertical root fill */
+  --beam-shift: 0px;    /* vertical motion of light beams */
+  --beam-angle: 130deg; /* angle of moving beams */
 }
 
 /* ===========================
@@ -49,21 +53,46 @@ html {
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #101a27 0, #02050a 40%, #020407 100%);
+  background:
+    radial-gradient(circle at top, #141b26 0, #05070c 30%, #020408 100%);
   color: var(--ink);
   line-height: 1.6;
+  position: relative;
 }
 
-/* Typographic voice: serif-forward headings, clean sans body */
+/* Light beams overlay (scroll-shifting) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10vh 0 auto 0;
+  height: 80vh;
+  pointer-events: none;
+  z-index: -2;
+  background:
+    conic-gradient(
+      from var(--beam-angle),
+      rgba(253, 216, 167, 0.12),
+      transparent 20%,
+      rgba(93, 126, 110, 0.15),
+      transparent 60%,
+      rgba(253, 216, 167, 0.12),
+      transparent 100%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.4;
+  transform: translateY(var(--beam-shift));
+}
+
+/* Typography: serif-forward headings, editorial */
 h1, h2, h3, h4 {
-  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Georgia", serif;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   font-weight: 500;
   letter-spacing: 0.02em;
 }
 
 p, li, a, button, span {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.9rem;
 }
 
 a {
@@ -118,7 +147,7 @@ a:focus-visible {
   font-size: 0.8rem;
   color: var(--muted-soft);
   padding-top: 1.6rem;
-  border-top: 1px solid rgba(86, 104, 93, 0.7);
+  border-top: 1px solid rgba(78, 96, 85, 0.7);
 }
 
 @media (max-width: 720px) {
@@ -133,15 +162,15 @@ a:focus-visible {
 }
 
 /* ===========================
-   FOREST OVERLAYS
+   FOREST OVERLAYS & ROOT LINE
    =========================== */
 
 .forest-canopy-wrap {
   position: fixed;
   inset: 0 0 auto 0;
-  height: 42vh;
+  height: 40vh;
   pointer-events: none;
-  z-index: -2;
+  z-index: -3;
   overflow: hidden;
 }
 
@@ -152,37 +181,46 @@ a:focus-visible {
   background-repeat: repeat-x;
   background-size: 260% 100%;
   will-change: transform;
-  opacity: 0.7;
 }
 
+/* Back layer: deep forest gradients */
 .forest-canopy-layer--back {
   top: 0;
   background-image:
-    linear-gradient(to bottom, rgba(5, 11, 19, 1), rgba(3, 7, 12, 0.2)),
-    radial-gradient(circle at 15% 20%, rgba(253, 216, 167, 0.14), transparent 60%);
+    linear-gradient(to bottom, #050911 0, rgba(3, 7, 12, 0.7) 40%, transparent 100%),
+    radial-gradient(circle at 15% 15%, rgba(253, 216, 167, 0.18), transparent 60%);
+  opacity: 0.9;
 }
 
+/* Front layer: silhouetted canopy */
 .forest-canopy-layer--front {
-  bottom: -5%;
+  bottom: -12%;
   background-image:
-    linear-gradient(to top, rgba(7, 23, 22, 0.95), rgba(7, 23, 25, 0.2)),
-    linear-gradient(to top, rgba(20, 46, 37, 0.9), transparent 70%);
-  mix-blend-mode: screen;
+    linear-gradient(to top, rgba(6, 12, 11, 1) 5%, rgba(6, 13, 11, 0.9) 30%, transparent 70%),
+    repeating-linear-gradient(
+      -8deg,
+      rgba(7, 21, 16, 0.95),
+      rgba(7, 21, 16, 0.95) 10px,
+      rgba(9, 25, 19, 0.9) 18px,
+      rgba(9, 25, 19, 0.9) 24px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.9;
 }
 
-/* Root column */
+/* Root column down the left */
 .root-column {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 1rem;
   width: 2px;
-  background:
-    linear-gradient(
-      to bottom,
-      transparent 0,
-      rgba(190, 168, 135, 0.1) 0
-    );
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    rgba(40, 54, 49, 0.75) 10%,
+    rgba(22, 36, 31, 0.75) 100%
+  );
   z-index: -1;
 }
 .root-column::after {
@@ -193,7 +231,7 @@ a:focus-visible {
     linear-gradient(
       to bottom,
       rgba(190, 168, 135, 0.85) 0,
-      rgba(190, 168, 135, 0.9) calc(var(--root-progress) * 100%),
+      rgba(190, 168, 135, 0.95) calc(var(--root-progress) * 100%),
       transparent calc(var(--root-progress) * 100%)
     );
   box-shadow: 0 0 18px rgba(253, 216, 167, 0.6);
@@ -205,7 +243,7 @@ a:focus-visible {
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: -3;
+  z-index: -4;
   pointer-events: none;
 }
 
@@ -215,7 +253,7 @@ a:focus-visible {
 
 .site-header {
   position: sticky;
-  top: 0.8rem;
+  top: 0.85rem;
   z-index: 20;
   margin-bottom: 1.7rem;
 }
@@ -223,9 +261,10 @@ a:focus-visible {
 .site-header .shell--header {
   padding: 0.6rem 1rem;
   border-radius: 999px;
-  background: radial-gradient(circle at top left, rgba(18, 30, 32, 0.96), rgba(6, 12, 16, 0.96));
-  border: 1px solid rgba(104, 124, 113, 0.8);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
+  background:
+    radial-gradient(circle at top left, rgba(18, 30, 32, 0.96), rgba(6, 12, 16, 0.98));
+  border: 1px solid rgba(104, 124, 113, 0.9);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.98);
   backdrop-filter: blur(18px);
 }
 
@@ -241,7 +280,7 @@ a:focus-visible {
   border-radius: 999px;
   background:
     radial-gradient(circle at 30% 20%, rgba(253, 216, 167, 0.95), transparent 60%),
-    radial-gradient(circle at 70% 80%, rgba(46, 75, 71, 0.9), transparent 60%);
+    radial-gradient(circle at 70% 80%, rgba(46, 75, 71, 0.92), transparent 60%);
   box-shadow:
     0 0 0 2px rgba(4, 7, 10, 1),
     0 0 14px rgba(253, 216, 167, 0.8);
@@ -280,7 +319,7 @@ a:focus-visible {
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, var(--sand), var(--moss));
-  transition: width 0.2s ease-out;
+  transition: width 0.18s ease-out;
 }
 .nav-link:hover::after,
 .nav-link:focus-visible::after {
@@ -301,8 +340,8 @@ a:focus-visible {
   gap: 0.4rem;
   padding: 0.3rem 0.7rem;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(104, 124, 113, 0.8);
-  background: radial-gradient(circle at top left, rgba(23, 36, 34, 0.9), rgba(7, 15, 17, 0.95));
+  border: 1px solid rgba(104, 124, 113, 0.9);
+  background: radial-gradient(circle at top left, rgba(23, 36, 34, 0.9), rgba(7, 15, 17, 0.96));
   color: var(--muted);
   font-size: 0.75rem;
   cursor: pointer;
@@ -325,14 +364,18 @@ a:focus-visible {
   border-radius: var(--radius-lg);
   background:
     radial-gradient(circle at top right, rgba(253, 216, 167, 0.04), transparent 60%),
-    radial-gradient(circle at bottom, rgba(30, 50, 43, 0.35), transparent 55%),
+    radial-gradient(circle at bottom, rgba(28, 44, 38, 0.45), transparent 55%),
     var(--bg-alt);
-  border: 1px solid rgba(78, 96, 85, 0.8);
+  border: 1px solid rgba(78, 96, 85, 0.85);
   box-shadow: var(--shadow-deep);
   overflow: hidden;
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out, background 1s ease-out, box-shadow 1s ease-out;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out,
+    background 1s ease-out,
+    box-shadow 1s ease-out;
 }
 
 .section.section-visible {
@@ -340,11 +383,25 @@ a:focus-visible {
   transform: translateY(0);
 }
 
+/* Slightly different tones by index */
+.section:nth-of-type(2n) {
+  background:
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.03), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(25, 43, 37, 0.55), transparent 55%),
+    #060a0f;
+}
+.section:nth-of-type(3n) {
+  background:
+    radial-gradient(circle at 10% 0, rgba(126, 155, 140, 0.12), transparent 60%),
+    radial-gradient(circle at 90% 100%, rgba(21, 46, 40, 0.7), transparent 55%),
+    #05080d;
+}
+
 .section--band {
   background:
-    radial-gradient(circle at top left, rgba(253, 216, 167, 0.08), transparent 60%),
-    radial-gradient(circle at bottom right, rgba(26, 54, 43, 0.8), transparent 60%),
-    var(--bg-alt);
+    radial-gradient(circle at top left, rgba(253, 216, 167, 0.06), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(26, 54, 43, 0.9), transparent 60%),
+    #05070c;
 }
 
 .section--hero {
@@ -352,20 +409,19 @@ a:focus-visible {
   padding-top: 2.1rem;
   padding-bottom: 2rem;
   background:
-    radial-gradient(circle at 12% 0%, rgba(253, 216, 167, 0.14), transparent 60%),
-    radial-gradient(circle at 85% 100%, rgba(22, 50, 42, 0.9), transparent 60%),
-    linear-gradient(145deg, #050911, #07131d 40%, #07191b 100%);
-  display: block;
+    radial-gradient(circle at 12% 0%, rgba(253, 216, 167, 0.18), transparent 60%),
+    radial-gradient(circle at 85% 100%, rgba(25, 60, 51, 0.95), transparent 60%),
+    linear-gradient(145deg, #04070c, #070f16 40%, #071715 100%);
 }
 
 .section--contact {
   background:
-    radial-gradient(circle at 10% 0%, rgba(253, 216, 167, 0.13), transparent 60%),
-    radial-gradient(circle at 90% 100%, rgba(26, 56, 46, 0.9), transparent 60%),
-    var(--bg-alt);
+    radial-gradient(circle at 10% 0%, rgba(253, 216, 167, 0.14), transparent 60%),
+    radial-gradient(circle at 90% 100%, rgba(26, 56, 46, 0.95), transparent 60%),
+    #05070c;
 }
 
-/* Section ornaments (orbs) */
+/* Orbs per section */
 .section-ornaments {
   position: absolute;
   inset: 0;
@@ -380,7 +436,7 @@ a:focus-visible {
     radial-gradient(circle at 30% 20%, rgba(253, 216, 167, 0.9), transparent 60%),
     radial-gradient(circle at 70% 80%, rgba(35, 76, 62, 0.9), transparent 60%);
   box-shadow: 0 20px 45px rgba(0, 0, 0, 1);
-  opacity: 0.2;
+  opacity: 0.18;
   filter: blur(0.2px);
 }
 
@@ -400,7 +456,7 @@ a:focus-visible {
   animation: orbFloat 30s ease-in-out infinite alternate-reverse;
 }
 
-/* Hero ornaments (leaf SVGs) */
+/* Hero leaf ornaments */
 .hero-ornaments {
   position: absolute;
   inset: 0;
@@ -412,7 +468,7 @@ a:focus-visible {
   position: absolute;
   width: 120px;
   height: auto;
-  opacity: 0.45;
+  opacity: 0.44;
 }
 .leaf-svg--left {
   left: -30px;
@@ -485,6 +541,7 @@ a:focus-visible {
   margin: 0 0 0.25rem;
   font-size: 0.95rem;
   color: var(--muted);
+  max-width: 36rem;
 }
 .section-note {
   margin: 0;
@@ -528,11 +585,19 @@ a:focus-visible {
   background: rgba(9, 17, 16, 0.96);
   color: var(--muted);
   cursor: pointer;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, background 0.18s ease-out;
 }
 .chip--active {
-  background: radial-gradient(circle at 30% 20%, rgba(253, 216, 167, 0.3), transparent 60%);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(253, 216, 167, 0.3), transparent 60%),
+    rgba(10, 20, 18, 0.98);
   border-color: var(--border-strong);
   color: var(--ink);
+  box-shadow: 0 0 12px rgba(253, 216, 167, 0.4);
+}
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
 }
 
 .role-note {
@@ -556,21 +621,27 @@ a:focus-visible {
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-strong);
   background:
-    radial-gradient(circle at 20% 0%, rgba(253, 216, 167, 0.6), transparent 55%),
-    linear-gradient(135deg, rgba(78, 96, 85, 0.9), rgba(35, 76, 61, 0.95));
+    radial-gradient(circle at 20% 0%, rgba(253, 216, 167, 0.7), transparent 55%),
+    linear-gradient(135deg, rgba(78, 96, 85, 0.92), rgba(35, 76, 61, 0.97));
   color: #080c0b;
   font-size: 0.86rem;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
 }
 .button--ghost {
-  background: rgba(9, 17, 16, 0.96);
+  background: rgba(9, 17, 16, 0.97);
   border-color: rgba(104, 124, 113, 0.9);
   color: var(--muted);
 }
+.button:hover,
+.button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.85);
+}
 
-/* Hero panel */
+/* Hero panel & cards */
 .hero-panel {
   position: relative;
   z-index: 1;
@@ -581,13 +652,19 @@ a:focus-visible {
   border-radius: var(--radius-md);
   padding: 1rem 1.1rem 0.95rem;
   background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.06), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(24, 48, 40, 0.6), transparent 55%),
+    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.08), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(24, 48, 40, 0.7), transparent 55%),
     var(--card);
-  border: 1px solid rgba(86, 104, 93, 0.9);
+  border: 1px solid rgba(86, 104, 93, 0.95);
   box-shadow: var(--shadow-card);
   font-size: 0.88rem;
   color: var(--muted);
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.98);
+  border-color: rgba(190, 168, 135, 0.95);
 }
 
 .card--hero {
@@ -609,7 +686,7 @@ a:focus-visible {
   color: var(--muted-soft);
 }
 
-/* Hero portrait placeholder */
+/* Hero portrait */
 .hero-portrait {
   margin-bottom: 0.8rem;
 }
@@ -618,10 +695,11 @@ a:focus-visible {
   height: 130px;
   border-radius: 20px;
   background:
-    radial-gradient(circle at 20% 10%, rgba(253, 216, 167, 0.25), transparent 60%),
+    radial-gradient(circle at 20% 10%, rgba(253, 216, 167, 0.23), transparent 60%),
     radial-gradient(circle at 80% 90%, rgba(30, 74, 61, 0.9), transparent 60%),
     linear-gradient(135deg, #050b0e, #081411 50%, #050b0c 100%);
   box-shadow: 0 24px 50px rgba(0, 0, 0, 1);
+  animation: heroFloat 16s ease-in-out infinite alternate;
 }
 
 /* Pills / quick links */
@@ -639,13 +717,19 @@ a:focus-visible {
   padding: 0.28rem 0.8rem;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(108, 128, 117, 0.9);
-  background: rgba(9, 17, 16, 0.96);
+  background: rgba(9, 17, 16, 0.97);
   color: var(--muted);
   font-size: 0.8rem;
   text-decoration: none;
+  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, border-color 0.16s ease-out;
 }
 .pill-link--full {
   width: 100%;
+}
+.pill-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.85);
+  border-color: rgba(190, 168, 135, 0.95);
 }
 
 /* ===========================
@@ -723,7 +807,7 @@ a:focus-visible {
   padding: 0.2rem 0.65rem;
   border-radius: var(--radius-pill);
   border: 1px solid rgba(102, 121, 110, 0.9);
-  background: rgba(9, 17, 16, 0.96);
+  background: rgba(9, 17, 16, 0.97);
 }
 
 /* ===========================
@@ -758,8 +842,8 @@ a:focus-visible {
 
 .card--quote {
   background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.13), transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(24, 52, 42, 0.8), transparent 60%),
+    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.16), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(24, 52, 42, 0.85), transparent 60%),
     var(--card-alt);
 }
 .highlight {
@@ -772,19 +856,19 @@ a:focus-visible {
 
 .section--botanical {
   background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.1), transparent 60%),
+    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.12), transparent 60%),
     radial-gradient(circle at 100% 100%, rgba(23, 50, 42, 0.9), transparent 60%),
-    var(--bg-alt);
+    #05070c;
 }
 
 .skills-network-wrap {
   position: relative;
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle at 50% 0%, rgba(191, 190, 210, 0.12), transparent 60%), /* constellation */
-    radial-gradient(circle at 50% 100%, rgba(23, 50, 42, 0.85), transparent 55%),  /* mycelium floor */
+    radial-gradient(circle at 50% 0%, rgba(191, 190, 210, 0.16), transparent 60%), /* constellation */
+    radial-gradient(circle at 50% 100%, rgba(23, 50, 42, 0.9), transparent 55%),  /* mycelium floor */
     var(--deep-moss);
-  border: 1px solid rgba(86, 104, 93, 0.9);
+  border: 1px solid rgba(86, 104, 93, 0.95);
   box-shadow: 0 32px 80px rgba(0, 0, 0, 1);
   overflow: hidden;
 }
@@ -796,7 +880,7 @@ a:focus-visible {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.22em;
-  color: rgba(235, 223, 207, 0.75);
+  color: rgba(235, 223, 207, 0.8);
   z-index: 2;
 }
 
@@ -828,7 +912,7 @@ a:focus-visible {
 
 .card--contact {
   background:
-    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.18), transparent 60%),
+    radial-gradient(circle at 0 0, rgba(253, 216, 167, 0.2), transparent 60%),
     radial-gradient(circle at 100% 100%, rgba(29, 64, 50, 0.95), transparent 55%),
     var(--card-alt);
 }
@@ -854,7 +938,16 @@ a:focus-visible {
   }
 }
 
-/* Reduce motion respect */
+@keyframes heroFloat {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-6px) scale(1.01);
+  }
+}
+
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;
