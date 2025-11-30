@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ======================
   const yearSpan = document.getElementById("year");
   if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
+    yearSpan.textContent = String(new Date().getFullYear());
   }
 
   // ======================
@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
       navToggle.setAttribute("aria-expanded", String(isOpen));
     });
 
-    // Close nav when a link is clicked (helpful on mobile)
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
         navList.classList.remove("nav-open");
@@ -38,41 +37,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ======================
-  // SCROLL SPY (ACTIVE NAV LINK)
+  // SCROLL SPY (ACTIVE NAV LINK + SCENE TINT)
   // ======================
-  const sections = Array.from(
-    document.querySelectorAll("main section[id]")
-  ) as HTMLElement[];
+  const sections = Array.from(document.querySelectorAll("main section[id]"));
 
   if (sections.length && navLinks.length) {
-    const navMap = new Map<string, HTMLAnchorElement>();
+    const navMap = new Map();
     navLinks.forEach((link) => {
       const href = link.getAttribute("href");
       if (!href || !href.startsWith("#")) return;
-      navMap.set(href.slice(1), link as HTMLAnchorElement);
+      navMap.set(href.slice(1), link);
     });
+
+    const htmlEl = document.documentElement;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
           const id = entry.target.id;
           const link = navMap.get(id);
           if (!link) return;
 
-          if (entry.isIntersecting) {
-            navLinks.forEach((l) => l.setAttribute("data-active", "false"));
-            link.setAttribute("data-active", "true");
+          navLinks.forEach((l) => l.setAttribute("data-active", "false"));
+          link.setAttribute("data-active", "true");
 
-            // Optional: update data-scene based on section
-            const htmlEl = document.documentElement;
-            if (htmlEl) {
-              if (id === "about" || id === "trajectory") {
-                htmlEl.setAttribute("data-scene", "study");
-              } else if (id === "practice" || id === "writing") {
-                htmlEl.setAttribute("data-scene", "nook");
-              } else if (id === "capabilities" || id === "contact") {
-                htmlEl.setAttribute("data-scene", "observatory");
-              }
+          if (htmlEl) {
+            if (id === "about" || id === "trajectory") {
+              htmlEl.setAttribute("data-scene", "study");
+            } else if (id === "practice" || id === "writing") {
+              htmlEl.setAttribute("data-scene", "nook");
+            } else if (id === "capabilities" || id === "contact") {
+              htmlEl.setAttribute("data-scene", "observatory");
             }
           }
         });
@@ -89,11 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // ======================
   // ROLE CHIPS → ROLE NOTE
   // ======================
-  const chips = document.querySelectorAll<HTMLButtonElement>("[data-role-chip]");
+  const chips = document.querySelectorAll("[data-role-chip]");
   const roleNote = document.getElementById("role-note");
 
   if (chips.length && roleNote) {
-    const roleCopy: Record<string, string> = {
+    const roleCopy = {
       Strategist:
         "As a Strategist, I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see the system, not just the project.",
       Scholar:
@@ -107,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chips.forEach((chip) => {
       chip.addEventListener("click", () => {
         const role = chip.getAttribute("data-role-chip") || "";
+
         chips.forEach((c) => c.classList.remove("chip-active"));
         chip.classList.add("chip-active");
 
@@ -120,14 +118,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // ======================
   // CURSOR LANTERN GLOW
   // ======================
-  const cursorGlow = document.querySelector<HTMLDivElement>(".cursor-glow");
+  const cursorGlow = document.querySelector(".cursor-glow");
 
   if (cursorGlow) {
     if (prefersReducedMotion) {
-      // Respect reduced motion preference
       cursorGlow.style.display = "none";
     } else {
-      const moveGlow = (event: PointerEvent) => {
+      const moveGlow = (event) => {
         cursorGlow.style.left = `${event.clientX}px`;
         cursorGlow.style.top = `${event.clientY}px`;
       };
@@ -147,22 +144,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // ======================
   // NIGHT-SKY DIAGRAM (CANVAS)
   // ======================
-  const canvas = document.getElementById("skills-canvas") as HTMLCanvasElement | null;
-  const tooltip = document.getElementById("orbit-tooltip") as HTMLDivElement | null;
+  const canvas = document.getElementById("skills-canvas");
+  const tooltip = document.getElementById("orbit-tooltip");
 
   if (canvas && canvas.getContext) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Nodes positioned in normalized coordinates (0–1)
-    type Node = {
-      x: number;
-      y: number;
-      r: number;
-      label: string;
-    };
-
-    const nodes: Node[] = [
+    // Nodes in normalized coords (0–1)
+    const nodes = [
       { x: 0.24, y: 0.32, r: 9, label: "Strategy & Portfolio" },
       { x: 0.66, y: 0.28, r: 9, label: "Research & Evaluation" },
       { x: 0.32, y: 0.7, r: 9, label: "Facilitation & Convening" },
@@ -172,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { x: 0.84, y: 0.42, r: 6, label: "Product & UX Thinking" },
     ];
 
-    const edges: [number, number][] = [
+    const edges = [
       [0, 1],
       [0, 4],
       [1, 4],
@@ -184,22 +174,35 @@ document.addEventListener("DOMContentLoaded", () => {
       [3, 6],
     ];
 
-    let animationFrameId: number | null = null;
-    let devicePixelRatioCached = window.devicePixelRatio || 1;
+    let stars = [];
+    let hoveredIndex = null;
+
+    function generateStars(width, height, count) {
+      const list = [];
+      for (let i = 0; i < count; i++) {
+        list.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          size: Math.random() * 1.2,
+          alpha: 0.4 + Math.random() * 0.6,
+        });
+      }
+      return list;
+    }
 
     function resizeCanvas() {
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      devicePixelRatioCached = dpr;
 
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      drawStaticSky();
+      stars = generateStars(rect.width, rect.height, 80);
+      drawSky();
     }
 
-    function drawStaticSky() {
+    function drawSky(highlightIndex) {
       const rect = canvas.getBoundingClientRect();
 
       // Background gradient
@@ -216,21 +219,17 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, rect.width, rect.height);
 
-      // Stars (simple sprinkled points)
-      const starCount = 80;
-      ctx.fillStyle = "#e5e7eb";
-      for (let i = 0; i < starCount; i++) {
-        const x = Math.random() * rect.width;
-        const y = Math.random() * rect.height;
-        const size = Math.random() * 1.2;
-        ctx.globalAlpha = 0.4 + Math.random() * 0.6;
+      // Stars (stable positions)
+      stars.forEach((star) => {
+        ctx.globalAlpha = star.alpha;
         ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = "#e5e7eb";
         ctx.fill();
-      }
+      });
       ctx.globalAlpha = 1;
 
-      // Draw edges (constellation lines)
+      // Edges
       ctx.lineWidth = 1;
       ctx.strokeStyle = "rgba(148, 163, 184, 0.55)";
       edges.forEach(([from, to]) => {
@@ -242,8 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.stroke();
       });
 
-      // Draw nodes
-      nodes.forEach((node) => {
+      // Nodes
+      nodes.forEach((node, index) => {
         const x = node.x * rect.width;
         const y = node.y * rect.height;
         const radius = node.r;
@@ -265,34 +264,30 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fill();
+
+        // Highlight ring
+        if (highlightIndex === index) {
+          ctx.save();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "rgba(248, 250, 252, 0.95)";
+          ctx.beginPath();
+          ctx.arc(x, y, radius + 3, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
       });
     }
 
-    function scheduleRedraw() {
-      if (animationFrameId != null) {
-        cancelAnimationFrame(animationFrameId);
-      }
-      animationFrameId = requestAnimationFrame(drawStaticSky);
-    }
-
     resizeCanvas();
-    window.addEventListener("resize", () => {
-      // Throttle via requestAnimationFrame
-      resizeCanvas();
-      if (!prefersReducedMotion) {
-        scheduleRedraw();
-      }
-    });
+    window.addEventListener("resize", resizeCanvas);
 
     // Hover / tooltip
-    let hoveredIndex: number | null = null;
-
-    function handlePointerMove(event: PointerEvent) {
+    function handlePointerMove(event) {
       const rect = canvas.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
 
-      let foundIndex: number | null = null;
+      let foundIndex = null;
 
       nodes.forEach((node, index) => {
         const nx = node.x * rect.width;
@@ -305,24 +300,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (foundIndex !== hoveredIndex) {
         hoveredIndex = foundIndex;
-        drawStaticSky(); // refresh to clear any subtle highlight
+        drawSky(hoveredIndex);
 
         if (hoveredIndex != null && tooltip) {
           const node = nodes[hoveredIndex];
-
-          // Light highlight ring
-          ctx.save();
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "rgba(248, 250, 252, 0.9)";
-          ctx.beginPath();
-          ctx.arc(node.x * rect.width, node.y * rect.height, node.r + 3, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.restore();
-
           tooltip.textContent = node.label;
           tooltip.hidden = false;
-          tooltip.style.left = `${rect.left + x}px`;
-          tooltip.style.top = `${rect.top + y}px`;
+
+          // Tooltip is absolutely positioned within .diagram-frame
+          // so we use local coordinates relative to the canvas.
+          tooltip.style.left = `${x}px`;
+          tooltip.style.top = `${y}px`;
+
+          // Give screen readers a chance to hear updates
+          tooltip.setAttribute("aria-live", "polite");
         } else if (tooltip) {
           tooltip.hidden = true;
         }
@@ -331,36 +322,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handlePointerLeave() {
       hoveredIndex = null;
-      tooltip && (tooltip.hidden = true);
-      drawStaticSky();
+      if (tooltip) tooltip.hidden = true;
+      drawSky(null);
     }
 
     canvas.addEventListener("pointermove", handlePointerMove);
     canvas.addEventListener("pointerleave", handlePointerLeave);
 
-    if (prefersReducedMotion) {
-      // No extra animation; just redraw once
-      drawStaticSky();
-    } else {
-      drawStaticSky();
-    }
+    drawSky(null);
   }
 
   // ======================
-  // SMALL INTERACTIONS (OPTIONAL)
+  // SMALL INTERACTIONS – PARALLAX
   // ======================
-
   if (!prefersReducedMotion) {
-    // Slight parallax on the framed hero illustration
-    const heroFrame = document.querySelector<HTMLDivElement>(
-      ".hero-illustration-frame"
-    );
+    const heroFrame = document.querySelector(".hero-illustration-frame");
     if (heroFrame) {
-      const handleParallax = (event: MouseEvent) => {
+      const maxTranslate = 8; // px
+
+      const handleParallax = (event) => {
         const rect = heroFrame.getBoundingClientRect();
         const relX = (event.clientX - rect.left) / rect.width - 0.5;
         const relY = (event.clientY - rect.top) / rect.height - 0.5;
-        const maxTranslate = 8; // px
 
         heroFrame.style.transform = `translate(${relX * maxTranslate}px, ${
           relY * maxTranslate
