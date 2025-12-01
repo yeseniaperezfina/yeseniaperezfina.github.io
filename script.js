@@ -1,22 +1,22 @@
-// Set current year in footer
+// Year in footer
 const yearEl = document.getElementById("year");
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
 
-// Mode chips (hero practice modes)
+// Practice lenses
 const modeDescription = document.getElementById("mode-description");
 const modeChips = document.querySelectorAll(".chip--mode");
 
 const modeCopy = {
-  strategist:
-    "I architect multi-year initiatives that align partners, evidence, and strategy — so complex missions move from ambitious vision to lived experience.",
-  designer:
-    "I treat programs as ecosystems: interlocking portfolios, networks, and infrastructures that make learning durable, equitable, and scalable.",
-  communicator:
-    "I translate astrophysics and evaluation findings into stories, toolkits, and experiences that communities can see themselves in.",
-  navigator:
-    "I help teams navigate uncertainty, building reflection and learning loops into the way we plan, decide, and steward public knowledge."
+  strategy:
+    "I design multi-year initiatives that connect missions, partners, and evidence into clear, navigable plans.",
+  ecosystems:
+    "I think in systems: networks, portfolios, and workflows that make learning durable, equitable, and coherent.",
+  communication:
+    "I turn complex science and evaluation into stories, toolkits, and experiences people can actually use.",
+  reflection:
+    "I build in reflection and writing as part of the work, so teams can learn from what they are doing in real time."
 };
 
 modeChips.forEach((chip) => {
@@ -30,7 +30,7 @@ modeChips.forEach((chip) => {
   });
 });
 
-// IntersectionObserver for section reveal
+// Section reveal on scroll
 const revealEls = document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
@@ -43,16 +43,15 @@ if ("IntersectionObserver" in window) {
         }
       });
     },
-    { threshold: 0.3 }
+    { threshold: 0.25 }
   );
 
   revealEls.forEach((el) => revealObserver.observe(el));
 } else {
-  // Fallback: just show everything
   revealEls.forEach((el) => el.classList.add("is-visible"));
 }
 
-// Scroll-spy for nav links
+// Scroll-spy for nav
 const sections = document.querySelectorAll("main section[id]");
 const navLinks = document.querySelectorAll(".nav-link");
 
@@ -96,4 +95,38 @@ if (navToggle && navList) {
       navList.classList.remove("is-open");
     });
   });
+}
+
+// Soft parallax sky on scroll
+const cosmosBack = document.querySelector(".cosmos--back");
+const cosmosMid = document.querySelector(".cosmos--mid");
+const cosmosFront = document.querySelector(".cosmos--front");
+
+const handleScroll = () => {
+  const y = window.scrollY || window.pageYOffset;
+  if (cosmosBack) cosmosBack.style.transform = `translateY(${y * 0.03}px)`;
+  if (cosmosMid) cosmosMid.style.transform = `translateY(${y * 0.06}px)`;
+  if (cosmosFront) cosmosFront.style.transform = `translateY(${y * 0.01}px)`;
+};
+
+window.addEventListener("scroll", handleScroll, { passive: true });
+
+// Pointer parallax for hero orbit
+const heroOrbit = document.querySelector(".hero-orbit");
+
+if (heroOrbit) {
+  const motionScale = 10; // adjust for more/less motion
+
+  const handlePointerMove = (event) => {
+    const { innerWidth, innerHeight } = window;
+    const xNorm = (event.clientX / innerWidth) - 0.5;
+    const yNorm = (event.clientY / innerHeight) - 0.5;
+
+    const xOffset = -xNorm * motionScale;
+    const yOffset = -yNorm * motionScale;
+
+    heroOrbit.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+  };
+
+  document.addEventListener("pointermove", handlePointerMove);
 }
