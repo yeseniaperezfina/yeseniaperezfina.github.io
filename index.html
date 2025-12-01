@@ -18,10 +18,8 @@
   <script defer src="script.js"></script>
 </head>
 <body>
-  <!-- Soft Physics–style sky -->
-  <div class="cosmos cosmos--back"></div>
-  <div class="cosmos cosmos--mid"></div>
-  <div class="cosmos cosmos--front"></div>
+  <!-- Soft Physics skyfield -->
+  <canvas id="skyfield" aria-hidden="true"></canvas>
 
   <header class="site-header">
     <div class="shell">
@@ -38,10 +36,9 @@
           <span></span><span></span>
         </button>
         <ul class="nav-list">
-          <li><a href="#about" class="nav-link is-active">About</a></li>
-          <li><a href="#initiatives" class="nav-link">Work</a></li>
-          <li><a href="#experience" class="nav-link">Trajectory</a></li>
-          <li><a href="#capabilities" class="nav-link">Capabilities</a></li>
+          <li><a href="#profile" class="nav-link is-active">Profile</a></li>
+          <li><a href="#experience" class="nav-link">Experience</a></li>
+          <li><a href="#initiatives" class="nav-link">Initiatives</a></li>
           <li><a href="#writing" class="nav-link">Writing</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
@@ -50,8 +47,8 @@
   </header>
 
   <main id="top">
-    <!-- HERO -->
-    <section id="about" class="section section--hero reveal">
+    <!-- PROFILE -->
+    <section id="profile" class="section section--hero reveal">
       <div class="shell shell--hero">
         <div class="hero-main">
           <p class="hero-kicker">Soft physics of science, systems, and people</p>
@@ -59,9 +56,9 @@
             I design learning ecosystems where science and public life meet.
           </h1>
           <p class="hero-body">
-            I’m Yesenia Pérez, an education strategist working with NASA and partners across museums,
-            universities, and communities. I build programs, networks, and stories that make complex missions
-            feel close, human, and possible.
+            I am a science and learning strategist working with NASA and partners across museums, universities,
+            and communities. I build programs, networks, and stories that make complex missions feel close,
+            usable, and human.
           </p>
 
           <div class="hero-modes" aria-label="Practice lenses">
@@ -84,7 +81,7 @@
           </p>
 
           <div class="hero-actions">
-            <!-- Update links as needed -->
+            <!-- Update URLs as needed -->
             <a href="mailto:yperez@gse.harvard.edu" class="button button--primary">
               Email
             </a>
@@ -98,7 +95,7 @@
 
           <dl class="hero-metrics">
             <div class="metric">
-              <dt>NASA work</dt>
+              <dt>NASA portfolio</dt>
               <dd>Hubble · Webb · Roman</dd>
             </div>
             <div class="metric">
@@ -106,43 +103,108 @@
               <dd>100+ informal learning sites</dd>
             </div>
             <div class="metric">
-              <dt>Study</dt>
-              <dd>Ed.M., Education Leadership — Harvard</dd>
+              <dt>Education</dt>
+              <dd>Ed.M. candidate, Harvard</dd>
             </div>
           </dl>
         </div>
 
-        <aside class="hero-panel">
+        <aside class="hero-panel tilt-target">
           <div class="hero-orbit" aria-hidden="true">
             <div class="hero-orbit-core"></div>
             <div class="hero-orbit-ring hero-orbit-ring--one"></div>
             <div class="hero-orbit-ring hero-orbit-ring--two"></div>
             <div class="hero-orbit-moon"></div>
-            <div class="hero-orbit-trace"></div>
+            <div class="hero-orbit-mist"></div>
           </div>
           <div class="hero-panel-body">
-            <h2 class="hero-panel-title">Current focus</h2>
+            <h2 class="hero-panel-title">Profile</h2>
             <p class="hero-panel-text">
-              Building humane, evidence-informed systems for science engagement and field-level learning.
+              First-generation, Puerto Rican, and rooted in public institutions —
+              I work at the intersection of science, equity, and design.
             </p>
             <ul class="hero-panel-list">
-              <li>National informal learning networks</li>
-              <li>Program and portfolio strategy</li>
-              <li>Culturally grounded STEM practice</li>
-              <li>Clear, executive-ready synthesis</li>
+              <li>Senior Education Specialist, NASA’s Universe of Learning (STScI)</li>
+              <li>Designer of national informal learning networks and initiatives</li>
+              <li>Bridge between program strategy, evidence, and public storytelling</li>
             </ul>
           </div>
         </aside>
       </div>
     </section>
 
-    <!-- SIGNATURE WORK -->
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section reveal">
+      <div class="shell">
+        <header class="section-header">
+          <h2 class="section-title">Experience</h2>
+          <p class="section-subtitle">
+            A path from community college to NASA and Harvard, with a steady focus on widening access to knowledge.
+          </p>
+        </header>
+
+        <ol class="timeline">
+          <li class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <h3 class="timeline-title">Senior Education Specialist · NASA / Space Telescope Science Institute</h3>
+              <p class="timeline-meta">2019 – Present · Baltimore, MD (Hybrid)</p>
+              <p class="timeline-text">
+                Lead national portfolios across NASA’s Universe of Learning, aligning partners, evaluation,
+                and storytelling to build durable learning ecosystems around Hubble, Webb, and Roman.
+              </p>
+              <ul class="timeline-tags">
+                <li>Program and portfolio design</li>
+                <li>Network leadership</li>
+                <li>Executive-ready synthesis</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <h3 class="timeline-title">Museum Educator · Worcester &amp; Allentown Art Museums</h3>
+              <p class="timeline-meta">2015 – 2019 · MA &amp; PA</p>
+              <p class="timeline-text">
+                Designed intergenerational programs, bilingual family engagement, and community partnerships
+                that invited visitors into art and cultural narratives.
+              </p>
+              <ul class="timeline-tags">
+                <li>Public programming</li>
+                <li>Community partnerships</li>
+                <li>Audience development</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <h3 class="timeline-title">Education arc</h3>
+              <p class="timeline-meta">Northampton CC → University of Pittsburgh → Georgetown → Harvard</p>
+              <p class="timeline-text">
+                A first-generation, transfer path through community college, public higher education,
+                and graduate study in art, museums, and education leadership.
+              </p>
+              <ul class="timeline-tags">
+                <li>Ed.M., Education Leadership — Harvard Graduate School of Education</li>
+                <li>M.A., Art &amp; Museum Studies — Georgetown University</li>
+                <li>B.A., History of Art &amp; Architecture / Religious Studies — University of Pittsburgh</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- INITIATIVES -->
     <section id="initiatives" class="section reveal">
       <div class="shell">
         <header class="section-header">
-          <h2 class="section-title">Selected work</h2>
+          <h2 class="section-title">Initiatives</h2>
           <p class="section-subtitle">
-            A few places where strategy, evidence, and imagination come together.
+            Selected work where strategy, evidence, and imagination come together.
           </p>
         </header>
 
@@ -154,7 +216,7 @@
             </div>
             <div class="card-body">
               <p>
-                Steward a ~100-site coalition of museums, libraries, and community partners that brings
+                Steward a coalition of more than one hundred museums, libraries, and community sites that brings
                 NASA astrophysics to learners across the U.S. and Puerto Rico.
               </p>
               <dl class="card-metrics">
@@ -164,13 +226,13 @@
                 </div>
                 <div>
                   <dt>Scope</dt>
-                  <dd>Program models · mini-grants · reporting</dd>
+                  <dd>Program models · micro-grants · reporting</dd>
                 </div>
               </dl>
               <ul class="card-list">
-                <li>Designed modular program models and micro-stipend structures.</li>
-                <li>Integrated external evaluation into network planning.</li>
-                <li>Produced clear briefs that inform NASA decision-making.</li>
+                <li>Designed flexible program models and micro-stipend structures.</li>
+                <li>Integrated external evaluation into network planning cycles.</li>
+                <li>Produced concise briefs to inform NASA decision-making.</li>
               </ul>
               <div class="tag-row">
                 <span class="tag">Ecosystem design</span>
@@ -187,8 +249,8 @@
             </div>
             <div class="card-body">
               <p>
-                Helped coordinate a national wave of events for Webb’s first images,
-                connecting NASA centers, museums, and community sites.
+                Helped coordinate a national wave of events for Webb’s first images, connecting NASA centers,
+                museums, and community partners in a shared moment of public science.
               </p>
               <dl class="card-metrics">
                 <div>
@@ -197,13 +259,13 @@
                 </div>
                 <div>
                   <dt>Scale</dt>
-                  <dd>600+ events · 50 states + PR</dd>
+                  <dd>600+ events · 50 states + Puerto Rico</dd>
                 </div>
               </dl>
               <ul class="card-list">
                 <li>Co-created toolkits, training, and SME engagement pathways.</li>
                 <li>Aligned messaging and documentation across agencies.</li>
-                <li>Captured lessons to inform Roman community strategies.</li>
+                <li>Captured lessons to inform future Roman activation strategies.</li>
               </ul>
               <div class="tag-row">
                 <span class="tag">Activation</span>
@@ -220,8 +282,8 @@
             </div>
             <div class="card-body">
               <p>
-                Co-designed experiences in Hawaiʻi that weave Indigenous cosmologies with NASA science,
-                centering community leadership and cultural integrity.
+                Co-designed learning experiences in Hawaiʻi that weave Indigenous cosmologies
+                with NASA science, centering community leadership and cultural integrity.
               </p>
               <dl class="card-metrics">
                 <div>
@@ -234,7 +296,7 @@
                 </div>
               </dl>
               <ul class="card-list">
-                <li>Worked alongside cultural practitioners and educators.</li>
+                <li>Worked alongside cultural practitioners, educators, and scientists.</li>
                 <li>Aligned NASA content with community-led frameworks.</li>
                 <li>Modeled non-extractive approaches to knowledge sharing.</li>
               </ul>
@@ -253,8 +315,8 @@
             </div>
             <div class="card-body">
               <p>
-                Lead initiative planning, partner reporting, and internal learning products
-                that mirror the work of philanthropic program strategy teams.
+                Lead initiative planning, partner reporting, and learning products that mirror
+                the work of philanthropic program strategy teams.
               </p>
               <dl class="card-metrics">
                 <div>
@@ -268,7 +330,7 @@
               </dl>
               <ul class="card-list">
                 <li>Translate mixed-methods evidence into concise recommendations.</li>
-                <li>Align evaluators, educators, and leadership around clear goals.</li>
+                <li>Align evaluators, educators, and leadership around shared goals.</li>
                 <li>Make reflection a visible, resourced part of the work.</li>
               </ul>
               <div class="tag-row">
@@ -278,121 +340,6 @@
               </div>
             </div>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- TRAJECTORY -->
-    <section id="experience" class="section reveal">
-      <div class="shell">
-        <header class="section-header">
-          <h2 class="section-title">Trajectory</h2>
-          <p class="section-subtitle">
-            A first-generation, Puerto Rican path from community college to NASA and Harvard.
-          </p>
-        </header>
-
-        <ol class="timeline">
-          <li class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <h3 class="timeline-title">Senior Education Specialist · NASA / STScI</h3>
-              <p class="timeline-meta">2019 – Present · Baltimore, MD</p>
-              <p class="timeline-text">
-                Lead national portfolios across NASA’s Universe of Learning, connecting missions,
-                partners, and evidence into coherent initiatives.
-              </p>
-              <ul class="timeline-tags">
-                <li>Program design</li>
-                <li>Network leadership</li>
-                <li>Executive-ready synthesis</li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <h3 class="timeline-title">Museum Education · Worcester &amp; Allentown Art Museums</h3>
-              <p class="timeline-meta">2015 – 2019 · MA &amp; PA</p>
-              <p class="timeline-text">
-                Built intergenerational programs and community partnerships across art and culture,
-                with a focus on access and belonging.
-              </p>
-              <ul class="timeline-tags">
-                <li>Public programs</li>
-                <li>Community engagement</li>
-                <li>Audience development</li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <h3 class="timeline-title">Education arc</h3>
-              <p class="timeline-meta">Northampton CC → Pitt → Georgetown → Harvard</p>
-              <p class="timeline-text">
-                Community college to public and private universities, with graduate study in
-                art, museums, and education leadership.
-              </p>
-              <ul class="timeline-tags">
-                <li>Ed.M., Education Leadership — Harvard</li>
-                <li>M.A., Art &amp; Museum Studies — Georgetown</li>
-                <li>B.A., History of Art &amp; Architecture / Religious Studies — Pitt</li>
-              </ul>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- CAPABILITIES -->
-    <section id="capabilities" class="section reveal">
-      <div class="shell">
-        <header class="section-header">
-          <h2 class="section-title">Capabilities</h2>
-          <p class="section-subtitle">
-            Where I plug into teams and portfolios.
-          </p>
-        </header>
-
-        <div class="grid grid--capabilities">
-          <div class="cap-block">
-            <h3>Strategy &amp; systems</h3>
-            <ul>
-              <li>Multi-year initiative and portfolio design</li>
-              <li>Learning agendas and evaluation planning</li>
-              <li>Operational frameworks and documentation</li>
-            </ul>
-          </div>
-
-          <div class="cap-block">
-            <h3>Evidence &amp; learning</h3>
-            <ul>
-              <li>Mixed-methods synthesis</li>
-              <li>Partner reporting cycles</li>
-              <li>Leadership briefs and memos</li>
-            </ul>
-          </div>
-
-          <div class="cap-block">
-            <h3>Public engagement</h3>
-            <ul>
-              <li>Science communication and narrative framing</li>
-              <li>Toolkits, trainings, and convenings</li>
-              <li>Culturally sustaining practice in STEM</li>
-            </ul>
-          </div>
-
-          <div class="cap-block">
-            <h3>Tools</h3>
-            <ul>
-              <li>Program &amp; project tools (Smartsheet, Notion, Monday.com)</li>
-              <li>Documentation &amp; analysis (Office, PowerBI basics)</li>
-              <li>Creative and web tools (Adobe CC, GitHub Pages)</li>
-            </ul>
-          </div>
         </div>
       </div>
     </section>
@@ -413,7 +360,7 @@
             <p class="card-kicker">Substack series · Science &amp; soul</p>
             <p>
               Short essays where astrophysics, systems thinking, and daily life mirror each other.
-              A place for slow, reflective writing about how we live with time and awe.
+              A space for slow, reflective writing about how we live with time and awe.
             </p>
           </article>
 
@@ -421,8 +368,8 @@
             <h3 class="card-title">Reflection as Resistance</h3>
             <p class="card-kicker">Harvard OEL · Leadership practice</p>
             <p>
-              A framing of reflective practice as a design choice and a form of care
-              inside ambitious institutions.
+              A framing of reflective practice as a design choice and a form of care inside
+              complex institutions and long-running initiatives.
             </p>
           </article>
 
@@ -431,7 +378,7 @@
             <p class="card-kicker">Essays &amp; internal briefs</p>
             <p>
               Writing on how Indigenous and community knowledge can guide science engagement,
-              not just appear in it.
+              not just appear in it, with implications for program design and funding.
             </p>
           </article>
         </div>
@@ -448,9 +395,10 @@
     <section id="contact" class="section section--contact reveal">
       <div class="shell">
         <header class="section-header">
-          <h2 class="section-title">Next orbit</h2>
+          <h2 class="section-title">Contact</h2>
           <p class="section-subtitle">
-            I’m especially interested in roles that connect science, learning systems, and public imagination.
+            I am especially interested in director-level roles that connect science, learning systems,
+            and public imagination.
           </p>
         </header>
 
@@ -458,7 +406,8 @@
           <div class="contact-card">
             <h3>Let’s talk</h3>
             <p>
-              If you’re building programs, portfolios, or teams at this intersection, I’d be glad to connect.
+              If you are building programs, portfolios, or teams at this intersection,
+              I would be glad to be in conversation.
             </p>
             <div class="contact-actions">
               <a href="mailto:yperez@gse.harvard.edu" class="button button--primary">Email</a>
