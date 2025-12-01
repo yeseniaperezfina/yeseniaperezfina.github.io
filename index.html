@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-mode="forest">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,10 +7,10 @@
   <meta name="description" content="Portfolio of Yesenia Perez, higher education & learning strategist working across NASA, higher education, and public engagement." />
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body data-mode="forest">
+<body>
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<!-- Ocean / forest overlay system -->
+<!-- Forest / ocean overlay system -->
 <div class="forest-canopy-wrap" aria-hidden="true">
   <div class="forest-canopy-layer forest-canopy-layer--back"></div>
   <div class="forest-canopy-layer forest-canopy-layer--front"></div>
@@ -61,50 +61,33 @@
     <!-- HERO / ABOUT -->
     <section id="about" class="section section--hero" data-section>
       <div class="hero-ornaments" aria-hidden="true">
-        <!-- Mountain cliff lines -->
-        <svg class="mountain-svg mountain-svg--left" viewBox="0 0 120 160">
-          <path d="M5 150 L35 90 L55 105 L80 60 L110 95"
-                fill="none"
-                stroke="rgba(209, 225, 235, 0.6)"
-                stroke-width="1.4"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-          <path d="M20 150 L45 110 L70 120"
-                fill="none"
-                stroke="rgba(137, 180, 205, 0.6)"
-                stroke-width="1.1"
-                stroke-linecap="round" />
+        <!-- Mountain horizon + ocean line art -->
+        <svg class="mountain-svg mountain-svg--horizon" viewBox="0 0 320 120" preserveAspectRatio="xMidYMid slice">
+          <!-- Mountain ridgeline -->
+          <path
+            d="M0 80 L40 70 L80 82 L120 60 L150 68 L190 50 L230 65 L270 58 L320 72 L320 120 L0 120 Z"
+            class="mountain-ridge"
+          />
+          <!-- Ocean line -->
+          <path
+            d="M0 96 C40 92, 80 100, 120 96 C160 92, 200 100, 240 96 C280 92, 300 98, 320 95"
+            class="ocean-line"
+          />
         </svg>
 
-        <svg class="mountain-svg mountain-svg--right" viewBox="0 0 140 160">
-          <path d="M10 140 L45 85 L70 98 L95 65 L130 90"
-                fill="none"
-                stroke="rgba(209, 225, 235, 0.55)"
-                stroke-width="1.4"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-          <path d="M25 145 L55 110 L82 118"
-                fill="none"
-                stroke="rgba(156, 196, 214, 0.6)"
-                stroke-width="1.1"
-                stroke-linecap="round" />
+        <!-- Cliff silhouettes (left / right) -->
+        <svg class="mountain-svg mountain-svg--left" viewBox="0 0 80 160">
+          <path
+            d="M0 160 L0 40 L15 30 L32 45 L28 60 L40 78 L35 100 L38 125 L30 145 Z"
+            class="cliff-line"
+          />
         </svg>
 
-        <!-- Horizon line (stronger in Calm mode) -->
-        <svg class="hero-horizon" viewBox="0 0 600 160">
-          <defs>
-            <linearGradient id="horizonGlow" x1="0%" y1="50%" x2="100%" y2="50%">
-              <stop offset="0%" stop-color="rgba(157, 206, 230, 0.0)" />
-              <stop offset="40%" stop-color="rgba(230, 215, 186, 0.45)" />
-              <stop offset="60%" stop-color="rgba(173, 210, 194, 0.4)" />
-              <stop offset="100%" stop-color="rgba(157, 206, 230, 0.0)" />
-            </linearGradient>
-          </defs>
-          <path d="M0 90 C120 96, 240 84, 360 92 C460 102, 520 96, 600 90"
-                fill="none"
-                stroke="url(#horizonGlow)"
-                stroke-width="2"
-                stroke-linecap="round" />
+        <svg class="mountain-svg mountain-svg--right" viewBox="0 0 80 160">
+          <path
+            d="M80 160 L80 36 L64 26 L50 42 L54 56 L42 80 L48 102 L44 128 L56 146 Z"
+            class="cliff-line"
+          />
         </svg>
       </div>
 
@@ -118,21 +101,13 @@
               that connect rigorous science, institutional strategy, and lived experience.
             </p>
 
-            <div class="chip-row" aria-label="Modes of practice">
-              <button class="chip chip--active" type="button" data-role-chip="Strategist">Strategist</button>
-              <button class="chip" type="button" data-role-chip="Scholar">Scholar</button>
-              <button class="chip" type="button" data-role-chip="Creator">Creator</button>
-              <button class="chip" type="button" data-role-chip="Navigator">Navigator</button>
-            </div>
+            <div class="chip-row" id="roleChips" aria-label="Modes of practice"></div>
 
-            <p class="role-note" id="role-note">
-              As a <strong>Strategist</strong>, I design portfolios, initiatives, and learning environments that connect
-              mission, data, and lived experience—helping teams see the system, not just the project.
-            </p>
+            <p class="role-note" id="role-note"></p>
 
             <div class="contact-row">
               <a class="button button--primary" href="#contact">Explore next orbit</a>
-              <a class="button button--secondary" href="mailto:yperez@gse.harvard.edu">Email</a>
+              <a class="button button--primary" href="mailto:yperez@gse.harvard.edu">Email</a>
             </div>
           </div>
 
@@ -254,29 +229,28 @@
             <article class="card">
               <h3>Strategist</h3>
               <p>
-                I design portfolio architectures, roles, and cadences so teams can see how individual projects add up to
-                a coherent learning ecosystem.
+                I map portfolios, initiatives, and learning environments so teams can see the system, not just the project.
               </p>
             </article>
             <article class="card">
               <h3>Scholar</h3>
               <p>
-                I frame questions, define evidence, and translate research into decisions—drawing from higher education
-                scholarship, learning sciences, and evaluation practice.
+                I draw from higher education research, learning sciences, and organizational theory to make design choices
+                that are both rigorous and humane.
               </p>
             </article>
             <article class="card">
               <h3>Creator</h3>
               <p>
-                I build visual and narrative scaffolds—from exhibits to explainers—that make complex science and systems
-                feel personal, grounded, and graspable.
+                Through visual storytelling and writing—including <em>The Echo Jar</em>—I translate complex science and
+                systems into narratives that feel worth caring about.
               </p>
             </article>
             <article class="card">
               <h3>Navigator</h3>
               <p>
-                I hold timelines, relationships, and risks so teams can move through ambiguity without losing pace,
-                trust, or purpose.
+                I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the
+                emotional texture of change.
               </p>
             </article>
           </div>
@@ -500,7 +474,7 @@
           </div>
 
           <aside class="skills-network-wrap" aria-hidden="true">
-            <div class="skills-network-label">Ocean shelf → forest mycelium</div>
+            <div class="skills-network-label">Ocean → forest mycelium</div>
             <canvas id="forestNetwork" class="forest-network"></canvas>
           </aside>
         </div>
