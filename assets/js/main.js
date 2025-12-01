@@ -5,34 +5,44 @@ function clamp01(value) {
   return Math.min(1, Math.max(0, value));
 }
 
-// Helper to know if we should keep things visually calm
+function prefersReducedMotion() {
+  return (
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
+
 function isCalmMode() {
-  return document.body.dataset.mode === 'calm';
+  return document.body?.dataset?.mode === 'calm';
+}
+
+function dispatchModeChange(mode) {
+  window.dispatchEvent(new CustomEvent('modechange', { detail: { mode } }));
 }
 
 // ======================
 // INIT ORCHESTRATION
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', init);
+
+function init() {
   initYearStamp();
   initModeToggle();
   initRoleChips();
   initScrollSpy();
+  initSectionReveal();
   initRootProgress();
   initForestParallax();
   initPollenAndFireflies();
   initForestNetwork();
-  initForestAudioToggle();
-});
+}
 
 // ======================
 // YEAR STAMP
 // ======================
 function initYearStamp() {
   const yearSpan = document.getElementById('year');
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
+  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 }
 
 // ======================
@@ -44,29 +54,32 @@ function initModeToggle() {
   if (!body || !toggle) return;
 
   const label = toggle.querySelector('.mode-toggle__label');
+  const storageKey = 'yesenia-site-mode';
 
   function applyMode(mode) {
-    const isCalm = mode === 'calm';
-    body.dataset.mode = isCalm ? 'calm' : 'forest';
+    const safeMode = mode === 'calm' ? 'calm' : 'forest';
+    body.dataset.mode = safeMode;
+
+    const isCalm = safeMode === 'calm';
     toggle.setAttribute('aria-pressed', String(isCalm));
-    if (label) {
-      label.textContent = isCalm ? 'Calm mode' : 'Forest mode';
-    }
+    if (label) label.textContent = isCalm ? 'Calm mode' : 'Forest mode';
+
+    try {
+      window.localStorage.setItem(storageKey, safeMode);
+    } catch (_) {}
+
+    dispatchModeChange(safeMode);
   }
 
-  // Initialize from localStorage or default to "forest"
-  const storedMode = window.localStorage
-    ? window.localStorage.getItem('yesi-site-mode')
-    : null;
-  const initialMode = storedMode === 'calm' ? 'calm' : 'forest';
-  applyMode(initialMode);
+  // initialize from storage
+  let stored = null;
+  try {
+    stored = window.localStorage.getItem(storageKey);
+  } catch (_) {}
+  applyMode(stored === 'calm' ? 'calm' : 'forest');
 
   toggle.addEventListener('click', () => {
-    const nextMode = body.dataset.mode === 'calm' ? 'forest' : 'calm';
-    applyMode(nextMode);
-    if (window.localStorage) {
-      window.localStorage.setItem('yesi-site-mode', nextMode);
-    }
+    applyMode(body.dataset.mode === 'calm' ? 'forest' : 'calm');
   });
 }
 
@@ -76,7 +89,6 @@ function initModeToggle() {
 function initRoleChips() {
   const chips = document.querySelectorAll('[data-role-chip]');
   const roleNote = document.getElementById('role-note');
-
   if (!chips.length || !roleNote) return;
 
   const copy = {
@@ -107,7 +119,7 @@ function initRoleChips() {
 }
 
 // ======================
-// SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
+// SCROLL SPY (.nav-link) + ARIA CURRENT
 // ======================
 function initScrollSpy() {
   const sections = document.querySelectorAll('[data-section]');
@@ -118,36 +130,49 @@ function initScrollSpy() {
   const linkMap = {};
   navLinks.forEach(link => {
     const href = link.getAttribute('href') || '';
-    if (href.startsWith('#')) {
-      const id = href.slice(1);
-      linkMap[id] = link;
-    }
+    if (href.startsWith('#')) linkMap[href.slice(1)] = link;
   });
 
-  const sectionObserver = new IntersectionObserver(
+  const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
         const id = entry.target.id;
+        if (!id || !linkMap[id]) return;
 
-        if (entry.isIntersecting) {
-          entry.target.classList.add('section-visible');
-        }
+        navLinks.forEach(l => {
+          l.classList.remove('is-active');
+          l.removeAttribute('aria-current');
+        });
 
-        if (entry.isIntersecting && id && linkMap[id]) {
-          navLinks.forEach(l => {
-            l.classList.remove('is-active');
-            l.removeAttribute('aria-current');
-          });
-          const activeLink = linkMap[id];
-          activeLink.classList.add('is-active');
-          activeLink.setAttribute('aria-current', 'page');
-        }
+        const active = linkMap[id];
+        active.classList.add('is-active');
+        active.setAttribute('aria-current', 'page');
       });
     },
-    { threshold: 0.4 }
+    { threshold: 0.45 }
   );
 
-  sections.forEach(section => sectionObserver.observe(section));
+  sections.forEach(section => observer.observe(section));
+}
+
+// ======================
+// SECTION REVEAL (.section-visible)
+// ======================
+function initSectionReveal() {
+  const sections = document.querySelectorAll('.section[data-section]');
+  if (!sections.length) return;
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('section-visible');
+      });
+    },
+    { threshold: 0.18 }
+  );
+
+  sections.forEach(s => observer.observe(s));
 }
 
 // ======================
@@ -156,61 +181,70 @@ function initScrollSpy() {
 function initRootProgress() {
   const rootEl = document.documentElement;
 
-  function updateRootProgress() {
+  function update() {
     const scrollTop = window.scrollY || window.pageYOffset;
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
     rootEl.style.setProperty('--root-progress', progress.toString());
   }
 
-  updateRootProgress();
-  window.addEventListener('scroll', updateRootProgress);
-  window.addEventListener('resize', updateRootProgress);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
 }
 
 // ======================
-// FOREST CANOPY PARALLAX
+// FOREST CANOPY PARALLAX (Forest only)
 // ======================
 function initForestParallax() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion()) return;
 
   const back = document.querySelector('.forest-canopy-layer--back');
   const front = document.querySelector('.forest-canopy-layer--front');
+  if (!back || !front) return;
 
-  if (!back || !front || prefersReduced) return;
-
-  function handleScroll() {
-    if (isCalmMode()) return; // keep canopy from drifting in calm mode
-
+  function applyTransforms(scrollTop) {
     const maxOffset = 120;
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const offsetBack = scrollTop * 0.04;
-    const offsetFront = scrollTop * 0.08;
-
-    back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
-    front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
+    const offsetBack = Math.min(scrollTop * 0.04, maxOffset);
+    const offsetFront = Math.min(scrollTop * 0.08, maxOffset);
+    back.style.transform = `translateY(${offsetBack}px)`;
+    front.style.transform = `translateY(${offsetFront}px)`;
   }
 
-  handleScroll();
-  window.addEventListener('scroll', handleScroll);
+  function resetTransforms() {
+    back.style.transform = 'translateY(0px)';
+    front.style.transform = 'translateY(0px)';
+  }
+
+  function onScroll() {
+    if (isCalmMode()) return resetTransforms();
+    const scrollTop = window.scrollY || window.pageYOffset;
+    applyTransforms(scrollTop);
+  }
+
+  // initial
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  window.addEventListener('modechange', () => {
+    if (isCalmMode()) resetTransforms();
+    else onScroll();
+  });
 }
 
 // ======================
-// POLLEN / DUST + FIREFLIES
+// POLLEN / DUST + FIREFLIES (Forest only; stops in Calm)
 // ======================
 function initPollenAndFireflies() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion()) return;
 
   const canvas = document.getElementById('particleCanvas');
-  if (!canvas || !canvas.getContext || prefersReduced) return;
+  if (!canvas || !canvas.getContext) return;
 
   const ctx = canvas.getContext('2d');
   let width = 0;
   let height = 0;
+  let rafId = null;
 
   const pollen = [];
   const fireflies = [];
@@ -253,17 +287,26 @@ function initPollenAndFireflies() {
     }
   }
 
+  function clear() {
+    ctx.clearRect(0, 0, width, height);
+  }
+
+  function stop() {
+    if (rafId != null) cancelAnimationFrame(rafId);
+    rafId = null;
+    clear();
+  }
+
   function step(ts) {
+    // Safety: if mode switched to calm, stop
     if (isCalmMode()) {
-      // In calm mode, fade to empty & do nothing
-      ctx.clearRect(0, 0, width, height);
-      requestAnimationFrame(step);
+      stop();
       return;
     }
 
-    ctx.clearRect(0, 0, width, height);
+    clear();
 
-    // pollen
+    // pollen (warm amber)
     ctx.save();
     for (const p of pollen) {
       p.y += p.vy;
@@ -273,15 +316,15 @@ function initPollenAndFireflies() {
       if (p.x < -10) p.x = width + 10;
       if (p.x > width + 10) p.x = -10;
 
-      const alpha = 0.08 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.07;
-      ctx.fillStyle = `rgba(253, 216, 167, ${alpha})`;
+      const alpha = 0.06 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.06;
+      ctx.fillStyle = `rgba(243, 195, 132, ${alpha})`;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
 
-    // fireflies
+    // fireflies (pale core + teal halo)
     ctx.save();
     for (const f of fireflies) {
       f.x += f.vx;
@@ -291,64 +334,74 @@ function initPollenAndFireflies() {
       if (f.x < -20) f.x = width + 20;
       if (f.x > width + 20) f.x = -20;
       if (f.y < 0) f.y = height * 0.4;
-      if (f.y > height * 0.7) f.y = 20;
+      if (f.y > height * 0.72) f.y = 20;
 
       const alpha = 0.05 + Math.abs(Math.sin(f.phase)) * 0.45;
-
       const radius = 2.5;
-      const gradient = ctx.createRadialGradient(
-        f.x,
-        f.y,
-        0,
-        f.x,
-        f.y,
-        radius * 5
-      );
-      gradient.addColorStop(0, `rgba(253, 216, 167, ${alpha})`);
-      gradient.addColorStop(0.4, `rgba(253, 216, 167, ${alpha * 0.7})`);
-      gradient.addColorStop(1, 'rgba(253, 216, 167, 0)');
+
+      const gradient = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, radius * 6);
+      gradient.addColorStop(0, `rgba(255, 243, 210, ${alpha})`);
+      gradient.addColorStop(0.35, `rgba(90, 175, 190, ${alpha * 0.55})`);
+      gradient.addColorStop(1, 'rgba(10, 71, 99, 0)');
 
       ctx.fillStyle = gradient;
       ctx.beginPath();
-      ctx.arc(f.x, f.y, radius * 5, 0, Math.PI * 2);
+      ctx.arc(f.x, f.y, radius * 6, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = `rgba(255, 244, 230, ${alpha})`;
+      ctx.fillStyle = `rgba(255, 252, 244, ${alpha})`;
       ctx.beginPath();
       ctx.arc(f.x, f.y, radius, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
 
-    requestAnimationFrame(step);
+    rafId = requestAnimationFrame(step);
+  }
+
+  function start() {
+    if (prefersReducedMotion()) return;
+    if (isCalmMode()) return;
+    if (rafId != null) return;
+    rafId = requestAnimationFrame(step);
   }
 
   resize();
   initParticles();
+  start();
+
   window.addEventListener('resize', () => {
     resize();
     initParticles();
+    if (!isCalmMode()) start();
   });
-  requestAnimationFrame(step);
+
+  window.addEventListener('modechange', () => {
+    if (isCalmMode()) stop();
+    else {
+      initParticles();
+      start();
+    }
+  });
 }
 
 // ======================
-// FOREST MYCELIUM / CONSTELLATION NETWORK
+// FOREST MYCELIUM / CONSTELLATION NETWORK (PNW mycelium version)
 // ======================
 function initForestNetwork() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion()) return;
 
   const canvas = document.getElementById('forestNetwork');
-  if (!canvas || !canvas.getContext || prefersReduced) return;
+  if (!canvas || !canvas.getContext) return;
 
   const ctx = canvas.getContext('2d');
   let width = 0;
   let height = 0;
   let nodes = [];
+  let rafId = null;
+
   const NODE_COUNT = 70;
-  const BASE_MAX_DIST = 130;
+  const BASE_MAX_DIST = 140;
 
   let scrollFactor = 0; // 0 = top of page, 1 = bottom
   let focusFactor = 0;  // 0 = section off-screen, 1 = fully in view
@@ -359,8 +412,8 @@ function initForestNetwork() {
     const rect = canvas.getBoundingClientRect();
     width = rect.width || 400;
     height = rect.height || 260;
-    const ratio = window.devicePixelRatio || 1;
 
+    const ratio = window.devicePixelRatio || 1;
     canvas.width = width * ratio;
     canvas.height = height * ratio;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
@@ -371,12 +424,15 @@ function initForestNetwork() {
   function initNodes() {
     nodes = [];
     for (let i = 0; i < NODE_COUNT; i++) {
+      const yMin = height * 0.3;
+      const yMax = height * 1.05;
       nodes.push({
         x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        size: 0.9 + Math.random() * 1.4
+        y: yMin + Math.random() * (yMax - yMin),
+        vx: (Math.random() - 0.5) * 0.14,
+        vy: (Math.random() - 0.5) * 0.14,
+        size: 0.9 + Math.random() * 1.4,
+        phase: Math.random() * Math.PI * 2
       });
     }
   }
@@ -388,107 +444,88 @@ function initForestNetwork() {
 
     const rect = canvas.getBoundingClientRect();
     const viewHeight = window.innerHeight;
-    const visible =
-      Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
-    const ratio = clamp01(visible / rect.height);
+    const visible = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
+    const ratio = rect.height > 0 ? clamp01(visible / rect.height) : 0;
     focusFactor = ratio;
   }
 
-  window.addEventListener('scroll', updateScrollFactors);
-  window.addEventListener('resize', () => {
-    resize();
-    updateScrollFactors();
-  });
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
 
-  canvas.addEventListener('pointermove', event => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = event.clientX - rect.left;
-    mouseY = event.clientY - rect.top;
-  });
-  canvas.addEventListener('pointerleave', () => {
-    mouseX = null;
-    mouseY = null;
-  });
+  function clear() {
+    ctx.clearRect(0, 0, width, height);
+  }
 
-  function step() {
+  function stop() {
+    if (rafId != null) cancelAnimationFrame(rafId);
+    rafId = null;
+    clear();
+  }
+
+  function step(ts) {
     if (isCalmMode()) {
-      ctx.clearRect(0, 0, width, height);
-      requestAnimationFrame(step);
+      stop();
       return;
     }
 
-    ctx.clearRect(0, 0, width, height);
+    updateScrollFactors();
+    clear();
 
-    // Background: top = night sky, bottom = forest floor
+    const time = ts || performance.now();
+
+    // Background: PNW ocean → kelp floor
     const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-    skyGrad.addColorStop(0, 'rgba(8,14,24,1)');
-    skyGrad.addColorStop(0.45, 'rgba(5,10,16,1)');
-    skyGrad.addColorStop(1, 'rgba(6,13,11,1)');
+    skyGrad.addColorStop(0, 'rgba(2,17,29,1)');    // ocean-deep
+    skyGrad.addColorStop(0.42, 'rgba(6,50,74,1)'); // ocean-mid
+    skyGrad.addColorStop(1, 'rgba(38,58,47,1)');   // deep-kelp
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // Constellation stars (fade as scrollFactor increases; more mycelium later)
-    const starAlpha = 0.5 * (1 - scrollFactor);
-    if (starAlpha > 0.02) {
-      ctx.save();
-      ctx.fillStyle = `rgba(253, 244, 230, ${0.5 * starAlpha})`;
-      const starCount = 28;
-      for (let i = 0; i < starCount; i++) {
-        const x = (i * 71) % width;
-        const y = (i * 23) % (height * 0.35);
-        ctx.beginPath();
-        ctx.arc(x, y, 0.8 + (i % 3) * 0.3, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
+    // faint “surface shimmer”
+    const shimmer = 0.18 + 0.12 * Math.sin(time * 0.00035);
+    ctx.fillStyle = `rgba(10, 71, 99, ${shimmer})`;
+    ctx.fillRect(0, 0, width, height * 0.22);
 
-    // Vertical root hints
-    ctx.save();
-    ctx.strokeStyle = 'rgba(33, 61, 50, 0.7)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 6; i++) {
-      const x = (width / 6) * i + (i % 2 === 0 ? 10 : -5);
-      ctx.beginPath();
-      ctx.moveTo(x, height * 0.45);
-      ctx.lineTo(x + (Math.random() - 0.5) * 20, height);
-      ctx.stroke();
-    }
-    ctx.restore();
-
-    // Node dynamics
-    const ROOT_PULL = 0.02 + focusFactor * 0.05; // stronger when in view
-    const maxDist = BASE_MAX_DIST + focusFactor * 40;
+    // Node dynamics (medium motion, tied to focus)
+    const ROOT_PULL = 0.02 + focusFactor * 0.035;
+    const maxDist = BASE_MAX_DIST + focusFactor * 30;
 
     for (const n of nodes) {
       const cx = width * 0.5;
-      const cy = height * (0.45 + focusFactor * 0.15);
+      const cy = height * (0.72 + focusFactor * 0.10);
 
-      // gentle pull toward center
-      n.vx += (cx - n.x) * ROOT_PULL * 0.0006;
-      n.vy += (cy - n.y) * ROOT_PULL * 0.0006;
+      // pull toward lower-center “mat”
+      n.vx += (cx - n.x) * ROOT_PULL * 0.0007;
+      n.vy += (cy - n.y) * ROOT_PULL * 0.0009;
 
       // pointer attraction
       if (mouseX != null && mouseY != null) {
         const dx = mouseX - n.x;
         const dy = mouseY - n.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const force = 0.03 * focusFactor;
-        n.vx += (dx / dist) * force * 0.02;
-        n.vy += (dy / dist) * force * 0.02;
+        const force = 0.025 * focusFactor;
+        n.vx += (dx / dist) * force * 0.04;
+        n.vy += (dy / dist) * force * 0.04;
       }
+
+      // damping
+      n.vx *= 0.982;
+      n.vy *= 0.982;
 
       n.x += n.vx;
       n.y += n.vy;
 
-      // wrap around
+      // wrap
       if (n.x < -30) n.x = width + 30;
       if (n.x > width + 30) n.x = -30;
-      if (n.y < -30) n.y = height + 30;
-      if (n.y > height + 30) n.y = -30;
+      if (n.y < -40) n.y = height * 0.4;
+      if (n.y > height + 40) n.y = height * 0.4;
     }
 
     // Connections (mycelium threads)
+    ctx.lineWidth = 0.9;
+
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const n1 = nodes[i];
@@ -496,82 +533,108 @@ function initForestNetwork() {
         const dx = n1.x - n2.x;
         const dy = n1.y - n2.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < maxDist) {
-          const alpha = (1 - dist / maxDist) * (0.6 + focusFactor * 0.4);
-          ctx.strokeStyle = `rgba(191, 173, 144, ${alpha * 0.6})`;
-          ctx.lineWidth = 0.9;
-          ctx.beginPath();
-          ctx.moveTo(n1.x, n1.y);
-          ctx.lineTo(n2.x, n2.y);
-          ctx.stroke();
+
+        if (dist > maxDist) continue;
+
+        // vertical bias → rooty branches
+        const verticalBias = Math.abs(dy) / (Math.abs(dx) + 1);
+        if (verticalBias < 0.4 && n1.y > height * 0.45 && n2.y > height * 0.45) {
+          continue;
         }
+
+        const midY = (n1.y + n2.y) * 0.5;
+        const midX = (n1.x + n2.x) * 0.5;
+        const tHeight = height > 0 ? clamp01(midY / height) : 0;
+
+        // nutrient pulse
+        const pulse = 0.55 + 0.45 * Math.sin(time * 0.00045 + midY * 0.01);
+
+        let alpha = (1 - dist / maxDist) * (0.42 + focusFactor * 0.46);
+        alpha *= pulse;
+
+        // hover boost
+        if (mouseX != null && mouseY != null) {
+          const dmx = midX - mouseX;
+          const dmy = midY - mouseY;
+          const dMouse = Math.sqrt(dmx * dmx + dmy * dmy);
+          const hoverRadius = Math.min(width, height) * 0.38;
+          const hoverBoost = clamp01(1 - dMouse / hoverRadius);
+          alpha *= 1 + hoverBoost * 0.55;
+        }
+
+        if (alpha < 0.02) continue;
+
+        // Color blend: teal → amber by depth
+        const r = lerp(70, 243, tHeight);
+        const g = lerp(168, 195, tHeight);
+        const b = lerp(200, 132, tHeight);
+        ctx.strokeStyle = `rgba(${r.toFixed(0)}, ${g.toFixed(0)}, ${b.toFixed(0)}, ${alpha})`;
+
+        ctx.beginPath();
+        ctx.moveTo(n1.x, n1.y);
+        ctx.lineTo(n2.x, n2.y);
+        ctx.stroke();
       }
     }
 
-    // Nodes themselves
+    // Nodes (tips + glow)
     for (const n of nodes) {
-      const grad = ctx.createRadialGradient(
-        n.x,
-        n.y,
-        0,
-        n.x,
-        n.y,
-        n.size * 3.5
-      );
-      grad.addColorStop(0, 'rgba(253, 216, 167, 0.9)');
-      grad.addColorStop(0.45, 'rgba(253, 216, 167, 0.5)');
-      grad.addColorStop(1, 'rgba(253, 216, 167, 0)');
+      const nodePulse = 0.6 + 0.4 * Math.sin(time * 0.001 + n.phase);
+      const outerRadius = n.size * 4;
+
+      const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, outerRadius);
+      grad.addColorStop(0, `rgba(255, 243, 210, ${0.95 * nodePulse})`);
+      grad.addColorStop(0.45, `rgba(90, 175, 190, ${0.55 * nodePulse})`);
+      grad.addColorStop(1, `rgba(243, 195, 132, 0)`);
+
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(n.x, n.y, n.size * 3.5, 0, Math.PI * 2);
+      ctx.arc(n.x, n.y, outerRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(255, 244, 230, 0.9)';
+      ctx.fillStyle = `rgba(255, 252, 244, 0.9)`;
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    requestAnimationFrame(step);
+    rafId = requestAnimationFrame(step);
   }
 
-  resize();
-  updateScrollFactors();
-  requestAnimationFrame(step);
-}
-
-// ======================
-// FOREST AUDIO TOGGLE
-// ======================
-function initForestAudioToggle() {
-  const audio = document.getElementById('forestAudio');
-  const toggle = document.getElementById('forestSoundToggle');
-  if (!audio || !toggle) return;
-
-  let playing = false;
-  const label = toggle.querySelector('.sound-toggle__label');
-
-  function applyAudioState(isPlaying) {
-    playing = isPlaying;
-    toggle.setAttribute('aria-pressed', String(playing));
-    if (label) {
-      label.textContent = playing ? 'Forest on' : 'Forest off';
-    }
+  function start() {
+    if (prefersReducedMotion()) return;
+    if (isCalmMode()) return;
+    if (rafId != null) return;
+    rafId = requestAnimationFrame(step);
   }
 
-  toggle.addEventListener('click', () => {
-    if (!playing) {
-      audio
-        .play()
-        .then(() => {
-          applyAudioState(true);
-        })
-        .catch(() => {
-          // ignore autoplay errors
-        });
-    } else {
-      audio.pause();
-      applyAudioState(false);
+  // events
+  canvas.addEventListener('pointermove', event => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = event.clientX - rect.left;
+    mouseY = event.clientY - rect.top;
+  });
+
+  canvas.addEventListener('pointerleave', () => {
+    mouseX = null;
+    mouseY = null;
+  });
+
+  window.addEventListener('resize', () => {
+    resize();
+    if (!isCalmMode()) start();
+  });
+
+  window.addEventListener('modechange', () => {
+    if (isCalmMode()) stop();
+    else {
+      resize();
+      start();
     }
   });
+
+  // init
+  resize();
+  updateScrollFactors();
+  start();
 }
