@@ -1,135 +1,214 @@
-# yeseniaperezfina.github.io
-
-Portfolio site for **Yesenia “Yessi” Perez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
-
-This repo powers the GitHub Pages site at:
-
-> `https://yeseniaperezfina.github.io`  
-> (or `https://yeseniaperezfina.github.io/` in a browser)
+Absolutely — here’s the cleaned, updated README with **only “Yesenia Perez”** throughout.
 
 ---
 
-## Concept & Design
+# yeseniaperezfina.github.io
 
-### Design Intent
+Portfolio site for **Yesenia Perez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
 
-This site is built as a **single-page, editorial-style portfolio** optimized for:
+This repo powers the GitHub Pages site:
 
-- **Recruiters and hiring managers**: fast scanning, clear signals of scope, metrics, and “what this demonstrates.”
-- **Strategy & systems roles**: emphasis on portfolio architecture, mixed-method research, and cross-sector leadership.
-- **Yessi’s creative practice**: “Soft Physics” + botanical editorial — science, systems, and mythic/poetic undertones.
+> **[https://yeseniaperezfina.github.io](https://yeseniaperezfina.github.io)**
 
-Visually, the site is a blend of:
+---
 
-- **Botanical Editorial**: cream paper, sage and berry accents, subtle gold highlights.
-- **Book-cover framing**: a soft “dust jacket” frame around the viewport and chapter-style section headings.
-- **Quiet motion**: small card lifts, gentle gradients, and section fade-ins instead of aggressive animations.
+## Concept & Experience Design
 
-### Information Architecture
+### Narrative & Visual Intent
 
-The portfolio is intentionally **single-page** with anchored sections:
+This site is a **single-page, editorial-style portfolio** — part botanical field journal, part systems-design dossier. It’s crafted for:
 
-1. **About (Hero)**  
-   - Who Yessi is and where she sits in the ecosystem.  
-   - Mode chips (Strategist, Scholar, Creator, Navigator) update a short description.  
-   - High-level metrics (years at NASA, size of network, education arc).  
+* **Hiring managers and recruiters** who need fast, clear signals about scope, competencies, and leadership orientation.
+* **Strategy, systems, and learning design roles** that value coherent reasoning, evidence-awareness, and cross-sector fluency.
+* **Yesenia’s creative practice**: a blend of *Soft Physics*, science storytelling, and mythic/poetic undertones.
 
-2. **Trajectory**  
-   - Career and education timeline from museums to NASA and Harvard.  
-   - Each timeline entry includes a short body, a **metric row**, and **“Demonstrates” tags** to signal capabilities.
+The visual system merges:
 
-3. **Signature Work**  
-   - Four case cards across NASA, higher ed, and museums.  
-   - Each card includes:
-     - One-line blurb under the title for quick scanning.  
-     - A **metrics row** (scale, duration, complexity).  
-     - Bulleted responsibilities.  
-     - **“Demonstrates” tags** that translate into competencies.
+* **Midnight Forest Atmosphere** — moss, bark, sand, and twilight gradients.
+* **Editorial serif-forward typography** — a quiet New Yorker / book-jacket influence.
+* **Organic motion** — pollen, fireflies, mycelium threads, canopy parallax.
+* **Calm Mode** — a simplified, reduced-motion palette for accessibility and contemplative reading.
 
-4. **How I Work (Practice)**  
-   - Core principles, leadership stance, and how teams tend to experience Yessi.  
-   - Mix of quote card, bullet lists, and subtle metrics to show process and presence.
+---
 
-5. **Capabilities & Tools**  
-   - “Constellation of practice” — where to plug Yessi into a team or portfolio.  
-   - Split into strategy, research, communication/leadership, tools, domains, and ways of working.
+## Information Architecture
 
-6. **Writing & Story Work**  
-   - Highlights selected writing threads (Soft Physics, Echoes of Now, Reflection as Resistance, internal strategy briefs).  
-   - Shows voice and sense-making, with a link out to Substack.
+The portfolio is intentionally **single-page**, divided into anchored sections optimized for scanning:
 
-7. **Contact / Next Orbit**  
-   - Future-facing orientation: what roles and sectors Yessi is exploring.  
-   - Clear contact calls to action (email, LinkedIn, The Echo Jar).
+1. **About (Hero)**
+   Role identity, practice positions (Strategist, Scholar, Creator, Navigator), and ecosystem placement.
+
+2. **Trajectory**
+   Career timeline across museums, NASA, and higher education; signals of scale, complexity, and “what this demonstrates.”
+
+3. **Signature Work**
+   Four case studies showing portfolio strategy, evaluation, research synthesis, storytelling, and multi-stakeholder coordination.
+
+4. **How I Work**
+   Leadership stance, decision-making principles, and how teams tend to experience Yesenia.
+
+5. **Capabilities & Tools**
+   “Constellation of practice” across strategy, research, communication, and domains — with an interactive mycelium/constellation network.
+
+6. **Writing & Story Work**
+   Highlights across *Soft Physics*, reflective practice at Harvard, and internal strategy briefs.
+
+7. **Contact / Next Orbit**
+   Future-facing roles and sectors Yesenia is exploring; clear CTAs.
 
 ---
 
 ## Front-End Architecture
 
-The site is built as a **lightweight static SPA**: plain HTML/CSS/JS with zero dependencies, designed to work cleanly on GitHub Pages.
+This site is a **lightweight static SPA** built with **HTML + CSS + vanilla JS**, designed to be:
 
-### Files
+* Audit-friendly
+* Dependency-free
+* Accessible
+* Easy to maintain on GitHub Pages
 
-- `index.html`  
-  Single-page markup with semantic sections and `data-section` attributes for scroll-spy and reveal.
+### Directory Structure
 
-- `assets/css/main.css`  
-  Custom design system and layout primitives:
-  - CSS variables (colors, radii, shadows, max-width).
-  - Layout primitives: `.shell`, `.section`, `.grid`, `.stack`.
-  - Components: `.card`, `.chip`, `.button`, `.pill-link`, `.tag-row`, `.metric-row`.
-  - Page-level treatments: header, hero, botanical accent, “book cover” frame.
+```text
+.
+├── index.html
+├── assets
+│   ├── css
+│   │   └── main.css
+│   ├── js
+│   │   └── main.js
+│   └── audio
+│       └── forest.mp3
+└── README.md
+```
 
-- `assets/js/main.js`  
-  Small vanilla JS bundle:
-  - Sets current year in the footer.
-  - Handles **role chips** → updates hero role note.
-  - Implements **scroll-spy**: watches sections and toggles `.is-active` on `.nav-link`.
-  - Implements **section reveal**: IntersectionObserver adds `.section-visible` for soft fade/slide.
+### `index.html`
 
-No build step, no bundler, no external frameworks. This keeps it legible as “handcrafted” but still intentional and systematic.
+Semantic markup with:
+
+* `data-section` attributes for scroll-spy
+* Accessible navigation (`aria-current`)
+* Forest/Calm mode toggles with `aria-pressed`
+* Audio toggle for ambient forest sound
+* Section ornaments (leaves, botanical gradients, orbs)
+
+### `assets/css/main.css`
+
+A fully custom design system including:
+
+* **Design tokens** for color, spacing, typography, radii, shadow, and layout scale
+* **Editorial serif-forward headings** + clean system sans body copy
+* **Botanical gradients** and soft card treatments
+* **Forest/Calm mode styles**, with reduced-motion and quieter visuals in calm mode
+* **Grid + Stack layout primitives**
+* **Component styles**:
+
+  * `.card`, `.chip`, `.pill-link`, `.button`, `.tag-row`, `.metric-row`
+  * Header shell, navigation, forest overlays
+* **Accessible focus and reduced-motion support**
+
+### `assets/js/main.js`
+
+A refactored JS architecture with:
+
+* **Single `init()` orchestration** via `DOMContentLoaded`
+* Named `initX` modules:
+
+  * `initYearStamp()`
+  * `initModeToggle()` — Forest / Calm mode with persistence
+  * `initRoleChips()` — swaps out practice descriptions
+  * `initScrollSpy()` — updates nav & `aria-current="page"`
+  * `initRootProgress()` — scroll progress for the root-column
+  * `initForestParallax()` — canopy layers (auto-disabled in Calm mode)
+  * `initPollenAndFireflies()` — atmospheric particles (auto-disabled in Calm mode)
+  * `initForestNetwork()` — constellation/mycelium network
+  * `initForestAudioToggle()` — sound toggle with `aria-pressed`
+
+All animations gracefully quiet themselves in **Calm Mode** and/or when system `prefers-reduced-motion` is detected.
 
 ---
 
 ## Interaction Design
 
-### Scroll Spy
+### 1. Forest / Calm Mode Toggle
 
-- Each primary section (`About`, `Trajectory`, `Work`, etc.) has `data-section` and an `id`.
-- `main.js` uses `IntersectionObserver` to:
-  - Detect which section is in view.
-  - Add `.is-active` to the corresponding `.nav-link`.
-- Threshold is tuned (`0.45`) for realistic reading rather than edge-trigger hopping.
+A top-right toggle that:
 
-### Section Reveal
+* Switches between **immersive Midnight Forest** and **Quiet Editorial Calm**
+* Persists preference in `localStorage`
+* Reduces/eliminates motion in Calm mode
+* Simplifies gradients and lowers atmospheric density
 
-- All `.section` elements start slightly translated down with reduced opacity.
-- A second `IntersectionObserver` adds `.section-visible` when a section enters the viewport.
-- This creates a **gentle page-turn effect** that fits the editorial/book metaphor.
+### 2. Scroll Spy + Section Reveal
 
-### Role Chips
+* Uses `IntersectionObserver` to:
 
-- Hero “mode chips” (`Strategist`, `Scholar`, `Creator`, `Navigator`) are `<button>` elements with `data-role-chip`.
-- On click, the script:
-  - Toggles `.chip--active`.
-  - Swaps in a short, mode-specific blurb that foregrounds a different facet of Yessi’s practice.
+  * Highlight the active nav link
+  * Add `.section-visible` for soft fade-ins
+* Uses tuned thresholds for natural reading flow
 
-### Cards & Hover States
+### 3. Role Chips
 
-- All `.card` elements:
-  - Lift slightly on hover.
-  - Increase shadow depth.
-  - Subtly shift border color and reveal a soft radial highlight.
-- Cards remain accessible:
-  - No necessary information is only available on hover.
-  - Hover is purely an affordance and a bit of “magic,” not a requirement.
+* Four practice modes (Strategist, Scholar, Creator, Navigator)
+* Each click updates a compact narrative of that facet
+
+### 4. Atmospheric Layers
+
+* **Pollen + dust + fireflies** (canvas)
+* **Constellation / mycelium** network (canvas)
+* **Canopy parallax** layers
+
+All of these automatically quiet in **Calm Mode**.
+
+### 5. Accessible Audio Toggle
+
+* Ambient forest sound for atmospheric browsing
+* Fully keyboard-accessible
+* `aria-pressed` state + readable label updates (“Forest on/off”)
+
+---
+
+## Performance & Accessibility Notes
+
+* Zero network dependencies → reliable on GitHub Pages
+* Dark-on-dark color testing for contrast
+* Reduced-motion support baked in
+* Semantic HTML with labeled navigation, landmarks, and ARIA states
+* All imagery/ornaments marked `aria-hidden="true"`
 
 ---
 
 ## Running & Editing Locally
 
-1. **Clone the repo**
+Clone the repo:
 
-   ```bash
-   git clone https://github.com/yeseniaperezfina/yeseniaperezfina.github.io.git
-   cd yeseniaperezfina.github.io
+```bash
+git clone https://github.com/yeseniaperezfina/yeseniaperezfina.github.io.git
+cd yeseniaperezfina.github.io
+```
+
+You can open `index.html` directly in your browser, or run a local server:
+
+```bash
+python3 -m http.server
+```
+
+Then visit:
+
+```text
+http://localhost:8000
+```
+
+---
+
+## Deployment
+
+GitHub Pages is enabled on the `main` branch.
+Any commit to `main` automatically updates the live site.
+
+---
+
+## License
+
+All content © **Yesenia Perez**.
+Codebase is shared for transparency and review; please request permission for reuse.
