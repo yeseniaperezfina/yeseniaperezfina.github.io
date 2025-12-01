@@ -5,6 +5,11 @@ function clamp01(value) {
   return Math.min(1, Math.max(0, value));
 }
 
+// Helper to know if we should keep things visually calm
+function isCalmMode() {
+  return document.body.dataset.mode === 'calm';
+}
+
 // ======================
 // INIT ORCHESTRATION
 // ======================
@@ -57,18 +62,12 @@ function initModeToggle() {
   applyMode(initialMode);
 
   toggle.addEventListener('click', () => {
-    const nextMode =
-      body.dataset.mode === 'calm' ? 'forest' : 'calm';
+    const nextMode = body.dataset.mode === 'calm' ? 'forest' : 'calm';
     applyMode(nextMode);
     if (window.localStorage) {
       window.localStorage.setItem('yesi-site-mode', nextMode);
     }
   });
-}
-
-// Helper to know if we should keep things visually calm
-function isCalmMode() {
-  return document.body.dataset.mode === 'calm';
 }
 
 // ======================
@@ -555,7 +554,9 @@ function initForestAudioToggle() {
   function applyAudioState(isPlaying) {
     playing = isPlaying;
     toggle.setAttribute('aria-pressed', String(playing));
-    if (label) label.textContent = playing ? 'Forest on' : 'Forest off';
+    if (label) {
+      label.textContent = playing ? 'Forest on' : 'Forest off';
+    }
   }
 
   toggle.addEventListener('click', () => {
