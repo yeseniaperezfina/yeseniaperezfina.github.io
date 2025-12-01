@@ -4,7 +4,7 @@ if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
 
-// Practice lenses
+// Practice lenses copy
 const modeDescription = document.getElementById("mode-description");
 const modeChips = document.querySelectorAll(".chip--mode");
 
@@ -16,7 +16,7 @@ const modeCopy = {
   communication:
     "I turn complex science and evaluation into stories, toolkits, and experiences people can actually use.",
   reflection:
-    "I build in reflection and writing as part of the work, so teams can learn from what they are doing in real time."
+    "I build reflection and writing into the work, so teams can learn in real time and not just at the end."
 };
 
 modeChips.forEach((chip) => {
@@ -97,36 +97,120 @@ if (navToggle && navList) {
   });
 }
 
-// Soft parallax sky on scroll
-const cosmosBack = document.querySelector(".cosmos--back");
-const cosmosMid = document.querySelector(".cosmos--mid");
-const cosmosFront = document.querySelector(".cosmos--front");
+// Gentle tilt on hero panel
+const tiltTarget = document.querySelector(".tilt-target");
 
-const handleScroll = () => {
-  const y = window.scrollY || window.pageYOffset;
-  if (cosmosBack) cosmosBack.style.transform = `translateY(${y * 0.03}px)`;
-  if (cosmosMid) cosmosMid.style.transform = `translateY(${y * 0.06}px)`;
-  if (cosmosFront) cosmosFront.style.transform = `translateY(${y * 0.01}px)`;
-};
-
-window.addEventListener("scroll", handleScroll, { passive: true });
-
-// Pointer parallax for hero orbit
-const heroOrbit = document.querySelector(".hero-orbit");
-
-if (heroOrbit) {
-  const motionScale = 10; // adjust for more/less motion
+if (tiltTarget) {
+  const maxTilt = 6; // degrees
 
   const handlePointerMove = (event) => {
-    const { innerWidth, innerHeight } = window;
-    const xNorm = (event.clientX / innerWidth) - 0.5;
-    const yNorm = (event.clientY / innerHeight) - 0.5;
+    const rect = tiltTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const xPercent = (x / rect.width - 0.5) * 2;
+    const yPercent = (y / rect.height - 0.5) * 2;
 
-    const xOffset = -xNorm * motionScale;
-    const yOffset = -yNorm * motionScale;
+    const rotateX = -yPercent * maxTilt;
+    const rotateY = xPercent * maxTilt;
 
-    heroOrbit.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+    tiltTarget.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
   };
 
-  document.addEventListener("pointermove", handlePointerMove);
+  const resetTilt = () => {
+    tiltTarget.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0)";
+  };
+
+  tiltTarget.addEventListener("pointermove", handlePointerMove);
+  tiltTarget.addEventListener("pointerleave", resetTilt);
+}
+
+// Soft Physics skyfield – spores & stars
+const canvas = document.getElementById("skyfield");
+const ctx = canvas ? canvas.getContext("2d") : null;
+
+if (canvas && ctx) {
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const particles = [];
+  const STAR_COUNT = 80;
+  const SPORE_COUNT = 70;
+
+  const createStar = () => ({
+    type: "star",
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 1.2 + 0.4,
+    baseAlpha: 0.4 + Math.random() * 0.4,
+    twinkleSpeed: 0.01 + Math.random() * 0.02,
+    phase: Math.random() * Math.PI * 2
+  });
+
+  const createSpore = () => ({
+    type: "spore",
+    x: Math.random() * width,
+    y: height + Math.random() * height * 0.4,
+    radius: Math.random() * 2.3 + 1,
+    speed: 0.2 + Math.random() * 0.4,
+    drift: (Math.random() - 0.5) * 0.15
+  });
+
+  for (let i = 0; i < STAR_COUNT; i++) particles.push(createStar());
+  for (let i = 0; i < SPORE_COUNT; i++) particles.push(createSpore());
+
+  let lastScrollY = window.scrollY || 0;
+  let scrollVelocity = 0;
+
+  const handleScroll = () => {
+    const currentY = window.scrollY || 0;
+    scrollVelocity = currentY - lastScrollY;
+    lastScrollY = currentY;
+  };
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+
+  const draw = () => {
+    ctx.clearRect(0, 0, width, height);
+
+    particles.forEach((p) => {
+      if (p.type === "star") {
+        p.phase += p.twinkleSpeed;
+        const alpha = p.baseAlpha + Math.sin(p.phase) * 0.2;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2.6);
+        gradient.addColorStop(0, `rgba(244, 213, 141, ${alpha})`);
+        gradient.addColorStop(1, "rgba(244, 213, 141, 0)");
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      } else if (p.type === "spore") {
+        const scrollLift = scrollVelocity * 0.01;
+        p.y -= p.speed + scrollLift;
+        p.x += p.drift;
+
+        if (p.y + p.radius < -20) {
+          Object.assign(p, createSpore(), { y: height + 20 });
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2.5);
+        gradient.addColorStop(0, "rgba(124, 195, 159, 0.8)");
+        gradient.addColorStop(1, "rgba(124, 195, 159, 0)");
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      }
+    });
+
+    requestAnimationFrame(draw);
+  };
+
+  draw();
+
+  // Resize handler
+  window.addEventListener("resize", () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
 }
