@@ -14,15 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initRoleChips();
   initScrollSpy();
   initRootProgress();
-  initForestParallax();
-  initPollenAndFireflies();
-  initForestNetwork();
+  initShorelineNetwork();
 });
-
-// Helper to know if we should keep things visually calm
-function isCalmMode() {
-  return document.body.dataset.mode === 'calm';
-}
 
 // ======================
 // YEAR STAMP
@@ -38,22 +31,23 @@ function initYearStamp() {
 // MODE TOGGLE (FOREST / CALM)
 // ======================
 function initModeToggle() {
+  const html = document.documentElement;
   const body = document.body;
   const toggle = document.getElementById('modeToggle');
-  if (!body || !toggle) return;
+  if (!toggle || !body) return;
 
   const label = toggle.querySelector('.mode-toggle__label');
 
   function applyMode(mode) {
     const isCalm = mode === 'calm';
-    body.dataset.mode = isCalm ? 'calm' : 'forest';
+    body.setAttribute('data-mode', isCalm ? 'calm' : 'forest');
+    html.setAttribute('data-mode', isCalm ? 'calm' : 'forest');
     toggle.setAttribute('aria-pressed', String(isCalm));
     if (label) {
       label.textContent = isCalm ? 'Calm mode' : 'Forest mode';
     }
   }
 
-  // Initialize from localStorage or default to "forest"
   const storedMode = window.localStorage
     ? window.localStorage.getItem('yesi-site-mode')
     : null;
@@ -61,60 +55,52 @@ function initModeToggle() {
   applyMode(initialMode);
 
   toggle.addEventListener('click', () => {
-    const nextMode = body.dataset.mode === 'calm' ? 'forest' : 'calm';
-    applyMode(nextMode);
+    const current = body.getAttribute('data-mode') === 'calm' ? 'calm' : 'forest';
+    const next = current === 'calm' ? 'forest' : 'calm';
+    applyMode(next);
     if (window.localStorage) {
-      window.localStorage.setItem('yesi-site-mode', nextMode);
+      window.localStorage.setItem('yesi-site-mode', next);
     }
   });
 }
 
 // ======================
-// ROLE CHIPS → ROLE NOTE (DRY / dynamic)
+// ROLE CHIPS → ROLE NOTE
 // ======================
 function initRoleChips() {
-  const container = document.getElementById('roleChips');
+  const chips = document.querySelectorAll('[data-role-chip]');
   const roleNote = document.getElementById('role-note');
-  if (!container || !roleNote) return;
 
-  const ROLES = [
-    {
-      key: 'Strategist',
-      text: 'I design portfolios, initiatives, and learning environments that connect mission, data, and lived experience—helping teams see systems, not just projects.'
-    },
-    {
-      key: 'Scholar',
-      text: 'I draw from higher education research, learning sciences, and organizational theory to help teams make choices that are both rigorous and humane.'
-    },
-    {
-      key: 'Creator',
-      text: 'I translate complex science and systems work into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.'
-    },
-    {
-      key: 'Navigator',
-      text: 'I guide teams through ambiguity with clarity and care, holding timelines and relationships so that change work is brave but not reckless.'
-    }
-  ];
+  if (!chips.length || !roleNote) return;
 
-  // Build chips
-  ROLES.forEach((role, index) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'chip' + (index === 0 ? ' chip--active' : '');
-    btn.setAttribute('data-role-chip', role.key);
-    btn.textContent = role.key;
+  const copy = {
+    Strategist:
+      'I map portfolios, initiatives, and learning environments so teams can see the system, not just the project.',
+    Scholar:
+      'I pull from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.',
+    Creator:
+      'I translate complex science and systems into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.',
+    Navigator:
+      'I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change.'
+  };
 
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
-      btn.classList.add('chip--active');
-      roleNote.innerHTML = `As a <strong>${role.key}</strong>, ${role.text}`;
+  function updateRole(role) {
+    const text = copy[role];
+    if (!text) return;
+    roleNote.innerHTML = `As a <strong>${role}</strong>, ${text}`;
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('chip--active'));
+      chip.classList.add('chip--active');
+
+      const role = chip.getAttribute('data-role-chip');
+      if (role && copy[role]) {
+        updateRole(role);
+      }
     });
-
-    container.appendChild(btn);
   });
-
-  // Initialize the first one
-  roleNote.innerHTML = `As a <strong>${ROLES[0].key}</strong>, ${ROLES[0].text}`;
 }
 
 // ======================
@@ -135,7 +121,7 @@ function initScrollSpy() {
     }
   });
 
-  const sectionObserver = new IntersectionObserver(
+  const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
         const id = entry.target.id;
@@ -158,7 +144,7 @@ function initScrollSpy() {
     { threshold: 0.4 }
   );
 
-  sections.forEach(section => sectionObserver.observe(section));
+  sections.forEach(section => observer.observe(section));
 }
 
 // ======================
@@ -180,190 +166,22 @@ function initRootProgress() {
 }
 
 // ======================
-// FOREST CANOPY PARALLAX
+// SHORELINE MYCELIUM NETWORK
+// (Canvas-based, moves only on hover)
 // ======================
-function initForestParallax() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const back = document.querySelector('.forest-canopy-layer--back');
-  const front = document.querySelector('.forest-canopy-layer--front');
-
-  if (!back || !front || prefersReduced) return;
-
-  function handleScroll() {
-    if (isCalmMode()) return; // keep canopy from drifting in calm mode
-
-    const maxOffset = 120;
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const offsetBack = scrollTop * 0.04;
-    const offsetFront = scrollTop * 0.08;
-
-    back.style.transform = `translateY(${Math.min(offsetBack, maxOffset)}px)`;
-    front.style.transform = `translateY(${Math.min(offsetFront, maxOffset)}px)`;
-  }
-
-  handleScroll();
-  window.addEventListener('scroll', handleScroll);
-}
-
-// ======================
-// POLLEN / DUST + FIREFLIES
-// ======================
-function initPollenAndFireflies() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const canvas = document.getElementById('particleCanvas');
-  if (!canvas || !canvas.getContext || prefersReduced) return;
-
-  const ctx = canvas.getContext('2d');
-  let width = 0;
-  let height = 0;
-
-  const pollen = [];
-  const fireflies = [];
-  const POLLEN_COUNT = 90;
-  const FIREFLY_COUNT = 18;
-
-  function resize() {
-    const ratio = window.devicePixelRatio || 1;
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-  }
-
-  function initParticles() {
-    pollen.length = 0;
-    fireflies.length = 0;
-
-    for (let i = 0; i < POLLEN_COUNT; i++) {
-      pollen.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vy: 0.05 + Math.random() * 0.12,
-        vx: (Math.random() - 0.5) * 0.05,
-        size: 0.8 + Math.random() * 1.2,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
-
-    for (let i = 0; i < FIREFLY_COUNT; i++) {
-      fireflies.push({
-        x: Math.random() * width,
-        y: Math.random() * height * 0.6,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.005 + Math.random() * 0.01
-      });
-    }
-  }
-
-  function step(ts) {
-    if (isCalmMode()) {
-      ctx.clearRect(0, 0, width, height);
-      requestAnimationFrame(step);
-      return;
-    }
-
-    ctx.clearRect(0, 0, width, height);
-
-    // pollen
-    ctx.save();
-    for (const p of pollen) {
-      p.y += p.vy;
-      p.x += p.vx + Math.sin(p.phase + ts * 0.00008) * 0.08;
-
-      if (p.y > height) p.y = -10;
-      if (p.x < -10) p.x = width + 10;
-      if (p.x > width + 10) p.x = -10;
-
-      const alpha = 0.08 + Math.abs(Math.sin(p.phase + ts * 0.0002)) * 0.07;
-      ctx.fillStyle = `rgba(245, 212, 161, ${alpha})`;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.restore();
-
-    // fireflies
-    ctx.save();
-    for (const f of fireflies) {
-      f.x += f.vx;
-      f.y += f.vy;
-      f.phase += f.speed;
-
-      if (f.x < -20) f.x = width + 20;
-      if (f.x > width + 20) f.x = -20;
-      if (f.y < 0) f.y = height * 0.4;
-      if (f.y > height * 0.7) f.y = 20;
-
-      const alpha = 0.05 + Math.abs(Math.sin(f.phase)) * 0.45;
-
-      const radius = 2.5;
-      const gradient = ctx.createRadialGradient(
-        f.x,
-        f.y,
-        0,
-        f.x,
-        f.y,
-        radius * 5
-      );
-      gradient.addColorStop(0, `rgba(245, 212, 161, ${alpha})`);
-      gradient.addColorStop(0.4, `rgba(245, 212, 161, ${alpha * 0.7})`);
-      gradient.addColorStop(1, 'rgba(245, 212, 161, 0)');
-
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, radius * 5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = `rgba(255, 244, 230, ${alpha})`;
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, radius, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.restore();
-
-    requestAnimationFrame(step);
-  }
-
-  resize();
-  initParticles();
-  window.addEventListener('resize', () => {
-    resize();
-    initParticles();
-  });
-  requestAnimationFrame(step);
-}
-
-// ======================
-// FOREST MYCELIUM / OCEAN NETWORK
-// ======================
-function initForestNetwork() {
-  const prefersReduced =
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+function initShorelineNetwork() {
   const canvas = document.getElementById('forestNetwork');
-  if (!canvas || !canvas.getContext || prefersReduced) return;
+  if (!canvas || !canvas.getContext) return;
 
   const ctx = canvas.getContext('2d');
   let width = 0;
   let height = 0;
   let nodes = [];
-  const NODE_COUNT = 72;
-  const BASE_MAX_DIST = 130;
+  const NODE_COUNT = 70;
+  const MAX_DIST = 130;
 
-  let scrollFactor = 0;  // 0 = top of page, 1 = bottom
-  let focusFactor = 0;   // 0 = section off-screen, 1 = fully in view
-  let mouseX = null;
-  let mouseY = null;
+  let hoverX = null;
+  let hoverY = null;
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -376,165 +194,44 @@ function initForestNetwork() {
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
     initNodes();
+    draw();
   }
 
   function initNodes() {
     nodes = [];
     for (let i = 0; i < NODE_COUNT; i++) {
-      const isOcean = Math.random() < 0.5;
       nodes.push({
         x: Math.random() * width,
-        y: isOcean
-          ? height * (0.55 + Math.random() * 0.4)  // ocean band
-          : height * (0.15 + Math.random() * 0.35), // forest band
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        size: 0.8 + Math.random() * 1.5,
-        kind: isOcean ? 'ocean' : 'forest',
-        phase: Math.random() * Math.PI * 2
+        y: height * 0.35 + Math.random() * height * 0.45, // mostly between ocean + forest floor
+        size: 0.9 + Math.random() * 1.4
       });
     }
   }
 
-  function updateScrollFactors() {
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    scrollFactor = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
-
-    const rect = canvas.getBoundingClientRect();
-    const viewHeight = window.innerHeight;
-    const visible =
-      Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
-    const ratio = clamp01(visible / rect.height);
-    focusFactor = ratio;
-  }
-
-  window.addEventListener('scroll', updateScrollFactors);
-  window.addEventListener('resize', () => {
-    resize();
-    updateScrollFactors();
-  });
-
-  canvas.addEventListener('pointermove', event => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = event.clientX - rect.left;
-    mouseY = event.clientY - rect.top;
-  });
-  canvas.addEventListener('pointerleave', () => {
-    mouseX = null;
-    mouseY = null;
-  });
-
-  function step() {
-    if (isCalmMode()) {
-      // In calm mode, keep a very subtle static hint
-      ctx.clearRect(0, 0, width, height);
-      drawBackground(0.18);
-      requestAnimationFrame(step);
-      return;
-    }
-
-    ctx.clearRect(0, 0, width, height);
-    drawBackground(0.3 + focusFactor * 0.2);
-    updateNodes();
-    drawConnections();
-    drawNodes();
-    requestAnimationFrame(step);
-  }
-
-  function drawBackground(alphaBase) {
-    // Top: forest canopy haze, bottom: deep PNW ocean
+  function drawBackground() {
+    // Ocean → shoreline → forest floor gradient
     const grad = ctx.createLinearGradient(0, 0, 0, height);
-    grad.addColorStop(0, `rgba(10, 35, 34, 1)`);
-    grad.addColorStop(0.4, `rgba(7, 27, 33, 1)`);
-    grad.addColorStop(0.7, `rgba(3, 28, 43, 1)`);
-    grad.addColorStop(1, `rgba(2, 19, 33, 1)`);
+    grad.addColorStop(0, 'rgba(5, 13, 30, 1)');          // deep sky
+    grad.addColorStop(0.3, 'rgba(10, 32, 54, 1)');      // horizon mist
+    grad.addColorStop(0.55, 'rgba(8, 38, 55, 1)');      // ocean surface
+    grad.addColorStop(0.7, 'rgba(7, 30, 34, 1)');       // near-shore
+    grad.addColorStop(1, 'rgba(5, 22, 21, 1)');         // forest floor
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Soft underwater caustics near bottom
-    ctx.save();
-    ctx.globalAlpha = alphaBase;
-    ctx.fillStyle = ctx.createRadialGradient(
-      width * 0.5,
-      height * 1.1,
-      height * 0.1,
-      width * 0.5,
-      height * 0.9,
-      height * 0.65
-    );
-    ctx.fillStyle.addColorStop?.call(ctx.fillStyle, 0, 'rgba(42, 128, 140, 0.7)');
-    ctx.fillStyle.addColorStop?.call(ctx.fillStyle, 1, 'rgba(5, 18, 28, 0)');
-    ctx.fillRect(0, height * 0.45, width, height * 0.55);
-    ctx.restore();
-
-    // Horizon glow between ocean and forest
-    ctx.save();
-    ctx.globalAlpha = 0.4 + focusFactor * 0.25;
-    const horizonY = height * 0.52;
-    const horizonGrad = ctx.createLinearGradient(0, horizonY - 4, 0, horizonY + 16);
-    horizonGrad.addColorStop(0, 'rgba(153, 194, 201, 0)');
-    horizonGrad.addColorStop(0.4, 'rgba(212, 200, 176, 0.45)');
-    horizonGrad.addColorStop(1, 'rgba(86, 145, 138, 0)');
-    ctx.fillStyle = horizonGrad;
-    ctx.fillRect(0, horizonY - 8, width, 32);
-    ctx.restore();
+    // Very subtle shoreline glow band
+    ctx.fillStyle = 'rgba(243, 195, 122, 0.12)';
+    const bandY = height * 0.55;
+    ctx.fillRect(0, bandY - 3, width, 6);
   }
 
-  function updateNodes() {
-    const ROOT_PULL = 0.02 + focusFactor * 0.05;
-    const maxOceanLift = 0.08 + 0.12 * scrollFactor;
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    drawBackground();
 
-    for (const n of nodes) {
-      const isOcean = n.kind === 'ocean';
+    if (!nodes.length) return;
 
-      // Center of pull: slight forestwards bias
-      const cx = width * 0.5;
-      const cy = isOcean
-        ? height * (0.5 + maxOceanLift) // ocean nodes gently drawn up
-        : height * 0.3;
-
-      // gentle pull toward center / horizon
-      n.vx += (cx - n.x) * ROOT_PULL * 0.0006;
-      n.vy += (cy - n.y) * ROOT_PULL * 0.0006;
-
-      // pointer attraction
-      if (mouseX != null && mouseY != null) {
-        const dx = mouseX - n.x;
-        const dy = mouseY - n.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const force = 0.04 * focusFactor;
-        n.vx += (dx / dist) * force * 0.02;
-        n.vy += (dy / dist) * force * 0.02;
-      }
-
-      // gentle oscillation
-      n.phase += 0.003 + Math.random() * 0.002;
-      n.vx += Math.sin(n.phase) * 0.002;
-      n.vy += Math.cos(n.phase) * 0.002;
-
-      n.x += n.vx;
-      n.y += n.vy;
-
-      // wrap around
-      const margin = 30;
-      if (n.x < -margin) n.x = width + margin;
-      if (n.x > width + margin) n.x = -margin;
-      if (n.y < -margin) n.y = height + margin;
-      if (n.y > height + margin) n.y = -margin;
-
-      // damp velocities a bit
-      n.vx *= 0.985;
-      n.vy *= 0.985;
-    }
-  }
-
-  function drawConnections() {
-    const maxDist = BASE_MAX_DIST + focusFactor * 40;
-    const oceanColor = '191, 214, 214';  // light aqua
-    const forestColor = '191, 173, 144'; // warm fungal
-    const crossColor = '152, 196, 186';
-
+    // Connections
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const n1 = nodes[i];
@@ -542,18 +239,24 @@ function initForestNetwork() {
         const dx = n1.x - n2.x;
         const dy = n1.y - n2.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < maxDist) {
-          const t = 1 - dist / maxDist;
-          const baseAlpha = (0.4 + focusFactor * 0.5) * t;
+        if (dist < MAX_DIST) {
+          // Base alpha from proximity
+          let alpha = (1 - dist / MAX_DIST) * 0.6;
 
-          let rgb = forestColor;
-          if (n1.kind === 'ocean' && n2.kind === 'ocean') {
-            rgb = oceanColor;
-          } else if (n1.kind !== n2.kind) {
-            rgb = crossColor;
+          // If hovering near this segment, brighten it
+          if (hoverX != null && hoverY != null) {
+            const midX = (n1.x + n2.x) / 2;
+            const midY = (n1.y + n2.y) / 2;
+            const hdx = hoverX - midX;
+            const hdy = hoverY - midY;
+            const hdist = Math.sqrt(hdx * hdx + hdy * hdy);
+            const hoverInfluence = Math.max(0, 1 - hdist / 120);
+            alpha += hoverInfluence * 0.4;
           }
 
-          ctx.strokeStyle = `rgba(${rgb}, ${baseAlpha * 0.7})`;
+          alpha = Math.min(alpha, 0.9);
+
+          ctx.strokeStyle = `rgba(214, 189, 149, ${alpha * 0.6})`;
           ctx.lineWidth = 0.9;
           ctx.beginPath();
           ctx.moveTo(n1.x, n1.y);
@@ -562,25 +265,24 @@ function initForestNetwork() {
         }
       }
     }
-  }
 
-  function drawNodes() {
+    // Nodes
     for (const n of nodes) {
-      const isOcean = n.kind === 'ocean';
-      const baseSize = n.size;
-      const pulse = 1 + Math.sin(n.phase * 1.3) * 0.18 * focusFactor;
-      const outerRadius = baseSize * (3.6 + 1.4 * focusFactor) * pulse;
-      const innerRadius = baseSize * (1 + 0.5 * focusFactor);
+      let baseRadius = n.size * 3;
+      let innerRadius = n.size;
+      let glowAlpha = 0.5;
+      let coreAlpha = 0.9;
 
-      const centerColor = isOcean
-        ? 'rgba(146, 210, 213, 1)'
-        : 'rgba(245, 212, 161, 1)';
-      const haloInner = isOcean
-        ? 'rgba(146, 210, 213, 0.7)'
-        : 'rgba(245, 212, 161, 0.65)';
-      const haloOuter = isOcean
-        ? 'rgba(40, 123, 139, 0)'
-        : 'rgba(94, 126, 104, 0)';
+      if (hoverX != null && hoverY != null) {
+        const dx = hoverX - n.x;
+        const dy = hoverY - n.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const influence = Math.max(0, 1 - dist / 100);
+        baseRadius += influence * 4;
+        innerRadius += influence * 1.2;
+        glowAlpha += influence * 0.4;
+        coreAlpha += influence * 0.1;
+      }
 
       const grad = ctx.createRadialGradient(
         n.x,
@@ -588,24 +290,39 @@ function initForestNetwork() {
         0,
         n.x,
         n.y,
-        outerRadius
+        baseRadius
       );
-      grad.addColorStop(0, centerColor);
-      grad.addColorStop(0.35, haloInner);
-      grad.addColorStop(1, haloOuter);
+      grad.addColorStop(0, `rgba(243, 195, 122, ${glowAlpha})`);
+      grad.addColorStop(0.4, `rgba(243, 195, 122, ${glowAlpha * 0.6})`);
+      grad.addColorStop(1, 'rgba(243, 195, 122, 0)');
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(n.x, n.y, outerRadius, 0, Math.PI * 2);
+      ctx.arc(n.x, n.y, baseRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = centerColor;
+      ctx.fillStyle = `rgba(249, 235, 213, ${coreAlpha})`;
       ctx.beginPath();
       ctx.arc(n.x, n.y, innerRadius, 0, Math.PI * 2);
       ctx.fill();
     }
   }
 
+  function handlePointerMove(event) {
+    const rect = canvas.getBoundingClientRect();
+    hoverX = event.clientX - rect.left;
+    hoverY = event.clientY - rect.top;
+    draw();
+  }
+
+  function handlePointerLeave() {
+    hoverX = null;
+    hoverY = null;
+    draw();
+  }
+
+  canvas.addEventListener('pointermove', handlePointerMove);
+  canvas.addEventListener('pointerleave', handlePointerLeave);
+  window.addEventListener('resize', resize);
+
   resize();
-  updateScrollFactors();
-  requestAnimationFrame(step);
 }
