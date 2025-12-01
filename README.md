@@ -1,7 +1,3 @@
-Absolutely — here’s the cleaned, updated README with **only “Yesenia Perez”** throughout.
-
----
-
 # yeseniaperezfina.github.io
 
 Portfolio site for **Yesenia Perez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
