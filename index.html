@@ -3,22 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yesenia Perez · Higher Education & Learning Strategist</title>
+  <title>Yesenia Perez · Higher Education &amp; Learning Strategist</title>
   <meta name="description" content="Portfolio of Yesenia Perez, higher education & learning strategist working across NASA, higher education, and public engagement." />
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<!-- Forest / ocean overlay system -->
-<div class="forest-canopy-wrap" aria-hidden="true">
-  <div class="forest-canopy-layer forest-canopy-layer--back"></div>
-  <div class="forest-canopy-layer forest-canopy-layer--front"></div>
-</div>
-
+<!-- Root progress column -->
 <div class="root-column" aria-hidden="true"></div>
-
-<canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
 
 <div class="site">
   <!-- HEADER -->
@@ -33,7 +26,7 @@
       </div>
 
       <nav class="site-nav" aria-label="Primary">
-        <a class="nav-link is-active" href="#about" aria-current="page">About</a>
+        <a class="nav-link is-active" href="#about">About</a>
         <a class="nav-link" href="#trajectory">Trajectory</a>
         <a class="nav-link" href="#work">Work</a>
         <a class="nav-link" href="#practice">Practice</a>
@@ -60,37 +53,6 @@
   <main id="main" class="site-main">
     <!-- HERO / ABOUT -->
     <section id="about" class="section section--hero" data-section>
-      <div class="hero-ornaments" aria-hidden="true">
-        <!-- Mountain horizon + ocean line art -->
-        <svg class="mountain-svg mountain-svg--horizon" viewBox="0 0 320 120" preserveAspectRatio="xMidYMid slice">
-          <!-- Mountain ridgeline -->
-          <path
-            d="M0 80 L40 70 L80 82 L120 60 L150 68 L190 50 L230 65 L270 58 L320 72 L320 120 L0 120 Z"
-            class="mountain-ridge"
-          />
-          <!-- Ocean line -->
-          <path
-            d="M0 96 C40 92, 80 100, 120 96 C160 92, 200 100, 240 96 C280 92, 300 98, 320 95"
-            class="ocean-line"
-          />
-        </svg>
-
-        <!-- Cliff silhouettes (left / right) -->
-        <svg class="mountain-svg mountain-svg--left" viewBox="0 0 80 160">
-          <path
-            d="M0 160 L0 40 L15 30 L32 45 L28 60 L40 78 L35 100 L38 125 L30 145 Z"
-            class="cliff-line"
-          />
-        </svg>
-
-        <svg class="mountain-svg mountain-svg--right" viewBox="0 0 80 160">
-          <path
-            d="M80 160 L80 36 L64 26 L50 42 L54 56 L42 80 L48 102 L44 128 L56 146 Z"
-            class="cliff-line"
-          />
-        </svg>
-      </div>
-
       <div class="shell">
         <div class="grid grid--hero">
           <div class="stack hero-copy">
@@ -101,20 +63,28 @@
               that connect rigorous science, institutional strategy, and lived experience.
             </p>
 
-            <div class="chip-row" id="roleChips" aria-label="Modes of practice"></div>
+            <div class="chip-row" aria-label="Modes of practice">
+              <button class="chip chip--active" type="button" data-role-chip="Strategist">Strategist</button>
+              <button class="chip" type="button" data-role-chip="Scholar">Scholar</button>
+              <button class="chip" type="button" data-role-chip="Creator">Creator</button>
+              <button class="chip" type="button" data-role-chip="Navigator">Navigator</button>
+            </div>
 
-            <p class="role-note" id="role-note"></p>
+            <p class="role-note" id="role-note">
+              As a <strong>Strategist</strong>, I map portfolios, initiatives, and learning environments so teams can see the system, not just the project.
+            </p>
 
             <div class="contact-row">
-              <a class="button button--primary" href="#contact">Explore next orbit</a>
-              <a class="button button--primary" href="mailto:yperez@gse.harvard.edu">Email</a>
+              <a class="button" href="#contact">Explore next orbit</a>
+              <a class="button button--ghost" href="mailto:yperez@gse.harvard.edu">Email</a>
             </div>
           </div>
 
           <aside class="hero-panel">
             <div class="card card--hero" aria-label="Snapshot">
-              <div class="hero-portrait" aria-hidden="true">
-                <div class="hero-portrait-inner"></div>
+              <div class="hero-horizon" aria-hidden="true">
+                <div class="hero-horizon__ocean"></div>
+                <div class="hero-horizon__treeline"></div>
               </div>
 
               <div class="stack stack--tight">
@@ -229,28 +199,25 @@
             <article class="card">
               <h3>Strategist</h3>
               <p>
-                I map portfolios, initiatives, and learning environments so teams can see the system, not just the project.
+                I map portfolios, initiatives, and learning environments so teams can see the whole system, not just the project in front of them.
               </p>
             </article>
             <article class="card">
               <h3>Scholar</h3>
               <p>
-                I draw from higher education research, learning sciences, and organizational theory to make design choices
-                that are both rigorous and humane.
+                I draw from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.
               </p>
             </article>
             <article class="card">
               <h3>Creator</h3>
               <p>
-                Through visual storytelling and writing—including <em>The Echo Jar</em>—I translate complex science and
-                systems into narratives that feel worth caring about.
+                Through visual storytelling and writing—including <em>The Echo Jar</em>—I translate complex science and systems into narratives people can feel and use.
               </p>
             </article>
             <article class="card">
               <h3>Navigator</h3>
               <p>
-                I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the
-                emotional texture of change.
+                I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change.
               </p>
             </article>
           </div>
@@ -409,7 +376,7 @@
     </section>
 
     <!-- CAPABILITIES -->
-    <section id="skills" class="section section--band section--botanical" data-section>
+    <section id="skills" class="section section--band section--shoreline" data-section>
       <div class="section-ornaments" aria-hidden="true">
         <div class="section-orb section-orb--small"></div>
         <div class="section-orb section-orb--medium"></div>
@@ -474,7 +441,7 @@
           </div>
 
           <aside class="skills-network-wrap" aria-hidden="true">
-            <div class="skills-network-label">Ocean → forest mycelium</div>
+            <div class="skills-network-label">Shoreline mycelium</div>
             <canvas id="forestNetwork" class="forest-network"></canvas>
           </aside>
         </div>
