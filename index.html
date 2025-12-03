@@ -54,6 +54,17 @@
         >
           <span class="mode-toggle__label">Forest mode</span>
         </button>
+
+        <!-- Optional shoreline audio toggle (wired to initWaveSound in JS) -->
+        <button
+          class="mode-toggle"
+          id="waveSoundToggle"
+          aria-label="Toggle shoreline wave sounds"
+          aria-pressed="false"
+          type="button"
+        >
+          Waves: Off
+        </button>
       </div>
     </div>
   </header>
@@ -86,6 +97,20 @@
             <div class="contact-row">
               <a class="button" href="#contact">Explore next orbit</a>
               <a class="button button--ghost" href="mailto:yperez@gse.harvard.edu">Email</a>
+            </div>
+
+            <!-- Print-only table of contents for booklet mode (CSS: .print-toc) -->
+            <div class="print-toc">
+              <h3>Contents</h3>
+              <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#trajectory">Trajectory</a></li>
+                <li><a href="#work">Signature Work</a></li>
+                <li><a href="#practice">How I Work</a></li>
+                <li><a href="#skills">Capabilities &amp; Tools</a></li>
+                <li><a href="#writing">Writing &amp; Story Work</a></li>
+                <li><a href="#contact">Next Orbit · Contact</a></li>
+              </ul>
             </div>
           </div>
 
@@ -599,6 +624,9 @@
     </div>
   </footer>
 </div>
+
+<!-- Optional shoreline audio asset (used by initWaveSound) -->
+<audio id="waveAudio" src="assets/audio/waves.mp3" preload="auto"></audio>
 
 <script src="assets/js/main.js" defer></script>
 </body>
