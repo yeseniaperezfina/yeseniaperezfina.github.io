@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initSkyScene();
   initForestCanopy();
   initFireflies();
+
+  // Optional audio hook
+  initWaveSound();
 });
 
 // ======================
@@ -47,7 +50,7 @@ function initYearStamp() {
 }
 
 // ======================
-// MODE TOGGLE (FOREST / CALM)
+// MODE TOGGLE (FOREST / CALM) + MIDNIGHT EASTER EGG
 // ======================
 function initModeToggle() {
   const html = document.documentElement;
@@ -56,6 +59,44 @@ function initModeToggle() {
   if (!toggle || !body) return;
 
   const label = toggle.querySelector('.mode-toggle__label');
+
+  let calmToggleCount = 0;
+  let midnightTriggered = false;
+
+  function showMidnightBadge() {
+    if (document.querySelector('.midnight-badge')) return;
+
+    const badge = document.createElement('div');
+    badge.className = 'midnight-badge';
+    badge.innerHTML = `
+      <span class="midnight-badge__dot" aria-hidden="true"></span>
+      <span>Midnight shoreline unlocked</span>
+      <button class="midnight-badge__close" type="button" aria-label="Dismiss midnight badge">×</button>
+    `;
+
+    const closeBtn = badge.querySelector('.midnight-badge__close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        badge.remove();
+      });
+    }
+
+    document.body.appendChild(badge);
+
+    // Auto-fade after ~8 seconds
+    setTimeout(() => {
+      badge.style.opacity = '0';
+      badge.style.transition = 'opacity 0.5s ease-out';
+      setTimeout(() => badge.remove(), 500);
+    }, 8000);
+  }
+
+  function triggerMidnightMode() {
+    if (midnightTriggered) return;
+    midnightTriggered = true;
+    body.classList.add('is-midnight');
+    showMidnightBadge();
+  }
 
   function applyMode(mode) {
     const isCalm = mode === 'calm';
@@ -68,6 +109,14 @@ function initModeToggle() {
     toggle.setAttribute('aria-pressed', String(isCalm));
     if (label) {
       label.textContent = isCalm ? 'Calm mode' : 'Forest mode';
+    }
+
+    // Track Calm toggles for the Easter egg
+    if (isCalm) {
+      calmToggleCount += 1;
+      if (calmToggleCount >= 3 && !midnightTriggered) {
+        triggerMidnightMode();
+      }
     }
   }
 
@@ -476,13 +525,14 @@ function initForestCanopy() {
 }
 
 // ======================
-// FIREFLIES — NEAR FOREST FLOOR
+// FIREFLIES — NEAR FOREST FLOOR (with proximity glow)
 // ======================
 function initFireflies() {
   const container = document.querySelector('.scene-layer--fireflies');
   if (!container) return;
 
   const COUNT = 22; // a few more points of light
+  const fireflies = [];
 
   for (let i = 0; i < COUNT; i++) {
     const firefly = document.createElement('div');
@@ -508,7 +558,39 @@ function initFireflies() {
     }
 
     container.appendChild(firefly);
+    fireflies.push({ el: firefly, fx, fy });
   }
+
+  // Cursor-based proximity glow (halo)
+  function handlePointerMove(event) {
+    const vw = window.innerWidth || document.documentElement.clientWidth;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+
+    const cursorX = event.clientX;
+    const cursorY = event.clientY;
+    const THRESHOLD = 160; // px radius for "near"
+
+    fireflies.forEach(ff => {
+      const x = ff.fx * vw;
+      const y = ff.fy * vh;
+      const dx = cursorX - x;
+      const dy = cursorY - y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < THRESHOLD) {
+        ff.el.classList.add('firefly--near');
+      } else {
+        ff.el.classList.remove('firefly--near');
+      }
+    });
+  }
+
+  function handlePointerLeave() {
+    fireflies.forEach(ff => ff.el.classList.remove('firefly--near'));
+  }
+
+  window.addEventListener('pointermove', handlePointerMove);
+  window.addEventListener('pointerleave', handlePointerLeave);
 }
 
 // ======================
@@ -532,6 +614,7 @@ function initShorelineNetwork() {
   // Idle shimmer state
   let idlePulse = 0;
   let lastIdleTime = 0;
+  let shimmerPhase = 0;
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -573,6 +656,24 @@ function initShorelineNetwork() {
     ctx.fillStyle = 'rgba(243, 195, 122, 0.12)';
     const bandY = height * 0.55;
     ctx.fillRect(0, bandY - 3, width, 6);
+
+    // Subtle moving ocean shimmer (only if motion allowed)
+    if (!PREFERS_REDUCED_MOTION) {
+      const centerX = (Math.sin(shimmerPhase) * 0.5 + 0.5) * width;
+      const shimmerGrad = ctx.createRadialGradient(
+        centerX,
+        bandY,
+        0,
+        centerX,
+        bandY,
+        width * 0.45
+      );
+      shimmerGrad.addColorStop(0, 'rgba(249, 235, 213, 0.10)');
+      shimmerGrad.addColorStop(0.35, 'rgba(249, 235, 213, 0.06)');
+      shimmerGrad.addColorStop(1, 'rgba(249, 235, 213, 0)');
+      ctx.fillStyle = shimmerGrad;
+      ctx.fillRect(0, bandY - height * 0.2, width, height * 0.4);
+    }
   }
 
   function draw() {
@@ -678,13 +779,16 @@ function initShorelineNetwork() {
 
   function animateIdle(timestamp) {
     if (PREFERS_REDUCED_MOTION) return;
-    const t = timestamp || performance.now();
+    const t = (timestamp || performance.now()) / 1000;
+
+    // Slow shimmer phase for ocean band
+    shimmerPhase = t * 0.16;
 
     // Only shimmer when there's no hover activity
     if (hoverX == null && hoverY == null) {
-      if (t - lastIdleTime > 180) {
-        idlePulse = 0.08 + 0.05 * Math.sin(t / 2200); // slow, subtle pulse
-        lastIdleTime = t;
+      if (timestamp - lastIdleTime > 180) {
+        idlePulse = 0.08 + 0.05 * Math.sin(t / 2.2); // slow, subtle pulse
+        lastIdleTime = timestamp;
         draw();
       }
     }
@@ -700,4 +804,40 @@ function initShorelineNetwork() {
   if (!PREFERS_REDUCED_MOTION) {
     requestAnimationFrame(animateIdle);
   }
+}
+
+// ======================
+// WAVE SOUND HOOK
+// (Optional: wire to <audio id="waveAudio"> and a button)
+// ======================
+function initWaveSound() {
+  const audio = document.getElementById('waveAudio');
+  const toggle = document.getElementById('waveSoundToggle');
+  if (!audio || !toggle) return;
+
+  // Ensure it loops gently in the background
+  audio.loop = true;
+
+  function updateToggle(isPlaying) {
+    toggle.setAttribute('aria-pressed', String(isPlaying));
+    toggle.textContent = isPlaying ? 'Waves: On' : 'Waves: Off';
+  }
+
+  toggle.addEventListener('click', () => {
+    if (audio.paused) {
+      audio
+        .play()
+        .then(() => updateToggle(true))
+        .catch(() => {
+          // If autoplay is blocked, just keep the UI in "off" state
+          updateToggle(false);
+        });
+    } else {
+      audio.pause();
+      updateToggle(false);
+    }
+  });
+
+  // Initial label
+  updateToggle(!audio.paused);
 }
