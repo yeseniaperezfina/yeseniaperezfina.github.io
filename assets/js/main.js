@@ -11,8 +11,11 @@ const PREFERS_REDUCED_MOTION =
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Helper to know current mode ("forest" | "calm")
+// Aligned with CSS, which keys off body[data-mode]
 function getCurrentMode() {
-  const mode = document.documentElement.getAttribute('data-mode');
+  const bodyMode = document.body && document.body.getAttribute('data-mode');
+  const htmlMode = document.documentElement.getAttribute('data-mode');
+  const mode = bodyMode || htmlMode;
   return mode === 'calm' ? 'calm' : 'forest';
 }
 
@@ -58,8 +61,10 @@ function initModeToggle() {
     const isCalm = mode === 'calm';
     const value = isCalm ? 'calm' : 'forest';
 
+    // Keep CSS + JS in sync
     body.setAttribute('data-mode', value);
     html.setAttribute('data-mode', value);
+
     toggle.setAttribute('aria-pressed', String(isCalm));
     if (label) {
       label.textContent = isCalm ? 'Calm mode' : 'Forest mode';
@@ -73,7 +78,7 @@ function initModeToggle() {
   applyMode(initialMode);
 
   toggle.addEventListener('click', () => {
-    const current = body.getAttribute('data-mode') === 'calm' ? 'calm' : 'forest';
+    const current = getCurrentMode();
     const next = current === 'calm' ? 'forest' : 'calm';
     applyMode(next);
     if (window.localStorage) {
@@ -176,10 +181,10 @@ function initRootProgress() {
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
 
-    // Root line
+    // Root line (drives the warm/teal gradient in CSS)
     rootEl.style.setProperty('--root-progress', progress.toString());
 
-    // Scene transparencies
+    // Scene transparencies (used by .scene-layer--* via CSS vars)
     const mode = getCurrentMode();
     const isCalm = mode === 'calm';
 
