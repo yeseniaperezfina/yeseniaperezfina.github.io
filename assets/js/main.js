@@ -184,17 +184,17 @@ function initRootProgress() {
     const isCalm = mode === 'calm';
 
     // Sky fades out over first half of page
-    const baseSkyOpacity = clamp01(1 - progress * 1.2);
-    const skyOpacity = baseSkyOpacity; // same in both modes; we keep sky present
+    const baseSkyOpacity = clamp01(1 - progress * 1.1);
+    const skyOpacity = baseSkyOpacity;
 
-    // Forest canopy fades in once you're ~8% down
-    const baseForestOpacity = clamp01((progress - 0.08) / 0.55);
+    // Forest canopy: arrives a bit later, fills more gradually
+    const baseForestOpacity = clamp01((progress - 0.12) / 0.6);
     const forestOpacity = isCalm
-      ? Math.min(baseForestOpacity, 0.5) // softer in Calm
+      ? Math.min(baseForestOpacity, 0.5)
       : baseForestOpacity;
 
-    // Fireflies bloom in later, near bottom
-    const baseFireflyOpacity = clamp01((progress - 0.35) / 0.5);
+    // Fireflies: show up further down the page
+    const baseFireflyOpacity = clamp01((progress - 0.45) / 0.45);
     const fireflyOpacity = isCalm
       ? Math.min(baseFireflyOpacity, 0.55)
       : baseFireflyOpacity;
@@ -238,15 +238,15 @@ function initSkyScene() {
 
   function initStars() {
     stars = [];
-    const count = 90;
+    const count = 80; // slightly sparser
     for (let i = 0; i < count; i++) {
       stars.push({
         x: Math.random() * width,
         y: Math.random() * height * 0.55, // upper half
         radius: 0.6 + Math.random() * 1.4,
-        baseAlpha: 0.2 + Math.random() * 0.5,
-        baseTwinkleAmp: 0.2 + Math.random() * 0.4,
-        baseTwinkleSpeed: 0.4 + Math.random() * 0.8,
+        baseAlpha: 0.22 + Math.random() * 0.45,
+        baseTwinkleAmp: 0.16 + Math.random() * 0.18,   // gentler twinkle
+        baseTwinkleSpeed: 0.25 + Math.random() * 0.3,  // slower overall
         phase: Math.random() * Math.PI * 2
       });
     }
@@ -259,7 +259,7 @@ function initSkyScene() {
       planes.push({
         baseX: Math.random() * width,
         y: height * (0.18 + Math.random() * 0.1), // quiet flight path
-        speed: 30 + Math.random() * 40,
+        speed: 28 + Math.random() * 34,
         blinkOffset: Math.random() * Math.PI * 2
       });
     }
@@ -272,15 +272,15 @@ function initSkyScene() {
     const isCalm = mode === 'calm';
 
     // Parallax drift only in Forest mode (very slow side-to-side sway)
-    const parallaxOffset = !isCalm ? Math.sin(time * 0.03) * 18 : 0;
+    const parallaxOffset = !isCalm ? Math.sin(time * 0.025) * 16 : 0;
 
     // Stars
     for (const s of stars) {
       const twinkleSpeed = isCalm
-        ? s.baseTwinkleSpeed * 0.55 // slower in Calm
+        ? s.baseTwinkleSpeed * 0.45 // slower in Calm
         : s.baseTwinkleSpeed;
       const twinkleAmp = isCalm
-        ? s.baseTwinkleAmp * 0.6 // lower amplitude in Calm
+        ? s.baseTwinkleAmp * 0.55 // lower amplitude in Calm
         : s.baseTwinkleAmp;
 
       const twinkle = Math.sin(time * twinkleSpeed + s.phase);
@@ -322,7 +322,7 @@ function initSkyScene() {
 
       // Subtle blue wash
       ctx.globalCompositeOperation = 'soft-light';
-      ctx.fillStyle = 'rgba(20, 40, 70, 0.25)';
+      ctx.fillStyle = 'rgba(20, 40, 70, 0.26)';
       ctx.fillRect(0, 0, width, height);
 
       // Soft starlight refraction near zenith
@@ -334,7 +334,7 @@ function initSkyScene() {
         height * 0.12,
         width * 0.5
       );
-      grad.addColorStop(0, 'rgba(210, 225, 255, 0.14)');
+      grad.addColorStop(0, 'rgba(210, 225, 255, 0.16)');
       grad.addColorStop(0.4, 'rgba(150, 185, 230, 0.08)');
       grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
@@ -477,7 +477,7 @@ function initFireflies() {
   const container = document.querySelector('.scene-layer--fireflies');
   if (!container) return;
 
-  const COUNT = 18;
+  const COUNT = 22; // a few more points of light
 
   for (let i = 0; i < COUNT; i++) {
     const firefly = document.createElement('div');
@@ -490,12 +490,12 @@ function initFireflies() {
     firefly.style.setProperty('--fx', fx.toString());
     firefly.style.setProperty('--fy', fy.toString());
 
-    const delay = (Math.random() * 8).toFixed(2);
+    const delay = (Math.random() * 10).toFixed(2);
 
     if (!PREFERS_REDUCED_MOTION) {
       firefly.style.animation =
-        `fireflyMove 16s ease-in-out infinite alternate, ` +
-        `fireflyBlink 2.6s ease-in-out infinite alternate`;
+        `fireflyMove 20s ease-in-out infinite alternate, ` +  // slower drift
+        `fireflyBlink 3.2s ease-in-out infinite alternate`;    // slower blink
       firefly.style.animationDelay = `${delay}s, ${delay}s`;
     } else {
       // Reduced motion: keep them softly glowing
@@ -508,7 +508,7 @@ function initFireflies() {
 
 // ======================
 // SHORELINE MYCELIUM NETWORK
-// (Canvas-based, moves only on hover)
+// (Canvas-based, hover-responsive + idle shimmer)
 // ======================
 function initShorelineNetwork() {
   const canvas = document.getElementById('forestNetwork');
@@ -523,6 +523,10 @@ function initShorelineNetwork() {
 
   let hoverX = null;
   let hoverY = null;
+
+  // Idle shimmer state
+  let idlePulse = 0;
+  let lastIdleTime = 0;
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -572,6 +576,8 @@ function initShorelineNetwork() {
 
     if (!nodes.length) return;
 
+    const hasHover = hoverX != null && hoverY != null;
+
     // Connections
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
@@ -584,8 +590,8 @@ function initShorelineNetwork() {
           // Base alpha from proximity
           let alpha = (1 - dist / MAX_DIST) * 0.6;
 
-          // If hovering near this segment, brighten it
-          if (hoverX != null && hoverY != null) {
+          if (hasHover) {
+            // If hovering near this segment, brighten it
             const midX = (n1.x + n2.x) / 2;
             const midY = (n1.y + n2.y) / 2;
             const hdx = hoverX - midX;
@@ -593,6 +599,9 @@ function initShorelineNetwork() {
             const hdist = Math.sqrt(hdx * hdx + hdy * hdy);
             const hoverInfluence = Math.max(0, 1 - hdist / 120);
             alpha += hoverInfluence * 0.4;
+          } else {
+            // Idle shimmer: gentle breathing of the network
+            alpha *= 0.85 + idlePulse;
           }
 
           alpha = Math.min(alpha, 0.9);
@@ -611,10 +620,11 @@ function initShorelineNetwork() {
     for (const n of nodes) {
       let baseRadius = n.size * 3;
       let innerRadius = n.size;
-      let glowAlpha = 0.5;
-      let coreAlpha = 0.9;
 
-      if (hoverX != null && hoverY != null) {
+      let glowAlpha = hasHover ? 0.5 : 0.42 + idlePulse;
+      let coreAlpha = hasHover ? 0.9 : 0.88 + idlePulse * 0.45;
+
+      if (hasHover) {
         const dx = hoverX - n.x;
         const dy = hoverY - n.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -661,9 +671,28 @@ function initShorelineNetwork() {
     draw();
   }
 
+  function animateIdle(timestamp) {
+    if (PREFERS_REDUCED_MOTION) return;
+    const t = timestamp || performance.now();
+
+    // Only shimmer when there's no hover activity
+    if (hoverX == null && hoverY == null) {
+      if (t - lastIdleTime > 180) {
+        idlePulse = 0.08 + 0.05 * Math.sin(t / 2200); // slow, subtle pulse
+        lastIdleTime = t;
+        draw();
+      }
+    }
+
+    requestAnimationFrame(animateIdle);
+  }
+
   canvas.addEventListener('pointermove', handlePointerMove);
   canvas.addEventListener('pointerleave', handlePointerLeave);
   window.addEventListener('resize', resize);
 
   resize();
+  if (!PREFERS_REDUCED_MOTION) {
+    requestAnimationFrame(animateIdle);
+  }
 }
