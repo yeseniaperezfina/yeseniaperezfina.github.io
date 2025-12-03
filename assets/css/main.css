@@ -43,6 +43,12 @@
   --forest-opacity: 0;
   --firefly-opacity: 0;
 
+  /* Root column tones */
+  --root-warm: rgba(190, 168, 135, 0.85);
+  --root-warm-soft: rgba(190, 168, 135, 0.06);
+  --root-teal: rgba(73, 140, 138, 0.9);
+  --root-teal-soft: rgba(73, 140, 138, 0.12);
+
   /* Spacing scale */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -79,11 +85,17 @@ body {
   background: radial-gradient(circle at top, #101a27 0, var(--color-deep-ocean) 45%, #01040b 100%);
   color: var(--ink);
   line-height: 1.6;
+  text-rendering: optimizeLegibility;
 }
 
-/* Calm mode: same world, quieter */
+/* Calm mode: same world, quieter, warmer ink */
 body[data-mode="calm"] {
   background: linear-gradient(to bottom, #050915, #02040a);
+
+  /* Slightly warmer, softer typography */
+  --ink: #f7efe1;
+  --muted: #d6c6af;
+  --muted-soft: #a49582;
 }
 
 /* Typographic voice */
@@ -132,6 +144,26 @@ a:focus-visible {
   padding: var(--space-4) var(--space-3) var(--space-6);
 }
 
+/* Global vignette over the shoreline, under content */
+.site::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1; /* below .shell (z:1), above scene layers (-2) */
+  background:
+    radial-gradient(circle at top,
+      rgba(0, 0, 0, 0.0) 0%,
+      rgba(0, 0, 0, 0.35) 55%,
+      rgba(0, 0, 0, 0.75) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+body[data-mode="calm"] .site::before {
+  opacity: 0.5;
+}
+
 .shell {
   position: relative;
   z-index: 1;
@@ -173,7 +205,12 @@ a:focus-visible {
   bottom: 0;
   left: 1rem;
   width: 2px;
-  background: linear-gradient(to bottom, transparent 0, rgba(190, 168, 135, 0.06) 0);
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    var(--root-warm-soft) 12%,
+    transparent 100%
+  );
   z-index: -1;
 }
 .root-column::after {
@@ -183,11 +220,41 @@ a:focus-visible {
   background:
     linear-gradient(
       to bottom,
-      rgba(190, 168, 135, 0.7) 0,
-      rgba(190, 168, 135, 0.85) calc(var(--root-progress) * 100%),
+      var(--root-warm) 0,
+      var(--root-warm) calc(var(--root-progress) * 100%),
       transparent calc(var(--root-progress) * 100%)
     );
-  box-shadow: 0 0 16px rgba(243, 195, 122, 0.7);
+  box-shadow:
+    0 0 8px rgba(243, 195, 122, 0.5),
+    0 0 16px rgba(243, 195, 122, 0.6);
+  opacity: 0.95;
+  transition:
+    box-shadow 0.4s ease-out,
+    opacity 0.4s ease-out;
+}
+
+/* Calm mode: cooler, inner light */
+body[data-mode="calm"] .root-column {
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    var(--root-teal-soft) 14%,
+    transparent 100%
+  );
+}
+
+body[data-mode="calm"] .root-column::after {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--root-teal) 0,
+      var(--root-teal) calc(var(--root-progress) * 100%),
+      transparent calc(var(--root-progress) * 100%)
+    );
+  box-shadow:
+    0 0 6px rgba(119, 201, 198, 0.45),
+    0 0 12px rgba(119, 201, 198, 0.35);
+  opacity: 0.85;
 }
 
 /* ===========================
@@ -208,6 +275,11 @@ a:focus-visible {
   border: 1px solid var(--border-soft);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(18px);
+}
+
+body[data-mode="calm"] .site-header .shell--header {
+  background: radial-gradient(circle at top left, #111826, #050910);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.9);
 }
 
 .brand {
@@ -291,9 +363,19 @@ a:focus-visible {
   color: var(--muted);
   font-size: var(--font-xs);
   cursor: pointer;
+  transition:
+    background 0.2s ease-out,
+    border-color 0.2s ease-out,
+    transform 0.15s ease-out,
+    box-shadow 0.15s ease-out;
 }
 .mode-toggle__label {
   white-space: nowrap;
+}
+.mode-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
+  border-color: var(--border-strong);
 }
 
 @media (max-width: 720px) {
@@ -306,6 +388,33 @@ a:focus-visible {
     width: 100%;
     justify-content: flex-start;
   }
+}
+
+/* ===========================
+   ACCESSIBLE FOCUS STATES
+   =========================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-cap-glow);
+  outline-offset: 2px;
+}
+
+/* Pills & controls with pill shapes */
+.nav-link:focus-visible,
+.button:focus-visible,
+.chip:focus-visible,
+.pill-link:focus-visible,
+.mode-toggle:focus-visible {
+  outline: 2px solid var(--color-cap-glow);
+  outline-offset: 3px;
+  border-radius: var(--radius-pill);
+}
+
+/* Stronger focus ring on primary buttons */
+.button:focus-visible {
+  box-shadow:
+    0 0 0 2px rgba(5, 9, 15, 0.9),
+    0 0 0 4px rgba(243, 195, 122, 0.8);
 }
 
 /* ===========================
@@ -325,12 +434,26 @@ a:focus-visible {
   overflow: hidden;
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out, background 0.9s ease-out, box-shadow 0.9s ease-out;
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out,
+    background 0.9s ease-out,
+    box-shadow 0.9s ease-out,
+    border-color 0.6s ease-out;
 }
 
 .section.section-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Alternating border rhythm */
+.section:nth-of-type(2n) {
+  border-color: rgba(140, 162, 156, 0.85);
+}
+
+body[data-mode="calm"] .section:nth-of-type(2n) {
+  border-color: rgba(104, 132, 128, 0.8);
 }
 
 .section--band {
@@ -365,8 +488,16 @@ a:focus-visible {
 body[data-mode="calm"] .section {
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.9);
   background:
-    radial-gradient(circle at top, rgba(28, 47, 69, 0.25), transparent 55%),
+    radial-gradient(circle at top, rgba(28, 47, 69, 0.22), transparent 55%),
     linear-gradient(145deg, #050915, #050914);
+  border-color: rgba(96, 116, 110, 0.75);
+}
+
+/* Slightly softer hero in Calm mode */
+body[data-mode="calm"] .section--hero {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(243, 195, 122, 0.12), transparent 60%),
+    linear-gradient(150deg, #040712, #070f1c 40%, #050914 100%);
 }
 
 /* Section ornaments (orbs) */
@@ -400,6 +531,10 @@ body[data-mode="calm"] .section {
   height: 140px;
   bottom: -70px;
   left: 8%;
+}
+
+body[data-mode="calm"] .section-orb {
+  opacity: 0.12;
 }
 
 /* Layout utilities */
@@ -506,7 +641,11 @@ body[data-mode="calm"] .section {
   background: rgba(9, 17, 16, 0.96);
   color: var(--muted);
   cursor: pointer;
-  transition: background 0.2s ease-out, border-color 0.2s ease-out, transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  transition:
+    background 0.2s ease-out,
+    border-color 0.2s ease-out,
+    transform 0.15s ease-out,
+    box-shadow 0.15s ease-out;
 }
 .chip:hover {
   transform: translateY(-1px);
@@ -588,13 +727,25 @@ body[data-mode="calm"] .section {
   box-shadow: var(--shadow-card);
   font-size: 0.88rem;
   color: var(--muted);
-  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out, border-color 0.2s ease-out, background 0.2s ease-out;
+  transition:
+    transform 0.16s ease-out,
+    box-shadow 0.16s ease-out,
+    border-color 0.2s ease-out,
+    background 0.2s ease-out;
 }
 
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.98);
   border-color: var(--border-strong);
+}
+
+body[data-mode="calm"] .card {
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.9);
+  background:
+    radial-gradient(circle at 0 0, rgba(243, 195, 122, 0.04), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(19, 52, 50, 0.6), transparent 55%),
+    var(--card-alt);
 }
 
 .card--hero {
@@ -681,7 +832,11 @@ body[data-mode="calm"] .section {
   color: var(--muted);
   font-size: var(--font-xs);
   text-decoration: none;
-  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, border-color 0.2s ease-out, background 0.2s ease-out;
+  transition:
+    transform 0.15s ease-out,
+    box-shadow 0.15s ease-out,
+    border-color 0.2s ease-out,
+    background 0.2s ease-out;
 }
 .pill-link--full {
   width: 100%;
@@ -932,12 +1087,20 @@ body[data-mode="calm"] .section {
     0 0 10px rgba(249, 235, 213, 0.9),
     0 0 22px rgba(243, 195, 122, 0.8);
   opacity: 0; /* JS + keyframes will bring them to life */
+  will-change: transform, opacity;
 }
 
 /* Placement: JS sets --fx and --fy as 0–1 values */
 .firefly {
   top: calc(var(--fy, 0.8) * 100%);
   left: calc(var(--fx, 0.5) * 100%);
+}
+
+/* Calm mode: slightly softer glow */
+body[data-mode="calm"] .firefly {
+  box-shadow:
+    0 0 8px rgba(249, 235, 213, 0.8),
+    0 0 18px rgba(243, 195, 122, 0.65);
 }
 
 /* Motion + glow */
@@ -969,5 +1132,297 @@ body[data-mode="calm"] .section {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* ===========================
+   PRINT — BOOKLET MODE
+   =========================== */
+@media print {
+  /* ---------- Page + base ---------- */
+  @page {
+    /* Extra top margin to make space for running header */
+    margin: 1.1in 0.8in 0.9in;
+  }
+
+  html,
+  body {
+    background: #f7f3ea !important;
+    color: #26211a !important;
+    box-shadow: none !important;
+  }
+
+  body {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-size: 0.9rem;
+  }
+
+  /* ---------- Running header on every page ---------- */
+  body::before {
+    content: "YESSI PÉREZ · PORTFOLIO";
+    position: fixed;
+    top: 0.5in;          /* aligns with @page top margin */
+    left: 0.8in;
+    right: 0.8in;
+    padding-bottom: 0.12rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: #aa9985;
+    border-bottom: 1px solid rgba(140, 120, 96, 0.45);
+  }
+
+  /* ---------- Hide screen-only chrome + scenes ---------- */
+  .site-header,
+  .root-column,
+  .scene-layer,
+  .mode-toggle,
+  .chip-row,
+  .pill-link,
+  .section-ornaments {
+    display: none !important;
+  }
+
+  /* ---------- Layout → narrow column ---------- */
+  .site {
+    max-width: 640px;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  .shell {
+    padding: 0;
+  }
+
+  /* ---------- Title page (hero section becomes cover) ---------- */
+  .section--hero {
+    page-break-before: always;
+    page-break-after: always;
+    padding-top: 0;
+    padding-bottom: 0.8rem;
+    margin: 0 0 1.2rem;
+    background: transparent !important;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .section--hero .hero-horizon {
+    display: none !important; /* keep title page typographic */
+  }
+
+  .section--hero h1 {
+    font-size: 2.2rem;
+    line-height: 1.15;
+    margin-bottom: 0.4rem;
+    color: #1b1510 !important;
+  }
+
+  .section--hero .lead {
+    font-size: 1rem;
+    color: #4a3d32;
+    margin-bottom: 0.5rem;
+  }
+
+  .section--hero .role-note {
+    font-size: 0.95rem;
+    color: #6a5b4d;
+  }
+
+  /* ---------- Print-only TOC on title page ---------- */
+  .print-toc {
+    display: block;
+    margin-top: 0.9rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid rgba(140, 120, 96, 0.35);
+    font-size: 0.85rem;
+    color: #4f4136;
+  }
+
+  .print-toc h3 {
+    margin: 0 0 0.35rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #7a6b5a;
+  }
+
+  .print-toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .print-toc li {
+    margin-bottom: 0.18rem;
+  }
+
+  .print-toc a {
+    text-decoration: none;
+    color: #3a2e24;
+  }
+
+  .print-toc a::after {
+    content: "";
+  }
+
+  /* ---------- Primary chapter sections ---------- */
+  /* These behave like big chapter breaks with stronger dividers */
+
+  .section--shoreline,
+  .section--band,
+  .section--contact {
+    page-break-before: always;
+    padding-top: 1.1rem;
+    margin-top: 1.3rem;
+    border-top: 2px solid rgba(140, 120, 96, 0.65);
+  }
+
+  .section--shoreline .section-header h2,
+  .section--band .section-header h2,
+  .section--contact .section-header h2 {
+    font-size: 1.35rem;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    margin-top: 0.2rem;
+    border-bottom: 1px solid rgba(140, 120, 96, 0.4);
+    padding-bottom: 0.35rem;
+  }
+
+  .section--shoreline .eyebrow,
+  .section--band .eyebrow,
+  .section--contact .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: #8b7663;
+  }
+
+  /* ---------- Other sections as quieter chapters ---------- */
+  .section {
+    background: transparent !important;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 0 1.3rem;
+    padding: 0 0 0.9rem;
+    page-break-inside: avoid;
+  }
+
+  /* Section headers as chapter markers */
+  h1, h2, h3, h4 {
+    color: #1b1510 !important;
+  }
+
+  .section-header h2 {
+    border-bottom: 1px solid rgba(120, 100, 80, 0.35);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.3rem;
+  }
+
+  .eyebrow {
+    letter-spacing: 0.18em;
+    font-size: 0.7rem;
+    color: #7a6b5a;
+    text-transform: uppercase;
+  }
+
+  .section-intro {
+    font-size: 0.95rem;
+    color: #4f4136;
+  }
+
+  /* ---------- Typography scale for print ---------- */
+  p,
+  li {
+    font-size: 0.9rem;
+    max-width: 32rem;
+  }
+
+  .card-title {
+    font-size: 0.98rem;
+  }
+
+  .timeline-title {
+    font-size: 0.95rem;
+  }
+
+  .timeline-body {
+    font-size: 0.9rem;
+  }
+
+  /* ---------- Cards flatten into clean blocks ---------- */
+  .card {
+    background: transparent !important;
+    border: 0;
+    box-shadow: none;
+    padding: 0 0 0.6rem;
+    page-break-inside: avoid;
+  }
+
+  .card--quote {
+    border-left: 2px solid rgba(120, 100, 80, 0.65);
+    padding-left: 0.8rem;
+  }
+
+  /* ---------- Timeline + tags: keep together ---------- */
+  .timeline {
+    page-break-inside: avoid;
+    margin-bottom: 0.6rem;
+  }
+
+  .timeline-item {
+    page-break-inside: avoid;
+    padding-left: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline::before {
+    background: #8c7760;
+    opacity: 0.6;
+  }
+
+  .timeline-item::before {
+    background: #f7f3ea;
+    border-color: #c0985a;
+    box-shadow: none;
+  }
+
+  .tag-row {
+    page-break-inside: avoid;
+  }
+
+  /* ---------- Links: show URLs inline ---------- */
+  a {
+    color: #3a2e24;
+    text-decoration: underline;
+  }
+
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.7em;
+    color: #7a6b5a;
+  }
+
+  /* Don’t show URL for internal hash links (#foo) */
+  a[href^="#"]::after {
+    content: "";
+  }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    border-top: 1px solid rgba(140, 120, 96, 0.35);
+    padding-top: 0.6rem;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: #7a6b5a;
+  }
+
+  /* Remove animations for print */
+  * {
+    animation: none !important;
+    transition: none !important;
   }
 }
