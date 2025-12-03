@@ -5,8 +5,8 @@
 :root {
   /* Core palette (7 anchors) */
   --color-ink: #f5f0e6;        /* text */
-  --color-paper: #0b1724;     /* cards/sections */
-  --color-soft-bone: #cbbda8; /* subtext */
+  --color-paper: #0b1724;      /* cards/sections */
+  --color-soft-bone: #cbbda8;  /* subtext */
 
   --color-deep-ocean: #020814;
   --color-kelp-teal: #1b5a59;
@@ -37,7 +37,11 @@
 
   --max-width: 1120px;
 
-  --root-progress: 0; /* 0–1, controlled by JS */
+  /* Scroll-linked + background scene */
+  --root-progress: 0;        /* 0–1, controlled by JS */
+  --sky-opacity: 1;
+  --forest-opacity: 0;
+  --firefly-opacity: 0;
 
   /* Spacing scale */
   --space-1: 0.25rem;
@@ -814,8 +818,8 @@ body[data-mode="calm"] .section {
   position: relative;
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(circle at 50% 0%, rgba(191, 190, 210, 0.12), transparent 60%),
-    radial-gradient(circle at 50% 100%, rgba(13, 43, 40, 0.9), transparent 55%),
+    radial-gradient(circle at 50% 0%, rgba(191, 190, 210, 0.08), transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(6, 24, 22, 0.95), transparent 55%),
     var(--card-alt);
   border: 1px solid var(--border-soft);
   box-shadow: 0 32px 80px rgba(0, 0, 0, 1);
@@ -872,6 +876,87 @@ body[data-mode="calm"] .section {
 
 .site-footer {
   margin-top: var(--space-4);
+}
+
+/* ===========================
+   BACKGROUND SCENE LAYERS
+   =========================== */
+
+.scene-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2; /* Behind root-column (-1) and all content */
+}
+
+.scene-layer canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Opacities controlled by JS via CSS vars on :root */
+.scene-layer--sky {
+  opacity: var(--sky-opacity, 1);
+  transition: opacity 0.8s ease-out;
+}
+
+.scene-layer--forest {
+  opacity: var(--forest-opacity, 0);
+  transition: opacity 0.8s ease-out;
+}
+
+.scene-layer--fireflies {
+  opacity: var(--firefly-opacity, 0);
+  transition: opacity 0.8s ease-out;
+}
+
+/* ===========================
+   FIREFLIES
+   =========================== */
+
+.scene-layer--fireflies {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Individual firefly */
+.firefly {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-spore-light);
+  box-shadow:
+    0 0 10px rgba(249, 235, 213, 0.9),
+    0 0 22px rgba(243, 195, 122, 0.8);
+  opacity: 0; /* JS + keyframes will bring them to life */
+}
+
+/* Placement: JS sets --fx and --fy as 0–1 values */
+.firefly {
+  top: calc(var(--fy, 0.8) * 100%);
+  left: calc(var(--fx, 0.5) * 100%);
+}
+
+/* Motion + glow */
+@keyframes fireflyMove {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(12px, -18px, 0);
+  }
+}
+
+@keyframes fireflyBlink {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 /* ===========================
