@@ -179,6 +179,7 @@ function initRoleChips() {
 // SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
 // ======================
 function initScrollSpy() {
+  function initScrollSpy() {
   const sections = document.querySelectorAll('[data-section]');
   const navLinks = document.querySelectorAll('.nav-link');
 
@@ -192,6 +193,14 @@ function initScrollSpy() {
       linkMap[id] = link;
     }
   });
+
+  // Fallback: if IntersectionObserver isn't supported, just show all sections
+  if (!('IntersectionObserver' in window)) {
+    sections.forEach(section => {
+      section.classList.add('section-visible');
+    });
+    return;
+  }
 
   const observer = new IntersectionObserver(
     entries => {
@@ -213,7 +222,10 @@ function initScrollSpy() {
         }
       });
     },
-    { threshold: 0.4 }
+    {
+      threshold: 0.25,
+      rootMargin: '0px 0px -10% 0px'
+    }
   );
 
   sections.forEach(section => observer.observe(section));
