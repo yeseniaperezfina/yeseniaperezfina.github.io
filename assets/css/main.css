@@ -1532,3 +1532,9 @@ body[data-mode="calm"] .firefly {
     transition: none !important;
   }
 }
+@media (max-width: 720px) {
+  .section {
+    opacity: 1;
+    transform: none;
+  }
+}
