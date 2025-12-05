@@ -179,7 +179,6 @@ function initRoleChips() {
 // SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
 // ======================
 function initScrollSpy() {
-  function initScrollSpy() {
   const sections = document.querySelectorAll('[data-section]');
   const navLinks = document.querySelectorAll('.nav-link');
 
