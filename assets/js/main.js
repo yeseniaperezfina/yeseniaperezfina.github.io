@@ -1,28 +1,38 @@
 // ======================
 // UTILITIES
 // ======================
+
 function clamp01(value) {
-  return Math.min(1, Math.max(0, value));
+  const n = Number(value) || 0;
+  return Math.min(1, Math.max(0, n));
 }
 
-// Respect user motion preferences
+// Respect user motion preferences (evaluated once)
 const PREFERS_REDUCED_MOTION =
+  typeof window !== "undefined" &&
   window.matchMedia &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // Helper to know current mode ("forest" | "calm")
 // Aligned with CSS, which keys off body[data-mode]
 function getCurrentMode() {
-  const bodyMode = document.body && document.body.getAttribute('data-mode');
-  const htmlMode = document.documentElement.getAttribute('data-mode');
+  const body = document.body;
+  const html = document.documentElement;
+
+  if (!body || !html) return "forest";
+
+  const bodyMode = body.getAttribute("data-mode");
+  const htmlMode = html.getAttribute("data-mode");
   const mode = bodyMode || htmlMode;
-  return mode === 'calm' ? 'calm' : 'forest';
+
+  return mode === "calm" ? "calm" : "forest";
 }
 
 // ======================
 // INIT ORCHESTRATION
 // ======================
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener("DOMContentLoaded", () => {
   initYearStamp();
   initModeToggle();
   initRoleChips();
@@ -42,41 +52,43 @@ document.addEventListener('DOMContentLoaded', () => {
 // ======================
 // YEAR STAMP
 // ======================
+
 function initYearStamp() {
-  const yearSpan = document.getElementById('year');
-  if (yearSpan) {
-    yearSpan.textContent = new Date().getFullYear();
-  }
+  const yearSpan = document.getElementById("year");
+  if (!yearSpan) return;
+  yearSpan.textContent = String(new Date().getFullYear());
 }
 
 // ======================
 // MODE TOGGLE (FOREST / CALM) + MIDNIGHT EASTER EGG
 // ======================
+
 function initModeToggle() {
   const html = document.documentElement;
   const body = document.body;
-  const toggle = document.getElementById('modeToggle');
-  if (!toggle || !body) return;
+  const toggle = document.getElementById("modeToggle");
 
-  const label = toggle.querySelector('.mode-toggle__label');
+  if (!html || !body || !toggle) return;
+
+  const label = toggle.querySelector(".mode-toggle__label");
 
   let calmToggleCount = 0;
   let midnightTriggered = false;
 
   function showMidnightBadge() {
-    if (document.querySelector('.midnight-badge')) return;
+    if (document.querySelector(".midnight-badge")) return;
 
-    const badge = document.createElement('div');
-    badge.className = 'midnight-badge';
+    const badge = document.createElement("div");
+    badge.className = "midnight-badge";
     badge.innerHTML = `
       <span class="midnight-badge__dot" aria-hidden="true"></span>
       <span>Midnight shoreline unlocked</span>
       <button class="midnight-badge__close" type="button" aria-label="Dismiss midnight badge">×</button>
     `;
 
-    const closeBtn = badge.querySelector('.midnight-badge__close');
+    const closeBtn = badge.querySelector(".midnight-badge__close");
     if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
+      closeBtn.addEventListener("click", () => {
         badge.remove();
       });
     }
@@ -85,30 +97,30 @@ function initModeToggle() {
 
     // Auto-fade after ~8 seconds
     setTimeout(() => {
-      badge.style.opacity = '0';
-      badge.style.transition = 'opacity 0.5s ease-out';
-      setTimeout(() => badge.remove(), 500);
+      badge.style.transition = "opacity 0.5s ease-out";
+      badge.style.opacity = "0";
+      setTimeout(() => badge.remove(), 550);
     }, 8000);
   }
 
   function triggerMidnightMode() {
     if (midnightTriggered) return;
     midnightTriggered = true;
-    body.classList.add('is-midnight');
+    body.classList.add("is-midnight");
     showMidnightBadge();
   }
 
   function applyMode(mode) {
-    const isCalm = mode === 'calm';
-    const value = isCalm ? 'calm' : 'forest';
+    const isCalm = mode === "calm";
+    const value = isCalm ? "calm" : "forest";
 
     // Keep CSS + JS in sync
-    body.setAttribute('data-mode', value);
-    html.setAttribute('data-mode', value);
+    body.setAttribute("data-mode", value);
+    html.setAttribute("data-mode", value);
 
-    toggle.setAttribute('aria-pressed', String(isCalm));
+    toggle.setAttribute("aria-pressed", String(isCalm));
     if (label) {
-      label.textContent = isCalm ? 'Calm mode' : 'Forest mode';
+      label.textContent = isCalm ? "Calm mode" : "Forest mode";
     }
 
     // Track Calm toggles for the Easter egg
@@ -120,18 +132,30 @@ function initModeToggle() {
     }
   }
 
-  const storedMode = window.localStorage
-    ? window.localStorage.getItem('yesi-site-mode')
-    : null;
-  const initialMode = storedMode === 'calm' ? 'calm' : 'forest';
+  // Initial mode from localStorage (if present)
+  let initialMode = "forest";
+  try {
+    const storedMode = window.localStorage
+      ? window.localStorage.getItem("yesi-site-mode")
+      : null;
+    if (storedMode === "calm") initialMode = "calm";
+  } catch {
+    // If storage fails, just default to forest
+  }
+
   applyMode(initialMode);
 
-  toggle.addEventListener('click', () => {
+  toggle.addEventListener("click", () => {
     const current = getCurrentMode();
-    const next = current === 'calm' ? 'forest' : 'calm';
+    const next = current === "calm" ? "forest" : "calm";
     applyMode(next);
-    if (window.localStorage) {
-      window.localStorage.setItem('yesi-site-mode', next);
+
+    try {
+      if (window.localStorage) {
+        window.localStorage.setItem("yesi-site-mode", next);
+      }
+    } catch {
+      // Ignore storage errors
     }
   });
 }
@@ -139,21 +163,22 @@ function initModeToggle() {
 // ======================
 // ROLE CHIPS → ROLE NOTE
 // ======================
+
 function initRoleChips() {
-  const chips = document.querySelectorAll('[data-role-chip]');
-  const roleNote = document.getElementById('role-note');
+  const chips = document.querySelectorAll("[data-role-chip]");
+  const roleNote = document.getElementById("role-note");
 
   if (!chips.length || !roleNote) return;
 
   const copy = {
     Strategist:
-      'I map portfolios, initiatives, and learning environments so teams can see the system, not just the project.',
+      "I map portfolios, initiatives, and learning environments so teams can see the system, not just the project.",
     Scholar:
-      'I pull from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.',
+      "I pull from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.",
     Creator:
-      'I translate complex science and systems into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.',
+      "I translate complex science and systems into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.",
     Navigator:
-      'I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change.'
+      "I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change."
   };
 
   function updateRole(role) {
@@ -162,12 +187,12 @@ function initRoleChips() {
     roleNote.innerHTML = `As a <strong>${role}</strong>, ${text}`;
   }
 
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('chip--active'));
-      chip.classList.add('chip--active');
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chips.forEach((c) => c.classList.remove("chip--active"));
+      chip.classList.add("chip--active");
 
-      const role = chip.getAttribute('data-role-chip');
+      const role = chip.getAttribute("data-role-chip");
       if (role && copy[role]) {
         updateRole(role);
       }
@@ -178,75 +203,82 @@ function initRoleChips() {
 // ======================
 // SCROLL SPY (.nav-link) + SECTION REVEAL (.section-visible)
 // ======================
+
 function initScrollSpy() {
-  const sections = document.querySelectorAll('[data-section]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll("[data-section]");
+  const navLinks = document.querySelectorAll(".nav-link");
 
   if (!sections.length || !navLinks.length) return;
 
   const linkMap = {};
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href') || '';
-    if (href.startsWith('#')) {
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    if (href.startsWith("#")) {
       const id = href.slice(1);
       linkMap[id] = link;
     }
   });
 
   // Fallback: if IntersectionObserver isn't supported, just show all sections
-  if (!('IntersectionObserver' in window)) {
-    sections.forEach(section => {
-      section.classList.add('section-visible');
+  if (!("IntersectionObserver" in window)) {
+    sections.forEach((section) => {
+      section.classList.add("section-visible");
     });
     return;
   }
 
   const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
+    (entries) => {
+      entries.forEach((entry) => {
         const id = entry.target.id;
 
         if (entry.isIntersecting) {
-          entry.target.classList.add('section-visible');
+          entry.target.classList.add("section-visible");
         }
 
         if (entry.isIntersecting && id && linkMap[id]) {
-          navLinks.forEach(l => {
-            l.classList.remove('is-active');
-            l.removeAttribute('aria-current');
+          navLinks.forEach((l) => {
+            l.classList.remove("is-active");
+            l.removeAttribute("aria-current");
           });
           const activeLink = linkMap[id];
-          activeLink.classList.add('is-active');
-          activeLink.setAttribute('aria-current', 'page');
+          activeLink.classList.add("is-active");
+          activeLink.setAttribute("aria-current", "page");
         }
       });
     },
     {
       threshold: 0.25,
-      rootMargin: '0px 0px -10% 0px'
+      rootMargin: "0px 0px -10% 0px"
     }
   );
 
-  sections.forEach(section => observer.observe(section));
+  sections.forEach((section) => observer.observe(section));
 }
 
 // ======================
 // ROOT COLUMN PROGRESSION + SCENE OPACITY
 // ======================
+
 function initRootProgress() {
   const rootEl = document.documentElement;
+  if (!rootEl) return;
+
+  let ticking = false;
 
   function updateRootProgress() {
-    const scrollTop = window.scrollY || window.pageYOffset;
+    ticking = false;
+
+    const scrollTop = window.scrollY || window.pageYOffset || 0;
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
 
     // Root line (drives the warm/teal gradient in CSS)
-    rootEl.style.setProperty('--root-progress', progress.toString());
+    rootEl.style.setProperty("--root-progress", progress.toString());
 
     // Scene transparencies (used by .scene-layer--* via CSS vars)
     const mode = getCurrentMode();
-    const isCalm = mode === 'calm';
+    const isCalm = mode === "calm";
 
     // Sky fades out over first half of page
     const baseSkyOpacity = clamp01(1 - progress * 1.1);
@@ -264,24 +296,34 @@ function initRootProgress() {
       ? Math.min(baseFireflyOpacity, 0.55)
       : baseFireflyOpacity;
 
-    rootEl.style.setProperty('--sky-opacity', skyOpacity.toString());
-    rootEl.style.setProperty('--forest-opacity', forestOpacity.toString());
-    rootEl.style.setProperty('--firefly-opacity', fireflyOpacity.toString());
+    rootEl.style.setProperty("--sky-opacity", skyOpacity.toString());
+    rootEl.style.setProperty("--forest-opacity", forestOpacity.toString());
+    rootEl.style.setProperty("--firefly-opacity", fireflyOpacity.toString());
   }
 
+  function requestUpdate() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(updateRootProgress);
+    }
+  }
+
+  // Initial run
   updateRootProgress();
-  window.addEventListener('scroll', updateRootProgress);
-  window.addEventListener('resize', updateRootProgress);
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
 }
 
 // ======================
 // SKY SCENE — STARS + PLANES
 // ======================
+
 function initSkyScene() {
-  const canvas = document.getElementById('skyCanvas');
+  const canvas = document.getElementById("skyCanvas");
   if (!canvas || !canvas.getContext) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
   let stars = [];
@@ -289,8 +331,8 @@ function initSkyScene() {
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
-    width = rect.width || window.innerWidth;
-    height = rect.height || window.innerHeight;
+    width = rect.width || window.innerWidth || 0;
+    height = rect.height || window.innerHeight || 0;
 
     const ratio = window.devicePixelRatio || 1;
     canvas.width = width * ratio;
@@ -303,15 +345,15 @@ function initSkyScene() {
 
   function initStars() {
     stars = [];
-    const count = 80; // slightly sparser
+    const count = 80;
     for (let i = 0; i < count; i++) {
       stars.push({
         x: Math.random() * width,
         y: Math.random() * height * 0.55, // upper half
         radius: 0.6 + Math.random() * 1.4,
         baseAlpha: 0.22 + Math.random() * 0.45,
-        baseTwinkleAmp: 0.16 + Math.random() * 0.18,   // gentler twinkle
-        baseTwinkleSpeed: 0.25 + Math.random() * 0.3,  // slower overall
+        baseTwinkleAmp: 0.16 + Math.random() * 0.18,
+        baseTwinkleSpeed: 0.25 + Math.random() * 0.3,
         phase: Math.random() * Math.PI * 2
       });
     }
@@ -334,19 +376,15 @@ function initSkyScene() {
     ctx.clearRect(0, 0, width, height);
 
     const mode = getCurrentMode();
-    const isCalm = mode === 'calm';
+    const isCalm = mode === "calm";
 
     // Parallax drift only in Forest mode (very slow side-to-side sway)
     const parallaxOffset = !isCalm ? Math.sin(time * 0.025) * 16 : 0;
 
     // Stars
     for (const s of stars) {
-      const twinkleSpeed = isCalm
-        ? s.baseTwinkleSpeed * 0.45 // slower in Calm
-        : s.baseTwinkleSpeed;
-      const twinkleAmp = isCalm
-        ? s.baseTwinkleAmp * 0.55 // lower amplitude in Calm
-        : s.baseTwinkleAmp;
+      const twinkleSpeed = isCalm ? s.baseTwinkleSpeed * 0.45 : s.baseTwinkleSpeed;
+      const twinkleAmp = isCalm ? s.baseTwinkleAmp * 0.55 : s.baseTwinkleAmp;
 
       const twinkle = Math.sin(time * twinkleSpeed + s.phase);
       const alpha = s.baseAlpha + twinkle * twinkleAmp;
@@ -386,8 +424,8 @@ function initSkyScene() {
       ctx.save();
 
       // Subtle blue wash
-      ctx.globalCompositeOperation = 'soft-light';
-      ctx.fillStyle = 'rgba(20, 40, 70, 0.26)';
+      ctx.globalCompositeOperation = "soft-light";
+      ctx.fillStyle = "rgba(20, 40, 70, 0.26)";
       ctx.fillRect(0, 0, width, height);
 
       // Soft starlight refraction near zenith
@@ -399,11 +437,11 @@ function initSkyScene() {
         height * 0.12,
         width * 0.5
       );
-      grad.addColorStop(0, 'rgba(210, 225, 255, 0.16)');
-      grad.addColorStop(0.4, 'rgba(150, 185, 230, 0.08)');
-      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      grad.addColorStop(0, "rgba(210, 225, 255, 0.16)");
+      grad.addColorStop(0.4, "rgba(150, 185, 230, 0.08)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
 
-      ctx.globalCompositeOperation = 'screen';
+      ctx.globalCompositeOperation = "screen";
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
@@ -419,7 +457,7 @@ function initSkyScene() {
     }
   }
 
-  window.addEventListener('resize', resize);
+  window.addEventListener("resize", resize);
   resize();
 
   // Initial draw
@@ -432,19 +470,20 @@ function initSkyScene() {
 // ======================
 // FOREST CANOPY — TREE PROFILES
 // ======================
+
 function initForestCanopy() {
-  const canvas = document.getElementById('forestCanvas');
+  const canvas = document.getElementById("forestCanvas");
   if (!canvas || !canvas.getContext) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
   let trees = [];
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
-    width = rect.width || window.innerWidth;
-    height = rect.height || window.innerHeight;
+    width = rect.width || window.innerWidth || 0;
+    height = rect.height || window.innerHeight || 0;
 
     const ratio = window.devicePixelRatio || 1;
     canvas.width = width * ratio;
@@ -475,19 +514,19 @@ function initForestCanopy() {
     ctx.clearRect(0, 0, width, height);
 
     const mode = getCurrentMode();
-    const isCalm = mode === 'calm';
+    const isCalm = mode === "calm";
 
     // subtle vertical gradient for moonlit forest
     const grad = ctx.createLinearGradient(0, height * 0.3, 0, height);
-    grad.addColorStop(0, 'rgba(4, 10, 20, 0)');
-    grad.addColorStop(0.4, 'rgba(5, 20, 28, 0.7)');
-    grad.addColorStop(1, 'rgba(3, 14, 16, 1)');
+    grad.addColorStop(0, "rgba(4, 10, 20, 0)");
+    grad.addColorStop(0.4, "rgba(5, 20, 28, 0.7)");
+    grad.addColorStop(1, "rgba(3, 14, 16, 1)");
     ctx.fillStyle = grad;
     ctx.fillRect(0, height * 0.25, width, height * 0.75);
 
     // tree silhouettes
-    ctx.fillStyle = 'rgba(3, 26, 27, 0.96)';
-    ctx.strokeStyle = 'rgba(47, 87, 86, 0.45)';
+    ctx.fillStyle = "rgba(3, 26, 27, 0.96)";
+    ctx.strokeStyle = "rgba(47, 87, 86, 0.45)";
 
     const baseY = height * 0.85;
 
@@ -525,7 +564,7 @@ function initForestCanopy() {
     }
   }
 
-  window.addEventListener('resize', resize);
+  window.addEventListener("resize", resize);
   resize();
 
   // Initial draw
@@ -538,34 +577,35 @@ function initForestCanopy() {
 // ======================
 // FIREFLIES — NEAR FOREST FLOOR (with proximity glow)
 // ======================
+
 function initFireflies() {
-  const container = document.querySelector('.scene-layer--fireflies');
+  const container = document.querySelector(".scene-layer--fireflies");
   if (!container) return;
 
-  const COUNT = 22; // a few more points of light
+  const COUNT = 22;
   const fireflies = [];
 
   for (let i = 0; i < COUNT; i++) {
-    const firefly = document.createElement('div');
-    firefly.className = 'firefly';
+    const firefly = document.createElement("div");
+    firefly.className = "firefly";
 
     // Random placement biased toward bottom half
-    const fx = Math.random();              // 0–1 horizontally
+    const fx = Math.random(); // 0–1 horizontally
     const fy = 0.45 + Math.random() * 0.5; // 0.45–0.95 vertically
 
-    firefly.style.setProperty('--fx', fx.toString());
-    firefly.style.setProperty('--fy', fy.toString());
+    firefly.style.setProperty("--fx", fx.toString());
+    firefly.style.setProperty("--fy", fy.toString());
 
     const delay = (Math.random() * 10).toFixed(2);
 
     if (!PREFERS_REDUCED_MOTION) {
       firefly.style.animation =
-        `fireflyMove 20s ease-in-out infinite alternate, ` +  // slower drift
-        `fireflyBlink 3.2s ease-in-out infinite alternate`;    // slower blink
+        "fireflyMove 20s ease-in-out infinite alternate, " +
+        "fireflyBlink 3.2s ease-in-out infinite alternate";
       firefly.style.animationDelay = `${delay}s, ${delay}s`;
     } else {
       // Reduced motion: keep them softly glowing
-      firefly.style.opacity = '0.6';
+      firefly.style.opacity = "0.6";
     }
 
     container.appendChild(firefly);
@@ -574,14 +614,14 @@ function initFireflies() {
 
   // Cursor-based proximity glow (halo)
   function handlePointerMove(event) {
-    const vw = window.innerWidth || document.documentElement.clientWidth;
-    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const vw = window.innerWidth || document.documentElement.clientWidth || 0;
+    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
 
     const cursorX = event.clientX;
     const cursorY = event.clientY;
     const THRESHOLD = 160; // px radius for "near"
 
-    fireflies.forEach(ff => {
+    fireflies.forEach((ff) => {
       const x = ff.fx * vw;
       const y = ff.fy * vh;
       const dx = cursorX - x;
@@ -589,30 +629,31 @@ function initFireflies() {
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist < THRESHOLD) {
-        ff.el.classList.add('firefly--near');
+        ff.el.classList.add("firefly--near");
       } else {
-        ff.el.classList.remove('firefly--near');
+        ff.el.classList.remove("firefly--near");
       }
     });
   }
 
   function handlePointerLeave() {
-    fireflies.forEach(ff => ff.el.classList.remove('firefly--near'));
+    fireflies.forEach((ff) => ff.el.classList.remove("firefly--near"));
   }
 
-  window.addEventListener('pointermove', handlePointerMove);
-  window.addEventListener('pointerleave', handlePointerLeave);
+  window.addEventListener("pointermove", handlePointerMove);
+  window.addEventListener("pointerleave", handlePointerLeave);
 }
 
 // ======================
 // SHORELINE MYCELIUM NETWORK
 // (Canvas-based, hover-responsive + idle shimmer)
 // ======================
+
 function initShorelineNetwork() {
-  const canvas = document.getElementById('forestNetwork');
+  const canvas = document.getElementById("forestNetwork");
   if (!canvas || !canvas.getContext) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
   let nodes = [];
@@ -655,16 +696,16 @@ function initShorelineNetwork() {
   function drawBackground() {
     // Ocean → shoreline → forest floor gradient
     const grad = ctx.createLinearGradient(0, 0, 0, height);
-    grad.addColorStop(0, 'rgba(5, 13, 30, 1)');          // deep sky
-    grad.addColorStop(0.3, 'rgba(10, 32, 54, 1)');      // horizon mist
-    grad.addColorStop(0.55, 'rgba(8, 38, 55, 1)');      // ocean surface
-    grad.addColorStop(0.7, 'rgba(7, 30, 34, 1)');       // near-shore
-    grad.addColorStop(1, 'rgba(5, 22, 21, 1)');         // forest floor
+    grad.addColorStop(0, "rgba(5, 13, 30, 1)");  // deep sky
+    grad.addColorStop(0.3, "rgba(10, 32, 54, 1)"); // horizon mist
+    grad.addColorStop(0.55, "rgba(8, 38, 55, 1)"); // ocean surface
+    grad.addColorStop(0.7, "rgba(7, 30, 34, 1)");  // near-shore
+    grad.addColorStop(1, "rgba(5, 22, 21, 1)");    // forest floor
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
     // Very subtle shoreline glow band
-    ctx.fillStyle = 'rgba(243, 195, 122, 0.12)';
+    ctx.fillStyle = "rgba(243, 195, 122, 0.12)";
     const bandY = height * 0.55;
     ctx.fillRect(0, bandY - 3, width, 6);
 
@@ -679,9 +720,9 @@ function initShorelineNetwork() {
         bandY,
         width * 0.45
       );
-      shimmerGrad.addColorStop(0, 'rgba(249, 235, 213, 0.10)');
-      shimmerGrad.addColorStop(0.35, 'rgba(249, 235, 213, 0.06)');
-      shimmerGrad.addColorStop(1, 'rgba(249, 235, 213, 0)');
+      shimmerGrad.addColorStop(0, "rgba(249, 235, 213, 0.10)");
+      shimmerGrad.addColorStop(0.35, "rgba(249, 235, 213, 0.06)");
+      shimmerGrad.addColorStop(1, "rgba(249, 235, 213, 0)");
       ctx.fillStyle = shimmerGrad;
       ctx.fillRect(0, bandY - height * 0.2, width, height * 0.4);
     }
@@ -762,7 +803,7 @@ function initShorelineNetwork() {
       );
       grad.addColorStop(0, `rgba(243, 195, 122, ${glowAlpha})`);
       grad.addColorStop(0.4, `rgba(243, 195, 122, ${glowAlpha * 0.6})`);
-      grad.addColorStop(1, 'rgba(243, 195, 122, 0)');
+      grad.addColorStop(1, "rgba(243, 195, 122, 0)");
       ctx.fillStyle = grad;
       ctx.beginPath();
       ctx.arc(n.x, n.y, baseRadius, 0, Math.PI * 2);
@@ -807,9 +848,9 @@ function initShorelineNetwork() {
     requestAnimationFrame(animateIdle);
   }
 
-  canvas.addEventListener('pointermove', handlePointerMove);
-  canvas.addEventListener('pointerleave', handlePointerLeave);
-  window.addEventListener('resize', resize);
+  canvas.addEventListener("pointermove", handlePointerMove);
+  canvas.addEventListener("pointerleave", handlePointerLeave);
+  window.addEventListener("resize", resize);
 
   resize();
   if (!PREFERS_REDUCED_MOTION) {
@@ -821,20 +862,21 @@ function initShorelineNetwork() {
 // WAVE SOUND HOOK
 // (Optional: wire to <audio id="waveAudio"> and a button)
 // ======================
+
 function initWaveSound() {
-  const audio = document.getElementById('waveAudio');
-  const toggle = document.getElementById('waveSoundToggle');
+  const audio = document.getElementById("waveAudio");
+  const toggle = document.getElementById("waveSoundToggle");
   if (!audio || !toggle) return;
 
   // Ensure it loops gently in the background
   audio.loop = true;
 
   function updateToggle(isPlaying) {
-    toggle.setAttribute('aria-pressed', String(isPlaying));
-    toggle.textContent = isPlaying ? 'Waves: On' : 'Waves: Off';
+    toggle.setAttribute("aria-pressed", String(isPlaying));
+    toggle.textContent = isPlaying ? "Waves: On" : "Waves: Off";
   }
 
-  toggle.addEventListener('click', () => {
+  toggle.addEventListener("click", () => {
     if (audio.paused) {
       audio
         .play()
