@@ -1,614 +1,661 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="daytide">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yesenia Pérez — Celestial Tidelines</title>
-    <meta
-      name="description"
-      content="Yesenia Pérez — strategist in science, learning, and public imagination."
-    />
+<html lang="en" data-mode="forest">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yesenia Pérez · Science Engagement & Learning Systems Strategist</title>
+  <meta
+    name="description"
+    content="Portfolio of Yesenia “Yessi” Pérez, senior education strategist leading cross-mission NASA science engagement, national learning networks, and evidence-informed program design."
+  />
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body data-mode="forest">
+  <a href="#main" class="skip-link">Skip to main content</a>
 
-    <!-- Example font preload / imports -->
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" /> -->
-    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /> -->
+  <!-- BACKGROUND SCENE LAYERS (PNW shoreline world) -->
+  <div class="scene-layer scene-layer--sky" aria-hidden="true">
+    <canvas id="skyCanvas"></canvas>
+  </div>
+  <div class="scene-layer scene-layer--forest" aria-hidden="true">
+    <canvas id="forestCanvas"></canvas>
+  </div>
+  <div class="scene-layer scene-layer--fireflies" aria-hidden="true"></div>
 
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+  <!-- Root progress column -->
+  <div class="root-column" aria-hidden="true"></div>
 
-  <body class="site-body">
-    <div class="site-shell">
-      <div class="site-atmosphere" aria-hidden="true">
-        <div class="atmosphere-layer atmosphere-layer--stars"></div>
-        <div class="atmosphere-layer atmosphere-layer--orbits"></div>
-        <div class="atmosphere-layer atmosphere-layer--signals"></div>
-        <div class="atmosphere-layer atmosphere-layer--horizon"></div>
-        <div class="atmosphere-layer atmosphere-layer--tide"></div>
-        <div class="atmosphere-layer atmosphere-layer--depth"></div>
+  <div class="site">
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="shell shell--header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <span class="brand-name">Yesenia Pérez</span>
+            <span class="brand-role">Science Engagement &amp; Learning Systems Strategist</span>
+          </div>
+        </div>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a class="nav-link is-active" href="#about" aria-current="page">About</a>
+          <a class="nav-link" href="#trajectory">Trajectory</a>
+          <a class="nav-link" href="#work">Work</a>
+          <a class="nav-link" href="#practice">Practice</a>
+          <a class="nav-link" href="#skills">Capabilities</a>
+          <a class="nav-link" href="#writing">Writing</a>
+          <a class="nav-link" href="#contact">Contact</a>
+        </nav>
+
+        <div class="header-toggles">
+          <button
+            class="mode-toggle"
+            id="modeToggle"
+            aria-label="Toggle visual mode between Forest and Calm"
+            aria-pressed="false"
+            type="button"
+          >
+            <span class="mode-toggle__label">Forest mode</span>
+          </button>
+
+          <!-- Shoreline audio toggle (wired to initWaveSound in JS) -->
+          <button
+            class="wave-toggle"
+            id="waveSoundToggle"
+            aria-label="Toggle shoreline wave sounds"
+            aria-pressed="false"
+            type="button"
+          >
+            Waves: Off
+          </button>
+        </div>
       </div>
+    </header>
 
-      <header class="site-header" id="top">
-        <div class="site-header__inner">
-          <a class="site-header__brand" href="#signal" aria-label="Go to top">
-            <span class="site-header__brand-text">YESENIA PÉREZ</span>
-          </a>
+    <!-- MAIN -->
+    <main id="main" class="site-main">
+      <!-- HERO / ABOUT -->
+      <section id="about" class="section section--hero" data-section>
+        <div class="shell">
+          <div class="grid grid--hero">
+            <div class="stack hero-copy">
+              <p class="eyebrow">NASA missions · Higher education · Public & informal learning</p>
+              <h1>I lead cross-mission learning work that brings flagship space science into everyday life.</h1>
+              <p class="lead">
+                At the Space Telescope Science Institute, I lead cross-mission work that turns Hubble, Webb, and Roman
+                science into programs and networks used by museums, libraries, and community organizations across the
+                country. My work has supported hundreds of events and programs across all 50 states and Puerto Rico. At
+                Harvard, I’m sharpening that practice with research on leadership, learning, and systems change.
+              </p>
 
-          <nav class="site-nav" aria-label="Primary">
-            <ul class="site-nav__list">
-              <li class="site-nav__item">
-                <a class="site-nav__link" href="#signal">Signal</a>
-              </li>
-              <li class="site-nav__item">
-                <a class="site-nav__link" href="#tidework-preview">Tidework</a>
-              </li>
-              <li class="site-nav__item">
-                <a class="site-nav__link" href="#estuary">Observatory</a>
-              </li>
-              <li class="site-nav__item">
-                <a class="site-nav__link" href="#drift-notes">Drift Notes</a>
-              </li>
-              <li class="site-nav__item">
-                <a class="site-nav__link" href="#future-currents">Currents</a>
-              </li>
-              <li class="site-nav__item">
-                <a class="site-nav__link" href="#shoreline">Reach</a>
-              </li>
-            </ul>
-          </nav>
+              <div class="chip-row" aria-label="Modes of practice">
+                <button class="chip chip--active" type="button" data-role-chip="Strategist">Strategist</button>
+                <button class="chip" type="button" data-role-chip="Scholar">Scholar</button>
+                <button class="chip" type="button" data-role-chip="Creator">Creator</button>
+                <button class="chip" type="button" data-role-chip="Navigator">Navigator</button>
+              </div>
 
-          <button
-            class="theme-toggle"
-            type="button"
-            aria-label="Shift the sky"
-            data-theme-toggle
-          >
-            <span class="theme-toggle__label">Daytide / Midnight Current</span>
-          </button>
+              <p class="role-note" id="role-note">
+                As a <strong>Strategist</strong>, I lead the conversations between scientists, evaluators, educators, and
+                leadership—so mission goals, partner needs, and learning realities stay in the same frame.
+              </p>
 
-          <button
-            class="site-header__menu-toggle"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false"
-            data-menu-toggle
-          >
-            <span class="site-header__menu-line"></span>
-            <span class="site-header__menu-line"></span>
-          </button>
+              <div class="contact-row">
+                <a class="button" href="#contact">Get in touch</a>
+                <a class="button button--ghost" href="mailto:yperez@gse.harvard.edu">Email</a>
+              </div>
+
+              <!-- Print-only table of contents for booklet mode -->
+              <div class="print-toc">
+                <h3>Contents</h3>
+                <ul>
+                  <li><a href="#about">About</a></li>
+                  <li><a href="#trajectory">Trajectory</a></li>
+                  <li><a href="#work">Signature Work</a></li>
+                  <li><a href="#practice">How I Work</a></li>
+                  <li><a href="#skills">Capabilities &amp; Tools</a></li>
+                  <li><a href="#writing">Writing &amp; Story Work</a></li>
+                  <li><a href="#contact">Next Chapter · Contact</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <aside class="hero-panel">
+              <div class="card card--hero" aria-label="Snapshot">
+                <div class="hero-horizon" aria-hidden="true">
+                  <div class="hero-horizon__ocean"></div>
+                  <div class="hero-horizon__treeline"></div>
+                </div>
+
+                <div class="stack stack--tight">
+                  <div>
+                    <h2 class="card-title">Current roles</h2>
+                    <p class="card-body">
+                      Senior Education Specialist · Cross-Mission Strategy<br />
+                      <span class="muted">NASA’s Universe of Learning · Space Telescope Science Institute</span><br /><br />
+                      Ed.M. Candidate, Education Leadership<br />
+                      <span class="muted">Harvard Graduate School of Education (OEL)</span>
+                    </p>
+                  </div>
+
+                  <div>
+                    <h2 class="card-title">What that means day to day</h2>
+                    <p class="card-body">
+                      I lead strategy and coordination between missions, partners, and teams—aligning science, evaluation,
+                      and real-world constraints into learning work people can actually use.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h2 class="card-title">Quick links</h2>
+                    <div class="link-list">
+                      <a class="pill-link" href="mailto:yperez@gse.harvard.edu">
+                        <span>Email</span><span aria-hidden="true">↗</span>
+                      </a>
+                      <a
+                        class="pill-link"
+                        href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        <span>LinkedIn</span><span aria-hidden="true">↗</span>
+                      </a>
+                      <a
+                        class="pill-link"
+                        href="https://theechojar.substack.com"
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        <span>The Echo Jar</span><span aria-hidden="true">★</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
         </div>
-      </header>
-
-      <main class="site-main">
-        <section class="section section--signal hero" id="signal">
-          <div class="section__inner hero__inner">
-            <div class="hero__content" data-reveal="left">
-              <p class="section-label hero__eyebrow">Introductory transmission</p>
-
-              <p class="hero__name">YESENIA PÉREZ</p>
-
-              <h1 class="hero__headline">
-                I design the systems through which communities encounter science.
-              </h1>
-
-              <p class="hero__identity">
-                Strategist in science, learning, and public imagination
-              </p>
-
-              <p class="hero__body hero__body--primary">
-                Across NASA missions, national learning networks, and public-facing
-                educational initiatives, I build structures that help knowledge
-                travel with rigor, cultural integrity, and wonder.
-              </p>
-
-              <p class="hero__body hero__body--secondary">
-                My work lives where discovery meets public life: where research
-                becomes experience, story becomes scaffolding, and learning is
-                designed not just to inform, but to invite.
-              </p>
-
-              <div class="hero__actions">
-                <a class="button button--primary" href="#horizon">Enter the tide</a>
-                <a class="button button--secondary" href="#tidework-preview">
-                  View selected work
-                </a>
-              </div>
-
-              <a class="hero__text-link" href="#drift-notes">Read the notes</a>
-
-              <p class="hero__microline">
-                Working across Hubble, Webb, Roman, and the ecosystems that help
-                science move outward.
-              </p>
-            </div>
-
-            <div class="hero__visual has-drift" aria-hidden="true" data-reveal="right">
-              <div class="hero__sky"></div>
-              <div class="hero__orbital-grid"></div>
-              <div class="hero__signal-trace"></div>
-              <div class="hero__horizon-line"></div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section--horizon editorial" id="horizon">
-          <div class="section__inner editorial__inner">
-            <div class="section-heading" data-reveal>
-              <p class="section-label">Editorial framing</p>
-              <h2 class="section-title">At the Horizon</h2>
-              <p class="section-deck">Where discovery meets public meaning</p>
-            </div>
-
-            <div class="editorial__grid">
-              <div class="editorial__body" data-reveal="left">
-                <p class="editorial__paragraph">
-                  The public often meets science at the end of the story: the
-                  image, the breakthrough, the visible moment of awe. My work
-                  begins earlier in the chain, building the systems and
-                  interpretive frameworks that make discovery legible, human, and
-                  lasting.
-                </p>
-
-                <p class="editorial__paragraph">
-                  I move between science, education, and culture with an eye
-                  toward translation: not reducing complexity, but carrying it
-                  well. What interests me most is not only what people learn, but
-                  how they come to feel that learning belongs to them.
-                </p>
-              </div>
-
-              <aside class="editorial__aside" data-reveal="right">
-                <blockquote class="editorial__quote">
-                  <p>
-                    Some knowledge informs. Some knowledge invites. I build for
-                    the second.
-                  </p>
-                </blockquote>
-
-                <p class="editorial__margin-note">
-                  Translation, at its best, is an act of care.
-                </p>
-              </aside>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section--estuary estuary" id="estuary">
-          <div class="section__inner estuary__inner">
-            <div class="section-heading" data-reveal>
-              <p class="section-label">Core beliefs and working philosophy</p>
-              <h2 class="section-title">Estuary</h2>
-              <p class="section-deck">Where my work gathers its currents</p>
-            </div>
-
-            <div class="estuary__layout">
-              <div class="estuary__intro-block" data-reveal="left">
-                <p class="estuary__intro">
-                  I work where disciplines, institutions, and ways of knowing
-                  meet. What holds my practice together is not a single field, but
-                  a pattern of commitments: to clarity, public meaning, cultural
-                  integrity, and systems that can hold both scale and human
-                  texture.
-                </p>
-
-                <p class="estuary__group-label">Core currents</p>
-              </div>
-
-              <div class="estuary__nodes" role="list" data-stagger>
-                <article class="current-card current-card--science" role="listitem">
-                  <h3 class="current-card__title">Science &amp; Society</h3>
-                  <p class="current-card__body">
-                    I build pathways that carry scientific knowledge into public
-                    life without flattening its complexity or losing its human
-                    stakes.
-                  </p>
-                </article>
-
-                <article class="current-card current-card--evidence" role="listitem">
-                  <h3 class="current-card__title">Evidence &amp; Imagination</h3>
-                  <p class="current-card__body">
-                    I use evidence as a compass, not a cage. Data matters, but so
-                    do the emotional and narrative conditions that determine
-                    whether learning lands.
-                  </p>
-                </article>
-
-                <article class="current-card current-card--culture" role="listitem">
-                  <h3 class="current-card__title">Culture &amp; Learning</h3>
-                  <p class="current-card__body">
-                    People encounter knowledge through memory, language, identity,
-                    and lived experience. Good learning does not ask them to
-                    disappear in order to participate.
-                  </p>
-                </article>
-
-                <article class="current-card current-card--systems" role="listitem">
-                  <h3 class="current-card__title">Systems &amp; Care</h3>
-                  <p class="current-card__body">
-                    I design for scale without confusing scale with abstraction.
-                    Strong systems still make room for dignity, coherence, and
-                    local adaptation.
-                  </p>
-                </article>
-
-                <article class="current-card current-card--story" role="listitem">
-                  <h3 class="current-card__title">Story &amp; Structure</h3>
-                  <p class="current-card__body">
-                    Narrative is not ornament. It is part of the architecture. The
-                    shape of a story changes what can be understood, remembered,
-                    and carried forward.
-                  </p>
-                </article>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section--reach metrics" id="reach">
-          <div class="section__inner metrics__inner">
-            <div class="section-heading" data-reveal>
-              <p class="section-label">Evidence of scale and durability</p>
-              <h2 class="section-title">Constellations of Reach</h2>
-              <p class="section-deck">What becomes visible when systems hold</p>
-            </div>
-
-            <p class="metrics__intro" data-reveal>
-              Much of my work is infrastructural by design. Its impact becomes
-              visible in reach, durability, adoption, trust, and the conditions it
-              creates for meaningful public engagement.
-            </p>
-
-            <div class="metrics__grid" data-stagger>
-              <article class="metric-card metric-card--partners">
-                <h3 class="metric-card__value">100</h3>
-                <p class="metric-card__label">Partner organizations</p>
-                <p class="metric-card__body">
-                  A national learning ecosystem spanning museums, libraries, and
-                  community institutions across 32 states and Puerto Rico.
-                </p>
-              </article>
-
-              <article class="metric-card metric-card--participants">
-                <h3 class="metric-card__value">142,000+</h3>
-                <p class="metric-card__label">Participants reached</p>
-                <p class="metric-card__body">
-                  Documented community-based science learning supported through
-                  networked public engagement and local implementation.
-                </p>
-              </article>
-
-              <article class="metric-card metric-card--missions">
-                <h3 class="metric-card__value">3 Missions</h3>
-                <p class="metric-card__label">Hubble, Webb, Roman</p>
-                <p class="metric-card__body">
-                  Cross-mission strategy linking scientific discovery to educator
-                  resources, learning experiences, and public meaning.
-                </p>
-              </article>
-
-              <article class="metric-card metric-card--milestones">
-                <h3 class="metric-card__value">National Milestones</h3>
-                <p class="metric-card__label">Infrastructure for public engagement</p>
-                <p class="metric-card__body">
-                  Co-led support systems for major NASA moments, including the
-                  James Webb Space Telescope First Images release.
-                </p>
-              </article>
-
-              <article class="metric-card metric-card--awards">
-                <h3 class="metric-card__value">Recognized Leadership</h3>
-                <p class="metric-card__label">Awards and collaboration</p>
-                <p class="metric-card__body">
-                  AURA Outstanding Achievement Award, STScI Team Award, and NASA
-                  SMD recognition for inclusive programming and cross-team
-                  leadership.
-                </p>
-              </article>
-            </div>
-
-            <p class="metrics__closing" data-reveal>
-              What looks, from a distance, like outreach is often deeper structural
-              work: coherence, translation, stewardship, and the conditions that
-              let knowledge travel well.
-            </p>
-          </div>
-        </section>
-
-        <section class="section section--depth-studies studies" id="tidework-preview">
-          <div class="section__inner studies__inner">
-            <div class="section-heading" data-reveal>
-              <p class="section-label">Featured systems and case work</p>
-              <h2 class="section-title">Depth Studies</h2>
-              <p class="section-deck">
-                Selected systems, stories, and structures I’ve built
-              </p>
-            </div>
-
-            <p class="studies__intro" data-reveal>
-              The work itself lives below the surface. These studies show where
-              strategy, story, learning design, and public engagement meet in
-              practice.
-            </p>
-
-            <div class="studies__list" data-stagger>
-              <article class="study-card study-card--webb">
-                <div class="study-card__media" aria-hidden="true"></div>
-                <div class="study-card__content">
-                  <p class="study-card__index">01 — Webb First Images</p>
-                  <h3 class="study-card__title">
-                    When a scientific milestone becomes a public event ecology
-                  </h3>
-                  <p class="study-card__body">
-                    I helped shape the community engagement infrastructure that
-                    allowed hundreds of sites to translate a historic NASA moment
-                    into meaningful public experience.
-                  </p>
-                  <a class="study-card__cta" href="tidework/webb-first-images.html">
-                    Enter this study
-                  </a>
-                </div>
-              </article>
-
-              <article class="study-card study-card--iln">
-                <div class="study-card__media" aria-hidden="true"></div>
-                <div class="study-card__content">
-                  <p class="study-card__index">02 — Informal Learning Network</p>
-                  <h3 class="study-card__title">
-                    Designing a national ecosystem for science learning to travel
-                  </h3>
-                  <p class="study-card__body">
-                    I direct a network spanning nearly 100 partner organizations,
-                    building the supports that help science move across local
-                    contexts without losing rigor or relevance.
-                  </p>
-                  <a class="study-card__cta" href="tidework/informal-learning-network.html">
-                    Enter this study
-                  </a>
-                </div>
-              </article>
-
-              <article class="study-card study-card--po">
-                <div class="study-card__media" aria-hidden="true"></div>
-                <div class="study-card__content">
-                  <p class="study-card__index">03 — Physics of Pō</p>
-                  <h3 class="study-card__title">
-                    Holding science and cultural knowledge in ethical relation
-                  </h3>
-                  <p class="study-card__body">
-                    This work helped shape STEM learning experiences that honored
-                    Indigenous epistemologies while inviting astrophysics into a
-                    more relational frame.
-                  </p>
-                  <a class="study-card__cta" href="tidework/physics-of-po.html">
-                    Enter this study
-                  </a>
-                </div>
-              </article>
-            </div>
-
-            <div class="studies__footer" data-reveal>
-              <p class="studies__closing">
-                I am interested in work that does more than circulate information.
-                I am interested in work that changes the conditions under which
-                people encounter knowledge.
-              </p>
-
-              <a class="button button--secondary" href="tidework.html">
-                Explore all tidework
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section--drift-notes notes" id="drift-notes">
-          <div class="section__inner notes__inner">
-            <div class="section-heading" data-reveal>
-              <p class="section-label">Writing and reflections</p>
-              <h2 class="section-title">Drift Notes</h2>
-              <p class="section-deck">Fragments, reflections, and ways of seeing</p>
-            </div>
-
-            <p class="notes__intro" data-reveal>
-              I write to notice what systems alone cannot hold: texture,
-              contradiction, memory, wonder, and the quieter forms of meaning that
-              shape how we learn and live.
-            </p>
-
-            <p class="notes__preface" data-reveal>
-              Not everything important arrives in a report. Some things arrive as
-              a sentence you cannot shake.
-            </p>
-
-            <div class="notes__grid" data-stagger>
-              <article class="note-card note-card--public-meaning">
-                <h3 class="note-card__title">On Public Meaning</h3>
-                <p class="note-card__body">
-                  A reflection on the difference between visibility and invitation,
-                  and why information alone rarely changes a person’s relationship
-                  to knowledge.
-                </p>
-              </article>
-
-              <article class="note-card note-card--reflection">
-                <h3 class="note-card__title">Reflection as Resistance</h3>
-                <p class="note-card__body">
-                  Notes on leadership, pause, discernment, and the kind of
-                  interior clarity institutions rarely make room for but
-                  desperately need.
-                </p>
-              </article>
-
-              <article class="note-card note-card--soft-physics">
-                <h3 class="note-card__title">Soft Physics</h3>
-                <p class="note-card__body">
-                  Writing at the edge where science becomes metaphor and metaphor
-                  becomes a tool for thinking more honestly about being human.
-                </p>
-              </article>
-
-              <article class="note-card note-card--field-notes">
-                <h3 class="note-card__title">Field Notes</h3>
-                <p class="note-card__body">
-                  Fragments from the work itself: what I am noticing, testing,
-                  refining, and learning in the space between strategy and lived
-                  reality.
-                </p>
-              </article>
-            </div>
-
-            <a class="button button--secondary" href="drift-notes.html" data-reveal>
-              Read the notes
-            </a>
-          </div>
-        </section>
-
-        <section class="section section--future future" id="future-currents">
-          <div class="section__inner future__inner">
-            <div class="section-heading" data-reveal>
-              <p class="section-label">Direction of travel</p>
-              <h2 class="section-title">Future Currents</h2>
-              <p class="section-deck">Where the tide is pulling next</p>
-            </div>
-
-            <div class="future__copy" data-reveal>
-              <p class="future__paragraph">
-                I’m drawn to work at the intersection of science, culture,
-                learning systems, and public meaning: work rigorous enough for
-                institutions, but humane enough to matter beyond them.
-              </p>
-
-              <p class="future__paragraph">
-                What I want to keep building are structures that can hold
-                complexity without becoming cold — learning ecosystems with public
-                depth, science communication with cultural integrity, and strategy
-                shaped by reflection, narrative, and evidence.
-              </p>
-            </div>
-
-            <div class="future__directions" data-stagger>
-              <article class="direction-card direction-card--ecosystems">
-                <h3 class="direction-card__title">
-                  Learning ecosystems with public depth
-                </h3>
-                <p class="direction-card__body">
-                  Designing durable structures that help knowledge move across
-                  institutions, communities, and lived contexts.
-                </p>
-              </article>
-
-              <article class="direction-card direction-card--communication">
-                <h3 class="direction-card__title">
-                  Science communication with cultural integrity
-                </h3>
-                <p class="direction-card__body">
-                  Building public-facing work that holds rigor and resonance
-                  together without sacrificing either.
-                </p>
-              </article>
-
-              <article class="direction-card direction-card--strategy">
-                <h3 class="direction-card__title">
-                  Strategy shaped by reflection, narrative, and evidence
-                </h3>
-                <p class="direction-card__body">
-                  Working at the level where systems, meaning, and decision-making
-                  meet.
-                </p>
-              </article>
-            </div>
-
-            <p class="future__closing" data-reveal>
-              I am less interested in occupying a lane than in building better
-              crossings between them.
-            </p>
-          </div>
-        </section>
-
-        <section class="section section--shoreline contact" id="shoreline">
-          <div class="section__inner contact__inner">
-            <div class="section-heading" data-reveal>
-              <p class="section-label">Invitation and contact</p>
-              <h2 class="section-title">Shoreline</h2>
-              <p class="section-deck">
-                For collaborations, conversations, and the work ahead
-              </p>
-            </div>
-
-            <p class="contact__body" data-reveal>
-              I’m always interested in thoughtful collaborations across science,
-              learning, writing, strategy, and public engagement — especially work
-              that asks how knowledge can move more meaningfully through the
-              world.
-            </p>
-
-            <div class="contact__grid" data-stagger>
-              <div class="contact-item">
-                <p class="contact-item__label">Email</p>
-                <a class="contact-item__link" href="mailto:yperez@gse.harvard.edu">
-                  yperez@gse.harvard.edu
-                </a>
-              </div>
-
-              <div class="contact-item">
-                <p class="contact-item__label">LinkedIn</p>
-                <a class="contact-item__link" href="#" target="_blank" rel="noreferrer">
-                  View profile
-                </a>
-              </div>
-
-              <div class="contact-item">
-                <p class="contact-item__label">GitHub</p>
-                <a class="contact-item__link" href="#" target="_blank" rel="noreferrer">
-                  Explore the build
-                </a>
-              </div>
-
-              <div class="contact-item">
-                <p class="contact-item__label">Selected profile</p>
-                <a class="contact-item__link" href="#" target="_blank" rel="noreferrer">
-                  Read the full arc
-                </a>
-              </div>
-            </div>
-
-            <a
-              class="button button--primary"
-              href="mailto:yperez@gse.harvard.edu"
-              data-reveal
-            >
-              Send a signal
-            </a>
-
-            <p class="contact__microline" data-reveal>
-              Thank you for following the current.
-            </p>
-          </div>
-        </section>
-      </main>
-
-      <footer class="site-footer">
-        <div class="site-footer__inner">
-          <div class="site-footer__identity" data-reveal>
-            <p class="site-footer__name">YESENIA PÉREZ</p>
-            <p class="site-footer__line">
-              Strategist in science, learning, and public imagination
-            </p>
-          </div>
-
-          <nav class="site-footer__nav" aria-label="Footer" data-reveal>
-            <a class="site-footer__link" href="#signal">Signal</a>
-            <a class="site-footer__link" href="#tidework-preview">Tidework</a>
-            <a class="site-footer__link" href="#estuary">Observatory</a>
-            <a class="site-footer__link" href="#drift-notes">Drift Notes</a>
-            <a class="site-footer__link" href="#future-currents">Currents</a>
-            <a class="site-footer__link" href="#shoreline">Reach</a>
-          </nav>
-
-          <p class="site-footer__theme" data-reveal>Daytide / Midnight Current</p>
+      </section>
+
+      <!-- TRAJECTORY -->
+      <section id="trajectory" class="section" data-section>
+        <div class="section-ornaments" aria-hidden="true">
+          <div class="section-orb section-orb--small"></div>
+          <div class="section-orb section-orb--medium"></div>
         </div>
-      </footer>
-    </div>
 
-    <script src="main.js"></script>
-  </body>
+        <div class="shell">
+          <div class="section-header">
+            <p class="eyebrow">Arc of the work</p>
+            <h2>Trajectory</h2>
+            <p class="section-intro">
+              My work has moved from galleries and family programs to cross-mission NASA outreach and graduate leadership
+              study. The through-line is simple: how people learn, how systems behave, and how to bring those into better
+              alignment.
+            </p>
+            <p class="section-note">
+              Not a full history—just the shifts that shaped how I show up as a leader and learner.
+            </p>
+          </div>
+
+          <div class="grid grid--split">
+            <div class="stack timeline" aria-label="Career and education arc">
+              <article class="timeline-item card">
+                <p class="timeline-label">Early work</p>
+                <h3 class="timeline-title">Museums, families, and public space</h3>
+                <p class="timeline-meta">Allentown Art Museum · Worcester Art Museum</p>
+                <p class="timeline-body">
+                  I started in art museums, directing bilingual family programs and intergenerational learning labs—watching
+                  how people actually move, read a room, and respond to language and pace.
+                </p>
+                <ul class="tag-row">
+                  <li>Human-scale learning</li>
+                  <li>Community partnership</li>
+                  <li>Bilingual, intergenerational work</li>
+                </ul>
+              </article>
+
+              <article class="timeline-item card">
+                <p class="timeline-label">Current practice</p>
+                <h3 class="timeline-title">Cross-mission NASA science engagement</h3>
+                <p class="timeline-meta">Senior Education Specialist · NASA’s Universe of Learning · STScI</p>
+                <p class="timeline-body">
+                  Today, I help lead education and engagement work around Hubble, Webb, and Roman, including a national
+                  informal learning network, research translation, and cross-mission efforts that connect NASA science with
+                  learners in hundreds of local contexts.
+                </p>
+                <ul class="tag-row">
+                  <li>Cross-mission outreach</li>
+                  <li>Network and portfolio design</li>
+                  <li>Evidence-informed strategy</li>
+                </ul>
+              </article>
+
+              <article class="timeline-item card">
+                <p class="timeline-label">Deepening the work</p>
+                <h3 class="timeline-title">Higher education leadership and reflection</h3>
+                <p class="timeline-meta">Community college → State university → Georgetown → Harvard</p>
+                <p class="timeline-body">
+                  As a first-gen Puerto Rican student, I’ve moved through the full higher-ed arc—from community college to
+                  selective master’s programs. At Harvard, my coursework in leadership, governance, strategy, and learning
+                  gives language and tools to work I’ve been doing in practice for years.
+                </p>
+                <ul class="tag-row">
+                  <li>Student success &amp; access lens</li>
+                  <li>Leadership &amp; governance</li>
+                  <li>Learning science &amp; evidence</li>
+                </ul>
+              </article>
+            </div>
+
+            <div class="stack mode-grid">
+              <article class="card">
+                <h3>Strategist</h3>
+                <p>
+                  I think in systems and time horizons—what we’re trying to achieve across missions, who it affects, and how
+                  the work holds up two, five, or ten years out.
+                </p>
+              </article>
+              <article class="card">
+                <h3>Scholar</h3>
+                <p>
+                  I draw on research in learning, leadership, and equity to check my instincts and strengthen decisions,
+                  especially when tradeoffs are real and resources are finite.
+                </p>
+              </article>
+              <article class="card">
+                <h3>Creator</h3>
+                <p>
+                  I turn complex inputs—science, evaluation, local realities—into stories, tools, and experiences that people
+                  can actually use.
+                </p>
+              </article>
+              <article class="card">
+                <h3>Navigator</h3>
+                <p>
+                  I help teams move through change with less friction—naming patterns, setting realistic pace, and protecting
+                  trust while we do ambitious work.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIGNATURE WORK -->
+      <section id="work" class="section section--band" data-section>
+        <div class="section-ornaments" aria-hidden="true">
+          <div class="section-orb section-orb--small"></div>
+          <div class="section-orb section-orb--medium"></div>
+        </div>
+
+        <div class="shell">
+          <div class="section-header">
+            <p class="eyebrow">Selected work</p>
+            <h2>What My Work Tends to Look Like</h2>
+            <p class="section-intro">
+              Across missions and institutions, my work sits at three intersections: national networks, launch and milestone
+              moments, and the quiet, detailed craft of making science usable for educators and communities.
+            </p>
+            <p class="section-note">
+              A few examples that show how I lead, translate, and support others at scale.
+            </p>
+          </div>
+
+          <div class="grid grid--two">
+            <article class="card card--case">
+              <h3>Leading a national informal learning network</h3>
+              <p class="meta">
+                NASA’s Universe of Learning · Informal Learning Network (~100 sites, 32 states &amp; Puerto Rico)
+              </p>
+              <p><strong>Role:</strong> Strategic lead for network structure, partner support, and evaluation use.</p>
+              <p>
+                <strong>Impact:</strong> Helped hundreds of local programs bring NASA astrophysics into their own community
+                contexts.
+              </p>
+              <ul>
+                <li>Co-design participation models, micro-grants, and professional learning that scale across diverse sites.</li>
+                <li>Work with evaluators to turn adoption, reach, and impact data into decisions for future cycles.</li>
+              </ul>
+            </article>
+
+            <article class="card card--case">
+              <h3>Shaping community engagement around Webb milestones</h3>
+              <p class="meta">Webb launch, First Images, and anniversary activations</p>
+              <p><strong>Role:</strong> Co-led community-facing strategy, timelines, and resource design.</p>
+              <p>
+                <strong>Impact:</strong> Contributed to a national activation of 600+ events across all 50 states and Puerto Rico.
+              </p>
+              <ul>
+                <li>Co-led community-facing timelines, resource kits, and SME engagement that fed into national activation.</li>
+                <li>Refined slide decks, activities, and guides used by partners hosting their own Webb events.</li>
+              </ul>
+            </article>
+
+            <article class="card card--case">
+              <h3>Translating research and mission science into tools</h3>
+              <p class="meta">Hubble · Webb · Roman · NASA partners</p>
+              <p><strong>Role:</strong> Research translator and synthesis lead across missions and partners.</p>
+              <p>
+                <strong>Impact:</strong> Turned dense science and evaluation inputs into briefs and resources used by leadership
+                and educators.
+              </p>
+              <ul>
+                <li>Convert dense inputs into clear narratives, decision points, and program models for internal and external use.</li>
+                <li>Maintain alignment across Hubble/Webb/Roman channels and partner institutions.</li>
+              </ul>
+            </article>
+
+            <article class="card card--case">
+              <h3>Holding space for families and communities</h3>
+              <p class="meta">Museum-based learning labs &amp; community programs</p>
+              <p><strong>Role:</strong> Program designer and facilitator for intergenerational, bilingual experiences.</p>
+              <p>
+                <strong>Impact:</strong> Built programs that welcomed thousands of families annually into sustained arts and
+                culture learning.
+              </p>
+              <ul>
+                <li>Design intergenerational, bilingual programs that feel welcoming rather than intimidating.</li>
+                <li>Partner with local organizations so content, language, and timing make sense in context.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW I WORK -->
+      <section id="practice" class="section" data-section>
+        <div class="section-ornaments" aria-hidden="true">
+          <div class="section-orb section-orb--small"></div>
+          <div class="section-orb section-orb--medium"></div>
+        </div>
+
+        <div class="shell">
+          <div class="section-header">
+            <p class="eyebrow">Practice</p>
+            <h2>How I Work</h2>
+            <p class="section-intro">
+              My leadership style is calm, direct, and systems-minded: I try to make complex work feel navigable without
+              losing the humanity inside it.
+            </p>
+            <p class="section-note">
+              I’m interested in how learning happens, how systems behave, and how people feel inside the work. Every project
+              is a chance to align those three a little better.
+            </p>
+          </div>
+
+          <div class="grid grid--three">
+            <div class="stack">
+              <div class="card card--quote">
+                <p>
+                  I treat every initiative as a <span class="highlight">learning system</span>—for audiences and for the team
+                  running it.
+                </p>
+                <p class="muted">
+                  I focus on making that system easier to navigate when stakes and timelines are high.
+                </p>
+              </div>
+
+              <ul class="tag-row tag-row--wrap">
+                <li>Systems lens</li>
+                <li>Pattern spotting</li>
+                <li>Steady in ambiguity</li>
+                <li>Care for people &amp; pace</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>What I try to protect</h3>
+              <ul class="bullet-list">
+                <li>Clarity about purpose, roles, and constraints.</li>
+                <li>Time to think, not just time to deliver.</li>
+                <li>Spaces where questions and concerns can surface early.</li>
+                <li>Design choices that line up with our stated values.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>How people tend to experience me</h3>
+              <ul class="bullet-list">
+                <li>Calm, direct, and not easily rattled by complexity.</li>
+                <li>Good at naming the pattern no one has quite put words to yet.</li>
+                <li>A bridge between scientists, educators, evaluators, and leadership.</li>
+                <li>Kind, honest feedback with the work—and the humans—in mind.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAPABILITIES -->
+      <section id="skills" class="section section--band section--shoreline" data-section>
+        <div class="section-ornaments" aria-hidden="true">
+          <div class="section-orb section-orb--small"></div>
+          <div class="section-orb section-orb--medium"></div>
+        </div>
+
+        <div class="shell">
+          <div class="section-header">
+            <p class="eyebrow">Core practice network</p>
+            <h2>Capabilities &amp; Tools</h2>
+            <p class="section-intro">
+              The kinds of problems I’m most useful on, and where I tend to add the most value on a team or portfolio.
+            </p>
+            <p class="section-note">
+              Think of this less as a skills list and more as “when to call me.”
+            </p>
+          </div>
+
+          <div class="grid grid--split">
+            <div class="grid grid--two">
+              <article class="card">
+                <h3>Learning systems &amp; strategy</h3>
+                <ul class="bullet-list">
+                  <li>
+                    When you’re turning a one-off grant or launch into a repeatable way of working, I help design the network
+                    and learning system around it.
+                  </li>
+                  <li>Connecting mission goals with what learners, educators, and partners actually need.</li>
+                  <li>Building simple, shared maps of complex work so teams stay aligned and oriented.</li>
+                </ul>
+              </article>
+
+              <article class="card">
+                <h3>People &amp; partnerships</h3>
+                <ul class="bullet-list">
+                  <li>
+                    When you’re coordinating museums, libraries, MSIs, universities, and community groups, I help keep
+                    expectations and communication clear.
+                  </li>
+                  <li>Holding space for different working styles, pressures, and constraints.</li>
+                  <li>Making sure partners feel seen, supported, and not surprised by shifts in direction.</li>
+                </ul>
+              </article>
+
+              <article class="card">
+                <h3>Sense-making &amp; communication</h3>
+                <ul class="bullet-list">
+                  <li>
+                    When the science, strategy, and evaluation feel overwhelming, I translate them into clear, honest
+                    language.
+                  </li>
+                  <li>Turning data and feedback into decisions people can act on, not just reports to file.</li>
+                  <li>
+                    Creating memos, decks, and narratives that help leadership and teams see the whole picture.
+                  </li>
+                </ul>
+              </article>
+
+              <article class="card">
+                <h3>Domains I move in</h3>
+                <ul class="bullet-list">
+                  <li>NASA science engagement &amp; informal STEM learning.</li>
+                  <li>Higher education and student success.</li>
+                  <li>Equity-centered and culturally responsive design.</li>
+                  <li>
+                    Everyday tools: collaborative docs, project boards, data dashboards, and light web work (HTML/CSS/JS).
+                  </li>
+                </ul>
+              </article>
+            </div>
+
+            <aside class="skills-network-wrap" aria-hidden="true">
+              <div class="skills-network-label">Practice network</div>
+              <canvas id="forestNetwork" class="forest-network"></canvas>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- WRITING -->
+      <section id="writing" class="section" data-section>
+        <div class="section-ornaments" aria-hidden="true">
+          <div class="section-orb section-orb--small"></div>
+          <div class="section-orb section-orb--medium"></div>
+        </div>
+
+        <div class="shell">
+          <div class="section-header">
+            <p class="eyebrow">Thought practice</p>
+            <h2>Writing &amp; Story Work</h2>
+            <p class="section-intro">
+              Writing is where I test ideas, sit with questions, and make sense of the systems I’m part of—NASA missions,
+              higher education, and the informal learning world in between.
+            </p>
+            <p class="section-note">
+              The through-line: I write to make decisions clearer, name tensions honestly, and keep humans visible in large
+              systems.
+            </p>
+          </div>
+
+          <div class="grid grid--three">
+            <article class="card card--writing">
+              <p class="meta">Substack · The Echo Jar</p>
+              <h3>Soft Physics</h3>
+              <p>
+                Essays that use astrophysics and systems thinking to talk about learning, leadership, and everyday life—
+                often pulling from my work across NASA and higher ed.
+              </p>
+              <p class="meta meta--link">
+                <a href="https://theechojar.substack.com" target="_blank" rel="noopener">Read on Substack ↗</a>
+              </p>
+            </article>
+
+            <article class="card card--writing">
+              <p class="meta">Harvard · Reflective practice &amp; leadership</p>
+              <h3>Reflection as Resistance</h3>
+              <p>
+                Graduate work on slowing down enough to learn from practice, especially in systems that reward speed and
+                constant output over sense-making and care.
+              </p>
+            </article>
+
+            <article class="card card--writing">
+              <p class="meta">NASA &amp; STScI</p>
+              <h3>Strategy &amp; synthesis briefs</h3>
+              <p>
+                Internal writing that brings together science, evaluation, and operations into clear direction for
+                leadership, teams, and partners—often across multiple missions and institutions.
+              </p>
+            </article>
+
+            <article class="card card--writing">
+              <p class="meta">In progress</p>
+              <h3>Science, story, and the systems in between</h3>
+              <p>
+                Ongoing work connecting what I’ve learned across museums, NASA missions, and higher education into a shared
+                language for designing better learning ecosystems.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section section--band section--contact" data-section>
+        <div class="section-ornaments" aria-hidden="true">
+          <div class="section-orb section-orb--small"></div>
+          <div class="section-orb section-orb--medium"></div>
+        </div>
+
+        <div class="shell">
+          <div class="grid grid--split">
+            <div class="stack">
+              <p class="eyebrow">Next chapter</p>
+              <h2>What I’m Looking Toward</h2>
+              <p>
+                I’m drawn to roles where I can help design and steward
+                <strong>learning initiatives, portfolios, and environments</strong> that respect how people actually learn and
+                live, while meeting the real constraints of institutions.
+              </p>
+              <p>I’m especially interested in:</p>
+              <ul class="bullet-list">
+                <li>Manager / Director roles in learning strategy, science engagement, or student success.</li>
+                <li>Program Officer / Portfolio Lead roles in education, science, or community-focused philanthropy.</li>
+                <li>Director-level roles focused on informal learning, public understanding of science, or STEM equity.</li>
+              </ul>
+
+              <ul class="tag-row tag-row--wrap">
+                <li>Learning systems</li>
+                <li>Cross-sector work</li>
+                <li>Evidence-informed practice</li>
+                <li>Calm, grounded leadership</li>
+              </ul>
+
+              <p class="section-note" style="margin-top: 1rem;">
+                I’m happy to review a draft role, talk through a portfolio of programs, or simply be a thinking partner as you
+                shape what’s next.
+              </p>
+            </div>
+
+            <aside class="card card--contact" aria-label="Contact details">
+              <h3>Let’s connect.</h3>
+              <p>
+                I’m open to thoughtful inquiries—about roles, collaborations, or projects that need someone who can hold
+                science, learning, and people in the same frame.
+              </p>
+
+              <div class="contact-links">
+                <a class="pill-link pill-link--full" href="mailto:yperez@gse.harvard.edu">
+                  <span>Email · yperez@gse.harvard.edu</span>
+                  <span aria-hidden="true">✉</span>
+                </a>
+                <a
+                  class="pill-link pill-link--full"
+                  href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span>Connect on LinkedIn</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  class="pill-link pill-link--full"
+                  href="https://theechojar.substack.com"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span>Read <em>The Echo Jar</em></span>
+                  <span aria-hidden="true">★</span>
+                </a>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell shell--footer">
+        <span>© <span id="year"></span> Yesenia Pérez</span>
+        <span>Built with HTML/CSS/JS · Hosted on GitHub Pages</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Shoreline audio asset (used by initWaveSound) -->
+  <audio id="waveAudio" src="assets/audio/waves.mp3" preload="auto"></audio>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
 </html>
