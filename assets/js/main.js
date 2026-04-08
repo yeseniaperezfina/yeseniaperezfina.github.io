@@ -1,12 +1,12 @@
 const HERO_LENS_COPY = {
   strategist:
-    'As a <strong>Strategist</strong>, I design the conditions that allow ambitious work to hold: clear systems, usable structures, and enough coherence that complexity does not collapse into noise.',
+    'As a <strong>Strategist</strong>, I think about what the work is really trying to do, who it needs to serve, and what has to be built around it for it to hold. I design for coherence, not just completion.',
   scholar:
-    'As a <strong>Scholar</strong>, I work from inquiry. I draw on research, reflection, and close reading to sharpen judgment, test assumptions, and make stronger decisions about what a system is really doing.',
+    'As a <strong>Scholar</strong>, I return to the question underneath the question. Research, reflection, and close reading help me see the structure beneath the surface and make better decisions because of it.',
   builder:
-    'As a <strong>Builder</strong>, I care about form as much as intention. I prototype, structure, and build directly so ideas can move from concept to something usable, legible, and alive in the medium.',
+    'As a <strong>Builder</strong>, I care about form. I like turning ideas into things people can actually use — a program model, a framework, a site, a system that makes the next move clearer.',
   translator:
-    'As a <strong>Translator</strong>, I make complexity usable. I move between expert language, audience reality, institutional context, and public meaning without flattening what matters.'
+    'As a <strong>Translator</strong>, I make complexity usable. I move between expert language, audience reality, institutional constraint, and public meaning without losing what matters in the crossing.'
 };
 
 const MATRIX_COPY = {
