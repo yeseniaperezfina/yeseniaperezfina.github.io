@@ -95,7 +95,6 @@ function initModeToggle() {
 
     document.body.appendChild(badge);
 
-    // Auto-fade after ~8 seconds
     setTimeout(() => {
       badge.style.transition = "opacity 0.5s ease-out";
       badge.style.opacity = "0";
@@ -114,7 +113,6 @@ function initModeToggle() {
     const isCalm = mode === "calm";
     const value = isCalm ? "calm" : "forest";
 
-    // Keep CSS + JS in sync
     body.setAttribute("data-mode", value);
     html.setAttribute("data-mode", value);
 
@@ -123,7 +121,6 @@ function initModeToggle() {
       label.textContent = isCalm ? "Calm mode" : "Forest mode";
     }
 
-    // Track Calm toggles for the Easter egg
     if (isCalm) {
       calmToggleCount += 1;
       if (calmToggleCount >= 3 && !midnightTriggered) {
@@ -132,7 +129,6 @@ function initModeToggle() {
     }
   }
 
-  // Initial mode from localStorage (if present)
   let initialMode = "forest";
   try {
     const storedMode = window.localStorage
@@ -140,7 +136,7 @@ function initModeToggle() {
       : null;
     if (storedMode === "calm") initialMode = "calm";
   } catch {
-    // If storage fails, just default to forest
+    // Ignore storage errors
   }
 
   applyMode(initialMode);
@@ -172,13 +168,13 @@ function initRoleChips() {
 
   const copy = {
     Strategist:
-      "I map portfolios, initiatives, and learning environments so teams can see the system, not just the project.",
+      "I lead at the level of systems: shaping learning strategy, partnership structures, and the conditions that allow complex work to scale without losing clarity or purpose.",
     Scholar:
-      "I pull from higher education research, learning sciences, and organizational theory to make design choices that are both rigorous and humane.",
+      "I draw on research in leadership, learning, and institutions to test assumptions, sharpen judgment, and make design choices that are both rigorous and useful.",
     Creator:
-      "I translate complex science and systems into visuals and narratives—including The Echo Jar—that feel accessible, grounded, and worth caring about.",
+      "I translate complexity into form — writing, interfaces, tools, and narratives that help science, strategy, and public meaning travel together.",
     Navigator:
-      "I help teams move through ambiguity with clarity and care, tending to timelines, relationships, and the emotional texture of change."
+      "I help teams move through ambiguity with steadiness: aligning people, pacing decisions, and protecting trust while the work evolves."
   };
 
   function updateRole(role) {
@@ -186,6 +182,9 @@ function initRoleChips() {
     if (!text) return;
     roleNote.innerHTML = `As a <strong>${role}</strong>, ${text}`;
   }
+
+  // Set initial state explicitly
+  updateRole("Strategist");
 
   chips.forEach((chip) => {
     chip.addEventListener("click", () => {
@@ -219,7 +218,6 @@ function initScrollSpy() {
     }
   });
 
-  // Fallback: if IntersectionObserver isn't supported, just show all sections
   if (!("IntersectionObserver" in window)) {
     sections.forEach((section) => {
       section.classList.add("section-visible");
@@ -273,24 +271,19 @@ function initRootProgress() {
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? clamp01(scrollTop / docHeight) : 0;
 
-    // Root line (drives the warm/teal gradient in CSS)
     rootEl.style.setProperty("--root-progress", progress.toString());
 
-    // Scene transparencies (used by .scene-layer--* via CSS vars)
     const mode = getCurrentMode();
     const isCalm = mode === "calm";
 
-    // Sky fades out over first half of page
     const baseSkyOpacity = clamp01(1 - progress * 1.1);
     const skyOpacity = baseSkyOpacity;
 
-    // Forest canopy: arrives a bit later, fills more gradually
     const baseForestOpacity = clamp01((progress - 0.12) / 0.6);
     const forestOpacity = isCalm
       ? Math.min(baseForestOpacity, 0.5)
       : baseForestOpacity;
 
-    // Fireflies: show up further down the page
     const baseFireflyOpacity = clamp01((progress - 0.45) / 0.45);
     const fireflyOpacity = isCalm
       ? Math.min(baseFireflyOpacity, 0.55)
@@ -308,7 +301,6 @@ function initRootProgress() {
     }
   }
 
-  // Initial run
   updateRootProgress();
 
   window.addEventListener("scroll", requestUpdate, { passive: true });
@@ -349,7 +341,7 @@ function initSkyScene() {
     for (let i = 0; i < count; i++) {
       stars.push({
         x: Math.random() * width,
-        y: Math.random() * height * 0.55, // upper half
+        y: Math.random() * height * 0.55,
         radius: 0.6 + Math.random() * 1.4,
         baseAlpha: 0.22 + Math.random() * 0.45,
         baseTwinkleAmp: 0.16 + Math.random() * 0.18,
@@ -365,7 +357,7 @@ function initSkyScene() {
     for (let i = 0; i < count; i++) {
       planes.push({
         baseX: Math.random() * width,
-        y: height * (0.18 + Math.random() * 0.1), // quiet flight path
+        y: height * (0.18 + Math.random() * 0.1),
         speed: 28 + Math.random() * 34,
         blinkOffset: Math.random() * Math.PI * 2
       });
@@ -378,10 +370,8 @@ function initSkyScene() {
     const mode = getCurrentMode();
     const isCalm = mode === "calm";
 
-    // Parallax drift only in Forest mode (very slow side-to-side sway)
     const parallaxOffset = !isCalm ? Math.sin(time * 0.025) * 16 : 0;
 
-    // Stars
     for (const s of stars) {
       const twinkleSpeed = isCalm ? s.baseTwinkleSpeed * 0.45 : s.baseTwinkleSpeed;
       const twinkleAmp = isCalm ? s.baseTwinkleAmp * 0.55 : s.baseTwinkleAmp;
@@ -397,13 +387,11 @@ function initSkyScene() {
       ctx.fill();
     }
 
-    // Planes — only in Forest mode, and only if motion is allowed
     if (!PREFERS_REDUCED_MOTION && !isCalm) {
       for (const p of planes) {
         const x = ((p.baseX + time * p.speed) % (width + 60)) - 30;
         const blink = 0.3 + 0.7 * Math.abs(Math.sin(time * 4 + p.blinkOffset));
 
-        // tiny trail
         ctx.strokeStyle = `rgba(210, 220, 230, ${blink * 0.35})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -411,7 +399,6 @@ function initSkyScene() {
         ctx.lineTo(x + 3, p.y);
         ctx.stroke();
 
-        // nose light
         ctx.beginPath();
         ctx.arc(x + 4, p.y, 1.6, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(243, 195, 122, ${blink})`;
@@ -419,16 +406,13 @@ function initSkyScene() {
       }
     }
 
-    // Calm mode overlays: soft blue desaturation + starlight refraction
     if (isCalm) {
       ctx.save();
 
-      // Subtle blue wash
       ctx.globalCompositeOperation = "soft-light";
       ctx.fillStyle = "rgba(20, 40, 70, 0.26)";
       ctx.fillRect(0, 0, width, height);
 
-      // Soft starlight refraction near zenith
       const grad = ctx.createRadialGradient(
         width * 0.5,
         height * 0.12,
@@ -460,7 +444,6 @@ function initSkyScene() {
   window.addEventListener("resize", resize);
   resize();
 
-  // Initial draw
   draw(performance.now() / 1000);
   if (!PREFERS_REDUCED_MOTION) {
     requestAnimationFrame(frame);
@@ -516,7 +499,6 @@ function initForestCanopy() {
     const mode = getCurrentMode();
     const isCalm = mode === "calm";
 
-    // subtle vertical gradient for moonlit forest
     const grad = ctx.createLinearGradient(0, height * 0.3, 0, height);
     grad.addColorStop(0, "rgba(4, 10, 20, 0)");
     grad.addColorStop(0.4, "rgba(5, 20, 28, 0.7)");
@@ -524,20 +506,18 @@ function initForestCanopy() {
     ctx.fillStyle = grad;
     ctx.fillRect(0, height * 0.25, width, height * 0.75);
 
-    // tree silhouettes
     ctx.fillStyle = "rgba(3, 26, 27, 0.96)";
     ctx.strokeStyle = "rgba(47, 87, 86, 0.45)";
 
     const baseY = height * 0.85;
 
     for (const tree of trees) {
-      const swayFactor = isCalm ? 0.4 : 1; // gentler in Calm
+      const swayFactor = isCalm ? 0.4 : 1;
       const sway = Math.sin(time * tree.swaySpeed + tree.phase) * tree.swayAmp * swayFactor;
       const x = tree.baseX + sway;
       const h = tree.baseHeight;
       const w = tree.width;
 
-      // simple evergreen shape
       ctx.beginPath();
       ctx.moveTo(x, baseY - h);
       ctx.lineTo(x - w * 0.55, baseY - h * 0.55);
@@ -567,7 +547,6 @@ function initForestCanopy() {
   window.addEventListener("resize", resize);
   resize();
 
-  // Initial draw
   draw(performance.now() / 1000);
   if (!PREFERS_REDUCED_MOTION) {
     requestAnimationFrame(frame);
@@ -575,7 +554,7 @@ function initForestCanopy() {
 }
 
 // ======================
-// FIREFLIES — NEAR FOREST FLOOR (with proximity glow)
+// FIREFLIES — NEAR FOREST FLOOR
 // ======================
 
 function initFireflies() {
@@ -589,9 +568,8 @@ function initFireflies() {
     const firefly = document.createElement("div");
     firefly.className = "firefly";
 
-    // Random placement biased toward bottom half
-    const fx = Math.random(); // 0–1 horizontally
-    const fy = 0.45 + Math.random() * 0.5; // 0.45–0.95 vertically
+    const fx = Math.random();
+    const fy = 0.45 + Math.random() * 0.5;
 
     firefly.style.setProperty("--fx", fx.toString());
     firefly.style.setProperty("--fy", fy.toString());
@@ -604,7 +582,6 @@ function initFireflies() {
         "fireflyBlink 3.2s ease-in-out infinite alternate";
       firefly.style.animationDelay = `${delay}s, ${delay}s`;
     } else {
-      // Reduced motion: keep them softly glowing
       firefly.style.opacity = "0.6";
     }
 
@@ -612,14 +589,13 @@ function initFireflies() {
     fireflies.push({ el: firefly, fx, fy });
   }
 
-  // Cursor-based proximity glow (halo)
   function handlePointerMove(event) {
     const vw = window.innerWidth || document.documentElement.clientWidth || 0;
     const vh = window.innerHeight || document.documentElement.clientHeight || 0;
 
     const cursorX = event.clientX;
     const cursorY = event.clientY;
-    const THRESHOLD = 160; // px radius for "near"
+    const THRESHOLD = 160;
 
     fireflies.forEach((ff) => {
       const x = ff.fx * vw;
@@ -646,7 +622,6 @@ function initFireflies() {
 
 // ======================
 // SHORELINE MYCELIUM NETWORK
-// (Canvas-based, hover-responsive + idle shimmer)
 // ======================
 
 function initShorelineNetwork() {
@@ -663,7 +638,6 @@ function initShorelineNetwork() {
   let hoverX = null;
   let hoverY = null;
 
-  // Idle shimmer state
   let idlePulse = 0;
   let lastIdleTime = 0;
   let shimmerPhase = 0;
@@ -687,29 +661,26 @@ function initShorelineNetwork() {
     for (let i = 0; i < NODE_COUNT; i++) {
       nodes.push({
         x: Math.random() * width,
-        y: height * 0.35 + Math.random() * height * 0.45, // mostly between ocean + forest floor
+        y: height * 0.35 + Math.random() * height * 0.45,
         size: 0.9 + Math.random() * 1.4
       });
     }
   }
 
   function drawBackground() {
-    // Ocean → shoreline → forest floor gradient
     const grad = ctx.createLinearGradient(0, 0, 0, height);
-    grad.addColorStop(0, "rgba(5, 13, 30, 1)");  // deep sky
-    grad.addColorStop(0.3, "rgba(10, 32, 54, 1)"); // horizon mist
-    grad.addColorStop(0.55, "rgba(8, 38, 55, 1)"); // ocean surface
-    grad.addColorStop(0.7, "rgba(7, 30, 34, 1)");  // near-shore
-    grad.addColorStop(1, "rgba(5, 22, 21, 1)");    // forest floor
+    grad.addColorStop(0, "rgba(5, 13, 30, 1)");
+    grad.addColorStop(0.3, "rgba(10, 32, 54, 1)");
+    grad.addColorStop(0.55, "rgba(8, 38, 55, 1)");
+    grad.addColorStop(0.7, "rgba(7, 30, 34, 1)");
+    grad.addColorStop(1, "rgba(5, 22, 21, 1)");
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Very subtle shoreline glow band
     ctx.fillStyle = "rgba(243, 195, 122, 0.12)";
     const bandY = height * 0.55;
     ctx.fillRect(0, bandY - 3, width, 6);
 
-    // Subtle moving ocean shimmer (only if motion allowed)
     if (!PREFERS_REDUCED_MOTION) {
       const centerX = (Math.sin(shimmerPhase) * 0.5 + 0.5) * width;
       const shimmerGrad = ctx.createRadialGradient(
@@ -736,7 +707,6 @@ function initShorelineNetwork() {
 
     const hasHover = hoverX != null && hoverY != null;
 
-    // Connections
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const n1 = nodes[i];
@@ -744,12 +714,11 @@ function initShorelineNetwork() {
         const dx = n1.x - n2.x;
         const dy = n1.y - n2.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
+
         if (dist < MAX_DIST) {
-          // Base alpha from proximity
           let alpha = (1 - dist / MAX_DIST) * 0.6;
 
           if (hasHover) {
-            // If hovering near this segment, brighten it
             const midX = (n1.x + n2.x) / 2;
             const midY = (n1.y + n2.y) / 2;
             const hdx = hoverX - midX;
@@ -758,7 +727,6 @@ function initShorelineNetwork() {
             const hoverInfluence = Math.max(0, 1 - hdist / 120);
             alpha += hoverInfluence * 0.4;
           } else {
-            // Idle shimmer: gentle breathing of the network
             alpha *= 0.85 + idlePulse;
           }
 
@@ -774,7 +742,6 @@ function initShorelineNetwork() {
       }
     }
 
-    // Nodes
     for (const n of nodes) {
       let baseRadius = n.size * 3;
       let innerRadius = n.size;
@@ -833,13 +800,11 @@ function initShorelineNetwork() {
     if (PREFERS_REDUCED_MOTION) return;
     const t = (timestamp || performance.now()) / 1000;
 
-    // Slow shimmer phase for ocean band
     shimmerPhase = t * 0.16;
 
-    // Only shimmer when there's no hover activity
     if (hoverX == null && hoverY == null) {
       if (timestamp - lastIdleTime > 180) {
-        idlePulse = 0.08 + 0.05 * Math.sin(t / 2.2); // slow, subtle pulse
+        idlePulse = 0.08 + 0.05 * Math.sin(t / 2.2);
         lastIdleTime = timestamp;
         draw();
       }
@@ -860,7 +825,6 @@ function initShorelineNetwork() {
 
 // ======================
 // WAVE SOUND HOOK
-// (Optional: wire to <audio id="waveAudio"> and a button)
 // ======================
 
 function initWaveSound() {
@@ -868,7 +832,6 @@ function initWaveSound() {
   const toggle = document.getElementById("waveSoundToggle");
   if (!audio || !toggle) return;
 
-  // Ensure it loops gently in the background
   audio.loop = true;
 
   function updateToggle(isPlaying) {
@@ -882,7 +845,6 @@ function initWaveSound() {
         .play()
         .then(() => updateToggle(true))
         .catch(() => {
-          // If autoplay is blocked, just keep the UI in "off" state
           updateToggle(false);
         });
     } else {
@@ -891,6 +853,5 @@ function initWaveSound() {
     }
   });
 
-  // Initial label
   updateToggle(!audio.paused);
 }
