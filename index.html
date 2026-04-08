@@ -1,438 +1,1311 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="obsidian">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yesenia Pérez · Learning Strategy, Public Engagement, and Digital Design</title>
-  <meta
-    name="description"
-    content="Portfolio of Yesenia Pérez — director-level learning strategist working across NASA missions, public engagement systems, partnership design, and digital experience."
-  />
-  <meta property="og:title" content="Yesenia Pérez · Learning Strategy, Public Engagement, and Digital Design" />
-  <meta
-    property="og:description"
-    content="Director-level learning strategy, public engagement, and digital design portfolio built in HTML, CSS, and JavaScript."
-  />
-  <meta name="theme-color" content="#0b1020" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="assets/css/main.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yesenia Pérez | Science, Learning, and Public Imagination</title>
+  <meta name="description" content="Editorial portfolio for Yesenia Pérez — director-level strategist at the intersection of science, learning ecosystems, evidence, and public imagination." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d18;
+      --bg-soft: #0f1526;
+      --panel: rgba(13, 19, 35, 0.72);
+      --panel-strong: rgba(17, 25, 45, 0.9);
+      --ink: #eef2ff;
+      --ink-soft: rgba(238, 242, 255, 0.76);
+      --ink-faint: rgba(238, 242, 255, 0.52);
+      --line: rgba(159, 186, 255, 0.16);
+      --line-strong: rgba(159, 186, 255, 0.28);
+      --electric: #7cb3ff;
+      --electric-2: #9ae7ff;
+      --parchment: #efe6d4;
+      --silver: #c5d0eb;
+      --violet: #5d69ff;
+      --glow: 0 0 60px rgba(124, 179, 255, 0.18);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.38);
+      --max: 1380px;
+      --nav-h: 84px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(124, 179, 255, 0.16), transparent 28%),
+        radial-gradient(circle at 82% 20%, rgba(93, 105, 255, 0.14), transparent 24%),
+        radial-gradient(circle at 50% 80%, rgba(154, 231, 255, 0.08), transparent 30%),
+        linear-gradient(180deg, #070b15 0%, #090d18 48%, #0b1120 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black 38%, transparent 88%);
+      opacity: 0.28;
+      animation: driftGrid 22s linear infinite;
+    }
+
+    body::after {
+      background: linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(255,255,255,0));
+      mix-blend-mode: soft-light;
+      opacity: 0.16;
+      background-size: 100% 4px;
+    }
+
+    @keyframes driftGrid {
+      from { transform: translate3d(0,0,0); }
+      to { transform: translate3d(-36px, -24px, 0); }
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(24px);
+      background: linear-gradient(to bottom, rgba(7,11,21,0.84), rgba(7,11,21,0.58));
+      border-bottom: 1px solid rgba(159, 186, 255, 0.08);
+    }
+
+    .topbar-inner {
+      min-height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-kicker {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .brand-name {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      padding: 10px 12px;
+      border-radius: 999px;
+      transition: 180ms ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: var(--ink);
+      background: rgba(124, 179, 255, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(124, 179, 255, 0.14);
+    }
+
+    .hero {
+      padding: 48px 0 36px;
+      min-height: calc(100vh - var(--nav-h));
+      display: grid;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .panel,
+    .hero-card,
+    .story-card,
+    .impact-card,
+    .mission-card,
+    .timeline-item,
+    .case-card,
+    .quote-card,
+    .contact-card,
+    .philosophy-card {
+      background: linear-gradient(180deg, rgba(17, 24, 43, 0.84), rgba(11, 18, 34, 0.72));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before,
+    .hero-card::before,
+    .story-card::before,
+    .impact-card::before,
+    .mission-card::before,
+    .timeline-item::before,
+    .case-card::before,
+    .quote-card::before,
+    .contact-card::before,
+    .philosophy-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(130deg, rgba(154, 231, 255, 0.06), transparent 28%, transparent 72%, rgba(124, 179, 255, 0.06));
+      pointer-events: none;
+    }
+
+    .hero-card {
+      padding: 38px clamp(24px, 4vw, 54px);
+      min-height: 640px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(124, 179, 255, 0.06);
+      width: fit-content;
+      color: var(--silver);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--electric-2), var(--electric));
+      box-shadow: 0 0 18px rgba(154, 231, 255, 0.8);
+    }
+
+    .hero-copy {
+      max-width: 880px;
+      margin-top: 24px;
+    }
+
+    .hero h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      font-weight: 600;
+      margin: 0 0 22px;
+    }
+
+    .hero h1 .soft {
+      color: var(--parchment);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .hero-lead {
+      font-size: clamp(1rem, 1.35vw, 1.24rem);
+      line-height: 1.82;
+      color: var(--ink-soft);
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .hero-lead strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--ink);
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: rgba(124, 179, 255, 0.08);
+      border-color: rgba(154, 231, 255, 0.32);
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, rgba(124, 179, 255, 0.22), rgba(154, 231, 255, 0.12));
+      box-shadow: var(--glow);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .meta-box {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(159, 186, 255, 0.14);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .meta-label {
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.72rem;
+      margin-bottom: 8px;
+    }
+
+    .meta-value {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--ink);
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 18px;
+    }
+
+    .signal-panel {
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+      min-height: 320px;
+    }
+
+    .signal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .signal-head h2,
+    .section-title,
+    .contact-title,
+    .philosophy-title {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 3vw, 3.4rem);
+      line-height: 0.95;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .tiny-label {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.74rem;
+      color: var(--ink-faint);
+    }
+
+    .signal-lines {
+      display: grid;
+      gap: 12px;
+    }
+
+    .signal-row {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+
+    .bar {
+      position: relative;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .bar > span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--w);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--electric), var(--electric-2));
+      box-shadow: 0 0 24px rgba(124, 179, 255, 0.4);
+      transform-origin: left;
+      animation: growBar 1.3s ease forwards;
+    }
+
+    @keyframes growBar {
+      from { transform: scaleX(0.08); opacity: 0.4; }
+      to { transform: scaleX(1); opacity: 1; }
+    }
+
+    .console-panel {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+      min-height: 300px;
+    }
+
+    .constellation {
+      position: relative;
+      min-height: 180px;
+      border-radius: 22px;
+      border: 1px solid rgba(159, 186, 255, 0.14);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(124, 179, 255, 0.12), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      overflow: hidden;
+    }
+
+    .node {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--electric-2), var(--electric));
+      box-shadow: 0 0 20px rgba(124, 179, 255, 0.7);
+    }
+
+    .node::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 18px;
+      top: -4px;
+      white-space: nowrap;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.02em;
+    }
+
+    .line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(124,179,255,0.6), rgba(154,231,255,0.18));
+      transform-origin: left center;
+      opacity: 0.75;
+    }
+
+    .section {
+      padding: 52px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 26px;
+    }
+
+    .section-copy {
+      max-width: 720px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+      font-size: 1rem;
+      margin-top: 12px;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+    }
+
+    .story-card {
+      padding: clamp(24px, 3vw, 38px);
+      min-height: 430px;
+    }
+
+    .story-layout {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .story-text p,
+    .mission-card p,
+    .case-card p,
+    .quote-card p,
+    .philosophy-card p,
+    .contact-copy {
+      color: var(--ink-soft);
+      line-height: 1.8;
+      margin: 0 0 16px;
+      font-size: 0.99rem;
+    }
+
+    .pull-quote {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.8rem, 2.8vw, 2.9rem);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--parchment);
+      margin: 0 0 18px;
+    }
+
+    .story-metrics {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .impact-card {
+      padding: 20px;
+      min-height: 112px;
+    }
+
+    .impact-number {
+      font-size: clamp(1.8rem, 4vw, 3.4rem);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+    }
+
+    .impact-label {
+      color: var(--ink-soft);
+      line-height: 1.55;
+      font-size: 0.94rem;
+    }
+
+    .mission-card {
+      padding: clamp(24px, 3vw, 34px);
+      display: grid;
+      gap: 18px;
+    }
+
+    .mission-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mission-item {
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(159, 186, 255, 0.12);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .mission-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.96rem;
+    }
+
+    .timeline-wrap {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .timeline-date {
+      color: var(--ink-faint);
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .timeline-role {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .timeline-org {
+      color: var(--silver);
+      margin-bottom: 12px;
+    }
+
+    .timeline-desc {
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .case-card {
+      padding: 24px;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(154, 231, 255, 0.26);
+      box-shadow: 0 28px 78px rgba(0,0,0,0.44);
+    }
+
+    .case-index,
+    .footnote {
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.74rem;
+    }
+
+    .case-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 2rem;
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin: 14px 0 14px;
+    }
+
+    .case-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(159,186,255,0.16);
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      background: rgba(255,255,255,0.025);
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .philosophy-card {
+      padding: 22px;
+      min-height: 260px;
+    }
+
+    .philosophy-number {
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 22px;
+    }
+
+    .philosophy-card h3 {
+      margin: 0 0 14px;
+      font-size: 1.12rem;
+      line-height: 1.3;
+    }
+
+    .quote-card {
+      padding: clamp(26px, 3vw, 42px);
+      display: grid;
+      gap: 22px;
+      min-height: 280px;
+    }
+
+    .quote-body {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.05;
+      color: var(--parchment);
+      letter-spacing: -0.03em;
+      max-width: 1040px;
+      margin: 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .contact-card {
+      padding: clamp(24px, 3vw, 38px);
+      min-height: 340px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .contact-links {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(159,186,255,0.12);
+      background: rgba(255,255,255,0.02);
+      color: var(--ink-soft);
+      transition: 180ms ease;
+    }
+
+    .contact-link:hover {
+      background: rgba(124, 179, 255, 0.08);
+      color: var(--ink);
+      transform: translateX(4px);
+    }
+
+    .orbital-panel {
+      position: relative;
+      min-height: 100%;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background:
+        radial-gradient(circle at center, rgba(124,179,255,0.14), transparent 24%),
+        linear-gradient(180deg, rgba(17, 24, 43, 0.84), rgba(11, 18, 34, 0.72));
+      box-shadow: var(--shadow);
+    }
+
+    .orbital-center,
+    .orbit,
+    .orbit-node { position: absolute; }
+
+    .orbital-center {
+      width: 160px;
+      height: 160px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      border: 1px solid rgba(154,231,255,0.22);
+      background: radial-gradient(circle at 35% 35%, rgba(154,231,255,0.28), rgba(93,105,255,0.08));
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 0 70px rgba(124,179,255,0.18);
+      z-index: 2;
+    }
+
+    .orbital-center strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .orbital-center span {
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .orbit {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(159,186,255,0.1);
+      border-radius: 999px;
+      animation: spin 26s linear infinite;
+    }
+
+    .orbit.one { width: 300px; height: 300px; }
+    .orbit.two { width: 460px; height: 460px; animation-duration: 34s; animation-direction: reverse; }
+    .orbit.three { width: 620px; height: 620px; animation-duration: 42s; }
+
+    .orbit-node {
+      top: 50%;
+      left: 100%;
+      transform: translate(-50%, -50%);
+      min-width: 130px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(159,186,255,0.18);
+      background: rgba(11, 18, 34, 0.9);
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      box-shadow: 0 18px 32px rgba(0,0,0,0.28);
+    }
+
+    @keyframes spin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: 800ms cubic-bezier(0.2, 1, 0.2, 1);
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      padding: 26px 0 42px;
+      color: var(--ink-faint);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 1180px) {
+      .hero-grid,
+      .story-grid,
+      .contact-grid,
+      .story-layout,
+      .philosophy-grid,
+      .case-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card { min-height: unset; }
+      .orbit.three { width: 540px; height: 540px; }
+      .orbit.two { width: 380px; height: 380px; }
+      .orbit.one { width: 240px; height: 240px; }
+    }
+
+    @media (max-width: 860px) {
+      :root { --nav-h: 72px; }
+      .shell { width: min(calc(100% - 24px), var(--max)); }
+      .topbar-inner { align-items: flex-start; padding: 14px 0; }
+      .nav { gap: 2px; }
+      .hero { padding-top: 28px; }
+      .hero-meta,
+      .section-head,
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+      .signal-row { grid-template-columns: 1fr; }
+      .orbital-panel { min-height: 640px; }
+      .orbit.three { width: 430px; height: 430px; }
+      .orbit.two { width: 300px; height: 300px; }
+      .orbit.one { width: 200px; height: 200px; }
+      .orbit-node { min-width: 112px; font-size: 0.74rem; padding: 10px 12px; }
+      .orbital-center { width: 130px; height: 130px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
 </head>
-<body data-theme="obsidian">
-  <a class="skip-link" href="#main">Skip to main content</a>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div class="brand">
+        <span class="brand-kicker">Science, learning, public imagination</span>
+        <span class="brand-name">Yesenia Pérez</span>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#story">Story</a>
+        <a href="#timeline">Trajectory</a>
+        <a href="#cases">Selected Work</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#contact">Connect</a>
+      </nav>
+    </div>
+  </header>
 
-  <div class="page-backdrop" aria-hidden="true">
-    <div class="page-backdrop__grid"></div>
-    <div class="page-backdrop__glow page-backdrop__glow--one"></div>
-    <div class="page-backdrop__glow page-backdrop__glow--two"></div>
-    <div class="page-backdrop__noise"></div>
-    <div class="page-backdrop__scanlines"></div>
-    <div class="page-backdrop__trace page-backdrop__trace--one"></div>
-    <div class="page-backdrop__trace page-backdrop__trace--two"></div>
-    <div class="page-backdrop__trace page-backdrop__trace--three"></div>
-  </div>
+  <main>
+    <section class="hero shell">
+      <div class="hero-grid">
+        <article class="hero-card reveal">
+          <div>
+            <div class="eyebrow">Director-level strategist in science and learning ecosystems</div>
+            <div class="hero-copy">
+              <h1>
+                Designing the systems<br>
+                through which <span class="soft">knowledge becomes public.</span>
+              </h1>
+              <p class="hero-lead">
+                I lead at the intersection of <strong>science, education, culture, and public meaning</strong>. My work turns complex research into learning ecosystems, national partnerships, and audience-centered experiences that help discovery travel — not as spectacle alone, but as something people can understand, carry, and act on.
+              </p>
+              <div class="hero-actions">
+                <a class="button primary" href="#cases">View selected work</a>
+                <a class="button" href="#contact">Get in touch</a>
+              </div>
+            </div>
+          </div>
 
-  <div class="site-frame">
-    <header class="site-header" data-header>
-      <div class="site-header__inner">
-        <a href="#hero" class="site-brand" aria-label="Go to top">
-          <span class="site-brand__name">YESENIA PÉREZ</span>
-          <span class="site-brand__role">Learning Strategy · Community Engagement · Digital Design</span>
-        </a>
+          <div class="hero-meta">
+            <div class="meta-box">
+              <div class="meta-label">Current scope</div>
+              <div class="meta-value">NASA mission learning strategy across Hubble, Webb, and Roman</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Core practice</div>
+              <div class="meta-value">Ecosystem design, evidence translation, narrative architecture</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Through-line</div>
+              <div class="meta-value">Lifelong learning as a civic, cultural, and imaginative act</div>
+            </div>
+          </div>
+        </article>
 
-        <nav class="site-nav" aria-label="Primary">
-          <a class="site-nav__link is-active" href="#hero" aria-current="page">About</a>
-          <a class="site-nav__link" href="#matrix">Practice</a>
-          <a class="site-nav__link" href="#systems">Systems</a>
-          <a class="site-nav__link" href="#build">Leadership</a>
-          <a class="site-nav__link" href="#writing">Writing</a>
-          <a class="site-nav__link" href="#contact">Contact</a>
-        </nav>
+        <aside class="hero-side">
+          <section class="panel signal-panel reveal">
+            <div class="signal-head">
+              <div>
+                <div class="tiny-label">Practice signal</div>
+                <h2>What I build</h2>
+              </div>
+              <div class="footnote">live model</div>
+            </div>
+            <div class="signal-lines">
+              <div class="signal-row">
+                <span>Learning ecosystems</span>
+                <div class="bar" aria-hidden="true"><span style="--w: 94%"></span></div>
+                <strong>94</strong>
+              </div>
+              <div class="signal-row">
+                <span>Strategic partnerships</span>
+                <div class="bar" aria-hidden="true"><span style="--w: 91%"></span></div>
+                <strong>91</strong>
+              </div>
+              <div class="signal-row">
+                <span>Evidence translation</span>
+                <div class="bar" aria-hidden="true"><span style="--w: 96%"></span></div>
+                <strong>96</strong>
+              </div>
+              <div class="signal-row">
+                <span>Public meaning-making</span>
+                <div class="bar" aria-hidden="true"><span style="--w: 93%"></span></div>
+                <strong>93</strong>
+              </div>
+            </div>
+          </section>
 
-        <div class="site-header__actions">
-          <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle color theme">
-            <span class="theme-toggle__label">Obsidian mode</span>
-          </button>
+          <section class="panel console-panel reveal">
+            <div>
+              <div class="tiny-label">Relational map</div>
+              <h2>How the work moves</h2>
+            </div>
+            <div class="constellation" aria-hidden="true">
+              <div class="node" style="left:14%; top:22%;" data-label="Science"></div>
+              <div class="node" style="left:72%; top:16%;" data-label="Story"></div>
+              <div class="node" style="left:82%; top:52%;" data-label="Strategy"></div>
+              <div class="node" style="left:58%; top:74%;" data-label="Communities"></div>
+              <div class="node" style="left:24%; top:70%;" data-label="Evidence"></div>
+              <div class="node" style="left:45%; top:38%; width:16px; height:16px;" data-label="Learning"></div>
+
+              <div class="line" style="left:18%; top:24%; width:31%; transform: rotate(19deg);"></div>
+              <div class="line" style="left:46%; top:38%; width:28%; transform: rotate(-27deg);"></div>
+              <div class="line" style="left:48%; top:40%; width:31%; transform: rotate(20deg);"></div>
+              <div class="line" style="left:30%; top:70%; width:26%; transform: rotate(-28deg);"></div>
+              <div class="line" style="left:42%; top:42%; width:18%; transform: rotate(75deg);"></div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section shell" id="story">
+      <div class="section-head reveal">
+        <div>
+          <div class="tiny-label">Editorial profile</div>
+          <h2 class="section-title">A career built in the meeting point between knowledge and invitation.</h2>
+          <p class="section-copy">
+            My work began in museums, where interpretation had to earn attention. It deepened through public-facing STEM learning, where rigor mattered but accessibility mattered just as much. Today, I work at national scale — building the structures that allow science to move across institutions and into real lives without losing its complexity, dignity, or wonder.
+          </p>
         </div>
       </div>
-    </header>
 
-    <main id="main">
-      <!-- HERO -->
-      <section id="hero" class="hero" data-section>
-        <div class="hero__inner">
-          <div class="hero__copy">
-            <p class="hero__eyebrow">Learning strategy · public engagement · digital design</p>
-            <p class="hero__name">Yesenia Pérez</p>
-
-            <h1 class="hero__title">
-              I build the systems that help knowledge move well.
-            </h1>
-
-            <p class="hero__lead">
-              I work at the point where expertise meets the public. At the Space Telescope Science Institute, I lead
-              education and engagement strategy across NASA’s Hubble, Webb, and Roman Space Telescope missions,
-              translating complex science into learning experiences, partner systems, and public-facing work that can
-              hold at scale without losing clarity.
-            </p>
-
-            <div class="hero__switcher" role="tablist" aria-label="Leadership lenses">
-              <button class="hero-chip is-active" type="button" role="tab" aria-selected="true" data-lens="strategist">Strategist</button>
-              <button class="hero-chip" type="button" role="tab" aria-selected="false" data-lens="scholar">Scholar</button>
-              <button class="hero-chip" type="button" role="tab" aria-selected="false" data-lens="builder">Builder</button>
-              <button class="hero-chip" type="button" role="tab" aria-selected="false" data-lens="translator">Translator</button>
+      <div class="story-grid">
+        <article class="story-card reveal">
+          <div class="story-layout">
+            <div class="story-text">
+              <p class="pull-quote">I do not simply communicate expertise. I design the conditions under which it can be encountered, understood, and remembered.</p>
+              <p>
+                That has meant leading cross-mission learning and engagement strategy for NASA initiatives, directing national partner networks, shaping resources used across museums and community settings, and building translation pathways between scientists, educators, institutions, and public audiences.
+              </p>
+              <p>
+                The through-line is consistent: I am interested in how knowledge travels. What helps it hold. What makes it legible. What turns a moment of curiosity into a durable relationship with learning.
+              </p>
             </div>
-
-            <p class="hero__lens-note" id="lensNote">
-              As a <strong>Strategist</strong>, I design the conditions that allow ambitious work to hold: clear systems,
-              usable structures, and enough coherence that complexity does not collapse into noise.
-            </p>
-
-            <div class="hero__actions">
-              <a class="button button--primary" href="#systems">View selected systems</a>
-              <a class="button button--secondary" href="mailto:yperez@gse.harvard.edu">Get in touch</a>
+            <div class="story-metrics">
+              <div class="impact-card">
+                <div class="impact-number" data-count="12">12+</div>
+                <div class="impact-label">years shaping audience-centered learning across museums, national networks, and science institutions</div>
+              </div>
+              <div class="impact-card">
+                <div class="impact-number" data-count="100">100</div>
+                <div class="impact-label">partner organizations stewarded through a national informal STEM learning network</div>
+              </div>
+              <div class="impact-card">
+                <div class="impact-number" data-count="142000">142,000+</div>
+                <div class="impact-label">participants reached through community-based science learning outcomes reporting</div>
+              </div>
             </div>
           </div>
+        </article>
 
-          <aside class="hero-console" aria-label="Professional command surface">
-            <div class="console">
-              <div class="console__topbar">
-                <span class="console__status-dot"></span>
-                <span class="console__label">Current scope</span>
-              </div>
-
-              <div class="console__instrument-bar" aria-hidden="true">
-                <div class="console__instrument-group">
-                  <span class="console__instrument-label">Role</span>
-                  <span class="console__instrument-value">Senior Education Specialist</span>
-                </div>
-                <div class="console__instrument-group">
-                  <span class="console__instrument-label">System</span>
-                  <span class="console__instrument-value">Cross-Mission / National</span>
-                </div>
-                <div class="console__instrument-group console__instrument-group--signal">
-                  <span class="console__instrument-label">Status</span>
-                  <span class="console__instrument-value">Live</span>
-                </div>
-              </div>
-
-              <div class="console__grid">
-                <article class="console-card console-card--intro">
-                  <span class="console-card__label">What I do</span>
-                  <h2>I make expert knowledge usable.</h2>
-                  <p>
-                    My work is not only about content. It is about structure: the design choices, partnerships,
-                    learning models, and operational supports that determine whether knowledge is merely delivered
-                    or actually carried forward.
-                  </p>
-                </article>
-
-                <article class="console-card console-card--metric">
-                  <span class="console-card__label">Network</span>
-                  <strong>~100</strong>
-                  <p>partner organizations across museums, libraries, and community institutions</p>
-                </article>
-
-                <article class="console-card console-card--metric">
-                  <span class="console-card__label">Reach</span>
-                  <strong>142k+</strong>
-                  <p>participants reached through FY25 community-based science learning</p>
-                </article>
-
-                <article class="console-card console-card--metric">
-                  <span class="console-card__label">Footprint</span>
-                  <strong>32 + PR</strong>
-                  <p>states and Puerto Rico across a distributed informal learning network</p>
-                </article>
-
-                <article class="console-card console-card--metric">
-                  <span class="console-card__label">Build</span>
-                  <strong>HTML/CSS/JS</strong>
-                  <p>custom-coded portfolio and front-end work designed and built by me</p>
-                </article>
-              </div>
-
-              <div class="console__footer" aria-hidden="true">
-                <span class="console__footer-tick"></span>
-                <span class="console__footer-tick"></span>
-                <span class="console__footer-tick"></span>
-                <span class="console__footer-line"></span>
-              </div>
+        <aside class="mission-card reveal">
+          <div>
+            <div class="tiny-label">Core mission</div>
+            <h2 class="section-title">What drives the work</h2>
+          </div>
+          <p>
+            I am driven by the belief that learning is one of the ways we become more fully human. Not just more informed, but more connected: to one another, to history, to evidence, to imagination, to the worlds we are still capable of building.
+          </p>
+          <div class="mission-list">
+            <div class="mission-item">
+              <strong>Translation with integrity</strong>
+              Making complexity understandable without flattening what matters.
             </div>
-          </aside>
-        </div>
-      </section>
+            <div class="mission-item">
+              <strong>Infrastructure for belonging</strong>
+              Designing systems where more people can see themselves in knowledge work.
+            </div>
+            <div class="mission-item">
+              <strong>Learning as public life</strong>
+              Treating education not as content delivery, but as a shared civic and cultural practice.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
 
-      <!-- SIGNAL STRIP -->
-      <section class="signal-strip" aria-label="Key signals">
-        <div class="signal-strip__inner">
-          <div class="signal-pill">
-            <span class="signal-pill__label">Current</span>
-            <span class="signal-pill__value">STScI · NASA Missions</span>
-          </div>
-          <div class="signal-pill">
-            <span class="signal-pill__label">Graduate study</span>
-            <span class="signal-pill__value">Harvard Graduate School of Education</span>
-          </div>
-          <div class="signal-pill">
-            <span class="signal-pill__label">Throughline</span>
-            <span class="signal-pill__value">Knowledge · Design · Recognition · Public Meaning</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- PRACTICE MATRIX -->
-      <section id="matrix" class="section section--matrix" data-section>
-        <div class="section-heading">
-          <p class="section-heading__eyebrow">Practice</p>
-          <h2 class="section-heading__title">My work tends to take five forms</h2>
-          <p class="section-heading__intro">
-            I do not think in terms of isolated tasks. I think in systems: what the work is trying to do, who it needs
-            to serve, and what has to be built around it for it to last.
+    <section class="section shell" id="timeline">
+      <div class="section-head reveal">
+        <div>
+          <div class="tiny-label">Professional trajectory</div>
+          <h2 class="section-title">A path from interpretation to ecosystem leadership.</h2>
+          <p class="section-copy">
+            The titles changed. The scale changed. The underlying practice remained: make knowledge meaningful, make systems hold, and make public engagement more intelligent than performance alone.
           </p>
         </div>
+      </div>
 
-        <div class="matrix">
-          <div class="matrix__rail" role="tablist" aria-label="Practice categories">
-            <button class="matrix-tab is-active" type="button" role="tab" aria-selected="true" data-matrix="learning">
-              Learning systems
-            </button>
-            <button class="matrix-tab" type="button" role="tab" aria-selected="false" data-matrix="partnerships">
-              Partnerships
-            </button>
-            <button class="matrix-tab" type="button" role="tab" aria-selected="false" data-matrix="evaluation">
-              Evaluation
-            </button>
-            <button class="matrix-tab" type="button" role="tab" aria-selected="false" data-matrix="translation">
-              Translation
-            </button>
-            <button class="matrix-tab" type="button" role="tab" aria-selected="false" data-matrix="digital">
-              Digital design
-            </button>
+      <div class="timeline-wrap">
+        <article class="timeline-item reveal">
+          <div class="timeline-date">2015 — 2017</div>
+          <div>
+            <div class="timeline-role">Family Programs Coordinator</div>
+            <div class="timeline-org">Allentown Art Museum of the Lehigh Valley</div>
+            <div class="timeline-desc">Built bilingual, community-facing museum programming serving multigenerational audiences. This was the beginning of my long investment in access, cultural interpretation, and public learning that respects the intelligence of families.</div>
           </div>
+        </article>
 
-          <div class="matrix__panel" id="matrixPanel">
-            <div class="matrix-detail">
-              <span class="matrix-detail__kicker">Learning systems</span>
-              <h3 class="matrix-detail__title">I design structures that help complex work hold across contexts.</h3>
-              <p class="matrix-detail__body">
-                My strongest work sits at the level of architecture: building the supports, rhythms, and pathways that
-                allow knowledge to move across institutions and audiences without losing rigor or usability.
-              </p>
-              <ul class="matrix-detail__list">
-                <li>Learning design strategy across distributed settings</li>
-                <li>Scalable models for educators, partners, and public audiences</li>
-                <li>Programs built for both coherence and local adaptation</li>
-              </ul>
-            </div>
+        <article class="timeline-item reveal">
+          <div class="timeline-date">2018 — 2019</div>
+          <div>
+            <div class="timeline-role">Assistant Curator of Education and Experience</div>
+            <div class="timeline-org">Worcester Art Museum</div>
+            <div class="timeline-desc">Designed exhibit-based learning labs and participatory experiences that strengthened collaboration between curatorial and education teams. The work sharpened my editorial instinct: ideas land differently when structure, design, and audience are considered together.</div>
           </div>
-        </div>
-      </section>
+        </article>
 
-      <!-- SYSTEMS -->
-      <section id="systems" class="section section--systems" data-section>
-        <div class="section-heading">
-          <p class="section-heading__eyebrow">Systems</p>
-          <h2 class="section-heading__title">A few places this work has lived</h2>
-        </div>
-
-        <div class="systems">
-          <article class="system system--wide">
-            <div class="system__meta">System 01 · NASA’s Universe of Learning</div>
-            <div class="system__body">
-              <h3 class="system__title">A national learning network built for local use</h3>
-              <p class="system__copy">
-                I direct a distributed ecosystem of museums, libraries, and community institutions, shaping the supports
-                that allow NASA science to be adapted locally without losing coherence. The work is not just reach. It is
-                usability, trust, and whether partners have what they need to carry the work forward.
-              </p>
-              <ul class="system__list">
-                <li>Partner enablement, professional learning, and micro-grant design</li>
-                <li>Support models that strengthen sustainability and implementation</li>
-                <li>Evaluation-informed improvement across network cycles</li>
-              </ul>
-            </div>
-          </article>
-
-          <div class="systems__grid">
-            <article class="system">
-              <div class="system__meta">System 02 · Webb milestone engagement</div>
-              <h3 class="system__title">Turning scientific visibility into public learning</h3>
-              <p class="system__copy">
-                During major Webb moments, I helped build the infrastructure that turned scientific visibility into
-                something educators, institutions, and communities could actually use in real time.
-              </p>
-            </article>
-
-            <article class="system">
-              <div class="system__meta">System 03 · Museum learning</div>
-              <h3 class="system__title">A foundation in bilingual and intergenerational design</h3>
-              <p class="system__copy">
-                My museum work taught me what still matters most: pace, context, invitation, language, and the design
-                choices that shape whether people feel welcomed into knowledge or kept at its edge.
-              </p>
-            </article>
-
-            <article class="system">
-              <div class="system__meta">System 04 · Higher education and reflection</div>
-              <h3 class="system__title">Leadership shaped by belonging and judgment</h3>
-              <p class="system__copy">
-                My Harvard work has sharpened the leadership logic already present in practice: who gets to belong, who
-                gets to decide what counts, and what kind of leadership protects rigor without losing humanity.
-              </p>
-            </article>
+        <article class="timeline-item reveal">
+          <div class="timeline-date">2019 — Present</div>
+          <div>
+            <div class="timeline-role">Senior Education Specialist | Director-Level Strategy Lead</div>
+            <div class="timeline-org">Space Telescope Science Institute</div>
+            <div class="timeline-desc">Lead education and engagement strategy across Hubble, Webb, and Roman. Direct national partner ecosystems, shape mission-facing learning architecture, prepare executive briefs and strategic syntheses, and build evidence-informed models that move discovery into classrooms, communities, and public imagination.</div>
           </div>
-        </div>
-      </section>
+        </article>
 
-      <!-- LEADERSHIP / BUILD -->
-      <section id="build" class="section section--build" data-section>
-        <div class="section-heading">
-          <p class="section-heading__eyebrow">Leadership</p>
-          <h2 class="section-heading__title">What is often called outreach is, in practice, systems leadership.</h2>
-          <p class="section-heading__intro">
-            Much of the work I do is quiet. It happens before the public-facing moment, inside the structures that make
-            that moment possible.
+        <article class="timeline-item reveal">
+          <div class="timeline-date">2024 — 2026</div>
+          <div>
+            <div class="timeline-role">Master of Education, Educational Leadership</div>
+            <div class="timeline-org">Harvard Graduate School of Education</div>
+            <div class="timeline-desc">Deepening the theoretical and organizational frame beneath the work: leadership, systems thinking, evidence use, institutional strategy, and the ethics of how learning environments are designed.</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="cases">
+      <div class="section-head reveal">
+        <div>
+          <div class="tiny-label">Selected work</div>
+          <h2 class="section-title">Three examples of what depth looks like in practice.</h2>
+          <p class="section-copy">
+            Each project sits at a different scale, but all three ask the same question: how do you build a bridge between expertise and public meaning that is rigorous enough to trust and human enough to matter?
           </p>
         </div>
+      </div>
 
-        <div class="build-proof">
-          <article class="build-proof__code" aria-label="Leadership logic">
-            <div class="build-proof__chrome">
-              <span></span><span></span><span></span>
-            </div>
-            <pre><code>knowledge is not enough
-if the structure fails
-
-translation matters
-partnerships matter
-timing matters
-recognition matters
-
-public meaning is built</code></pre>
-          </article>
-
-          <div class="build-proof__grid">
-            <article class="build-card">
-              <h3>What I am usually doing</h3>
-              <p>
-                Translating between expert and educator, aligning teams, protecting usability alongside rigor, and
-                making sure the people carrying the work outward have what they need.
-              </p>
-            </article>
-
-            <article class="build-card">
-              <h3>What I try to protect</h3>
-              <p>
-                Belonging as structure, not sentiment. Expectations that are legible. Reflection as method.
-                Scale that remains human.
-              </p>
-            </article>
-
-            <article class="build-card">
-              <h3>What teams rely on me for</h3>
-              <p>
-                Calm judgment under complexity. Strong synthesis. Pattern recognition. The ability to hold architecture
-                and atmosphere in the same frame.
-              </p>
-            </article>
-
-            <article class="build-card">
-              <h3>Why I build in code too</h3>
-              <p>
-                Interface, hierarchy, and interaction are forms of leadership. Working in the medium sharpens how I
-                think about clarity, usability, and the decisions that shape audience experience.
-              </p>
-            </article>
+      <div class="case-grid">
+        <article class="case-card reveal">
+          <div>
+            <div class="case-index">01 / National science engagement</div>
+            <h3 class="case-title">Webb First Images Community Activation</h3>
+            <p>
+              Co-shaped a nationwide engagement ecosystem for one of NASA’s most visible scientific moments. The work included partner enablement, scientist engagement pathways, real-time resource support, and narrative coordination built for public use under live conditions.
+            </p>
           </div>
-        </div>
-      </section>
+          <div>
+            <div class="case-tags">
+              <span class="tag">Launch strategy</span>
+              <span class="tag">Cross-agency coordination</span>
+              <span class="tag">Narrative systems</span>
+            </div>
+          </div>
+        </article>
 
-      <!-- WRITING -->
-      <section id="writing" class="section section--writing" data-section>
-        <div class="section-heading">
-          <p class="section-heading__eyebrow">Writing</p>
-          <h2 class="section-heading__title">Writing is one of the ways I think in public.</h2>
-          <p class="section-heading__intro">
-            Sometimes that means strategy briefs and framing documents. Sometimes scholarly work on leadership,
-            recognition, and institutional life. Sometimes essays where science, systems, and interior life meet.
+        <article class="case-card reveal">
+          <div>
+            <div class="case-index">02 / Ecosystem architecture</div>
+            <h3 class="case-title">NASA Informal Learning Network</h3>
+            <p>
+              Direct a coalition of nearly one hundred museums, libraries, and community organizations across 32 states and Puerto Rico. Designed support models, micro-grants, professional learning structures, and iterative improvement pathways that help local partners deliver science learning with both flexibility and fidelity.
+            </p>
+          </div>
+          <div>
+            <div class="case-tags">
+              <span class="tag">Field building</span>
+              <span class="tag">Partner enablement</span>
+              <span class="tag">Evaluation strategy</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="case-card reveal">
+          <div>
+            <div class="case-index">03 / Culture and knowledge</div>
+            <h3 class="case-title">Physics of Pō and Culturally Sustaining STEM Design</h3>
+            <p>
+              Helped shape science learning experiences that honor Indigenous knowledge systems while engaging NASA astrophysics with care, relationality, and ethical design. This work sits close to my core belief that education should widen dignity, not merely distribute information.
+            </p>
+          </div>
+          <div>
+            <div class="case-tags">
+              <span class="tag">Cultural integrity</span>
+              <span class="tag">Belonging in STEM</span>
+              <span class="tag">Design ethics</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section shell" id="philosophy">
+      <div class="section-head reveal">
+        <div>
+          <div class="tiny-label">Leadership philosophy</div>
+          <h2 class="section-title">The principles underneath the visible work.</h2>
+          <p class="section-copy">
+            Good strategy is not only directional. It is interpretive. It understands people, context, timing, language, incentives, and the emotional reality of how work actually moves through institutions.
           </p>
         </div>
+      </div>
 
-        <div class="writing-grid">
-          <article class="writing-card">
-            <span class="writing-card__meta">NASA &amp; STScI</span>
-            <h3 class="writing-card__title">Strategy and synthesis briefs</h3>
-            <p class="writing-card__copy">
-              Internal writing that connects science, evaluation, audience insight, and institutional decision-making.
-            </p>
-          </article>
+      <div class="philosophy-grid">
+        <article class="philosophy-card reveal">
+          <div class="philosophy-number">01</div>
+          <h3>Reflection is a leadership technology.</h3>
+          <p>Pause is not passivity. It is one of the ways better judgment enters the room.</p>
+        </article>
+        <article class="philosophy-card reveal">
+          <div class="philosophy-number">02</div>
+          <h3>Equity belongs in system design.</h3>
+          <p>Not as language layered on after the fact, but as a structural condition of how work is built.</p>
+        </article>
+        <article class="philosophy-card reveal">
+          <div class="philosophy-number">03</div>
+          <h3>Narrative is strategic infrastructure.</h3>
+          <p>Story shapes trust, coherence, memory, and the ability of people to locate themselves within a larger project.</p>
+        </article>
+        <article class="philosophy-card reveal">
+          <div class="philosophy-number">04</div>
+          <h3>Evidence should guide, not harden.</h3>
+          <p>Data matters. Interpretation matters too. Strategy lives in the space where they meet.</p>
+        </article>
+      </div>
+    </section>
 
-          <article class="writing-card">
-            <span class="writing-card__meta">Harvard</span>
-            <h3 class="writing-card__title">Leadership, recognition, and institutional voice</h3>
-            <p class="writing-card__copy">
-              Scholarly work on belonging, self-authorship, educational legitimacy, and the ethics of institutional judgment.
-            </p>
-          </article>
+    <section class="section shell">
+      <article class="quote-card reveal">
+        <div class="tiny-label">North star</div>
+        <p class="quote-body">I design the systems through which communities encounter science — with dignity, cultural integrity, and a sense of shared wonder.</p>
+      </article>
+    </section>
 
-          <article class="writing-card">
-            <span class="writing-card__meta">The Echo Jar</span>
-            <h3 class="writing-card__title">Soft Physics</h3>
-            <p class="writing-card__copy">
-              Public essays where science, myth, and lived experience share the same sentence.
-            </p>
-            <a href="https://theechojar.substack.com" target="_blank" rel="noopener">Read on Substack ↗</a>
-          </article>
-        </div>
-      </section>
-
-      <!-- CONTACT -->
-      <section id="contact" class="section section--contact" data-section>
-        <div class="contact">
-          <div class="contact__copy">
-            <p class="section-heading__eyebrow">Contact</p>
-            <h2 class="contact__title">
-              I’m drawn to work that asks for both architecture and judgment.
-            </h2>
-            <p class="contact__intro">
-              I’m especially interested in director-level roles where learning strategy, public engagement, design,
-              and institutional leadership need to live in the same frame. The work I do best is connective,
-              rigorous, and deeply human: building systems that help knowledge move well, and environments where
-              people can do meaningful work without flattening themselves to fit.
-            </p>
+    <section class="section shell" id="contact">
+      <div class="contact-grid">
+        <article class="contact-card reveal">
+          <div>
+            <div class="tiny-label">Connect</div>
+            <h2 class="contact-title">Open to work that asks for range, judgment, and imagination.</h2>
           </div>
-
-          <aside class="contact__panel">
+          <p class="contact-copy">
+            I’m especially energized by roles and collaborations spanning science engagement, learning ecosystems, strategy, cultural design, and public-facing knowledge work. The best projects tend to care about substance and form in equal measure.
+          </p>
+          <div class="contact-links">
             <a class="contact-link" href="mailto:yperez@gse.harvard.edu">
-              <span class="contact-link__label">Email</span>
-              <strong class="contact-link__value">yperez@gse.harvard.edu</strong>
+              <span>Email</span>
+              <strong>yperez@gse.harvard.edu</strong>
             </a>
-            <a class="contact-link" href="https://www.linkedin.com/in/yesenia-pérez-fina-xyz1031/" target="_blank" rel="noopener">
-              <span class="contact-link__label">LinkedIn</span>
-              <strong class="contact-link__value">yesenia-pérez-fina</strong>
+            <a class="contact-link" href="https://www.linkedin.com" target="_blank" rel="noreferrer noopener">
+              <span>LinkedIn</span>
+              <strong>Professional profile</strong>
             </a>
-            <a class="contact-link" href="https://theechojar.substack.com" target="_blank" rel="noopener">
-              <span class="contact-link__label">Writing</span>
-              <strong class="contact-link__value">The Echo Jar</strong>
+            <a class="contact-link" href="#">
+              <span>Portfolio / CV</span>
+              <strong>Selected materials</strong>
             </a>
-          </aside>
-        </div>
-      </section>
-    </main>
+          </div>
+        </article>
 
-    <footer class="site-footer">
-      <div class="site-footer__inner">
-        <span>© <span id="year"></span> Yesenia Pérez</span>
-        <span>Custom site built in HTML, CSS, and JavaScript</span>
+        <aside class="orbital-panel reveal" aria-hidden="true">
+          <div class="orbit three">
+            <div class="orbit-node">Public imagination</div>
+          </div>
+          <div class="orbit two">
+            <div class="orbit-node">Culture + belonging</div>
+          </div>
+          <div class="orbit one">
+            <div class="orbit-node">Evidence + systems</div>
+          </div>
+          <div class="orbital-center">
+            <div>
+              <strong>Yesenia Pérez</strong>
+              <span>Science, learning, strategy, and the long arc of becoming.</span>
+            </div>
+          </div>
+        </aside>
       </div>
-    </footer>
-  </div>
+    </section>
+  </main>
 
-  <script src="assets/js/main.js" defer></script>
+  <footer>
+    <div class="shell">Built as an editorial research console: precise, atmospheric, and designed for depth.</div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('in');
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const navLinks = [...document.querySelectorAll('.nav a')];
+    const setActive = () => {
+      let current = sections[0]?.id;
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if (top <= 140) current = section.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+      });
+    };
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+
+    const counters = document.querySelectorAll('[data-count]');
+    const formatCount = (value, target) => {
+      if (target >= 100000) return Math.round(value).toLocaleString() + '+';
+      if (target >= 100) return Math.round(value).toLocaleString();
+      return Math.round(value) + '+';
+    };
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = Number(el.dataset.count);
+        const duration = 1400;
+        const start = performance.now();
+        const step = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = formatCount(target * eased, target);
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(counter => counterObserver.observe(counter));
+
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) - 0.5;
+      const y = (e.clientY / window.innerHeight) - 0.5;
+      document.querySelectorAll('.panel, .hero-card, .story-card, .mission-card, .quote-card, .contact-card, .case-card').forEach(card => {
+        card.style.transform = `translate3d(${x * 4}px, ${y * 4}px, 0)`;
+      });
+    });
+  </script>
 </body>
 </html>
