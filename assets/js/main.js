@@ -1,68 +1,68 @@
 const HERO_LENS_COPY = {
   strategist:
-    'As a <strong>Strategist</strong>, I shape learning systems, partnership structures, and decision pathways that help complex work scale without losing clarity or purpose.',
+    'As a <strong>Strategist</strong>, I design the conditions that allow ambitious work to hold: clear systems, usable structures, and enough coherence that complexity does not collapse into noise.',
   scholar:
-    'As a <strong>Scholar</strong>, I draw on research in leadership, learning, and institutions to sharpen judgment and make design choices that are both rigorous and useful.',
+    'As a <strong>Scholar</strong>, I work from inquiry. I draw on research, reflection, and close reading to sharpen judgment, test assumptions, and make stronger decisions about what a system is really doing.',
   builder:
-    'As a <strong>Builder</strong>, I prototype and construct directly — in digital environments, program systems, and front-end interfaces — so ideas move from concept to form with less ambiguity.',
+    'As a <strong>Builder</strong>, I care about form as much as intention. I prototype, structure, and build directly so ideas can move from concept to something usable, legible, and alive in the medium.',
   translator:
-    'As a <strong>Translator</strong>, I turn complexity into language, structure, and experience so science, strategy, and public meaning can travel together.'
+    'As a <strong>Translator</strong>, I make complexity usable. I move between expert language, audience reality, institutional context, and public meaning without flattening what matters.'
 };
 
 const MATRIX_COPY = {
   learning: {
     kicker: 'Learning systems',
-    title: 'I design structures that help complex educational work hold across contexts.',
+    title: 'I design structures that help complex work hold across contexts.',
     body:
-      'My strongest work sits at the level of system design: aligning mission goals, audience realities, institutional constraints, and implementation pathways so programs and resources remain usable beyond a single launch.',
+      'My strongest work sits at the level of architecture: building the supports, rhythms, and pathways that allow knowledge to move across institutions and audiences without losing rigor or usability.',
     bullets: [
-      'Learning design strategy across distributed contexts',
-      'Scalable models for public engagement and professional learning',
-      'Program architecture built for both rigor and local adaptation'
+      'Learning design strategy across distributed settings',
+      'Scalable models for educators, partners, and public audiences',
+      'Programs built for both coherence and local adaptation'
     ]
   },
   partnerships: {
     kicker: 'Partnerships',
-    title: 'I build working relationships that make distributed systems more coherent.',
+    title: 'I build the relational infrastructure that lets ambitious work travel.',
     body:
-      'Much of my work depends on trust across institutions, disciplines, and timelines. I design structures that help partners understand their role, adapt locally, and stay aligned without feeling overmanaged.',
+      'Partnerships are not side work. They are part of the system itself. I design for clarity, trust, communication, and local ownership so collaboration can function across institutions without becoming fragile or vague.',
     bullets: [
       'Cross-institution coordination across museums, libraries, scientists, and public-facing teams',
-      'Partner enablement models that support clarity and local ownership',
-      'Communication structures that reduce friction in complex ecosystems'
+      'Partner enablement structures that support implementation rather than just participation',
+      'Shared pathways for alignment, communication, and sustainable delivery'
     ]
   },
   evaluation: {
     kicker: 'Evaluation',
-    title: 'I use evidence to improve systems, not just to document them.',
+    title: 'I use evidence to improve the next version of the work.',
     body:
-      'Evaluation matters most when it changes the next decision. I work with qualitative and quantitative inputs to identify what is holding, what is failing, and what needs to be redesigned.',
+      'Evaluation matters most when it changes design, not just reporting. I use reach, adoption, qualitative feedback, and implementation patterns to understand what is holding, what is not, and what needs to be redesigned.',
     bullets: [
-      'Evaluation-informed program refinement',
-      'Translation of findings into strategic recommendations',
-      'Evidence use across portfolio planning and continuous improvement'
+      'Evaluation-informed improvement across programs and networks',
+      'Translation of findings into actionable strategic recommendations',
+      'Use of evidence to strengthen usability, sustainability, and relevance'
     ]
   },
   translation: {
     kicker: 'Translation',
-    title: 'I make difficult material legible without flattening its meaning.',
+    title: 'I make specialized knowledge legible without making it flat.',
     body:
-      'A core part of my role is interpretive: moving between scientists, educators, leadership, partners, and public audiences with enough precision that each group can act without losing the complexity of the original work.',
+      'A core part of my work is interpretive. I move between experts, educators, leadership, partners, and public audiences with enough precision that each group can act while the original meaning stays intact.',
     bullets: [
-      'Executive briefs, decks, and synthesis documents',
-      'Audience-centered framing across science and public learning',
-      'Strategic communication across technical and nontechnical contexts'
+      'Leadership briefs, framing documents, and synthesis decks',
+      'Audience-centered translation across science, strategy, and public learning',
+      'Narrative structures that preserve both rigor and accessibility'
     ]
   },
   digital: {
     kicker: 'Digital design',
-    title: 'I treat front-end architecture as a form of strategic clarity.',
+    title: 'I treat interface and front-end structure as forms of strategic clarity.',
     body:
-      'I build in HTML, CSS, and JavaScript not only to make things look good, but to structure meaning, interaction, and proof. The medium itself sharpens how I think about hierarchy, usability, and decision flow.',
+      'I build in HTML, CSS, and JavaScript not only to present work, but to think through hierarchy, usability, interaction, and proof. Working in the medium sharpens how I design for attention, understanding, and flow.',
     bullets: [
       'Semantic front-end development and responsive layout',
-      'Information architecture and component thinking',
-      'Design systems that balance elegance, access, and legibility'
+      'Information architecture and interaction design',
+      'Design systems that balance elegance, usability, and legibility'
     ]
   }
 };
@@ -84,34 +84,37 @@ function initThemeToggle() {
   const storageKey = 'yessi-portfolio-theme';
 
   function applyTheme(theme) {
-    const value = theme === 'daybreak' ? 'daybreak' : 'obsidian';
-    body.setAttribute('data-theme', value);
-    html.setAttribute('data-theme', value);
-    toggle.setAttribute('aria-pressed', String(value === 'daybreak'));
+    const nextTheme = theme === 'daybreak' ? 'daybreak' : 'obsidian';
+    body.setAttribute('data-theme', nextTheme);
+    html.setAttribute('data-theme', nextTheme);
+    toggle.setAttribute('aria-pressed', String(nextTheme === 'daybreak'));
+
     if (label) {
-      label.textContent = value === 'daybreak' ? 'Daybreak mode' : 'Obsidian mode';
+      label.textContent = nextTheme === 'daybreak' ? 'Daybreak mode' : 'Obsidian mode';
     }
   }
 
   let initialTheme = 'obsidian';
   try {
-    const saved = window.localStorage.getItem(storageKey);
-    if (saved === 'daybreak') initialTheme = 'daybreak';
+    const savedTheme = window.localStorage.getItem(storageKey);
+    if (savedTheme === 'daybreak') {
+      initialTheme = 'daybreak';
+    }
   } catch {
-    // ignore storage errors
+    // Ignore storage failures
   }
 
   applyTheme(initialTheme);
 
   toggle.addEventListener('click', () => {
-    const current = body.getAttribute('data-theme') === 'daybreak' ? 'daybreak' : 'obsidian';
-    const next = current === 'obsidian' ? 'daybreak' : 'obsidian';
-    applyTheme(next);
+    const currentTheme = body.getAttribute('data-theme') === 'daybreak' ? 'daybreak' : 'obsidian';
+    const nextTheme = currentTheme === 'obsidian' ? 'daybreak' : 'obsidian';
+    applyTheme(nextTheme);
 
     try {
-      window.localStorage.setItem(storageKey, next);
+      window.localStorage.setItem(storageKey, nextTheme);
     } catch {
-      // ignore storage errors
+      // Ignore storage failures
     }
   });
 }
@@ -130,8 +133,8 @@ function initHeroLensSwitcher() {
 
   chips.forEach((chip) => {
     chip.addEventListener('click', () => {
-      const lens = chip.getAttribute('data-lens');
-      if (!lens) return;
+      const lensKey = chip.getAttribute('data-lens');
+      if (!lensKey || !HERO_LENS_COPY[lensKey]) return;
 
       chips.forEach((item) => {
         item.classList.remove('is-active');
@@ -140,7 +143,7 @@ function initHeroLensSwitcher() {
 
       chip.classList.add('is-active');
       chip.setAttribute('aria-selected', 'true');
-      updateLens(lens);
+      updateLens(lensKey);
     });
   });
 
@@ -172,7 +175,7 @@ function initCapabilityMatrix() {
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
       const key = tab.getAttribute('data-matrix');
-      if (!key) return;
+      if (!key || !MATRIX_COPY[key]) return;
 
       tabs.forEach((item) => {
         item.classList.remove('is-active');
@@ -188,8 +191,24 @@ function initCapabilityMatrix() {
   renderMatrix('learning');
 }
 
+function initHeaderIntensity() {
+  const header = document.querySelector('[data-header]');
+  if (!header) return;
+
+  function onScroll() {
+    if (window.scrollY > 24) {
+      header.classList.add('is-condensed');
+    } else {
+      header.classList.remove('is-condensed');
+    }
+  }
+
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
 function initScrollSpyAndReveal() {
-  const sections = document.querySelectorAll('[data-section], .hero');
+  const sections = document.querySelectorAll('[data-section]');
   const navLinks = document.querySelectorAll('.site-nav__link');
 
   if (!sections.length || !navLinks.length) return;
@@ -229,7 +248,7 @@ function initScrollSpyAndReveal() {
       });
     },
     {
-      threshold: 0.24,
+      threshold: 0.28,
       rootMargin: '0px 0px -18% 0px'
     }
   );
@@ -242,5 +261,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initHeroLensSwitcher();
   initCapabilityMatrix();
+  initHeaderIntensity();
   initScrollSpyAndReveal();
+
+  document.body.classList.add('is-loaded');
 });
