@@ -1,6 +1,6 @@
 # yeseniaperezfina.github.io
 
-Portfolio site for **Yesenia Perez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
+Portfolio site for **Yesenia Pérez** — a director-level learning strategy and community engagement leader working across NASA missions, museums, higher education, and public engagement systems.
 
 This repo powers the GitHub Pages site:
 
@@ -8,60 +8,86 @@ This repo powers the GitHub Pages site:
 
 ---
 
+## Purpose
+
+This portfolio is designed to position Yesenia Pérez for **director-level roles in learning strategy, education and community engagement, public-facing science and exploration, and mission-driven systems leadership**.
+
+It is meant to show, quickly and clearly, that she brings:
+
+- **Learning strategy leadership** across complex, cross-functional initiatives
+- **Public engagement and partnership design** at national scale
+- **Strong writing and narrative synthesis** across science, education, and strategy
+- **Direct fluency in front-end development, information architecture, and interaction design**
+
+The site is both a portfolio and a proof point: it presents Yesenia’s leadership philosophy, selected work, and writing while also demonstrating her ability to concept, structure, design, and build a polished digital experience.
+
+---
+
 ## Concept & Experience Design
 
 ### Narrative & Visual Intent
 
-This site is a **single-page, editorial-style portfolio** — part botanical field journal, part systems-design dossier. It’s crafted for:
+This site is a **single-page, editorial-style portfolio** — part systems dossier, part field journal, part digital case study.
 
-* **Hiring managers and recruiters** who need fast, clear signals about scope, competencies, and leadership orientation.
-* **Strategy, systems, and learning design roles** that value coherent reasoning, evidence-awareness, and cross-sector fluency.
-* **Yesenia’s creative practice**: a blend of *Soft Physics*, science storytelling, and mythic/poetic undertones.
+It is crafted for:
 
-The visual system merges:
+- **Hiring managers and recruiters** who need fast, clear signals about scope, strategic fit, and leadership readiness
+- **Director-level and senior strategy roles** in learning design, education and community engagement, science communication, and public-facing institutions
+- **Collaborators and peers** who want to understand how Yesenia thinks, writes, leads, and builds
 
-* **Midnight Forest Atmosphere** — moss, bark, sand, and twilight gradients.
-* **Editorial serif-forward typography** — a quiet New Yorker / book-jacket influence.
-* **Organic motion** — pollen, fireflies, mycelium threads, canopy parallax.
-* **Calm Mode** — a simplified, reduced-motion palette for accessibility and contemplative reading.
+The visual system brings together:
+
+- **Midnight shoreline atmosphere** — forest, ocean, dusk, and low-light depth
+- **Editorial typography** — serif-forward, quiet, and high-contrast
+- **Organic motion** — stars, fireflies, canopy drift, and mycelium-like network threads
+- **Calm Mode** — a reduced-motion, quieter visual setting for accessibility and contemplative reading
+
+The result is intended to feel beautiful, intentional, and quietly confident — a site that reflects both strategic discipline and creative range.
 
 ---
 
 ## Information Architecture
 
-The portfolio is intentionally **single-page**, divided into anchored sections optimized for scanning:
+The portfolio is intentionally **single-page**, with anchored sections designed for both quick recruiter scanning and slower editorial reading.
 
-1. **About (Hero)**
-   Role identity, practice positions (Strategist, Scholar, Creator, Navigator), and ecosystem placement.
+1. **About**
+   A concise role-aligned introduction with immediate signals about leadership scope, current work, and what Yesenia does best.
 
-2. **Trajectory**
-   Career timeline across museums, NASA, and higher education; signals of scale, complexity, and “what this demonstrates.”
+2. **Experience**
+   A trajectory view across museums, NASA, and higher education, showing the arc from public learning practice to director-level strategy.
 
-3. **Signature Work**
-   Four case studies showing portfolio strategy, evaluation, research synthesis, storytelling, and multi-stakeholder coordination.
+3. **Selected Work**
+   Case-study-style snapshots of national learning networks, mission milestone engagement, science translation, and public-facing program design.
 
-4. **How I Work**
-   Leadership stance, decision-making principles, and how teams tend to experience Yesenia.
+4. **Leadership**
+   A direct articulation of how Yesenia leads: what she protects, how people tend to experience her, and what kinds of systems she builds.
 
-5. **Capabilities & Tools**
-   “Constellation of practice” across strategy, research, communication, and domains — with an interactive mycelium/constellation network.
+5. **Capabilities**
+   A recruiter-readable view of where she adds the most value: learning design, partnerships, evaluation, sense-making, and translation.
 
-6. **Writing & Story Work**
-   Highlights across *Soft Physics*, reflective practice at Harvard, and internal strategy briefs.
+6. **Digital + Design**
+   An explicit demonstration of technical fluency in front-end development, information architecture, and interface design.
 
-7. **Contact / Next Orbit**
-   Future-facing roles and sectors Yesenia is exploring; clear CTAs.
+7. **Writing**
+   A cross-section of internal strategy writing, graduate work, and public essays — showing how writing functions as a leadership tool.
+
+8. **Contact**
+   A future-facing close oriented toward director-level, mission-driven opportunities.
 
 ---
 
 ## Front-End Architecture
 
-This site is a **lightweight static SPA** built with **HTML + CSS + vanilla JS**, designed to be:
+This site is a **lightweight static single-page application** built with **HTML, CSS, and vanilla JavaScript**.
 
-* Audit-friendly
-* Dependency-free
-* Accessible
-* Easy to maintain on GitHub Pages
+It is designed to be:
+
+- Fast
+- dependency-free
+- accessible
+- legible
+- easy to maintain on GitHub Pages
+- transparent as a front-end sample
 
 ### Directory Structure
 
@@ -74,137 +100,5 @@ This site is a **lightweight static SPA** built with **HTML + CSS + vanilla JS**
 │   ├── js
 │   │   └── main.js
 │   └── audio
-│       └── forest.mp3
+│       └── waves.mp3
 └── README.md
-```
-
-### `index.html`
-
-Semantic markup with:
-
-* `data-section` attributes for scroll-spy
-* Accessible navigation (`aria-current`)
-* Forest/Calm mode toggles with `aria-pressed`
-* Audio toggle for ambient forest sound
-* Section ornaments (leaves, botanical gradients, orbs)
-
-### `assets/css/main.css`
-
-A fully custom design system including:
-
-* **Design tokens** for color, spacing, typography, radii, shadow, and layout scale
-* **Editorial serif-forward headings** + clean system sans body copy
-* **Botanical gradients** and soft card treatments
-* **Forest/Calm mode styles**, with reduced-motion and quieter visuals in calm mode
-* **Grid + Stack layout primitives**
-* **Component styles**:
-
-  * `.card`, `.chip`, `.pill-link`, `.button`, `.tag-row`, `.metric-row`
-  * Header shell, navigation, forest overlays
-* **Accessible focus and reduced-motion support**
-
-### `assets/js/main.js`
-
-A refactored JS architecture with:
-
-* **Single `init()` orchestration** via `DOMContentLoaded`
-* Named `initX` modules:
-
-  * `initYearStamp()`
-  * `initModeToggle()` — Forest / Calm mode with persistence
-  * `initRoleChips()` — swaps out practice descriptions
-  * `initScrollSpy()` — updates nav & `aria-current="page"`
-  * `initRootProgress()` — scroll progress for the root-column
-  * `initForestParallax()` — canopy layers (auto-disabled in Calm mode)
-  * `initPollenAndFireflies()` — atmospheric particles (auto-disabled in Calm mode)
-  * `initForestNetwork()` — constellation/mycelium network
-  * `initForestAudioToggle()` — sound toggle with `aria-pressed`
-
-All animations gracefully quiet themselves in **Calm Mode** and/or when system `prefers-reduced-motion` is detected.
-
----
-
-## Interaction Design
-
-### 1. Forest / Calm Mode Toggle
-
-A top-right toggle that:
-
-* Switches between **immersive Midnight Forest** and **Quiet Editorial Calm**
-* Persists preference in `localStorage`
-* Reduces/eliminates motion in Calm mode
-* Simplifies gradients and lowers atmospheric density
-
-### 2. Scroll Spy + Section Reveal
-
-* Uses `IntersectionObserver` to:
-
-  * Highlight the active nav link
-  * Add `.section-visible` for soft fade-ins
-* Uses tuned thresholds for natural reading flow
-
-### 3. Role Chips
-
-* Four practice modes (Strategist, Scholar, Creator, Navigator)
-* Each click updates a compact narrative of that facet
-
-### 4. Atmospheric Layers
-
-* **Pollen + dust + fireflies** (canvas)
-* **Constellation / mycelium** network (canvas)
-* **Canopy parallax** layers
-
-All of these automatically quiet in **Calm Mode**.
-
-### 5. Accessible Audio Toggle
-
-* Ambient forest sound for atmospheric browsing
-* Fully keyboard-accessible
-* `aria-pressed` state + readable label updates (“Forest on/off”)
-
----
-
-## Performance & Accessibility Notes
-
-* Zero network dependencies → reliable on GitHub Pages
-* Dark-on-dark color testing for contrast
-* Reduced-motion support baked in
-* Semantic HTML with labeled navigation, landmarks, and ARIA states
-* All imagery/ornaments marked `aria-hidden="true"`
-
----
-
-## Running & Editing Locally
-
-Clone the repo:
-
-```bash
-git clone https://github.com/yeseniaperezfina/yeseniaperezfina.github.io.git
-cd yeseniaperezfina.github.io
-```
-
-You can open `index.html` directly in your browser, or run a local server:
-
-```bash
-python3 -m http.server
-```
-
-Then visit:
-
-```text
-http://localhost:8000
-```
-
----
-
-## Deployment
-
-GitHub Pages is enabled on the `main` branch.
-Any commit to `main` automatically updates the live site.
-
----
-
-## License
-
-All content © **Yesenia Perez**.
-Codebase is shared for transparency and review; please request permission for reuse.
