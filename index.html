@@ -9,14 +9,15 @@
       content="Yesenia Pérez — strategist in science, learning, and public imagination."
     />
 
-    <!-- Fonts go here -->
-    <!-- CSS goes here -->
+    <!-- Example font preload / imports -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" /> -->
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /> -->
+
+    <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body class="site-body">
-    <!-- =========================================================
-         SITE FRAME
-    ========================================================== -->
     <div class="site-shell">
       <div class="site-atmosphere" aria-hidden="true">
         <div class="atmosphere-layer atmosphere-layer--stars"></div>
@@ -27,9 +28,6 @@
         <div class="atmosphere-layer atmosphere-layer--depth"></div>
       </div>
 
-      <!-- =========================================================
-           HEADER
-      ========================================================== -->
       <header class="site-header" id="top">
         <div class="site-header__inner">
           <a class="site-header__brand" href="#signal" aria-label="Go to top">
@@ -81,16 +79,10 @@
         </div>
       </header>
 
-      <!-- =========================================================
-           MAIN
-      ========================================================== -->
       <main class="site-main">
-        <!-- =====================================================
-             SIGNAL / HERO
-        ====================================================== -->
         <section class="section section--signal hero" id="signal">
           <div class="section__inner hero__inner">
-            <div class="hero__content">
+            <div class="hero__content" data-reveal="left">
               <p class="section-label hero__eyebrow">Introductory transmission</p>
 
               <p class="hero__name">YESENIA PÉREZ</p>
@@ -130,7 +122,7 @@
               </p>
             </div>
 
-            <div class="hero__visual" aria-hidden="true">
+            <div class="hero__visual has-drift" aria-hidden="true" data-reveal="right">
               <div class="hero__sky"></div>
               <div class="hero__orbital-grid"></div>
               <div class="hero__signal-trace"></div>
@@ -139,19 +131,16 @@
           </div>
         </section>
 
-        <!-- =====================================================
-             AT THE HORIZON
-        ====================================================== -->
         <section class="section section--horizon editorial" id="horizon">
           <div class="section__inner editorial__inner">
-            <div class="section-heading">
+            <div class="section-heading" data-reveal>
               <p class="section-label">Editorial framing</p>
               <h2 class="section-title">At the Horizon</h2>
               <p class="section-deck">Where discovery meets public meaning</p>
             </div>
 
             <div class="editorial__grid">
-              <div class="editorial__body">
+              <div class="editorial__body" data-reveal="left">
                 <p class="editorial__paragraph">
                   The public often meets science at the end of the story: the
                   image, the breakthrough, the visible moment of awe. My work
@@ -168,7 +157,7 @@
                 </p>
               </div>
 
-              <aside class="editorial__aside">
+              <aside class="editorial__aside" data-reveal="right">
                 <blockquote class="editorial__quote">
                   <p>
                     Some knowledge informs. Some knowledge invites. I build for
@@ -184,19 +173,16 @@
           </div>
         </section>
 
-        <!-- =====================================================
-             ESTUARY
-        ====================================================== -->
         <section class="section section--estuary estuary" id="estuary">
           <div class="section__inner estuary__inner">
-            <div class="section-heading">
+            <div class="section-heading" data-reveal>
               <p class="section-label">Core beliefs and working philosophy</p>
               <h2 class="section-title">Estuary</h2>
               <p class="section-deck">Where my work gathers its currents</p>
             </div>
 
             <div class="estuary__layout">
-              <div class="estuary__intro-block">
+              <div class="estuary__intro-block" data-reveal="left">
                 <p class="estuary__intro">
                   I work where disciplines, institutions, and ways of knowing
                   meet. What holds my practice together is not a single field, but
@@ -208,7 +194,7 @@
                 <p class="estuary__group-label">Core currents</p>
               </div>
 
-              <div class="estuary__nodes" role="list">
+              <div class="estuary__nodes" role="list" data-stagger>
                 <article class="current-card current-card--science" role="listitem">
                   <h3 class="current-card__title">Science &amp; Society</h3>
                   <p class="current-card__body">
@@ -258,24 +244,21 @@
           </div>
         </section>
 
-        <!-- =====================================================
-             CONSTELLATIONS OF REACH
-        ====================================================== -->
         <section class="section section--reach metrics" id="reach">
           <div class="section__inner metrics__inner">
-            <div class="section-heading">
+            <div class="section-heading" data-reveal>
               <p class="section-label">Evidence of scale and durability</p>
               <h2 class="section-title">Constellations of Reach</h2>
               <p class="section-deck">What becomes visible when systems hold</p>
             </div>
 
-            <p class="metrics__intro">
+            <p class="metrics__intro" data-reveal>
               Much of my work is infrastructural by design. Its impact becomes
               visible in reach, durability, adoption, trust, and the conditions it
               creates for meaningful public engagement.
             </p>
 
-            <div class="metrics__grid">
+            <div class="metrics__grid" data-stagger>
               <article class="metric-card metric-card--partners">
                 <h3 class="metric-card__value">100</h3>
                 <p class="metric-card__label">Partner organizations</p>
@@ -323,7 +306,7 @@
               </article>
             </div>
 
-            <p class="metrics__closing">
+            <p class="metrics__closing" data-reveal>
               What looks, from a distance, like outreach is often deeper structural
               work: coherence, translation, stewardship, and the conditions that
               let knowledge travel well.
@@ -331,12 +314,9 @@
           </div>
         </section>
 
-        <!-- =====================================================
-             DEPTH STUDIES
-        ====================================================== -->
         <section class="section section--depth-studies studies" id="tidework-preview">
           <div class="section__inner studies__inner">
-            <div class="section-heading">
+            <div class="section-heading" data-reveal>
               <p class="section-label">Featured systems and case work</p>
               <h2 class="section-title">Depth Studies</h2>
               <p class="section-deck">
@@ -344,13 +324,13 @@
               </p>
             </div>
 
-            <p class="studies__intro">
+            <p class="studies__intro" data-reveal>
               The work itself lives below the surface. These studies show where
               strategy, story, learning design, and public engagement meet in
               practice.
             </p>
 
-            <div class="studies__list">
+            <div class="studies__list" data-stagger>
               <article class="study-card study-card--webb">
                 <div class="study-card__media" aria-hidden="true"></div>
                 <div class="study-card__content">
@@ -406,7 +386,7 @@
               </article>
             </div>
 
-            <div class="studies__footer">
+            <div class="studies__footer" data-reveal>
               <p class="studies__closing">
                 I am interested in work that does more than circulate information.
                 I am interested in work that changes the conditions under which
@@ -420,29 +400,26 @@
           </div>
         </section>
 
-        <!-- =====================================================
-             DRIFT NOTES
-        ====================================================== -->
         <section class="section section--drift-notes notes" id="drift-notes">
           <div class="section__inner notes__inner">
-            <div class="section-heading">
+            <div class="section-heading" data-reveal>
               <p class="section-label">Writing and reflections</p>
               <h2 class="section-title">Drift Notes</h2>
               <p class="section-deck">Fragments, reflections, and ways of seeing</p>
             </div>
 
-            <p class="notes__intro">
+            <p class="notes__intro" data-reveal>
               I write to notice what systems alone cannot hold: texture,
               contradiction, memory, wonder, and the quieter forms of meaning that
               shape how we learn and live.
             </p>
 
-            <p class="notes__preface">
+            <p class="notes__preface" data-reveal>
               Not everything important arrives in a report. Some things arrive as
               a sentence you cannot shake.
             </p>
 
-            <div class="notes__grid">
+            <div class="notes__grid" data-stagger>
               <article class="note-card note-card--public-meaning">
                 <h3 class="note-card__title">On Public Meaning</h3>
                 <p class="note-card__body">
@@ -479,22 +456,21 @@
               </article>
             </div>
 
-            <a class="button button--secondary" href="drift-notes.html">Read the notes</a>
+            <a class="button button--secondary" href="drift-notes.html" data-reveal>
+              Read the notes
+            </a>
           </div>
         </section>
 
-        <!-- =====================================================
-             FUTURE CURRENTS
-        ====================================================== -->
         <section class="section section--future future" id="future-currents">
           <div class="section__inner future__inner">
-            <div class="section-heading">
+            <div class="section-heading" data-reveal>
               <p class="section-label">Direction of travel</p>
               <h2 class="section-title">Future Currents</h2>
               <p class="section-deck">Where the tide is pulling next</p>
             </div>
 
-            <div class="future__copy">
+            <div class="future__copy" data-reveal>
               <p class="future__paragraph">
                 I’m drawn to work at the intersection of science, culture,
                 learning systems, and public meaning: work rigorous enough for
@@ -509,7 +485,7 @@
               </p>
             </div>
 
-            <div class="future__directions">
+            <div class="future__directions" data-stagger>
               <article class="direction-card direction-card--ecosystems">
                 <h3 class="direction-card__title">
                   Learning ecosystems with public depth
@@ -541,19 +517,16 @@
               </article>
             </div>
 
-            <p class="future__closing">
+            <p class="future__closing" data-reveal>
               I am less interested in occupying a lane than in building better
               crossings between them.
             </p>
           </div>
         </section>
 
-        <!-- =====================================================
-             SHORELINE
-        ====================================================== -->
         <section class="section section--shoreline contact" id="shoreline">
           <div class="section__inner contact__inner">
-            <div class="section-heading">
+            <div class="section-heading" data-reveal>
               <p class="section-label">Invitation and contact</p>
               <h2 class="section-title">Shoreline</h2>
               <p class="section-deck">
@@ -561,14 +534,14 @@
               </p>
             </div>
 
-            <p class="contact__body">
+            <p class="contact__body" data-reveal>
               I’m always interested in thoughtful collaborations across science,
               learning, writing, strategy, and public engagement — especially work
               that asks how knowledge can move more meaningfully through the
               world.
             </p>
 
-            <div class="contact__grid">
+            <div class="contact__grid" data-stagger>
               <div class="contact-item">
                 <p class="contact-item__label">Email</p>
                 <a class="contact-item__link" href="mailto:yperez@gse.harvard.edu">
@@ -598,28 +571,31 @@
               </div>
             </div>
 
-            <a class="button button--primary" href="mailto:yperez@gse.harvard.edu">
+            <a
+              class="button button--primary"
+              href="mailto:yperez@gse.harvard.edu"
+              data-reveal
+            >
               Send a signal
             </a>
 
-            <p class="contact__microline">Thank you for following the current.</p>
+            <p class="contact__microline" data-reveal>
+              Thank you for following the current.
+            </p>
           </div>
         </section>
       </main>
 
-      <!-- =========================================================
-           FOOTER
-      ========================================================== -->
       <footer class="site-footer">
         <div class="site-footer__inner">
-          <div class="site-footer__identity">
+          <div class="site-footer__identity" data-reveal>
             <p class="site-footer__name">YESENIA PÉREZ</p>
             <p class="site-footer__line">
               Strategist in science, learning, and public imagination
             </p>
           </div>
 
-          <nav class="site-footer__nav" aria-label="Footer">
+          <nav class="site-footer__nav" aria-label="Footer" data-reveal>
             <a class="site-footer__link" href="#signal">Signal</a>
             <a class="site-footer__link" href="#tidework-preview">Tidework</a>
             <a class="site-footer__link" href="#estuary">Observatory</a>
@@ -628,11 +604,11 @@
             <a class="site-footer__link" href="#shoreline">Reach</a>
           </nav>
 
-          <p class="site-footer__theme">Daytide / Midnight Current</p>
+          <p class="site-footer__theme" data-reveal>Daytide / Midnight Current</p>
         </div>
       </footer>
     </div>
 
-    <!-- JS goes here -->
+    <script src="main.js"></script>
   </body>
 </html>
