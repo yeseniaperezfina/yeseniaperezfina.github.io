@@ -50,7 +50,21 @@
     }, { passive: true });
   }
 
+  const enterButton = document.querySelector('[data-enter-archive]');
+  if (enterButton) {
+    enterButton.addEventListener('click', () => {
+      body.classList.add('archive-entered');
+      const target = document.querySelector('#about');
+      if (target) {
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      }
+    });
+  }
+
   const revealTargets = document.querySelectorAll([
+    '.threshold-section',
+    '.threshold-panel',
+    '.threshold-aperture',
     '.hero-thesis',
     '.systems-index',
     '.telemetry-band',
