@@ -4,255 +4,374 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Yesenia Pérez · The Study</title>
-  <meta name="description" content="A dark academia stained-glass entrance into Yesenia Pérez’s study of public learning systems, institutional strategy, science engagement, and research." />
+  <meta name="description" content="A quiet amber fogged-glass sliding door entrance into Yesenia Pérez’s study, library, and professional archive." />
   <style>
     :root{
-      --ink:#f6ead6;
-      --gold:#d7a85a;
-      --shadow:#050403;
+      --ink:#f4ead8;
+      --muted:#b9aa91;
+      --amber:#d9a761;
+      --warm:#f3c579;
+      --green:#87b86c;
+      --dark:#050403;
+      --wood:#5f351b;
       --light-x:50%;
-      --light-y:42%;
+      --light-y:45%;
       --serif: Georgia, 'Times New Roman', serif;
       --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:#050403}
+    html,body{margin:0;min-height:100%;background:var(--dark)}
     body{
       min-height:100svh;
       overflow:hidden;
       color:var(--ink);
       font-family:var(--serif);
       background:
-        radial-gradient(circle at 50% 34%, rgba(119,72,36,.32), transparent 34rem),
-        radial-gradient(circle at 76% 18%, rgba(57,43,74,.22), transparent 26rem),
-        linear-gradient(180deg,#050403 0%,#15100b 50%,#060403 100%);
+        radial-gradient(circle at 52% 42%, rgba(202,137,64,.16), transparent 34rem),
+        linear-gradient(180deg,#070504 0%,#140d08 52%,#050403 100%);
     }
-    .threshold{
+    .entry{
       position:relative;
       min-height:100svh;
       display:grid;
       place-items:center;
       overflow:hidden;
       isolation:isolate;
-      perspective:1800px;
+      perspective:1600px;
     }
-    .threshold::before{
+    .entry::before{
       content:"";
       position:absolute;
       inset:0;
-      z-index:3;
+      z-index:7;
       pointer-events:none;
       background:
-        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,242,215,.15), transparent 12rem),
-        radial-gradient(ellipse at 50% 56%, transparent 0 52%, rgba(0,0,0,.42) 73%, rgba(0,0,0,.86) 100%),
-        linear-gradient(90deg, rgba(0,0,0,.66), transparent 20%, transparent 80%, rgba(0,0,0,.66));
-      mix-blend-mode:normal;
+        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,236,196,.12), transparent 12rem),
+        radial-gradient(ellipse at 50% 54%, transparent 0 48%, rgba(0,0,0,.34) 72%, rgba(0,0,0,.82) 100%),
+        linear-gradient(90deg, rgba(0,0,0,.6), transparent 20%, transparent 80%, rgba(0,0,0,.6));
     }
-    .threshold::after{
+    .threshold{
+      position:relative;
+      width:min(92vw,1280px);
+      height:min(82svh,760px);
+      transform:translateZ(-40px);
+      border-radius:28px;
+      overflow:hidden;
+      background:#090604;
+      box-shadow:
+        0 48px 140px rgba(0,0,0,.78),
+        0 0 0 1px rgba(226,190,128,.12),
+        inset 0 0 120px rgba(0,0,0,.4);
+    }
+    .room{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 33% 58%, rgba(130,184,96,.13), transparent 12rem),
+        radial-gradient(circle at 58% 48%, rgba(243,183,92,.18), transparent 18rem),
+        linear-gradient(180deg,#101716 0%,#14150f 42%,#140b05 100%);
+      transform:scale(1.03);
+      filter:blur(1.4px) saturate(.88) sepia(.16);
+    }
+    .back-wall{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg,rgba(24,13,7,.98) 0 14%,transparent 22% 78%,rgba(24,13,7,.95) 86% 100%),
+        linear-gradient(180deg,rgba(20,29,28,.65),rgba(32,22,14,.45) 60%,rgba(0,0,0,.18));
+    }
+    .floor{
+      position:absolute;
+      left:-8%;right:-8%;bottom:-5%;height:28%;
+      background:linear-gradient(180deg,#5f351b,#1d0d05 74%,#090402);
+      clip-path:polygon(11% 0,89% 0,100% 100%,0 100%);
+      box-shadow:inset 0 1px 0 rgba(246,184,95,.22),0 -20px 60px rgba(0,0,0,.36);
+    }
+    .floor::after{
       content:"";
       position:absolute;
       inset:0;
-      z-index:4;
+      background:
+        linear-gradient(90deg,transparent 49.9%,rgba(255,210,140,.09) 50%,transparent 50.1%),
+        repeating-linear-gradient(90deg,transparent 0 120px,rgba(255,220,160,.045) 121px 122px),
+        linear-gradient(180deg,rgba(255,200,100,.08),transparent 58%);
+      opacity:.7;
+    }
+    .shelves{
+      position:absolute;
+      left:5%;top:8%;width:24%;height:60%;
+      border:10px solid rgba(78,44,22,.9);
+      background:linear-gradient(90deg,#1b0d07,#683819 20%,#2a1309 100%);
+      box-shadow:inset 0 0 40px rgba(0,0,0,.56),0 24px 48px rgba(0,0,0,.34);
+    }
+    .shelves::before{
+      content:"";
+      position:absolute;
+      inset:8% 8%;
+      background:
+        repeating-linear-gradient(90deg,#24333b 0 10px,#82502a 10px 20px,#1c2631 20px 30px,#a16531 30px 42px,#314238 42px 51px,#5b301b 51px 61px),
+        linear-gradient(180deg,transparent 0 24%,rgba(226,144,67,.24) 24.5% 26%,transparent 26.5% 50%,rgba(226,144,67,.2) 50.5% 52%,transparent 52.5% 76%,rgba(226,144,67,.16) 76.5% 78%,transparent 78.5%);
+      opacity:.92;
+    }
+    .shelves::after{
+      content:"";
+      position:absolute;
+      left:64%;top:24%;width:27%;height:11%;
+      border-radius:999px 999px 45% 45%;
+      background:#080705;
+      box-shadow:-14px -8px 0 -7px #080705, 12px -14px 0 -8px #080705;
+      opacity:.92;
+    }
+    .cat-tail{
+      position:absolute;
+      left:25.3%;top:22%;width:4rem;height:2.7rem;
+      border:8px solid #080705;
+      border-left:0;border-bottom:0;
+      border-radius:0 999px 0 0;
+      transform:rotate(12deg);
+      opacity:.88;
+    }
+    .depth-hall{
+      position:absolute;
+      right:7%;top:7%;width:34%;height:56%;
+      border-radius:8px;
+      background:
+        linear-gradient(90deg,rgba(0,0,0,.45),transparent 20%,transparent 80%,rgba(0,0,0,.44)),
+        radial-gradient(circle at 54% 44%,rgba(239,183,96,.22),transparent 10rem),
+        linear-gradient(180deg,#18201d,#100b07);
+      box-shadow:inset 0 0 70px rgba(0,0,0,.48),0 18px 54px rgba(0,0,0,.28);
+      overflow:hidden;
+    }
+    .depth-hall::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg,rgba(116,71,36,.45) 0 10%,transparent 18% 82%,rgba(116,71,36,.45) 90% 100%),
+        repeating-linear-gradient(90deg,transparent 0 84px,rgba(255,224,166,.055) 85px 86px),
+        linear-gradient(180deg,rgba(255,224,166,.06),transparent 28%);
+    }
+    .depth-hall::after{
+      content:"";
+      position:absolute;
+      right:18%;bottom:0;width:38%;height:42%;
+      background:rgba(7,5,3,.55);
+      border-radius:50% 50% 0 0;
+      filter:blur(2px);
+    }
+    .desk{
+      position:absolute;
+      left:32%;right:24%;bottom:15%;height:18%;
+      border-radius:10px 10px 26px 26px;
+      background:linear-gradient(180deg,#78451f,#351809 72%,#160905);
+      box-shadow:0 24px 46px rgba(0,0,0,.44),inset 0 2px 0 rgba(245,178,92,.24);
+      transform:perspective(900px) rotateX(3deg);
+    }
+    .lamp{
+      position:absolute;
+      left:35%;bottom:30%;width:16%;height:23%;
+    }
+    .lamp::before{
+      content:"";
+      position:absolute;
+      left:18%;top:0;width:64%;height:30%;
+      border-radius:999px 999px 16px 16px;
+      background:linear-gradient(180deg,#b8e987,#3e742e 58%,#173012);
+      box-shadow:0 0 44px rgba(145,255,105,.32),inset 0 5px 12px rgba(255,255,255,.24);
+    }
+    .lamp::after{
+      content:"";
+      position:absolute;
+      left:48%;top:28%;width:5%;height:58%;
+      background:linear-gradient(180deg,#dca85b,#63401e);
+      box-shadow:-1.35rem 5.2rem 0 .32rem #b77c35,1.35rem 5.2rem 0 .32rem #b77c35;
+    }
+    .lamp-glow{
+      position:absolute;
+      left:28%;bottom:22%;width:28%;height:36%;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(142,255,101,.20),rgba(142,255,101,.08) 30%,transparent 68%);
+      filter:blur(18px);
+    }
+    .screen{
+      position:absolute;
+      left:49%;bottom:21%;width:20%;height:16%;
+      border-radius:14px;
+      background:linear-gradient(135deg,#d4dbe0,#737f85);
+      box-shadow:0 16px 34px rgba(0,0,0,.44);
+      transform:rotate(-1.2deg);
+    }
+    .screen::before{
+      content:"";
+      position:absolute;
+      inset:8% 7% 18%;
+      border-radius:8px;
+      background:linear-gradient(160deg,#0b1c2b,#24475a 60%,#8ea48f);
+    }
+    .screen::after{
+      content:"";
+      position:absolute;
+      left:45%;bottom:-17%;width:10%;height:18%;
+      background:#8f989d;
+      box-shadow:-1.15rem 1rem 0 .08rem #a8afb2,1.15rem 1rem 0 .08rem #a8afb2;
+    }
+    .journal{
+      position:absolute;
+      left:64%;bottom:18%;width:11%;height:7%;
+      border-radius:3px;
+      background:linear-gradient(100deg,#ead9b6,#c8ad7a);
+      transform:rotate(3deg);
+      box-shadow:0 10px 22px rgba(0,0,0,.34);
+    }
+    .journal::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(80,55,36,.36)}
+    .journal::after{content:"";position:absolute;left:9%;right:9%;top:32%;height:1px;background:rgba(80,55,36,.18);box-shadow:0 .48rem 0 rgba(80,55,36,.12),0 .96rem 0 rgba(80,55,36,.10)}
+    .coffee{
+      position:absolute;
+      left:76%;bottom:18.5%;width:3.3%;aspect-ratio:1;
+      border-radius:0 0 45% 45%;
+      background:linear-gradient(180deg,#f2e4cb,#a77645);
+      box-shadow:0 8px 18px rgba(0,0,0,.34);
+    }
+    .coffee::before{content:"";position:absolute;left:8%;right:8%;top:-12%;height:22%;border-radius:50%;background:#2a1409}
+    .coffee::after{content:"";position:absolute;right:-30%;top:22%;width:36%;height:38%;border:3px solid #cda06a;border-left:0;border-radius:0 999px 999px 0}
+    .fossil{
+      position:absolute;
+      left:25%;bottom:17.5%;width:5%;aspect-ratio:1;
+      border-radius:50%;
+      background:radial-gradient(circle at 52% 50%,#e4cd91 0 4%,transparent 5%),repeating-radial-gradient(circle,#caab70 0 3px,#7e603b 3px 6px);
+      box-shadow:0 8px 18px rgba(0,0,0,.34);
+      opacity:.84;
+    }
+    .pencils{
+      position:absolute;left:71%;bottom:17%;width:10%;height:1.3%;
+      border-radius:999px;background:linear-gradient(90deg,#d8aa4c 0 28%,#284c64 28% 62%,#ad4234 62%);
+      box-shadow:.5rem .72rem 0 rgba(48,88,110,.9);
+      transform:rotate(-7deg);
+    }
+    .door-system{
+      position:absolute;
+      inset:0;
+      z-index:5;
       pointer-events:none;
-      background:linear-gradient(115deg, transparent 0 22%, rgba(255,255,255,.08) 24%, transparent 30% 61%, rgba(255,255,255,.045) 64%, transparent 72%);
-      opacity:.55;
     }
-    .scene{
-      position:relative;
-      width:min(96vw,1440px);
-      height:min(94svh,920px);
-      filter:drop-shadow(0 48px 120px rgba(0,0,0,.78));
-      transform:translateZ(-55px);
+    .door-track{
+      position:absolute;
+      left:6%;right:6%;top:7%;height:5px;
+      border-radius:999px;
+      background:linear-gradient(90deg,transparent,rgba(222,184,118,.24),transparent);
+      box-shadow:0 1px 0 rgba(255,255,255,.06);
     }
-    svg{display:block;width:100%;height:100%}
+    .door-panel{
+      position:absolute;
+      top:8%;bottom:8%;
+      width:47%;
+      border:1px solid rgba(235,202,145,.28);
+      background:
+        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,239,200,.16), transparent 12rem),
+        linear-gradient(112deg,transparent 0 18%,rgba(255,255,255,.12) 20%,transparent 26% 62%,rgba(255,255,255,.06) 65%,transparent 72%),
+        repeating-linear-gradient(45deg,rgba(255,255,255,.025) 0 1px,transparent 1px 9px),
+        rgba(214,183,132,.13);
+      backdrop-filter:blur(8px) saturate(.72);
+      box-shadow:inset 0 0 70px rgba(255,255,255,.04),0 22px 70px rgba(0,0,0,.28);
+    }
+    .door-left{
+      left:4%;
+      border-radius:20px 7px 7px 20px;
+      transform:translateX(-4.8%) perspective(900px) rotateY(-2.5deg);
+    }
+    .door-right{
+      right:4%;
+      border-radius:7px 20px 20px 7px;
+      transform:translateX(8.5%) perspective(900px) rotateY(4deg);
+      opacity:.88;
+    }
+    .door-panel::before{
+      content:"";
+      position:absolute;inset:1.2rem;
+      border:1px solid rgba(255,235,196,.12);
+      border-radius:inherit;
+    }
+    .door-left::after,.door-right::after{
+      content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,232,188,.26);
+    }
+    .door-left::after{right:1.8rem}.door-right::after{left:1.8rem}
+    .door-gap{
+      position:absolute;
+      top:8%;bottom:8%;left:50%;width:8.5%;
+      transform:translateX(-50%);
+      background:linear-gradient(90deg,rgba(0,0,0,.15),rgba(255,197,98,.12),rgba(0,0,0,.20));
+      filter:blur(.2px);
+      opacity:.85;
+    }
+    .handle{
+      position:absolute;left:52.5%;top:50%;width:.55rem;height:4.8rem;
+      transform:translate(-50%,-50%);
+      border-radius:999px;
+      background:linear-gradient(180deg,rgba(245,224,185,.72),rgba(117,82,44,.46));
+      box-shadow:0 0 22px rgba(236,190,110,.12);
+    }
     .enter{
       position:absolute;
-      left:50%;
-      bottom:7.5%;
+      left:50%;top:52%;
       z-index:8;
-      transform:translateX(-50%);
+      transform:translate(-50%,-50%);
       text-decoration:none;
-      color:rgba(255,244,223,.82);
+      color:rgba(255,244,224,.84);
       font-family:var(--serif);
       font-size:.92rem;
-      letter-spacing:.22em;
+      letter-spacing:.2em;
       text-transform:lowercase;
-      padding:.76rem 1.24rem;
-      border:1px solid rgba(221,176,95,.42);
+      padding:.8rem 1.28rem;
+      border:1px solid rgba(219,174,94,.42);
       border-radius:999px;
-      background:rgba(13,8,5,.48);
-      box-shadow:0 18px 50px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.10);
-      backdrop-filter:blur(9px) saturate(.9);
+      background:rgba(11,7,4,.34);
+      box-shadow:0 16px 52px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.1);
+      backdrop-filter:blur(10px) saturate(.85);
       transition:transform .32s ease,border-color .32s ease,background .32s ease,color .32s ease;
     }
-    .enter:hover,.enter:focus-visible{
-      transform:translateX(-50%) scale(1.045);
-      color:#fff8eb;
-      border-color:rgba(221,176,95,.78);
-      background:rgba(72,43,21,.58);
-      outline:none;
+    .enter::before{
+      content:"";position:absolute;left:50%;top:-24vh;width:1px;height:22vh;background:linear-gradient(transparent,rgba(219,174,94,.45));
     }
-    .caption{
-      position:absolute;
-      right:clamp(1rem,3vw,2.5rem);
-      bottom:clamp(.9rem,2vw,1.8rem);
-      z-index:6;
-      font-family:var(--sans);
-      font-size:.58rem;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(246,234,214,.35);
-      pointer-events:none;
+    .enter::after{
+      content:"";position:absolute;left:50%;top:-25vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(219,174,94,.42);transform:translateX(-50%);box-shadow:0 0 22px rgba(219,174,94,.24);
     }
-    @media(max-width:860px){
-      .scene{width:100vw;height:86svh}
-      .enter{bottom:5%;font-size:.84rem}
-      .caption{display:none}
+    .enter:hover,.enter:focus-visible{transform:translate(-50%,-50%) scale(1.045);border-color:rgba(219,174,94,.76);background:rgba(75,45,22,.48);color:#fff8ec;outline:none}
+    .caption{position:absolute;right:clamp(1rem,3vw,2.3rem);bottom:clamp(.8rem,2vw,1.6rem);z-index:8;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.32);pointer-events:none}
+    @media(max-width:880px){
+      .threshold{width:96vw;height:78svh}.shelves{width:30%;left:3%}.depth-hall{right:4%;width:38%}.desk{left:28%;right:20%;height:17%}.lamp{left:31%;width:20%}.screen{left:48%;width:24%}.journal,.coffee,.pencils{display:none}.door-panel{top:6%;bottom:6%;width:49%}.door-left{left:1%}.door-right{right:1%;transform:translateX(10%) perspective(900px) rotateY(5deg)}.enter{font-size:.84rem}.enter::before,.enter::after,.caption{display:none}
     }
+    @media(max-width:620px){.threshold{height:72svh}.shelves{width:36%;opacity:.9}.depth-hall{opacity:.55}.lamp{left:22%;bottom:29%;width:28%}.screen{left:42%;bottom:21%;width:32%}.fossil{display:none}.door-gap{width:12%}.floor{height:30%}}
     @media(prefers-reduced-motion:reduce){.enter{transition:none}}
   </style>
 </head>
 <body>
-  <main class="threshold" aria-label="Entrance to Yesenia Pérez’s study">
-    <section class="scene" aria-hidden="true">
-      <svg viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A realistic dark academia gothic stained-glass study entrance with colored light on the floor.">
-        <defs>
-          <linearGradient id="wall" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stop-color="#160e09"/>
-            <stop offset=".42" stop-color="#24140a"/>
-            <stop offset="1" stop-color="#090604"/>
-          </linearGradient>
-          <linearGradient id="wood" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#8a4f27"/>
-            <stop offset=".34" stop-color="#4a2412"/>
-            <stop offset=".68" stop-color="#7a4320"/>
-            <stop offset="1" stop-color="#1d0e06"/>
-          </linearGradient>
-          <linearGradient id="stone" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#3a2b20"/>
-            <stop offset=".44" stop-color="#140f0c"/>
-            <stop offset="1" stop-color="#4a3020"/>
-          </linearGradient>
-          <linearGradient id="lead" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#0a0b0d"/>
-            <stop offset=".42" stop-color="#56595e"/>
-            <stop offset=".55" stop-color="#14161a"/>
-            <stop offset="1" stop-color="#030405"/>
-          </linearGradient>
-          <radialGradient id="blueGlass" cx="40%" cy="26%" r="88%"><stop offset="0" stop-color="#bfeaff"/><stop offset=".32" stop-color="#2f9ad6"/><stop offset=".72" stop-color="#12457a"/><stop offset="1" stop-color="#071331"/></radialGradient>
-          <radialGradient id="goldGlass" cx="38%" cy="25%" r="88%"><stop offset="0" stop-color="#fff0a3"/><stop offset=".36" stop-color="#ffc13f"/><stop offset=".74" stop-color="#c35d1c"/><stop offset="1" stop-color="#47160c"/></radialGradient>
-          <radialGradient id="redGlass" cx="40%" cy="25%" r="86%"><stop offset="0" stop-color="#ff9d72"/><stop offset=".36" stop-color="#e84b3f"/><stop offset=".72" stop-color="#8c1d2a"/><stop offset="1" stop-color="#2d0814"/></radialGradient>
-          <radialGradient id="greenGlass" cx="40%" cy="26%" r="86%"><stop offset="0" stop-color="#d3f4aa"/><stop offset=".32" stop-color="#7bc55f"/><stop offset=".72" stop-color="#2c6d44"/><stop offset="1" stop-color="#0b211c"/></radialGradient>
-          <radialGradient id="violetGlass" cx="43%" cy="28%" r="86%"><stop offset="0" stop-color="#ecc8ff"/><stop offset=".34" stop-color="#a45bd4"/><stop offset=".74" stop-color="#4c2b79"/><stop offset="1" stop-color="#180d28"/></radialGradient>
-          <filter id="glassTexture">
-            <feTurbulence type="fractalNoise" baseFrequency="0.021 0.075" numOctaves="4" seed="19" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-          <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="12"/></filter>
-          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="16" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
-          <filter id="leadShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="4" flood-color="#000" flood-opacity=".55"/></filter>
-          <pattern id="woodPanels" width="120" height="180" patternUnits="userSpaceOnUse">
-            <rect width="120" height="180" fill="#4a2412"/>
-            <rect x="12" y="12" width="96" height="156" rx="4" fill="none" stroke="#8c5429" stroke-width="4" opacity=".55"/>
-            <path d="M24 24 C50 40 68 8 104 28 M20 100 C48 80 76 122 108 92" stroke="#b06a33" opacity=".18" fill="none" stroke-width="3"/>
-          </pattern>
-          <clipPath id="recessClip"><path d="M245 910 L245 330 C245 184 364 78 518 72 L1082 72 C1236 78 1355 184 1355 330 L1355 910 Z"/></clipPath>
-          <clipPath id="windowClip"><path d="M420 760 L420 355 C420 210 536 126 800 116 C1064 126 1180 210 1180 355 L1180 760 Z"/></clipPath>
-          <path id="lancet" d="M0 610 L0 210 C0 106 54 28 138 0 C222 28 276 106 276 210 L276 610 Z"/>
-        </defs>
-
-        <rect width="1600" height="1000" fill="#050403"/>
-        <rect x="90" y="40" width="1420" height="920" rx="4" fill="url(#wall)"/>
-        <path d="M245 910 L245 330 C245 184 364 78 518 72 L1082 72 C1236 78 1355 184 1355 330 L1355 910 Z" fill="url(#stone)" filter="url(#shadow)"/>
-        <path d="M300 890 L300 348 C300 230 396 142 530 132 L1070 132 C1204 142 1300 230 1300 348 L1300 890 Z" fill="#080604"/>
-        <g clip-path="url(#recessClip)">
-          <rect x="300" y="132" width="1000" height="758" fill="#0d0906"/>
-          <rect x="300" y="132" width="185" height="758" fill="url(#woodPanels)" opacity=".92"/>
-          <rect x="1115" y="132" width="185" height="758" fill="url(#woodPanels)" opacity=".92"/>
-          <rect x="300" y="760" width="1000" height="130" fill="url(#wood)"/>
-          <path d="M300 760 L1300 760" stroke="#bd7434" stroke-width="8" opacity=".75"/>
-          <g opacity=".52">
-            <rect x="334" y="186" width="115" height="190" fill="#0c0806" stroke="#8d5329" stroke-width="3"/>
-            <path d="M352 206 L352 352 M374 206 L374 352 M398 206 L398 352 M423 206 L423 352" stroke="#2a3440" stroke-width="10" opacity=".85"/>
-            <rect x="1150" y="186" width="115" height="190" fill="#0c0806" stroke="#8d5329" stroke-width="3"/>
-            <path d="M1168 206 L1168 352 M1190 206 L1190 352 M1214 206 L1214 352 M1239 206 L1239 352" stroke="#2a3440" stroke-width="10" opacity=".85"/>
-          </g>
-        </g>
-
-        <g clip-path="url(#windowClip)">
-          <rect x="420" y="116" width="760" height="644" fill="#071022"/>
-          <rect x="420" y="116" width="760" height="644" fill="url(#blueGlass)" opacity=".30"/>
-          <g filter="url(#glassTexture)">
-            <use href="#lancet" x="430" y="138" width="170" height="600" fill="url(#goldGlass)" opacity=".92"/>
-            <use href="#lancet" x="604" y="138" width="170" height="600" fill="url(#blueGlass)" opacity=".94"/>
-            <use href="#lancet" x="778" y="138" width="170" height="600" fill="url(#greenGlass)" opacity=".90"/>
-            <use href="#lancet" x="952" y="138" width="170" height="600" fill="url(#redGlass)" opacity=".88"/>
-          </g>
-          <g opacity=".88" filter="url(#glassTexture)">
-            <path d="M430 640 C520 540 592 562 604 640 Z" fill="url(#violetGlass)" opacity=".78"/>
-            <path d="M604 470 C720 390 760 455 778 545 L778 760 L604 760 Z" fill="url(#goldGlass)" opacity=".48"/>
-            <path d="M778 430 C888 340 920 438 952 535 L952 760 L778 760 Z" fill="url(#blueGlass)" opacity=".48"/>
-            <path d="M952 608 C1022 518 1105 550 1122 640 L1122 760 L952 760 Z" fill="url(#violetGlass)" opacity=".48"/>
-          </g>
-          <g opacity=".9">
-            <circle cx="548" cy="255" r="4" fill="#fff5c9"/>
-            <circle cx="688" cy="210" r="3" fill="#fff"/>
-            <circle cx="902" cy="246" r="3.5" fill="#fff3bf"/>
-            <circle cx="1050" cy="306" r="3" fill="#fff"/>
-            <path d="M547 330 L568 370 L612 378 L580 408 L588 452 L547 431 L508 452 L516 408 L484 378 L528 370 Z" fill="#ffe27a" opacity=".85"/>
-          </g>
-          <g opacity=".7">
-            <path d="M532 692 L606 692 L596 605 Q567 585 544 605 Z" fill="#89d06b"/>
-            <path d="M520 600 Q570 568 620 600 Q600 630 540 630 Z" fill="#a0ec7d" opacity=".78"/>
-            <rect x="685" y="676" width="220" height="72" rx="10" fill="#d6dde1" opacity=".62"/>
-            <rect x="707" y="690" width="176" height="42" rx="6" fill="#0b1f32"/>
-            <path d="M944 706 Q992 686 1040 706 L1034 754 Q992 736 950 754 Z" fill="#fff0cc" opacity=".72"/>
-            <circle cx="1112" cy="672" r="70" fill="#2d6874" opacity=".62"/>
-          </g>
-        </g>
-
-        <g fill="none" stroke="url(#lead)" stroke-linejoin="round" stroke-linecap="round" filter="url(#leadShadow)">
-          <path d="M420 760 L420 355 C420 210 536 126 800 116 C1064 126 1180 210 1180 355 L1180 760 Z" stroke-width="18"/>
-          <path d="M600 760 L600 300 C600 212 650 146 800 116 M800 760 L800 116 M1000 760 L1000 300 C1000 212 950 146 800 116" stroke-width="14"/>
-          <path d="M420 430 L1180 430 M420 610 L1180 610" stroke-width="12"/>
-          <path d="M420 355 Q520 396 600 300 M1180 355 Q1080 396 1000 300" stroke-width="9" opacity=".9"/>
-          <path d="M600 300 Q690 348 800 300 Q910 348 1000 300" stroke-width="9" opacity=".85"/>
-        </g>
-
-        <g filter="url(#leadShadow)">
-          <circle cx="800" cy="238" r="86" fill="#050403" opacity=".82"/>
-          <circle cx="800" cy="238" r="32" fill="url(#violetGlass)" stroke="url(#lead)" stroke-width="9"/>
-          <g stroke="url(#lead)" stroke-width="8" fill="url(#blueGlass)">
-            <circle cx="800" cy="164" r="34"/>
-            <circle cx="864" cy="202" r="34" fill="url(#goldGlass)"/>
-            <circle cx="864" cy="274" r="34" fill="url(#greenGlass)"/>
-            <circle cx="800" cy="312" r="34" fill="url(#redGlass)"/>
-            <circle cx="736" cy="274" r="34" fill="url(#violetGlass)"/>
-            <circle cx="736" cy="202" r="34" fill="url(#blueGlass)"/>
-          </g>
-          <path d="M800 206 L800 270 M768 238 L832 238 M777 215 L823 261 M823 215 L777 261" stroke="#1c1e22" stroke-width="5" opacity=".9"/>
-        </g>
-
-        <g opacity=".66" filter="url(#softBlur)">
-          <path d="M500 760 L360 970 L745 970 L612 760 Z" fill="#ffbf34"/>
-          <path d="M650 760 L515 970 L910 970 L800 760 Z" fill="#1fa7e0"/>
-          <path d="M800 760 L700 970 L1100 970 L948 760 Z" fill="#f7473f"/>
-          <path d="M950 760 L840 970 L1245 970 L1100 760 Z" fill="#42c45f"/>
-          <path d="M430 760 L250 970 L560 970 L515 760 Z" fill="#a85bd7" opacity=".75"/>
-        </g>
-        <g opacity=".42">
-          <path d="M500 760 L360 970 L745 970 L612 760 Z" fill="#ffb21d"/>
-          <path d="M650 760 L515 970 L910 970 L800 760 Z" fill="#1499d9"/>
-          <path d="M800 760 L700 970 L1100 970 L948 760 Z" fill="#ee342f"/>
-          <path d="M950 760 L840 970 L1245 970 L1100 760 Z" fill="#37bd54"/>
-        </g>
-
-        <path d="M246 910 L1354 910" stroke="#d8a65a" stroke-width="2" opacity=".28"/>
-        <rect x="90" y="40" width="1420" height="920" fill="none" stroke="rgba(246,234,214,.08)" stroke-width="1"/>
-      </svg>
+  <main class="entry" aria-label="Amber fogged-glass entrance to Yesenia Pérez’s study">
+    <section class="threshold" aria-hidden="true">
+      <div class="room">
+        <div class="back-wall"></div>
+        <div class="floor"></div>
+        <div class="shelves"></div>
+        <div class="cat-tail"></div>
+        <div class="depth-hall"></div>
+        <div class="lamp-glow"></div>
+        <div class="desk"></div>
+        <div class="lamp"></div>
+        <div class="screen"></div>
+        <div class="journal"></div>
+        <div class="coffee"></div>
+        <div class="fossil"></div>
+        <div class="pencils"></div>
+      </div>
+      <div class="door-system">
+        <div class="door-track"></div>
+        <div class="door-gap"></div>
+        <div class="door-panel door-left"></div>
+        <div class="door-panel door-right"></div>
+        <div class="handle"></div>
+      </div>
     </section>
-    <a class="enter" href="library.html" aria-label="Enter the library">enter</a>
-    <div class="caption" aria-hidden="true">stained glass / study threshold</div>
+    <a class="enter" href="library.html" aria-label="Enter the study library">enter</a>
+    <div class="caption" aria-hidden="true">amber glass / study threshold</div>
   </main>
   <script src="assets/js/library.js" defer></script>
 </body>
