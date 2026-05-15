@@ -3,38 +3,315 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yesenia Pérez · The Glass Library</title>
-  <meta name="description" content="A quiet academic library entrance into Yesenia Pérez’s work on public learning systems, institutional strategy, science engagement, and research." />
-  <link rel="stylesheet" href="assets/css/library.css" />
-  <link rel="stylesheet" href="assets/css/library-depth.css" />
-  <link rel="stylesheet" href="assets/css/oxford-entry.css" />
-  <link rel="stylesheet" href="assets/css/study-entry.css?v=20260515-study-world" />
+  <title>Yesenia Pérez · The Study</title>
+  <meta name="description" content="A quiet academic study entrance into Yesenia Pérez’s work on public learning systems, institutional strategy, science engagement, and research." />
+  <style>
+    :root{
+      --ink:#f5ead7;
+      --muted:#c8b89f;
+      --gold:#d2a65c;
+      --dark:#070604;
+      --oak:#5c351c;
+      --light-x:50%;
+      --light-y:42%;
+      --serif: Georgia, 'Times New Roman', serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--dark);}
+    body{
+      min-height:100svh;
+      overflow:hidden;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 50% 42%, rgba(174,116,58,.22), transparent 36rem),
+        radial-gradient(circle at 18% 18%, rgba(76,45,24,.38), transparent 24rem),
+        linear-gradient(180deg,#090705 0%,#17100a 54%,#050403 100%);
+      font-family:var(--serif);
+    }
+    .entry-shell{
+      position:relative;
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      isolation:isolate;
+      perspective:1400px;
+    }
+    .entry-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:5;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,246,222,.11), transparent 13rem),
+        radial-gradient(ellipse at 50% 50%, transparent 0 54%, rgba(0,0,0,.36) 76%, rgba(0,0,0,.74) 100%),
+        linear-gradient(90deg, rgba(0,0,0,.56), transparent 18%, transparent 82%, rgba(0,0,0,.56));
+    }
+    .study-frame{
+      position:relative;
+      width:min(94vw,1500px);
+      height:min(86svh,840px);
+      border-radius:22px;
+      overflow:hidden;
+      background:#0d0a07;
+      box-shadow:
+        0 48px 150px rgba(0,0,0,.78),
+        0 0 0 1px rgba(233,207,161,.16),
+        inset 0 0 120px rgba(0,0,0,.2);
+      transform:translateZ(-50px);
+    }
+    .study-svg{
+      display:block;
+      width:100%;
+      height:100%;
+      filter:saturate(.94) sepia(.05);
+    }
+    .glass{
+      position:absolute;
+      inset:clamp(.8rem,1.8vw,1.6rem);
+      z-index:4;
+      border-radius:18px;
+      border:1px solid rgba(244,226,187,.35);
+      background:
+        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,247,226,.15), transparent 12rem),
+        linear-gradient(112deg, transparent 0 17%, rgba(255,255,255,.12) 20%, transparent 25% 58%, rgba(255,255,255,.07) 62%, transparent 70%),
+        rgba(226,241,245,.045);
+      backdrop-filter:blur(2.2px) saturate(.86);
+      box-shadow:
+        inset 0 0 78px rgba(255,255,255,.04),
+        0 0 0 14px rgba(52,35,22,.28),
+        0 0 0 30px rgba(90,61,38,.10),
+        0 34px 120px rgba(0,0,0,.62);
+      pointer-events:none;
+    }
+    .glass::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      background:
+        linear-gradient(90deg, transparent 24.9%, rgba(244,226,187,.16) 25%, transparent 25.15%, transparent 49.9%, rgba(244,226,187,.30) 50%, transparent 50.15%, transparent 74.9%, rgba(244,226,187,.16) 75%, transparent 75.15%),
+        linear-gradient(0deg, transparent 24.9%, rgba(244,226,187,.12) 25%, transparent 25.15%, transparent 49.9%, rgba(244,226,187,.17) 50%, transparent 50.15%, transparent 74.9%, rgba(244,226,187,.11) 75%, transparent 75.15%);
+    }
+    .glass::after{
+      content:"";
+      position:absolute;
+      inset:2.2rem;
+      border:1px solid rgba(244,226,187,.12);
+      border-radius:12px;
+    }
+    .enter-link{
+      position:absolute;
+      left:50%;top:51.5%;
+      z-index:7;
+      transform:translate(-50%,-50%);
+      text-decoration:none;
+      color:rgba(249,239,219,.82);
+      font-family:var(--serif);
+      font-size:.92rem;
+      letter-spacing:.18em;
+      text-transform:lowercase;
+      padding:.78rem 1.26rem;
+      border:1px solid rgba(210,166,92,.36);
+      border-radius:999px;
+      background:rgba(14,10,7,.34);
+      box-shadow:0 12px 44px rgba(0,0,0,.54), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter:blur(8px);
+      transition:transform .35s ease, border-color .35s ease, background .35s ease;
+    }
+    .enter-link::before{
+      content:"";
+      position:absolute;
+      left:50%;top:-25vh;
+      width:1px;height:23vh;
+      background:linear-gradient(transparent,rgba(210,166,92,.42));
+    }
+    .enter-link::after{
+      content:"";
+      position:absolute;
+      left:50%;top:-26vh;
+      width:.42rem;height:.42rem;
+      border-radius:50%;
+      border:1px solid rgba(210,166,92,.44);
+      transform:translateX(-50%);
+      box-shadow:0 0 20px rgba(210,166,92,.22);
+    }
+    .enter-link:hover,.enter-link:focus-visible{
+      transform:translate(-50%,-50%) scale(1.045);
+      border-color:rgba(210,166,92,.68);
+      background:rgba(82,51,27,.48);
+      outline:none;
+    }
+    .quiet-label{
+      position:absolute;
+      right:clamp(1.2rem,3vw,3rem);
+      bottom:clamp(1rem,2vw,2rem);
+      z-index:6;
+      font-family:var(--sans);
+      font-size:.62rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(245,234,215,.36);
+      pointer-events:none;
+    }
+    @media(max-width:860px){
+      .study-frame{width:96vw;height:76svh;}
+      .glass{inset:.7rem;}
+      .enter-link{font-size:.84rem;}
+      .enter-link::before,.enter-link::after{display:none;}
+      .quiet-label{display:none;}
+    }
+    @media(prefers-reduced-motion:reduce){.enter-link{transition:none}}
+  </style>
 </head>
-<body class="study-entry-page">
-  <main class="study-entry" aria-label="Entrance to Yesenia Pérez’s study">
-    <div class="study-vignette" aria-hidden="true"></div>
-    <section class="study-room" aria-hidden="true">
-      <div class="back-wall"></div>
-      <div class="bookcase bookcase-left"><span></span><span></span><span></span></div>
-      <div class="bookcase bookcase-right"><span></span><span></span><span></span></div>
-      <div class="arched-window"><span class="starfield"></span><span class="window-mountain"></span></div>
-      <div class="picture-wall"><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="pin-note"></div>
-      <div class="specimen-cabinet"><span></span><span></span><span></span></div>
-      <div class="study-desk-surface"></div>
-      <div class="bankers-lamp"><span></span></div>
-      <div class="silver-imac"><span></span></div>
-      <div class="open-journal"><span></span></div>
-      <div class="coffee-cup"><span></span></div>
-      <div class="pencil-cluster"><span></span><span></span><span></span></div>
-      <div class="fossil-shell"></div>
-      <div class="paper-stack"><span></span></div>
-      <div class="globe-object"><span></span></div>
-      <div class="just-left-chair"></div>
-      <div class="half-cat"><span></span></div>
+<body>
+  <main class="entry-shell" aria-label="Entrance to Yesenia Pérez’s study">
+    <section class="study-frame" aria-hidden="true">
+      <svg class="study-svg" viewBox="0 0 1600 900" role="img" aria-label="A warm academic study seen through glass: shelves, desk, green lamp, arched window, globe, journal, coffee, fossils, and a cat. xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="wall" x1="0" x2="0" y1="0" y2="1">
+            <stop stop-color="#11232d" offset="0"/>
+            <stop stop-color="#14231e" offset=".58"/>
+            <stop stop-color="#180d08" offset="1"/>
+          </linearGradient>
+          <linearGradient id="wood" x1="0" x2="0" y1="0" y2="1">
+            <stop stop-color="#85502a" offset="0"/>
+            <stop stop-color="#4a2512" offset=".62"/>
+            <stop stop-color="#1a0c05" offset="1"/>
+          </linearGradient>
+          <linearGradient id="shelfWood" x1="0" x2="1" y1="0" y2="0">
+            <stop stop-color="#2b160b" offset="0"/>
+            <stop stop-color="#79471f" offset=".38"/>
+            <stop stop-color="#2b160b" offset="1"/>
+          </linearGradient>
+          <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+            <stop stop-color="#071135" offset="0"/>
+            <stop stop-color="#14134a" offset=".55"/>
+            <stop stop-color="#4b2637" offset="1"/>
+          </linearGradient>
+          <radialGradient id="lampGlow" cx="34%" cy="62%" r="31%">
+            <stop stop-color="rgba(147,255,91,.42)" offset="0"/>
+            <stop stop-color="rgba(147,255,91,.14)" offset=".32"/>
+            <stop stop-color="rgba(147,255,91,0)" offset="1"/>
+          </radialGradient>
+          <radialGradient id="warmGlow" cx="58%" cy="51%" r="38%">
+            <stop stop-color="rgba(233,166,80,.22)" offset="0"/>
+            <stop stop-color="rgba(233,166,80,.08)" offset=".45"/>
+            <stop stop-color="rgba(233,166,80,0)" offset="1"/>
+          </radialGradient>
+          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".42"/>
+          </filter>
+          <filter id="paperShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity=".34"/>
+          </filter>
+        </defs>
+        <rect width="1600" height="900" fill="url(#wall)"/>
+        <rect width="1600" height="900" fill="url(#warmGlow)"/>
+        <rect width="1600" height="900" fill="url(#lampGlow)"/>
+        <rect x="0" y="0" width="230" height="790" fill="url(#shelfWood)"/>
+        <rect x="1370" y="0" width="230" height="790" fill="url(#shelfWood)"/>
+        <g opacity=".95">
+          <rect x="24" y="38" width="180" height="210" fill="#160b06" opacity=".56"/>
+          <rect x="24" y="294" width="180" height="220" fill="#160b06" opacity=".50"/>
+          <rect x="24" y="560" width="180" height="180" fill="#160b06" opacity=".48"/>
+          <rect x="1396" y="38" width="180" height="210" fill="#160b06" opacity=".56"/>
+          <rect x="1396" y="294" width="180" height="220" fill="#160b06" opacity=".50"/>
+          <rect x="1396" y="560" width="180" height="180" fill="#160b06" opacity=".48"/>
+        </g>
+        <g opacity=".96">
+          <g transform="translate(42 58)">
+            <rect width="12" height="160" fill="#31424a"/><rect x="16" width="18" height="160" fill="#8a5529"/><rect x="39" width="14" height="160" fill="#233145"/><rect x="58" width="22" height="160" fill="#6f3c1f"/><rect x="86" width="16" height="160" fill="#3c5245"/><rect x="108" width="20" height="160" fill="#9a632f"/><rect x="133" width="14" height="160" fill="#252b34"/>
+          </g>
+          <g transform="translate(42 320)">
+            <rect width="18" height="170" fill="#233145"/><rect x="24" width="16" height="170" fill="#82552b"/><rect x="46" width="24" height="170" fill="#31424a"/><rect x="76" width="14" height="170" fill="#a16935"/><rect x="96" width="20" height="170" fill="#22362e"/><rect x="122" width="18" height="170" fill="#704225"/>
+          </g>
+          <g transform="translate(1418 60)">
+            <rect width="18" height="162" fill="#744423"/><rect x="24" width="13" height="162" fill="#2f454b"/><rect x="43" width="20" height="162" fill="#94602f"/><rect x="69" width="16" height="162" fill="#263247"/><rect x="91" width="23" height="162" fill="#5d321d"/><rect x="120" width="15" height="162" fill="#3d5445"/>
+          </g>
+          <g transform="translate(1418 322)">
+            <rect width="16" height="168" fill="#2c3f4b"/><rect x="22" width="22" height="168" fill="#865128"/><rect x="50" width="15" height="168" fill="#223035"/><rect x="71" width="18" height="168" fill="#a06432"/><rect x="95" width="24" height="168" fill="#70401f"/><rect x="125" width="13" height="168" fill="#31424a"/>
+          </g>
+        </g>
+        <path d="M930 465 L930 150 Q930 40 1040 40 L1220 40 Q1330 40 1330 150 L1330 465 Z" fill="url(#sky)" stroke="#4f2c16" stroke-width="22" filter="url(#softShadow)"/>
+        <path d="M1040 50 L1040 465 M1220 50 L1220 465 M930 270 L1330 270 M1130 40 L1130 465" stroke="#4f2c16" stroke-width="9" opacity=".95"/>
+        <g fill="#f5e9c6" opacity=".9">
+          <circle cx="1000" cy="98" r="2"/><circle cx="1088" cy="126" r="1.8"/><circle cx="1218" cy="112" r="2"/><circle cx="1268" cy="210" r="1.6"/><circle cx="975" cy="212" r="1.6"/><circle cx="1168" cy="194" r="1.7"/><circle cx="1238" cy="318" r="1.4"/>
+        </g>
+        <ellipse cx="1152" cy="290" rx="115" ry="66" fill="#7b58a2" opacity=".22"/>
+        <path d="M930 465 L1040 380 L1158 465 Z" fill="#17162d" opacity=".82"/>
+        <path d="M1058 465 L1210 350 L1330 465 Z" fill="#211a37" opacity=".86"/>
+        <g filter="url(#paperShadow)">
+          <rect x="428" y="84" width="132" height="86" fill="#1a2b4c" stroke="#b67635" stroke-width="8"/>
+          <rect x="635" y="62" width="108" height="130" fill="#17244a" stroke="#b67635" stroke-width="8"/>
+          <rect x="515" y="278" width="108" height="128" fill="#182b4b" stroke="#b67635" stroke-width="8"/>
+          <rect x="718" y="300" width="100" height="106" fill="#1b263e" stroke="#b67635" stroke-width="8"/>
+          <circle cx="493" cy="127" r="22" fill="#dbac53" opacity=".75"/>
+          <circle cx="689" cy="123" r="24" fill="#dbac53" opacity=".7"/>
+          <path d="M555 340 L572 358 L592 318 L606 358 L624 340 L600 372 L610 396 L582 376 L554 396 L564 372 Z" fill="#e4bd68" opacity=".75"/>
+        </g>
+        <g filter="url(#paperShadow)">
+          <rect x="650" y="430" width="78" height="62" fill="#d8bf8f" transform="rotate(3 689 461)"/>
+          <circle cx="688" cy="421" r="6" fill="#a46a31"/>
+          <path d="M665 452 L712 452 M668 466 L704 466" stroke="#5c4228" opacity=".38" stroke-width="3"/>
+        </g>
+        <rect x="650" y="518" width="270" height="186" fill="#482714" stroke="#75431f" stroke-width="10" filter="url(#softShadow)"/>
+        <path d="M785 520 L785 704 M650 612 L920 612" stroke="#9c632e" stroke-width="5" opacity=".52"/>
+        <ellipse cx="720" cy="578" rx="42" ry="26" fill="#6d5438" opacity=".68"/>
+        <ellipse cx="846" cy="578" rx="44" ry="28" fill="#5a4633" opacity=".72"/>
+        <ellipse cx="760" cy="668" rx="42" ry="27" fill="#655139" opacity=".66"/>
+        <rect x="120" y="690" width="1360" height="180" fill="url(#wood)"/>
+        <rect x="120" y="690" width="1360" height="8" fill="#bd7435" opacity=".86"/>
+        <g filter="url(#softShadow)">
+          <path d="M330 690 L430 690 L414 566 Q380 548 345 566 Z" fill="#ac7736"/>
+          <rect x="362" y="506" width="18" height="126" rx="8" fill="#d2a65c"/>
+          <path d="M315 500 Q380 458 445 500 Q424 545 336 545 Z" fill="#71b85b" stroke="#2d4d22" stroke-width="6"/>
+          <ellipse cx="380" cy="544" rx="86" ry="34" fill="#87d76b" opacity=".22"/>
+        </g>
+        <g filter="url(#softShadow)">
+          <rect x="496" y="626" width="230" height="132" rx="14" fill="#cfd8dc"/>
+          <rect x="512" y="642" width="198" height="86" rx="8" fill="#0d1e2d"/>
+          <path d="M512 728 L710 728 L740 770 L482 770 Z" fill="#879196"/>
+          <path d="M532 705 Q602 636 690 702" stroke="#7eb7b6" stroke-width="6" fill="none" opacity=".42"/>
+        </g>
+        <g filter="url(#paperShadow)">
+          <path d="M805 718 Q856 694 910 718 L904 780 Q856 760 810 780 Z" fill="#ead9b7"/>
+          <path d="M858 706 L858 772" stroke="#7d5a38" opacity=".32" stroke-width="3"/>
+          <path d="M824 736 L848 734 M868 734 L894 738 M823 752 L846 750 M870 752 L895 754" stroke="#7d5a38" opacity=".24" stroke-width="2"/>
+        </g>
+        <g filter="url(#paperShadow)">
+          <rect x="948" y="741" width="130" height="10" rx="5" fill="#c34535" transform="rotate(-7 1013 746)"/>
+          <rect x="960" y="724" width="138" height="10" rx="5" fill="#2d5b71" transform="rotate(4 1029 729)"/>
+          <rect x="980" y="758" width="100" height="10" rx="5" fill="#d8a85b" transform="rotate(-2 1030 763)"/>
+        </g>
+        <g filter="url(#paperShadow)">
+          <path d="M238 748 C248 710 304 708 318 746 C286 730 260 766 238 748 Z" fill="#d1b77b"/>
+          <path d="M278 736 C268 740 260 746 256 756 M278 736 C288 742 296 750 300 760 M278 736 C278 752 276 762 270 774" stroke="#80653d" stroke-width="4" opacity=".5" fill="none"/>
+        </g>
+        <g filter="url(#softShadow)">
+          <circle cx="1245" cy="662" r="82" fill="#2c5664"/>
+          <circle cx="1220" cy="630" r="38" fill="#9cae8f" opacity=".72"/>
+          <path d="M1240 594 Q1286 622 1274 686 Q1236 670 1228 628 Z" fill="#c8a45e" opacity=".7"/>
+          <ellipse cx="1245" cy="662" rx="92" ry="28" fill="none" stroke="#d2a65c" stroke-width="5" opacity=".45" transform="rotate(-24 1245 662)"/>
+          <path d="M1245 744 L1245 804 M1196 804 L1294 804" stroke="#9b642d" stroke-width="10"/>
+        </g>
+        <g filter="url(#paperShadow)">
+          <path d="M1128 737 Q1131 710 1158 713 L1186 717 Q1205 720 1208 742 L1208 768 L1128 768 Z" fill="#efe2cb"/>
+          <ellipse cx="1168" cy="716" rx="32" ry="10" fill="#2a1409"/>
+          <path d="M1208 734 Q1232 736 1226 756 Q1220 776 1208 760" fill="none" stroke="#caa171" stroke-width="8"/>
+        </g>
+        <path d="M1455 805 C1505 790 1554 796 1600 826 L1600 900 L1438 900 C1430 858 1434 822 1455 805 Z" fill="#070605" opacity=".96"/>
+        <circle cx="1436" cy="798" r="32" fill="#070605"/>
+        <path d="M1415 776 L1422 738 L1442 775 M1455 775 L1472 742 L1478 786" fill="#070605"/>
+        <path d="M1450 832 C1398 846 1370 872 1360 900" stroke="#070605" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <path d="M1030 690 Q1080 608 1144 690 L1156 790 L1002 790 Z" fill="#16100c" opacity=".55"/>
+        <rect width="1600" height="900" fill="url(#warmGlow)" opacity=".48"/>
+      </svg>
+      <div class="glass" aria-hidden="true"></div>
     </section>
-    <div class="glass-threshold" aria-hidden="true"><span></span><span></span><span></span></div>
-    <a class="study-enter" href="library.html" aria-label="Enter the study library">enter</a>
+    <a class="enter-link" href="library.html" aria-label="Enter the study library">enter</a>
+    <div class="quiet-label" aria-hidden="true">the study is still warm</div>
   </main>
   <script src="assets/js/library.js" defer></script>
 </body>
