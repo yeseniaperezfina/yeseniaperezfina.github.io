@@ -7,33 +7,30 @@
   <meta name="description" content="A quiet amber fogged-glass sliding door entrance into Yesenia Pérez’s study, library, and professional archive." />
   <style>
     :root{
-      --ink:#f5ead6;
-      --amber:#d6a461;
-      --green:#87b86b;
-      --dark:#050403;
-      --wood:#6e3f20;
-      --light-x:50%;
-      --light-y:45%;
+      --ink:#f8edde;
+      --amber:#d7a35a;
+      --green:#94be72;
+      --deep:#040302;
       --serif: Georgia, 'Times New Roman', serif;
       --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--dark)}
+    html,body{margin:0;min-height:100%;background:var(--deep)}
     body{
       min-height:100svh;
       overflow:hidden;
       color:var(--ink);
       font-family:var(--serif);
       background:
-        radial-gradient(circle at 50% 38%, rgba(190,120,55,.18), transparent 34rem),
-        radial-gradient(circle at 82% 20%, rgba(80,56,35,.22), transparent 26rem),
-        linear-gradient(180deg,#050403 0%,#130d08 54%,#040302 100%);
+        radial-gradient(circle at 50% 38%, rgba(174,112,52,.20), transparent 35rem),
+        radial-gradient(circle at 82% 18%, rgba(91,66,42,.20), transparent 28rem),
+        linear-gradient(180deg,#050403 0%,#130c07 56%,#040302 100%);
     }
     .entry{
-      position:relative;
       min-height:100svh;
       display:grid;
       place-items:center;
+      position:relative;
       overflow:hidden;
       isolation:isolate;
       perspective:1800px;
@@ -42,179 +39,159 @@
       content:"";
       position:absolute;
       inset:0;
-      z-index:9;
+      z-index:5;
       pointer-events:none;
       background:
-        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,236,198,.10), transparent 13rem),
-        radial-gradient(ellipse at 50% 54%, transparent 0 50%, rgba(0,0,0,.32) 72%, rgba(0,0,0,.86) 100%),
-        linear-gradient(90deg, rgba(0,0,0,.68), transparent 22%, transparent 78%, rgba(0,0,0,.68));
+        radial-gradient(circle at 50% 45%, rgba(255,232,190,.10), transparent 15rem),
+        radial-gradient(ellipse at 50% 53%, transparent 0 50%, rgba(0,0,0,.34) 72%, rgba(0,0,0,.86) 100%),
+        linear-gradient(90deg,rgba(0,0,0,.70),transparent 21%,transparent 79%,rgba(0,0,0,.70));
     }
-    .threshold{
+    .stage{
       position:relative;
-      width:min(93vw,1360px);
-      height:min(86svh,800px);
-      overflow:hidden;
+      width:min(94vw,1440px);
+      height:min(88svh,820px);
       border-radius:34px;
-      background:#090604;
-      transform:translateZ(-55px);
-      box-shadow:
-        0 52px 150px rgba(0,0,0,.82),
-        0 0 0 1px rgba(235,197,132,.14),
-        inset 0 0 130px rgba(0,0,0,.42);
-    }
-    .threshold::before{
-      content:"";
-      position:absolute;
-      inset:-8%;
-      z-index:1;
-      background:
-        radial-gradient(circle at 39% 56%, rgba(125,205,92,.16), transparent 13rem),
-        radial-gradient(circle at 63% 44%, rgba(241,180,91,.22), transparent 20rem),
-        linear-gradient(180deg,#101815 0%,#15140f 42%,#140b05 100%);
-      filter:blur(.4px) saturate(.9) sepia(.12);
-    }
-    .room-depth{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      transform-style:preserve-3d;
-    }
-    .back-wall{
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(90deg,rgba(20,11,6,.97) 0 13%,transparent 21% 79%,rgba(20,11,6,.94) 87% 100%),
-        repeating-linear-gradient(90deg,rgba(255,230,180,.025) 0 1px,transparent 1px 110px),
-        linear-gradient(180deg,rgba(27,38,34,.58),rgba(38,27,16,.50) 62%,rgba(0,0,0,.12));
-    }
-    .floor{
-      position:absolute;
-      left:-12%;right:-12%;bottom:-10%;height:36%;
-      background:linear-gradient(180deg,#73421f,#2b1308 68%,#090402);
-      clip-path:polygon(15% 0,85% 0,100% 100%,0 100%);
-      box-shadow:inset 0 2px 0 rgba(249,187,94,.22),0 -28px 80px rgba(0,0,0,.38);
-    }
-    .floor::after{
-      content:"";
-      position:absolute;inset:0;
-      background:
-        linear-gradient(115deg,transparent 0 46%,rgba(255,226,166,.055) 47% 47.4%,transparent 48%),
-        repeating-linear-gradient(90deg,transparent 0 135px,rgba(255,230,180,.038) 136px 138px),
-        linear-gradient(180deg,rgba(255,196,92,.08),transparent 62%);
-      opacity:.9;
-    }
-    .left-stack,.right-stack{
-      position:absolute;
-      top:7%;bottom:25%;width:24%;
-      background:linear-gradient(90deg,#1c0d06,#75431f 16%,#2a1309 92%);
-      border:10px solid rgba(86,49,25,.86);
-      box-shadow:inset 0 0 46px rgba(0,0,0,.62),0 28px 66px rgba(0,0,0,.38);
-    }
-    .left-stack{left:5%;transform:perspective(900px) rotateY(2deg)}
-    .right-stack{right:5%;transform:perspective(900px) rotateY(-2deg);opacity:.52;filter:blur(1.5px)}
-    .left-stack::before,.right-stack::before{
-      content:"";position:absolute;inset:7% 8%;
-      background:
-        repeating-linear-gradient(90deg,#24323c 0 11px,#8b542b 11px 22px,#202a34 22px 34px,#a26532 34px 48px,#33443c 48px 58px,#57301c 58px 70px),
-        linear-gradient(180deg,transparent 0 24%,rgba(230,147,70,.25) 24.4% 26%,transparent 26.5% 50%,rgba(230,147,70,.20) 50.4% 52%,transparent 52.5% 76%,rgba(230,147,70,.16) 76.4% 78%,transparent 78.5%);
-      opacity:.94;
-    }
-    .left-stack::after{
-      content:"";
-      position:absolute;
-      left:60%;top:23%;width:26%;height:10%;
-      border-radius:999px 999px 45% 45%;
-      background:#070605;
-      box-shadow:-12px -7px 0 -7px #070605,13px -13px 0 -8px #070605,0 18px 24px rgba(0,0,0,.32);
-      opacity:.94;
-    }
-    .cat-tail{
-      position:absolute;z-index:3;
-      left:25.4%;top:20.5%;width:4.6rem;height:3.3rem;
-      border:8px solid #070605;border-left:0;border-bottom:0;border-radius:0 999px 0 0;
-      transform:rotate(14deg);opacity:.9;
-    }
-    .deep-room{
-      position:absolute;
-      right:12%;top:9%;width:30%;height:54%;
-      border-radius:10px;
-      background:
-        linear-gradient(90deg,rgba(0,0,0,.52),transparent 24%,transparent 78%,rgba(0,0,0,.55)),
-        radial-gradient(circle at 55% 38%,rgba(242,184,92,.26),transparent 10rem),
-        linear-gradient(180deg,#1b221e,#100a06);
-      box-shadow:inset 0 0 86px rgba(0,0,0,.54),0 20px 66px rgba(0,0,0,.32);
       overflow:hidden;
-      filter:blur(.8px);
+      background:#090604;
+      transform:translateZ(-46px);
+      box-shadow:
+        0 58px 160px rgba(0,0,0,.84),
+        0 0 0 1px rgba(239,202,138,.12),
+        inset 0 0 120px rgba(0,0,0,.52);
     }
-    .deep-room::before{
-      content:"";position:absolute;inset:0;
+    .scene-svg{display:block;width:100%;height:100%;filter:saturate(.92) sepia(.10)}
+    .glass-layer{
+      position:absolute;
+      inset:0;
+      z-index:4;
+      pointer-events:none;
+    }
+    .panel{
+      position:absolute;
+      top:7.2%;
+      bottom:7.7%;
+      width:48.5%;
+      border:1px solid rgba(243,211,158,.32);
       background:
-        linear-gradient(90deg,rgba(117,71,36,.45) 0 13%,transparent 22% 80%,rgba(117,71,36,.42) 90% 100%),
-        repeating-linear-gradient(90deg,transparent 0 88px,rgba(255,224,166,.055) 89px 90px),
-        linear-gradient(180deg,rgba(255,224,166,.06),transparent 34%);
+        radial-gradient(circle at 50% 42%,rgba(255,239,203,.17),transparent 13rem),
+        linear-gradient(112deg,transparent 0 17%,rgba(255,255,255,.14) 21%,transparent 27% 60%,rgba(255,255,255,.07) 65%,transparent 73%),
+        linear-gradient(90deg,rgba(255,255,255,.04),transparent 18%,transparent 82%,rgba(255,255,255,.025)),
+        repeating-linear-gradient(45deg,rgba(255,255,255,.028) 0 1px,transparent 1px 9px),
+        rgba(218,187,138,.15);
+      backdrop-filter:blur(9px) saturate(.72);
+      box-shadow:
+        inset 0 0 84px rgba(255,255,255,.045),
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 28px 80px rgba(0,0,0,.32);
     }
-    .deep-room::after{
-      content:"";position:absolute;right:14%;bottom:0;width:42%;height:48%;background:rgba(8,5,3,.57);border-radius:50% 50% 0 0;filter:blur(4px);
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:1.15rem;
+      border:1px solid rgba(255,236,198,.13);
+      border-radius:inherit;
     }
-    .desk{
-      position:absolute;z-index:4;
-      left:31%;right:21%;bottom:15%;height:18%;
-      border-radius:12px 12px 28px 28px;
-      background:linear-gradient(180deg,#7a471f,#38190a 72%,#160905);
-      box-shadow:0 28px 54px rgba(0,0,0,.48),inset 0 2px 0 rgba(247,181,93,.24);
-      transform:perspective(900px) rotateX(4deg);
+    .panel-left{left:3.2%;border-radius:24px 8px 8px 24px;transform:translateX(-6.2%) perspective(900px) rotateY(-3deg)}
+    .panel-right{right:3.2%;border-radius:8px 24px 24px 8px;transform:translateX(10.8%) perspective(900px) rotateY(4.6deg);opacity:.92}
+    .panel-left::after,.panel-right::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,233,190,.30)}
+    .panel-left::after{right:1.75rem}.panel-right::after{left:1.75rem}
+    .track{position:absolute;left:5%;right:5%;top:6.4%;height:5px;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(232,191,126,.30),transparent);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+    .opening{position:absolute;top:7.4%;bottom:7.4%;left:50%;width:10%;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.30),rgba(255,197,98,.18),rgba(0,0,0,.34));filter:blur(.3px);opacity:.94}
+    .handle{position:absolute;left:52.35%;top:50%;width:.56rem;height:5rem;transform:translate(-50%,-50%);border-radius:999px;background:linear-gradient(180deg,rgba(247,226,188,.76),rgba(118,82,43,.50));box-shadow:0 0 24px rgba(236,190,110,.13)}
+    .enter{
+      position:absolute;
+      left:50%;top:52%;
+      z-index:8;
+      transform:translate(-50%,-50%);
+      text-decoration:none;
+      color:rgba(255,246,228,.88);
+      font-family:var(--serif);
+      font-size:.92rem;
+      letter-spacing:.2em;
+      text-transform:lowercase;
+      padding:.82rem 1.3rem;
+      border:1px solid rgba(220,174,94,.50);
+      border-radius:999px;
+      background:rgba(10,7,4,.38);
+      box-shadow:0 18px 56px rgba(0,0,0,.66),inset 0 1px 0 rgba(255,255,255,.12);
+      backdrop-filter:blur(10px) saturate(.85);
+      transition:transform .32s ease,border-color .32s ease,background .32s ease,color .32s ease;
     }
-    .desk::after{
-      content:"";position:absolute;left:6%;right:6%;bottom:10%;height:20%;border-radius:999px;background:rgba(0,0,0,.18);filter:blur(10px);
-    }
-    .lamp-glow{position:absolute;z-index:3;left:27%;bottom:21%;width:35%;height:44%;border-radius:50%;background:radial-gradient(circle,rgba(144,255,102,.20),rgba(144,255,102,.07) 34%,transparent 68%);filter:blur(22px)}
-    .lamp{position:absolute;z-index:5;left:35%;bottom:30%;width:15%;height:24%}
-    .lamp::before{content:"";position:absolute;left:16%;top:0;width:68%;height:29%;border-radius:999px 999px 16px 16px;background:linear-gradient(180deg,#bce98e,#487c35 58%,#152c11);box-shadow:0 0 52px rgba(145,255,105,.34),inset 0 6px 14px rgba(255,255,255,.26)}
-    .lamp::after{content:"";position:absolute;left:49%;top:28%;width:5%;height:60%;background:linear-gradient(180deg,#e0aa5a,#63401e);box-shadow:-1.35rem 5.2rem 0 .32rem #b87c36,1.35rem 5.2rem 0 .32rem #b87c36}
-    .screen{position:absolute;z-index:5;left:50%;bottom:21%;width:19%;height:16%;border-radius:15px;background:linear-gradient(135deg,#d4dce0,#717d84);box-shadow:0 18px 38px rgba(0,0,0,.48);transform:rotate(-1deg)}
-    .screen::before{content:"";position:absolute;inset:8% 7% 18%;border-radius:9px;background:linear-gradient(160deg,#0b1d2d,#24495c 58%,#8fa68f)}
-    .screen::after{content:"";position:absolute;left:45%;bottom:-17%;width:10%;height:18%;background:#8f989d;box-shadow:-1.15rem 1rem 0 .08rem #a8afb2,1.15rem 1rem 0 .08rem #a8afb2}
-    .journal{position:absolute;z-index:6;left:65%;bottom:18%;width:11%;height:7%;border-radius:3px;background:linear-gradient(100deg,#ead9b7,#c7ab78);transform:rotate(3deg);box-shadow:0 10px 22px rgba(0,0,0,.36)}
-    .journal::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(80,55,36,.36)}
-    .journal::after{content:"";position:absolute;left:9%;right:9%;top:32%;height:1px;background:rgba(80,55,36,.18);box-shadow:0 .48rem 0 rgba(80,55,36,.12),0 .96rem 0 rgba(80,55,36,.10)}
-    .coffee{position:absolute;z-index:6;left:77%;bottom:18.5%;width:3.3%;aspect-ratio:1;border-radius:0 0 45% 45%;background:linear-gradient(180deg,#f2e4cb,#a77645);box-shadow:0 8px 18px rgba(0,0,0,.34)}
-    .coffee::before{content:"";position:absolute;left:8%;right:8%;top:-12%;height:22%;border-radius:50%;background:#2a1409}.coffee::after{content:"";position:absolute;right:-30%;top:22%;width:36%;height:38%;border:3px solid #cda06a;border-left:0;border-radius:0 999px 999px 0}
-    .fossil{position:absolute;z-index:6;left:24%;bottom:17.5%;width:5%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 52% 50%,#e4cd91 0 4%,transparent 5%),repeating-radial-gradient(circle,#caab70 0 3px,#7e603b 3px 6px);box-shadow:0 8px 18px rgba(0,0,0,.34);opacity:.84}
-    .pencils{position:absolute;z-index:6;left:72%;bottom:17%;width:10%;height:1.3%;border-radius:999px;background:linear-gradient(90deg,#d8aa4c 0 28%,#284c64 28% 62%,#ad4234 62%);box-shadow:.5rem .72rem 0 rgba(48,88,110,.9);transform:rotate(-7deg)}
-    .door-system{position:absolute;inset:0;z-index:7;pointer-events:none}.door-track{position:absolute;left:5%;right:5%;top:6.5%;height:5px;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(230,190,125,.28),transparent);box-shadow:0 1px 0 rgba(255,255,255,.08)}
-    .door-panel{position:absolute;top:8%;bottom:8%;width:49%;border:1px solid rgba(238,204,148,.30);background:radial-gradient(circle at var(--light-x) var(--light-y),rgba(255,239,201,.15),transparent 12rem),linear-gradient(112deg,transparent 0 18%,rgba(255,255,255,.14) 21%,transparent 27% 61%,rgba(255,255,255,.07) 65%,transparent 73%),repeating-linear-gradient(45deg,rgba(255,255,255,.028) 0 1px,transparent 1px 9px),rgba(214,183,132,.14);backdrop-filter:blur(9px) saturate(.70);box-shadow:inset 0 0 78px rgba(255,255,255,.04),0 24px 78px rgba(0,0,0,.30)}
-    .door-panel::before{content:"";position:absolute;inset:1.15rem;border:1px solid rgba(255,235,196,.12);border-radius:inherit}.door-left{left:3.2%;border-radius:24px 8px 8px 24px;transform:translateX(-6.5%) perspective(900px) rotateY(-3deg)}.door-right{right:3.2%;border-radius:8px 24px 24px 8px;transform:translateX(10.5%) perspective(900px) rotateY(4.5deg);opacity:.92}.door-left::after,.door-right::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,232,188,.28)}.door-left::after{right:1.8rem}.door-right::after{left:1.8rem}
-    .door-gap{position:absolute;top:8%;bottom:8%;left:50%;width:9.5%;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(255,197,98,.16),rgba(0,0,0,.28));filter:blur(.25px);opacity:.92}.handle{position:absolute;left:52.5%;top:50%;width:.55rem;height:4.8rem;transform:translate(-50%,-50%);border-radius:999px;background:linear-gradient(180deg,rgba(245,224,185,.72),rgba(117,82,44,.46));box-shadow:0 0 22px rgba(236,190,110,.12)}
-    .enter{position:absolute;left:50%;top:52%;z-index:10;transform:translate(-50%,-50%);text-decoration:none;color:rgba(255,244,224,.86);font-family:var(--serif);font-size:.92rem;letter-spacing:.2em;text-transform:lowercase;padding:.8rem 1.28rem;border:1px solid rgba(219,174,94,.46);border-radius:999px;background:rgba(11,7,4,.36);box-shadow:0 16px 52px rgba(0,0,0,.64),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(10px) saturate(.85);transition:transform .32s ease,border-color .32s ease,background .32s ease,color .32s ease}.enter::before{content:"";position:absolute;left:50%;top:-24vh;width:1px;height:22vh;background:linear-gradient(transparent,rgba(219,174,94,.45))}.enter::after{content:"";position:absolute;left:50%;top:-25vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(219,174,94,.42);transform:translateX(-50%);box-shadow:0 0 22px rgba(219,174,94,.24)}.enter:hover,.enter:focus-visible{transform:translate(-50%,-50%) scale(1.045);border-color:rgba(219,174,94,.80);background:rgba(75,45,22,.50);color:#fff8ec;outline:none}.caption{position:absolute;right:clamp(1rem,3vw,2.3rem);bottom:clamp(.8rem,2vw,1.6rem);z-index:10;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.32);pointer-events:none}
-    @media(max-width:880px){.threshold{width:96vw;height:78svh}.left-stack{width:30%;left:3%}.right-stack{display:none}.deep-room{right:4%;width:39%}.desk{left:28%;right:20%;height:17%}.lamp{left:31%;width:20%}.screen{left:48%;width:24%}.journal,.coffee,.pencils{display:none}.door-panel{top:6%;bottom:6%;width:49%}.door-left{left:1%}.door-right{right:1%;transform:translateX(10%) perspective(900px) rotateY(5deg)}.enter{font-size:.84rem}.enter::before,.enter::after,.caption{display:none}}
-    @media(max-width:620px){.threshold{height:72svh}.left-stack{width:36%;opacity:.9}.deep-room{opacity:.55}.lamp{left:22%;bottom:29%;width:28%}.screen{left:42%;bottom:21%;width:32%}.fossil{display:none}.door-gap{width:12%}.floor{height:30%}}
+    .enter::before{content:"";position:absolute;left:50%;top:-24vh;width:1px;height:22vh;background:linear-gradient(transparent,rgba(220,174,94,.46))}
+    .enter::after{content:"";position:absolute;left:50%;top:-25vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(220,174,94,.44);transform:translateX(-50%);box-shadow:0 0 22px rgba(220,174,94,.26)}
+    .enter:hover,.enter:focus-visible{transform:translate(-50%,-50%) scale(1.045);border-color:rgba(220,174,94,.82);background:rgba(76,45,22,.50);color:#fff9ee;outline:none}
+    .caption{position:absolute;right:clamp(1rem,3vw,2.4rem);bottom:clamp(.8rem,2vw,1.6rem);z-index:8;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.32);pointer-events:none}
+    @media(max-width:880px){.stage{width:96vw;height:78svh}.panel{top:6%;bottom:6%;width:49%}.panel-left{left:1.2%}.panel-right{right:1.2%;transform:translateX(10%) perspective(900px) rotateY(5deg)}.enter{font-size:.84rem}.enter::before,.enter::after,.caption{display:none}}
+    @media(max-width:620px){.stage{height:72svh}.opening{width:13%}}
     @media(prefers-reduced-motion:reduce){.enter{transition:none}}
   </style>
 </head>
 <body>
   <main class="entry" aria-label="Amber fogged-glass entrance to Yesenia Pérez’s study">
-    <section class="threshold" aria-hidden="true">
-      <div class="room-depth">
-        <div class="back-wall"></div>
-        <div class="floor"></div>
-        <div class="left-stack"></div>
-        <div class="cat-tail"></div>
-        <div class="right-stack"></div>
-        <div class="deep-room"></div>
-        <div class="lamp-glow"></div>
-        <div class="desk"></div>
-        <div class="lamp"></div>
-        <div class="screen"></div>
-        <div class="journal"></div>
-        <div class="coffee"></div>
-        <div class="fossil"></div>
-        <div class="pencils"></div>
-      </div>
-      <div class="door-system">
-        <div class="door-track"></div>
-        <div class="door-gap"></div>
-        <div class="door-panel door-left"></div>
-        <div class="door-panel door-right"></div>
+    <section class="stage" aria-hidden="true">
+      <svg class="scene-svg" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A restrained dark academic study behind amber fogged sliding glass.">
+        <defs>
+          <linearGradient id="wall" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#101815"/><stop offset=".48" stop-color="#17140e"/><stop offset="1" stop-color="#100704"/></linearGradient>
+          <linearGradient id="wood" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7b471f"/><stop offset=".62" stop-color="#361809"/><stop offset="1" stop-color="#130703"/></linearGradient>
+          <linearGradient id="silver" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#edf2f2"/><stop offset=".5" stop-color="#9ba8ad"/><stop offset="1" stop-color="#5d666b"/></linearGradient>
+          <radialGradient id="lampGlow" cx="36%" cy="58%" r="34%"><stop offset="0" stop-color="rgba(150,255,107,.23)"/><stop offset=".36" stop-color="rgba(150,255,107,.08)"/><stop offset="1" stop-color="rgba(150,255,107,0)"/></radialGradient>
+          <radialGradient id="warmGlow" cx="61%" cy="43%" r="46%"><stop offset="0" stop-color="rgba(241,181,92,.24)"/><stop offset=".5" stop-color="rgba(241,181,92,.08)"/><stop offset="1" stop-color="rgba(241,181,92,0)"/></radialGradient>
+          <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="10"/></filter>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".42"/></filter>
+          <pattern id="books" width="62" height="210" patternUnits="userSpaceOnUse"><rect width="11" height="210" fill="#25333d"/><rect x="13" width="17" height="210" fill="#8a5128"/><rect x="33" width="11" height="210" fill="#1b2732"/><rect x="47" width="15" height="210" fill="#a06431"/></pattern>
+        </defs>
+        <rect width="1600" height="900" fill="#070403"/>
+        <rect x="70" y="48" width="1460" height="810" rx="28" fill="#100905" opacity=".86"/>
+        <rect x="110" y="80" width="1380" height="760" rx="18" fill="url(#wall)"/>
+        <rect x="110" y="80" width="1380" height="760" fill="url(#warmGlow)"/>
+        <rect x="110" y="80" width="1380" height="760" fill="url(#lampGlow)"/>
+        <path d="M110 690 L1490 690 L1580 900 L20 900 Z" fill="url(#wood)" opacity=".98"/>
+        <path d="M110 690 L1490 690" stroke="#b96f32" stroke-width="6" opacity=".52"/>
+        <path d="M110 690 L20 900 M1490 690 L1580 900 M450 690 L400 900 M800 690 L800 900 M1150 690 L1200 900" stroke="rgba(255,220,160,.07)" stroke-width="2"/>
+        <g filter="url(#shadow)">
+          <path d="M132 120 L450 120 L450 608 L132 608 Z" fill="#1b0d06" stroke="#70401e" stroke-width="12"/>
+          <rect x="168" y="164" width="246" height="362" fill="url(#books)" opacity=".94"/>
+          <path d="M132 284 L450 284 M132 448 L450 448" stroke="#9f5e2c" stroke-width="5" opacity=".45"/>
+          <path d="M350 250 C385 226 430 235 450 266 C430 244 406 247 389 263 C375 276 361 273 350 250 Z" fill="#050403" opacity=".94"/>
+          <path d="M427 248 C457 230 479 247 479 286" fill="none" stroke="#050403" stroke-width="11" stroke-linecap="round" opacity=".9"/>
+        </g>
+        <g opacity=".42" filter="url(#soft)">
+          <rect x="1080" y="100" width="360" height="520" rx="12" fill="#7e4a24"/>
+          <rect x="1135" y="154" width="245" height="350" fill="url(#books)" opacity=".55"/>
+          <ellipse cx="1245" cy="525" rx="105" ry="140" fill="#050403" opacity=".8"/>
+        </g>
+        <g filter="url(#shadow)">
+          <rect x="520" y="610" width="560" height="115" rx="12" fill="#76431e"/>
+          <path d="M520 610 L1080 610 L1140 760 L462 760 Z" fill="url(#wood)"/>
+          <path d="M462 760 L1140 760" stroke="rgba(0,0,0,.35)" stroke-width="24"/>
+          <path d="M595 614 L690 614 L674 498 Q642 478 611 498 Z" fill="#c58b45"/>
+          <rect x="634" y="448" width="18" height="142" rx="8" fill="#e1ad61"/>
+          <path d="M574 438 Q642 392 710 438 Q688 482 596 482 Z" fill="#91c976" stroke="#2e551f" stroke-width="6"/>
+          <ellipse cx="642" cy="486" rx="110" ry="52" fill="#8ee06a" opacity=".18"/>
+          <rect x="748" y="578" width="260" height="132" rx="14" fill="url(#silver)"/>
+          <rect x="768" y="596" width="220" height="80" rx="8" fill="#0c1e2c"/>
+          <path d="M768 676 L988 676 L1023 722 L732 722 Z" fill="#9ba4a8"/>
+          <path d="M810 650 Q875 594 952 650" stroke="#93b5a6" stroke-width="5" opacity=".45" fill="none"/>
+          <path d="M1050 664 Q1105 640 1164 664 L1158 722 Q1104 704 1056 722 Z" fill="#ead8b8"/>
+          <path d="M1108 650 L1108 710" stroke="#7c5637" opacity=".34" stroke-width="3"/>
+          <rect x="1162" y="722" width="132" height="10" rx="5" fill="#2e5d72" transform="rotate(-4 1228 727)"/>
+          <rect x="1148" y="704" width="122" height="10" rx="5" fill="#c64535" transform="rotate(-8 1209 709)"/>
+          <path d="M1212 660 Q1216 632 1243 636 L1272 640 Q1290 642 1292 664 L1292 690 L1212 690 Z" fill="#efdfc6"/>
+          <ellipse cx="1252" cy="638" rx="32" ry="10" fill="#2b1409"/>
+          <path d="M1292 655 Q1318 657 1311 678 Q1305 696 1292 682" fill="none" stroke="#cda06a" stroke-width="7"/>
+          <path d="M358 702 C372 660 433 660 448 700 C410 682 382 728 358 702 Z" fill="#d3b576" opacity=".86"/>
+          <path d="M405 686 C389 692 380 704 376 716 M405 686 C420 696 432 710 436 726 M405 686 C405 706 399 722 390 738" stroke="#765b37" stroke-width="4" opacity=".52" fill="none"/>
+        </g>
+        <g opacity=".18" filter="url(#soft)">
+          <path d="M580 492 Q720 330 875 470 Q1005 590 1160 420" stroke="#f3c579" stroke-width="26" fill="none"/>
+        </g>
+        <rect x="110" y="80" width="1380" height="760" rx="18" fill="none" stroke="rgba(243,211,158,.08)" stroke-width="2"/>
+      </svg>
+      <div class="glass-layer">
+        <div class="track"></div>
+        <div class="opening"></div>
+        <div class="panel panel-left"></div>
+        <div class="panel panel-right"></div>
         <div class="handle"></div>
       </div>
     </section>
