@@ -28,3 +28,11 @@
 .contact-section{padding-top:clamp(3.5rem,6vw,5rem)}.contact-layout{grid-template-columns:minmax(0,.48fr) minmax(300px,.52fr)}.contact-layout h2{max-width:620px}.contact-layout ul{columns:2}.contact-index{gap:1rem}.contact-index a:not(.button){padding-bottom:1rem}
 @media(max-width:1180px){.case-study,.case-study-b,.writing-layout,.contact-layout{grid-template-columns:1fr}.case-study-b .case-title,.case-study-b .case-details{grid-column:auto;grid-row:auto}.systems-map-layout{grid-template-columns:1fr}.archive-relief{grid-template-columns:1fr}.telemetry-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.section-heading h2,.writing-layout h2,.contact-layout h2{font-size:clamp(2rem,10vw,3.1rem)}.telemetry-band{grid-template-columns:1fr}.telemetry-list{grid-template-columns:1fr}.telemetry-list article{min-height:110px}.systems-map{min-height:auto}.map-node{position:static;width:100%;min-height:auto}.contact-layout ul{columns:1}}
+/* Full-screen header and systems-map viewability fixes */
+.header-inner{grid-template-columns:minmax(230px,.42fr) minmax(0,1fr) auto;gap:clamp(1rem,2vw,2rem)}
+.site-nav{justify-content:flex-end;gap:clamp(.72rem,1.15vw,1.2rem);font-size:clamp(.62rem,.72vw,.7rem);min-width:0}
+.header-actions{gap:.75rem;font-size:clamp(.58rem,.66vw,.66rem);white-space:nowrap;min-width:max-content}
+@media(max-width:1480px){.header-inner{grid-template-columns:minmax(230px,.5fr) minmax(0,1fr);row-gap:.35rem;padding:.75rem 0}.header-actions{grid-column:2;justify-self:end}.site-nav{grid-column:2;grid-row:1;justify-content:flex-end}.brand{grid-row:1 / span 2}}
+@media(max-width:1180px){.header-inner{grid-template-columns:1fr}.brand,.site-nav,.header-actions{grid-column:auto;grid-row:auto;justify-self:start}.site-nav,.header-actions{justify-content:flex-start;white-space:normal}}
+.systems-map{padding-bottom:4.8rem;overflow:visible}.map-note{left:auto;right:2rem;bottom:1.05rem;max-width:390px;color:var(--cyan)!important;background:rgba(7,11,18,.9);border-top:1px solid var(--line-soft);padding:.8rem 0 0 0;text-align:left}.node-5{right:8%;bottom:8.2rem}.node-4{bottom:7.2rem}.map-node{z-index:2}.map-line{z-index:1}.systems-map:before,.systems-map:after{z-index:0}
+@media(max-width:760px){.systems-map{padding-bottom:.75rem;overflow:hidden}.map-note{display:none}.node-4,.node-5{bottom:auto}}
