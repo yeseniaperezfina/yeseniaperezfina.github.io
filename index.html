@@ -3,315 +3,245 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yesenia Pérez · The Study</title>
-  <meta name="description" content="A quiet academic study entrance into Yesenia Pérez’s work on public learning systems, institutional strategy, science engagement, and research." />
+  <title>Yesenia Pérez · The Stained Glass Study</title>
+  <meta name="description" content="A gothic stained-glass entrance into Yesenia Pérez’s study of public learning systems, institutional strategy, science engagement, and research." />
   <style>
     :root{
-      --ink:#f5ead7;
-      --muted:#c8b89f;
-      --gold:#d2a65c;
-      --dark:#070604;
-      --oak:#5c351c;
+      --ink:#f8eddc;
+      --gold:#d3a85d;
+      --stone:#17120e;
+      --deep:#050403;
       --light-x:50%;
       --light-y:42%;
       --serif: Georgia, 'Times New Roman', serif;
       --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--dark);}
+    html,body{margin:0;min-height:100%;background:var(--deep)}
     body{
       min-height:100svh;
       overflow:hidden;
       color:var(--ink);
-      background:
-        radial-gradient(circle at 50% 42%, rgba(174,116,58,.22), transparent 36rem),
-        radial-gradient(circle at 18% 18%, rgba(76,45,24,.38), transparent 24rem),
-        linear-gradient(180deg,#090705 0%,#17100a 54%,#050403 100%);
       font-family:var(--serif);
+      background:
+        radial-gradient(circle at 50% 44%, rgba(155,98,49,.24), transparent 35rem),
+        radial-gradient(circle at 50% 8%, rgba(38,42,62,.38), transparent 28rem),
+        linear-gradient(180deg,#060504 0%,#17110c 56%,#050403 100%);
     }
-    .entry-shell{
+    .portal-page{
       position:relative;
       min-height:100svh;
       display:grid;
       place-items:center;
       isolation:isolate;
-      perspective:1400px;
+      perspective:1600px;
     }
-    .entry-shell::before{
+    .portal-page::before{
       content:"";
       position:absolute;
       inset:0;
-      z-index:5;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,246,222,.11), transparent 13rem),
-        radial-gradient(ellipse at 50% 50%, transparent 0 54%, rgba(0,0,0,.36) 76%, rgba(0,0,0,.74) 100%),
-        linear-gradient(90deg, rgba(0,0,0,.56), transparent 18%, transparent 82%, rgba(0,0,0,.56));
-    }
-    .study-frame{
-      position:relative;
-      width:min(94vw,1500px);
-      height:min(86svh,840px);
-      border-radius:22px;
-      overflow:hidden;
-      background:#0d0a07;
-      box-shadow:
-        0 48px 150px rgba(0,0,0,.78),
-        0 0 0 1px rgba(233,207,161,.16),
-        inset 0 0 120px rgba(0,0,0,.2);
-      transform:translateZ(-50px);
-    }
-    .study-svg{
-      display:block;
-      width:100%;
-      height:100%;
-      filter:saturate(.94) sepia(.05);
-    }
-    .glass{
-      position:absolute;
-      inset:clamp(.8rem,1.8vw,1.6rem);
       z-index:4;
-      border-radius:18px;
-      border:1px solid rgba(244,226,187,.35);
-      background:
-        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,247,226,.15), transparent 12rem),
-        linear-gradient(112deg, transparent 0 17%, rgba(255,255,255,.12) 20%, transparent 25% 58%, rgba(255,255,255,.07) 62%, transparent 70%),
-        rgba(226,241,245,.045);
-      backdrop-filter:blur(2.2px) saturate(.86);
-      box-shadow:
-        inset 0 0 78px rgba(255,255,255,.04),
-        0 0 0 14px rgba(52,35,22,.28),
-        0 0 0 30px rgba(90,61,38,.10),
-        0 34px 120px rgba(0,0,0,.62);
       pointer-events:none;
-    }
-    .glass::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:inherit;
       background:
-        linear-gradient(90deg, transparent 24.9%, rgba(244,226,187,.16) 25%, transparent 25.15%, transparent 49.9%, rgba(244,226,187,.30) 50%, transparent 50.15%, transparent 74.9%, rgba(244,226,187,.16) 75%, transparent 75.15%),
-        linear-gradient(0deg, transparent 24.9%, rgba(244,226,187,.12) 25%, transparent 25.15%, transparent 49.9%, rgba(244,226,187,.17) 50%, transparent 50.15%, transparent 74.9%, rgba(244,226,187,.11) 75%, transparent 75.15%);
+        radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,245,215,.16), transparent 12rem),
+        radial-gradient(ellipse at 50% 50%, transparent 0 48%, rgba(0,0,0,.28) 70%, rgba(0,0,0,.78) 100%),
+        linear-gradient(90deg, rgba(0,0,0,.58), transparent 22%, transparent 78%, rgba(0,0,0,.58));
     }
-    .glass::after{
-      content:"";
-      position:absolute;
-      inset:2.2rem;
-      border:1px solid rgba(244,226,187,.12);
-      border-radius:12px;
+    .portal-shell{
+      position:relative;
+      width:min(94vw,1480px);
+      height:min(90svh,860px);
+      transform:translateZ(-40px);
+      filter:drop-shadow(0 44px 100px rgba(0,0,0,.72));
     }
+    .portal-svg{display:block;width:100%;height:100%}
     .enter-link{
       position:absolute;
-      left:50%;top:51.5%;
-      z-index:7;
+      left:50%;top:52%;
+      z-index:8;
       transform:translate(-50%,-50%);
       text-decoration:none;
-      color:rgba(249,239,219,.82);
+      color:rgba(255,245,224,.84);
       font-family:var(--serif);
-      font-size:.92rem;
-      letter-spacing:.18em;
+      font-size:.94rem;
+      letter-spacing:.2em;
       text-transform:lowercase;
-      padding:.78rem 1.26rem;
-      border:1px solid rgba(210,166,92,.36);
+      padding:.82rem 1.34rem;
+      border:1px solid rgba(225,185,105,.45);
       border-radius:999px;
-      background:rgba(14,10,7,.34);
-      box-shadow:0 12px 44px rgba(0,0,0,.54), inset 0 1px 0 rgba(255,255,255,.08);
-      backdrop-filter:blur(8px);
-      transition:transform .35s ease, border-color .35s ease, background .35s ease;
+      background:rgba(10,7,5,.36);
+      box-shadow:0 15px 48px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.12);
+      backdrop-filter:blur(9px) saturate(.9);
+      transition:transform .35s ease, border-color .35s ease, background .35s ease, color .35s ease;
     }
     .enter-link::before{
       content:"";
       position:absolute;
       left:50%;top:-25vh;
       width:1px;height:23vh;
-      background:linear-gradient(transparent,rgba(210,166,92,.42));
+      background:linear-gradient(transparent,rgba(225,185,105,.5));
     }
     .enter-link::after{
       content:"";
       position:absolute;
       left:50%;top:-26vh;
-      width:.42rem;height:.42rem;
+      width:.46rem;height:.46rem;
       border-radius:50%;
-      border:1px solid rgba(210,166,92,.44);
+      border:1px solid rgba(225,185,105,.48);
       transform:translateX(-50%);
-      box-shadow:0 0 20px rgba(210,166,92,.22);
+      box-shadow:0 0 24px rgba(225,185,105,.28);
     }
     .enter-link:hover,.enter-link:focus-visible{
       transform:translate(-50%,-50%) scale(1.045);
-      border-color:rgba(210,166,92,.68);
-      background:rgba(82,51,27,.48);
+      border-color:rgba(225,185,105,.8);
+      background:rgba(68,42,22,.5);
+      color:#fff8e9;
       outline:none;
     }
-    .quiet-label{
+    .caption{
       position:absolute;
-      right:clamp(1.2rem,3vw,3rem);
-      bottom:clamp(1rem,2vw,2rem);
-      z-index:6;
+      right:clamp(1rem,3vw,2.6rem);
+      bottom:clamp(1rem,2.4vw,2rem);
+      z-index:7;
       font-family:var(--sans);
-      font-size:.62rem;
+      font-size:.6rem;
       letter-spacing:.18em;
       text-transform:uppercase;
-      color:rgba(245,234,215,.36);
+      color:rgba(248,237,220,.34);
       pointer-events:none;
     }
-    @media(max-width:860px){
-      .study-frame{width:96vw;height:76svh;}
-      .glass{inset:.7rem;}
-      .enter-link{font-size:.84rem;}
-      .enter-link::before,.enter-link::after{display:none;}
-      .quiet-label{display:none;}
+    @media(max-width:880px){
+      .portal-shell{width:98vw;height:82svh}
+      .enter-link{font-size:.84rem}
+      .enter-link::before,.enter-link::after,.caption{display:none}
     }
     @media(prefers-reduced-motion:reduce){.enter-link{transition:none}}
   </style>
 </head>
 <body>
-  <main class="entry-shell" aria-label="Entrance to Yesenia Pérez’s study">
-    <section class="study-frame" aria-hidden="true">
-      <svg class="study-svg" viewBox="0 0 1600 900" role="img" aria-label="A warm academic study seen through glass: shelves, desk, green lamp, arched window, globe, journal, coffee, fossils, and a cat. xmlns="http://www.w3.org/2000/svg">
+  <main class="portal-page" aria-label="Gothic stained-glass entrance to Yesenia Pérez’s study">
+    <section class="portal-shell" aria-hidden="true">
+      <svg class="portal-svg" viewBox="0 0 1600 940" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A gothic stained-glass portal showing a scholarly study, books, lamp, globe, cat, journal, fossils, and stars.">
         <defs>
-          <linearGradient id="wall" x1="0" x2="0" y1="0" y2="1">
-            <stop stop-color="#11232d" offset="0"/>
-            <stop stop-color="#14231e" offset=".58"/>
-            <stop stop-color="#180d08" offset="1"/>
+          <path id="portalArch" d="M170 870 L170 330 C170 190 288 112 470 92 C610 76 728 110 800 210 C872 110 990 76 1130 92 C1312 112 1430 190 1430 330 L1430 870 Z"/>
+          <clipPath id="clipPortal"><use href="#portalArch"/></clipPath>
+          <linearGradient id="stoneGrad" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#2a2119"/>
+            <stop offset=".45" stop-color="#100c09"/>
+            <stop offset="1" stop-color="#3b2a1c"/>
           </linearGradient>
-          <linearGradient id="wood" x1="0" x2="0" y1="0" y2="1">
-            <stop stop-color="#85502a" offset="0"/>
-            <stop stop-color="#4a2512" offset=".62"/>
-            <stop stop-color="#1a0c05" offset="1"/>
+          <linearGradient id="leadGrad" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stop-color="#202329"/>
+            <stop offset=".45" stop-color="#6f7378"/>
+            <stop offset=".55" stop-color="#191b20"/>
+            <stop offset="1" stop-color="#050608"/>
           </linearGradient>
-          <linearGradient id="shelfWood" x1="0" x2="1" y1="0" y2="0">
-            <stop stop-color="#2b160b" offset="0"/>
-            <stop stop-color="#79471f" offset=".38"/>
-            <stop stop-color="#2b160b" offset="1"/>
+          <linearGradient id="oakGrad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#8a4f27"/>
+            <stop offset=".56" stop-color="#4b2512"/>
+            <stop offset="1" stop-color="#1a0c06"/>
           </linearGradient>
-          <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
-            <stop stop-color="#071135" offset="0"/>
-            <stop stop-color="#14134a" offset=".55"/>
-            <stop stop-color="#4b2637" offset="1"/>
-          </linearGradient>
-          <radialGradient id="lampGlow" cx="34%" cy="62%" r="31%">
-            <stop stop-color="rgba(147,255,91,.42)" offset="0"/>
-            <stop stop-color="rgba(147,255,91,.14)" offset=".32"/>
-            <stop stop-color="rgba(147,255,91,0)" offset="1"/>
-          </radialGradient>
-          <radialGradient id="warmGlow" cx="58%" cy="51%" r="38%">
-            <stop stop-color="rgba(233,166,80,.22)" offset="0"/>
-            <stop stop-color="rgba(233,166,80,.08)" offset=".45"/>
-            <stop stop-color="rgba(233,166,80,0)" offset="1"/>
-          </radialGradient>
-          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".42"/>
+          <radialGradient id="ruby" cx="42%" cy="34%" r="76%"><stop offset="0" stop-color="#e97758"/><stop offset=".52" stop-color="#9b2f32"/><stop offset="1" stop-color="#46151c"/></radialGradient>
+          <radialGradient id="sapphire" cx="45%" cy="28%" r="76%"><stop offset="0" stop-color="#72a4d9"/><stop offset=".54" stop-color="#214e81"/><stop offset="1" stop-color="#0b1b3f"/></radialGradient>
+          <radialGradient id="emerald" cx="42%" cy="28%" r="76%"><stop offset="0" stop-color="#90c77b"/><stop offset=".54" stop-color="#2f704e"/><stop offset="1" stop-color="#0d2a24"/></radialGradient>
+          <radialGradient id="amber" cx="44%" cy="28%" r="76%"><stop offset="0" stop-color="#f3d480"/><stop offset=".56" stop-color="#bd7831"/><stop offset="1" stop-color="#4f2b12"/></radialGradient>
+          <radialGradient id="violet" cx="42%" cy="28%" r="76%"><stop offset="0" stop-color="#b58bd6"/><stop offset=".54" stop-color="#5f3a89"/><stop offset="1" stop-color="#211536"/></radialGradient>
+          <radialGradient id="lampAura" cx="35%" cy="68%" r="28%"><stop offset="0" stop-color="rgba(152,255,102,.42)"/><stop offset=".35" stop-color="rgba(152,255,102,.14)"/><stop offset="1" stop-color="rgba(152,255,102,0)"/></radialGradient>
+          <radialGradient id="warmAura" cx="54%" cy="58%" r="46%"><stop offset="0" stop-color="rgba(251,190,95,.28)"/><stop offset=".45" stop-color="rgba(251,190,95,.08)"/><stop offset="1" stop-color="rgba(251,190,95,0)"/></radialGradient>
+          <filter id="leadShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#000" flood-opacity=".45"/>
           </filter>
-          <filter id="paperShadow" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity=".34"/>
+          <filter id="panelDepth" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity=".32"/>
           </filter>
+          <filter id="glassGrain" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.018 0.055" numOctaves="3" seed="12" result="noise"/>
+            <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+            <feComponentTransfer in="mono"><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer>
+            <feBlend in="SourceGraphic" in2="mono" mode="overlay"/>
+          </filter>
+          <pattern id="bookPattern" width="56" height="180" patternUnits="userSpaceOnUse">
+            <rect width="10" height="180" fill="#243945"/><rect x="12" width="16" height="180" fill="#835027"/><rect x="31" width="9" height="180" fill="#17223b"/><rect x="42" width="14" height="180" fill="#6f3e25"/>
+          </pattern>
         </defs>
-        <rect width="1600" height="900" fill="url(#wall)"/>
-        <rect width="1600" height="900" fill="url(#warmGlow)"/>
-        <rect width="1600" height="900" fill="url(#lampGlow)"/>
-        <rect x="0" y="0" width="230" height="790" fill="url(#shelfWood)"/>
-        <rect x="1370" y="0" width="230" height="790" fill="url(#shelfWood)"/>
-        <g opacity=".95">
-          <rect x="24" y="38" width="180" height="210" fill="#160b06" opacity=".56"/>
-          <rect x="24" y="294" width="180" height="220" fill="#160b06" opacity=".50"/>
-          <rect x="24" y="560" width="180" height="180" fill="#160b06" opacity=".48"/>
-          <rect x="1396" y="38" width="180" height="210" fill="#160b06" opacity=".56"/>
-          <rect x="1396" y="294" width="180" height="220" fill="#160b06" opacity=".50"/>
-          <rect x="1396" y="560" width="180" height="180" fill="#160b06" opacity=".48"/>
-        </g>
-        <g opacity=".96">
-          <g transform="translate(42 58)">
-            <rect width="12" height="160" fill="#31424a"/><rect x="16" width="18" height="160" fill="#8a5529"/><rect x="39" width="14" height="160" fill="#233145"/><rect x="58" width="22" height="160" fill="#6f3c1f"/><rect x="86" width="16" height="160" fill="#3c5245"/><rect x="108" width="20" height="160" fill="#9a632f"/><rect x="133" width="14" height="160" fill="#252b34"/>
+
+        <rect width="1600" height="940" fill="#070504"/>
+        <rect width="1600" height="940" fill="url(#warmAura)"/>
+        <use href="#portalArch" fill="url(#stoneGrad)" opacity=".96" transform="translate(0 0) scale(1)" filter="url(#leadShadow)"/>
+        <use href="#portalArch" fill="#080706" transform="translate(28 28) scale(.965 .94)" opacity=".95"/>
+
+        <g clip-path="url(#clipPortal)">
+          <rect x="170" y="76" width="1260" height="794" fill="#0b0a08"/>
+          <rect x="170" y="76" width="1260" height="794" fill="url(#lampAura)"/>
+          <rect x="170" y="76" width="1260" height="794" fill="url(#warmAura)"/>
+          <rect x="175" y="92" width="230" height="700" fill="url(#oakGrad)" opacity=".88"/>
+          <rect x="1195" y="92" width="230" height="700" fill="url(#oakGrad)" opacity=".88"/>
+          <rect x="205" y="142" width="160" height="190" fill="url(#bookPattern)" opacity=".84"/>
+          <rect x="205" y="380" width="160" height="190" fill="url(#bookPattern)" opacity=".78"/>
+          <rect x="1235" y="142" width="160" height="190" fill="url(#bookPattern)" opacity=".84"/>
+          <rect x="1235" y="380" width="160" height="190" fill="url(#bookPattern)" opacity=".78"/>
+          <path d="M170 705 L1430 705 L1430 870 L170 870 Z" fill="url(#oakGrad)" opacity=".96"/>
+          <path d="M170 705 L1430 705" stroke="#c47a38" stroke-width="8" opacity=".72"/>
+          <path d="M465 705 L564 705 L548 585 Q516 564 484 585 Z" fill="#b77935" opacity=".9"/>
+          <rect x="507" y="525" width="16" height="122" rx="8" fill="#d6a354"/>
+          <path d="M448 515 Q515 474 580 515 Q557 554 471 554 Z" fill="#70b85b" stroke="#24491a" stroke-width="6"/>
+          <ellipse cx="515" cy="555" rx="98" ry="48" fill="#8be06d" opacity=".15"/>
+          <rect x="655" y="640" width="205" height="114" rx="12" fill="#c8d1d6" opacity=".94"/>
+          <rect x="670" y="654" width="175" height="74" rx="8" fill="#0c1d30"/>
+          <path d="M670 728 L845 728 L872 764 L642 764 Z" fill="#848e94"/>
+          <path d="M702 708 Q753 654 822 706" stroke="#85b6b0" stroke-width="5" fill="none" opacity=".42"/>
+          <path d="M912 722 Q964 700 1014 722 L1008 784 Q962 762 916 784 Z" fill="#ead7b7" opacity=".92"/>
+          <path d="M964 710 L964 775" stroke="#6f4e31" stroke-width="3" opacity=".34"/>
+          <rect x="1060" y="746" width="120" height="10" rx="5" fill="#ba3d32" transform="rotate(-7 1120 751)"/>
+          <rect x="1078" y="727" width="126" height="10" rx="5" fill="#2d5870" transform="rotate(4 1141 732)"/>
+          <path d="M304 763 C318 718 376 720 390 761 C360 744 328 786 304 763 Z" fill="#d0b173" opacity=".86"/>
+          <path d="M350 746 C336 752 326 762 322 774 M350 746 C362 754 372 764 376 780 M350 746 C350 764 344 780 338 792" stroke="#765b37" stroke-width="4" opacity=".5" fill="none"/>
+          <circle cx="1188" cy="685" r="78" fill="#2d5968" opacity=".9"/>
+          <path d="M1180 614 Q1235 650 1218 714 Q1174 697 1165 642 Z" fill="#c5a15b" opacity=".72"/>
+          <ellipse cx="1188" cy="685" rx="88" ry="27" stroke="#d2a65c" stroke-width="5" fill="none" opacity=".45" transform="rotate(-24 1188 685)"/>
+          <path d="M1188 760 L1188 810 M1145 810 L1232 810" stroke="#9b642d" stroke-width="9"/>
+          <path d="M1365 816 C1410 798 1470 804 1514 836 L1514 900 L1348 900 C1340 860 1344 832 1365 816 Z" fill="#050403" opacity=".98"/>
+          <circle cx="1346" cy="812" r="28" fill="#050403"/>
+          <path d="M1327 792 L1333 760 L1350 790 M1361 790 L1375 762 L1382 800" fill="#050403"/>
+          <path d="M1360 842 C1312 856 1288 878 1278 902" stroke="#050403" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+          <g filter="url(#panelDepth)" opacity=".96">
+            <path d="M470 92 C610 76 728 110 800 210 L800 372 L470 372 Z" fill="url(#sapphire)" filter="url(#glassGrain)"/>
+            <path d="M800 210 C872 110 990 76 1130 92 L1130 372 L800 372 Z" fill="url(#violet)" filter="url(#glassGrain)"/>
+            <path d="M405 388 L800 388 L800 560 L405 560 Z" fill="url(#emerald)" filter="url(#glassGrain)" opacity=".72"/>
+            <path d="M800 388 L1195 388 L1195 560 L800 560 Z" fill="url(#ruby)" filter="url(#glassGrain)" opacity=".68"/>
+            <path d="M405 575 L800 575 L800 705 L405 705 Z" fill="url(#amber)" filter="url(#glassGrain)" opacity=".62"/>
+            <path d="M800 575 L1195 575 L1195 705 L800 705 Z" fill="url(#sapphire)" filter="url(#glassGrain)" opacity=".58"/>
           </g>
-          <g transform="translate(42 320)">
-            <rect width="18" height="170" fill="#233145"/><rect x="24" width="16" height="170" fill="#82552b"/><rect x="46" width="24" height="170" fill="#31424a"/><rect x="76" width="14" height="170" fill="#a16935"/><rect x="96" width="20" height="170" fill="#22362e"/><rect x="122" width="18" height="170" fill="#704225"/>
+
+          <g fill="none" stroke="url(#leadGrad)" stroke-linecap="round" stroke-linejoin="round" filter="url(#leadShadow)">
+            <use href="#portalArch" stroke-width="18"/>
+            <path d="M405 106 L405 870 M1195 106 L1195 870 M800 210 L800 870" stroke-width="14"/>
+            <path d="M405 372 L1195 372 M405 560 L1195 560 M405 705 L1195 705" stroke-width="12"/>
+            <path d="M470 92 Q610 170 800 210 Q990 170 1130 92" stroke-width="11"/>
+            <path d="M470 92 Q560 230 405 372 M1130 92 Q1040 230 1195 372" stroke-width="10"/>
+            <path d="M405 388 Q580 470 800 388 Q1020 470 1195 388" stroke-width="8" opacity=".78"/>
+            <path d="M405 575 Q580 650 800 575 Q1020 650 1195 575" stroke-width="8" opacity=".72"/>
+            <circle cx="800" cy="305" r="58" stroke-width="11"/>
+            <circle cx="800" cy="305" r="24" stroke-width="8"/>
+            <path d="M800 247 L800 363 M742 305 L858 305 M758 263 L842 347 M842 263 L758 347" stroke-width="6" opacity=".9"/>
           </g>
-          <g transform="translate(1418 60)">
-            <rect width="18" height="162" fill="#744423"/><rect x="24" width="13" height="162" fill="#2f454b"/><rect x="43" width="20" height="162" fill="#94602f"/><rect x="69" width="16" height="162" fill="#263247"/><rect x="91" width="23" height="162" fill="#5d321d"/><rect x="120" width="15" height="162" fill="#3d5445"/>
+
+          <g opacity=".78">
+            <circle cx="620" cy="196" r="2" fill="#fff5ce"/><circle cx="695" cy="255" r="1.7" fill="#fff5ce"/><circle cx="940" cy="188" r="2.1" fill="#fff5ce"/><circle cx="1010" cy="270" r="1.7" fill="#fff5ce"/><circle cx="1128" cy="440" r="1.8" fill="#fff5ce"/>
+            <path d="M555 260 L570 286 L600 292 L576 312 L582 342 L555 327 L528 342 L534 312 L510 292 L540 286 Z" fill="#f0cf78" opacity=".74"/>
           </g>
-          <g transform="translate(1418 322)">
-            <rect width="16" height="168" fill="#2c3f4b"/><rect x="22" width="22" height="168" fill="#865128"/><rect x="50" width="15" height="168" fill="#223035"/><rect x="71" width="18" height="168" fill="#a06432"/><rect x="95" width="24" height="168" fill="#70401f"/><rect x="125" width="13" height="168" fill="#31424a"/>
-          </g>
         </g>
-        <path d="M930 465 L930 150 Q930 40 1040 40 L1220 40 Q1330 40 1330 150 L1330 465 Z" fill="url(#sky)" stroke="#4f2c16" stroke-width="22" filter="url(#softShadow)"/>
-        <path d="M1040 50 L1040 465 M1220 50 L1220 465 M930 270 L1330 270 M1130 40 L1130 465" stroke="#4f2c16" stroke-width="9" opacity=".95"/>
-        <g fill="#f5e9c6" opacity=".9">
-          <circle cx="1000" cy="98" r="2"/><circle cx="1088" cy="126" r="1.8"/><circle cx="1218" cy="112" r="2"/><circle cx="1268" cy="210" r="1.6"/><circle cx="975" cy="212" r="1.6"/><circle cx="1168" cy="194" r="1.7"/><circle cx="1238" cy="318" r="1.4"/>
+
+        <g opacity=".52" filter="url(#leadShadow)">
+          <use href="#portalArch" fill="none" stroke="#d3a85d" stroke-width="2"/>
+          <use href="#portalArch" fill="none" stroke="#000" stroke-width="46" opacity=".32"/>
         </g>
-        <ellipse cx="1152" cy="290" rx="115" ry="66" fill="#7b58a2" opacity=".22"/>
-        <path d="M930 465 L1040 380 L1158 465 Z" fill="#17162d" opacity=".82"/>
-        <path d="M1058 465 L1210 350 L1330 465 Z" fill="#211a37" opacity=".86"/>
-        <g filter="url(#paperShadow)">
-          <rect x="428" y="84" width="132" height="86" fill="#1a2b4c" stroke="#b67635" stroke-width="8"/>
-          <rect x="635" y="62" width="108" height="130" fill="#17244a" stroke="#b67635" stroke-width="8"/>
-          <rect x="515" y="278" width="108" height="128" fill="#182b4b" stroke="#b67635" stroke-width="8"/>
-          <rect x="718" y="300" width="100" height="106" fill="#1b263e" stroke="#b67635" stroke-width="8"/>
-          <circle cx="493" cy="127" r="22" fill="#dbac53" opacity=".75"/>
-          <circle cx="689" cy="123" r="24" fill="#dbac53" opacity=".7"/>
-          <path d="M555 340 L572 358 L592 318 L606 358 L624 340 L600 372 L610 396 L582 376 L554 396 L564 372 Z" fill="#e4bd68" opacity=".75"/>
-        </g>
-        <g filter="url(#paperShadow)">
-          <rect x="650" y="430" width="78" height="62" fill="#d8bf8f" transform="rotate(3 689 461)"/>
-          <circle cx="688" cy="421" r="6" fill="#a46a31"/>
-          <path d="M665 452 L712 452 M668 466 L704 466" stroke="#5c4228" opacity=".38" stroke-width="3"/>
-        </g>
-        <rect x="650" y="518" width="270" height="186" fill="#482714" stroke="#75431f" stroke-width="10" filter="url(#softShadow)"/>
-        <path d="M785 520 L785 704 M650 612 L920 612" stroke="#9c632e" stroke-width="5" opacity=".52"/>
-        <ellipse cx="720" cy="578" rx="42" ry="26" fill="#6d5438" opacity=".68"/>
-        <ellipse cx="846" cy="578" rx="44" ry="28" fill="#5a4633" opacity=".72"/>
-        <ellipse cx="760" cy="668" rx="42" ry="27" fill="#655139" opacity=".66"/>
-        <rect x="120" y="690" width="1360" height="180" fill="url(#wood)"/>
-        <rect x="120" y="690" width="1360" height="8" fill="#bd7435" opacity=".86"/>
-        <g filter="url(#softShadow)">
-          <path d="M330 690 L430 690 L414 566 Q380 548 345 566 Z" fill="#ac7736"/>
-          <rect x="362" y="506" width="18" height="126" rx="8" fill="#d2a65c"/>
-          <path d="M315 500 Q380 458 445 500 Q424 545 336 545 Z" fill="#71b85b" stroke="#2d4d22" stroke-width="6"/>
-          <ellipse cx="380" cy="544" rx="86" ry="34" fill="#87d76b" opacity=".22"/>
-        </g>
-        <g filter="url(#softShadow)">
-          <rect x="496" y="626" width="230" height="132" rx="14" fill="#cfd8dc"/>
-          <rect x="512" y="642" width="198" height="86" rx="8" fill="#0d1e2d"/>
-          <path d="M512 728 L710 728 L740 770 L482 770 Z" fill="#879196"/>
-          <path d="M532 705 Q602 636 690 702" stroke="#7eb7b6" stroke-width="6" fill="none" opacity=".42"/>
-        </g>
-        <g filter="url(#paperShadow)">
-          <path d="M805 718 Q856 694 910 718 L904 780 Q856 760 810 780 Z" fill="#ead9b7"/>
-          <path d="M858 706 L858 772" stroke="#7d5a38" opacity=".32" stroke-width="3"/>
-          <path d="M824 736 L848 734 M868 734 L894 738 M823 752 L846 750 M870 752 L895 754" stroke="#7d5a38" opacity=".24" stroke-width="2"/>
-        </g>
-        <g filter="url(#paperShadow)">
-          <rect x="948" y="741" width="130" height="10" rx="5" fill="#c34535" transform="rotate(-7 1013 746)"/>
-          <rect x="960" y="724" width="138" height="10" rx="5" fill="#2d5b71" transform="rotate(4 1029 729)"/>
-          <rect x="980" y="758" width="100" height="10" rx="5" fill="#d8a85b" transform="rotate(-2 1030 763)"/>
-        </g>
-        <g filter="url(#paperShadow)">
-          <path d="M238 748 C248 710 304 708 318 746 C286 730 260 766 238 748 Z" fill="#d1b77b"/>
-          <path d="M278 736 C268 740 260 746 256 756 M278 736 C288 742 296 750 300 760 M278 736 C278 752 276 762 270 774" stroke="#80653d" stroke-width="4" opacity=".5" fill="none"/>
-        </g>
-        <g filter="url(#softShadow)">
-          <circle cx="1245" cy="662" r="82" fill="#2c5664"/>
-          <circle cx="1220" cy="630" r="38" fill="#9cae8f" opacity=".72"/>
-          <path d="M1240 594 Q1286 622 1274 686 Q1236 670 1228 628 Z" fill="#c8a45e" opacity=".7"/>
-          <ellipse cx="1245" cy="662" rx="92" ry="28" fill="none" stroke="#d2a65c" stroke-width="5" opacity=".45" transform="rotate(-24 1245 662)"/>
-          <path d="M1245 744 L1245 804 M1196 804 L1294 804" stroke="#9b642d" stroke-width="10"/>
-        </g>
-        <g filter="url(#paperShadow)">
-          <path d="M1128 737 Q1131 710 1158 713 L1186 717 Q1205 720 1208 742 L1208 768 L1128 768 Z" fill="#efe2cb"/>
-          <ellipse cx="1168" cy="716" rx="32" ry="10" fill="#2a1409"/>
-          <path d="M1208 734 Q1232 736 1226 756 Q1220 776 1208 760" fill="none" stroke="#caa171" stroke-width="8"/>
-        </g>
-        <path d="M1455 805 C1505 790 1554 796 1600 826 L1600 900 L1438 900 C1430 858 1434 822 1455 805 Z" fill="#070605" opacity=".96"/>
-        <circle cx="1436" cy="798" r="32" fill="#070605"/>
-        <path d="M1415 776 L1422 738 L1442 775 M1455 775 L1472 742 L1478 786" fill="#070605"/>
-        <path d="M1450 832 C1398 846 1370 872 1360 900" stroke="#070605" stroke-width="16" fill="none" stroke-linecap="round"/>
-        <path d="M1030 690 Q1080 608 1144 690 L1156 790 L1002 790 Z" fill="#16100c" opacity=".55"/>
-        <rect width="1600" height="900" fill="url(#warmGlow)" opacity=".48"/>
+        <rect width="1600" height="940" fill="none" stroke="rgba(244,226,187,.08)" stroke-width="2"/>
       </svg>
-      <div class="glass" aria-hidden="true"></div>
     </section>
-    <a class="enter-link" href="library.html" aria-label="Enter the study library">enter</a>
-    <div class="quiet-label" aria-hidden="true">the study is still warm</div>
+    <a class="enter-link" href="library.html" aria-label="Enter the library">enter</a>
+    <div class="caption" aria-hidden="true">illumination / study threshold</div>
   </main>
   <script src="assets/js/library.js" defer></script>
 </body>
