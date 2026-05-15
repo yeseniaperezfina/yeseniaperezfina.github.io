@@ -1,0 +1,229 @@
+/* Oxford Library Entry Override
+   This file intentionally wins over the earlier glass observatory layer.
+   Goal: old academic library threshold, leaded glass, oak, stone, lamplight. */
+
+body.glass-door-page{
+  background:
+    radial-gradient(circle at 50% 46%, rgba(194, 139, 72, .16), transparent 34rem),
+    radial-gradient(circle at 18% 18%, rgba(108, 80, 52, .18), transparent 22rem),
+    linear-gradient(180deg, #090704 0%, #15100a 48%, #050403 100%) !important;
+  cursor: default;
+}
+
+body.glass-door-page::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(215,196,160,.026) 1px, transparent 1px),
+    linear-gradient(rgba(215,196,160,.018) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 100%, rgba(0,0,0,.44), transparent 42%);
+  background-size: 96px 96px, 96px 96px, auto;
+  opacity:.38;
+}
+
+.glass-door{
+  perspective: 1200px !important;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.36), transparent 18%, transparent 82%, rgba(0,0,0,.38)),
+    radial-gradient(ellipse at 50% 50%, transparent 0 42%, rgba(0,0,0,.36) 83%);
+}
+
+.glass-door::before{
+  content:"";
+  position:absolute;
+  left:50% !important;
+  top:50% !important;
+  width:min(74vw, 1040px) !important;
+  height:min(78svh, 720px) !important;
+  transform:translate(-50%, -50%) !important;
+  inset:auto !important;
+  border-radius: 12px 12px 6px 6px !important;
+  border: clamp(12px, 1.5vw, 24px) solid rgba(45, 31, 21, .96) !important;
+  background:
+    linear-gradient(90deg,
+      transparent 0 11.5%, rgba(229,211,177,.28) 11.7% 12%, transparent 12.2% 24%,
+      rgba(229,211,177,.23) 24.2% 24.5%, transparent 24.7% 49.5%,
+      rgba(229,211,177,.38) 49.8% 50.2%, transparent 50.5% 75.3%,
+      rgba(229,211,177,.22) 75.5% 75.8%, transparent 76% 88%,
+      rgba(229,211,177,.26) 88.2% 88.5%, transparent 88.7%),
+    linear-gradient(0deg,
+      transparent 0 18%, rgba(229,211,177,.24) 18.2% 18.6%, transparent 18.9% 39%,
+      rgba(229,211,177,.22) 39.2% 39.6%, transparent 39.9% 61%,
+      rgba(229,211,177,.2) 61.2% 61.6%, transparent 61.9% 82%,
+      rgba(229,211,177,.18) 82.2% 82.6%, transparent 82.9%),
+    linear-gradient(115deg, rgba(255,255,255,.09), transparent 24%, transparent 58%, rgba(255,255,255,.045)),
+    rgba(18, 21, 23, .38) !important;
+  box-shadow:
+    0 0 0 1px rgba(201,169,106,.24),
+    0 0 0 clamp(18px, 2.4vw, 38px) rgba(86, 67, 47, .24),
+    0 38px 120px rgba(0,0,0,.82),
+    inset 0 0 76px rgba(255, 232, 183, .055),
+    inset 18px 0 44px rgba(255,255,255,.025),
+    inset -18px 0 52px rgba(0,0,0,.42) !important;
+  backdrop-filter: blur(6px) saturate(.82) !important;
+  opacity:1 !important;
+}
+
+.glass-door::after{
+  content:"";
+  position:absolute;
+  left:50% !important;
+  top:50% !important;
+  width:min(70vw, 970px) !important;
+  height:min(70svh, 650px) !important;
+  transform:translate(-50%, -50%) !important;
+  inset:auto !important;
+  border-radius: 6px !important;
+  border:1px solid rgba(232,214,178,.22);
+  background:
+    radial-gradient(circle at var(--light-x) var(--light-y), rgba(255,230,174,.18), transparent 9rem),
+    linear-gradient(112deg, transparent 0 18%, rgba(255,255,255,.13) 20%, transparent 23% 58%, rgba(255,255,255,.075) 62%, transparent 66%),
+    linear-gradient(90deg, transparent 49.85%, rgba(244,226,187,.28) 50%, transparent 50.15%),
+    linear-gradient(0deg, transparent 49.85%, rgba(244,226,187,.18) 50%, transparent 50.15%);
+  opacity:.48 !important;
+  mix-blend-mode: screen;
+  pointer-events:none;
+}
+
+.inside-shadow{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(70vw, 980px);
+  height:min(70svh, 650px);
+  transform:translate(-50%, -50%) !important;
+  overflow:hidden;
+  z-index:-3;
+  filter: sepia(.28) saturate(.75) contrast(.98) !important;
+}
+
+.inside-shadow::before{
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  height:100% !important;
+  background:
+    radial-gradient(circle at 62% 48%, rgba(235,169,80,.22), transparent 10rem),
+    linear-gradient(180deg, rgba(20,14,10,.28), transparent 24%, rgba(65,39,22,.64) 100%) !important;
+  filter: blur(10px) !important;
+  opacity: .95 !important;
+}
+
+.shelves{
+  left:4% !important;
+  right:4% !important;
+  bottom:34% !important;
+  height:42% !important;
+  opacity:.72 !important;
+  filter:blur(1.25px) !important;
+  background:
+    linear-gradient(180deg, rgba(12,8,5,.22), transparent 8%),
+    repeating-linear-gradient(90deg,
+      rgba(88,55,31,.78) 0 6px,
+      rgba(26,16,10,.8) 6px 9px,
+      rgba(127,78,38,.68) 9px 15px,
+      rgba(54,33,20,.8) 15px 19px,
+      rgba(20,12,8,.5) 19px 23px),
+    linear-gradient(180deg,
+      transparent 0 19%, rgba(196,142,74,.32) 19.5% 21%, transparent 21.5% 42%,
+      rgba(196,142,74,.26) 42.5% 44%, transparent 44.5% 66%,
+      rgba(196,142,74,.22) 66.5% 68%, transparent 68.5% 88%,
+      rgba(196,142,74,.18) 88.5% 90%, transparent 90.5%) !important;
+  transform: perspective(1000px) rotateX(3deg) !important;
+}
+
+.desk{
+  left:42% !important;
+  bottom:17% !important;
+  width:36% !important;
+  height:14% !important;
+  border-radius: 3px 3px 18px 18px !important;
+  background:
+    linear-gradient(180deg, rgba(113,66,33,.9), rgba(46,26,15,.96)) !important;
+  filter: blur(2px) !important;
+  transform:skewX(-3deg) perspective(700px) rotateX(4deg) !important;
+  box-shadow:0 26px 48px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,222,174,.16) !important;
+}
+
+.reader-shadow{
+  left:60% !important;
+  bottom:31% !important;
+  opacity:.5 !important;
+  filter:blur(2.4px) !important;
+}
+
+.reader-shadow::before,
+.reader-shadow::after{
+  background:#090705 !important;
+}
+
+.lamp-glow{
+  left:58% !important;
+  bottom:39% !important;
+  width:18rem !important;
+  height:18rem !important;
+  background:radial-gradient(circle, rgba(240,179,83,.42), rgba(240,179,83,.17) 31%, transparent 68%) !important;
+  filter: blur(14px) !important;
+  opacity:.86 !important;
+}
+
+.cat{
+  bottom:16% !important;
+  opacity:.82 !important;
+  filter:blur(.25px) drop-shadow(0 10px 8px rgba(0,0,0,.55)) !important;
+}
+
+.enter-link{
+  margin-top:0 !important;
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  transform:translate(-50%, -50%) !important;
+  font-family:var(--serif) !important;
+  font-size:.9rem !important;
+  letter-spacing:.16em !important;
+  color:rgba(247,238,219,.76) !important;
+  border:1px solid rgba(204,171,112,.26) !important;
+  border-radius:999px !important;
+  background:rgba(21,14,9,.35) !important;
+  box-shadow:0 10px 42px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08) !important;
+  backdrop-filter:blur(8px) !important;
+}
+
+.enter-link:hover,
+.enter-link:focus-visible{
+  color:#fff7e6 !important;
+  border-color:rgba(204,171,112,.62) !important;
+  background:rgba(74,47,25,.44) !important;
+  transform:translate(-50%, -50%) scale(1.035) !important;
+}
+
+.glass-door-page .glass-door .enter-link::before{
+  top:-26vh !important;
+  height:24vh !important;
+  background:linear-gradient(transparent, rgba(204,171,112,.38)) !important;
+}
+
+.glass-door-page .glass-door .enter-link::after{
+  top:-27vh !important;
+  border-color:rgba(204,171,112,.36) !important;
+  box-shadow:0 0 20px rgba(204,171,112,.2) !important;
+}
+
+@media(max-width:900px){
+  .glass-door::before{
+    width:88vw !important;
+    height:70svh !important;
+    border-width:12px !important;
+  }
+  .glass-door::after,
+  .inside-shadow{
+    width:82vw !important;
+    height:62svh !important;
+  }
+  .shelves{bottom:36% !important;height:38% !important;}
+  .desk{left:33% !important;width:48% !important;}
+  .enter-link{font-size:.84rem !important;}
+}
