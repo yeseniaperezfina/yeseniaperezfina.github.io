@@ -1,3 +1,4 @@
+@import url("polish.css");
 /* Final readability and responsive overrides */
 :root{--hero-max:3.78rem;--hero-min:2.4rem}
 .hero-thesis h1{font-size:clamp(var(--hero-min),3.9vw,var(--hero-max));max-width:860px;line-height:1.05}
