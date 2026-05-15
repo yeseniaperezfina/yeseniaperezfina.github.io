@@ -5,7 +5,35 @@
 
   body.classList.add('js-ready');
 
+  const room = document.createElement('div');
+  room.className = 'observatory-room';
+  room.setAttribute('aria-hidden', 'true');
+
+  const lamp = document.createElement('div');
+  lamp.className = 'observatory-lamp';
+  lamp.setAttribute('aria-hidden', 'true');
+
+  const lens = document.createElement('div');
+  lens.className = 'observatory-lens';
+  lens.setAttribute('aria-hidden', 'true');
+
+  const gauge = document.createElement('div');
+  gauge.className = 'scroll-gauge';
+  gauge.setAttribute('aria-hidden', 'true');
+
+  body.prepend(room, lamp, lens, gauge);
+
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+  const updateProgress = () => {
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+    const progress = clamp(window.scrollY / maxScroll, 0, 1);
+    root.style.setProperty('--scroll-progress', progress.toFixed(4));
+  };
+
+  updateProgress();
+  window.addEventListener('scroll', () => window.requestAnimationFrame(updateProgress), { passive: true });
+  window.addEventListener('resize', () => window.requestAnimationFrame(updateProgress), { passive: true });
 
   if (!reduceMotion) {
     let ticking = false;
@@ -30,12 +58,15 @@
     '.section-heading',
     '.archive-relief',
     '.case-study',
+    '.case-node',
+    '.case-reveal',
     '.theory-content',
     '.research-themes article',
     '.burden-list',
     '.principle-grid article',
     '.writing-layout',
-    '.contact-layout'
+    '.contact-layout',
+    '.archive-record'
   ].join(','));
 
   revealTargets.forEach((element) => element.classList.add('observatory-reveal'));
@@ -52,7 +83,7 @@
   revealTargets.forEach((element) => revealObserver.observe(element));
 
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
+  const navLinks = document.querySelectorAll('.site-nav a[href^="#"], .site-nav a[href^="index.html#"]');
   const sectionObserver = new IntersectionObserver((entries) => {
     const visible = entries
       .filter((entry) => entry.isIntersecting)
@@ -62,9 +93,11 @@
     const id = visible.target.getAttribute('id');
     body.dataset.section = id;
     navLinks.forEach((link) => {
-      link.dataset.active = link.getAttribute('href') === `#${id}` ? 'true' : 'false';
+      const href = link.getAttribute('href') || '';
+      const target = href.includes('#') ? href.split('#').pop() : '';
+      link.dataset.active = target === id ? 'true' : 'false';
     });
-  }, { threshold: [0.2, 0.4, 0.6], rootMargin: '-18% 0px -48% 0px' });
+  }, { threshold: [0.18, 0.36, 0.58], rootMargin: '-18% 0px -48% 0px' });
 
   sections.forEach((section) => sectionObserver.observe(section));
 
@@ -74,5 +107,15 @@
     node.addEventListener('mouseleave', () => node.dataset.active = 'false');
     node.addEventListener('focus', () => node.dataset.active = 'true');
     node.addEventListener('blur', () => node.dataset.active = 'false');
+  });
+
+  const caseStudies = document.querySelectorAll('.case-study');
+  caseStudies.forEach((study) => {
+    study.addEventListener('pointerenter', () => {
+      if (study.id) body.dataset.case = study.id;
+    });
+    study.addEventListener('focusin', () => {
+      if (study.id) body.dataset.case = study.id;
+    });
   });
 })();
