@@ -8,8 +8,12 @@
       if (ticking) return;
       ticking = true;
       window.requestAnimationFrame(() => {
-        root.style.setProperty('--mouse-x', `${(event.clientX / window.innerWidth) * 100}%`);
-        root.style.setProperty('--mouse-y', `${(event.clientY / window.innerHeight) * 100}%`);
+        const x = `${(event.clientX / window.innerWidth) * 100}%`;
+        const y = `${(event.clientY / window.innerHeight) * 100}%`;
+        root.style.setProperty('--mouse-x', x);
+        root.style.setProperty('--mouse-y', y);
+        root.style.setProperty('--light-x', x);
+        root.style.setProperty('--light-y', y);
         ticking = false;
       });
     }, { passive: true });
