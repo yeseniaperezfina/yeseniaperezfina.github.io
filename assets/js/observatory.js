@@ -25,15 +25,31 @@
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-  const updateProgress = () => {
+  const thresholdTitle = document.querySelector('#entry-title');
+  const thresholdSubtitle = document.querySelector('.threshold-subtitle');
+  const thresholdPrimary = document.querySelector('[data-enter-archive]');
+  const thresholdSecondary = document.querySelector('.threshold-actions .button-secondary');
+  const thresholdNote = document.querySelector('.threshold-note');
+
+  if (thresholdTitle) thresholdTitle.textContent = 'The glass observatory.';
+  if (thresholdSubtitle) {
+    thresholdSubtitle.textContent = 'A quiet instrument for reading science, governance, learning systems, and public meaning-making.';
+  }
+  if (thresholdPrimary) thresholdPrimary.textContent = 'Begin Orientation';
+  if (thresholdSecondary) thresholdSecondary.textContent = 'Trace the Systems Map';
+  if (thresholdNote) {
+    thresholdNote.textContent = 'Scroll, move, or follow the signal. The homepage begins as the instrument comes into focus.';
+  }
+
+  const clampProgress = () => {
     const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
     const progress = clamp(window.scrollY / maxScroll, 0, 1);
     root.style.setProperty('--scroll-progress', progress.toFixed(4));
   };
 
-  updateProgress();
-  window.addEventListener('scroll', () => window.requestAnimationFrame(updateProgress), { passive: true });
-  window.addEventListener('resize', () => window.requestAnimationFrame(updateProgress), { passive: true });
+  clampProgress();
+  window.addEventListener('scroll', () => window.requestAnimationFrame(clampProgress), { passive: true });
+  window.addEventListener('resize', () => window.requestAnimationFrame(clampProgress), { passive: true });
 
   if (!reduceMotion) {
     let ticking = false;
@@ -50,16 +66,36 @@
     }, { passive: true });
   }
 
-  const enterButton = document.querySelector('[data-enter-archive]');
-  if (enterButton) {
-    enterButton.addEventListener('click', () => {
-      body.classList.add('archive-entered');
-      const target = document.querySelector('#about');
-      if (target) {
-        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-      }
-    });
+  const moveToHomepage = () => {
+    body.classList.add('archive-entered');
+    const target = document.querySelector('#about');
+    if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  };
+
+  if (thresholdPrimary) {
+    thresholdPrimary.addEventListener('click', moveToHomepage);
   }
+
+  let thresholdScrollArmed = true;
+  const threshold = document.querySelector('#entry');
+  window.addEventListener('wheel', (event) => {
+    if (!threshold || !thresholdScrollArmed || event.deltaY <= 18) return;
+    const thresholdRect = threshold.getBoundingClientRect();
+    const mostlyAtThreshold = thresholdRect.top > -80 && thresholdRect.bottom > window.innerHeight * 0.52;
+    if (!mostlyAtThreshold) return;
+    thresholdScrollArmed = false;
+    moveToHomepage();
+    window.setTimeout(() => { thresholdScrollArmed = true; }, 1400);
+  }, { passive: true });
+
+  window.addEventListener('keydown', (event) => {
+    if (!thresholdScrollArmed || !['ArrowDown', 'PageDown', ' '].includes(event.key)) return;
+    const thresholdRect = threshold?.getBoundingClientRect();
+    if (!thresholdRect || thresholdRect.top < -80) return;
+    thresholdScrollArmed = false;
+    moveToHomepage();
+    window.setTimeout(() => { thresholdScrollArmed = true; }, 1400);
+  });
 
   const revealTargets = document.querySelectorAll([
     '.threshold-section',
