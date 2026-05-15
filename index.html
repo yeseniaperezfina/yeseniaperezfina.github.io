@@ -4,13 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Yesenia Pérez · The Study</title>
-  <meta name="description" content="A quiet amber fogged-glass sliding door entrance into Yesenia Pérez’s study, library, and professional archive." />
+  <meta name="description" content="A restrained amber fogged-glass sliding door entrance into Yesenia Pérez’s study, library, and professional archive." />
   <style>
     :root{
-      --ink:#f8edde;
-      --amber:#d7a35a;
-      --green:#94be72;
-      --deep:#040302;
+      --ink:#f6ecdc;
+      --muted:#b7aa96;
+      --amber:#d4a15d;
+      --green:#8fb56d;
+      --deep:#030302;
+      --wood:#3b2112;
       --serif: Georgia, 'Times New Roman', serif;
       --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
@@ -22,9 +24,9 @@
       color:var(--ink);
       font-family:var(--serif);
       background:
-        radial-gradient(circle at 50% 38%, rgba(174,112,52,.20), transparent 35rem),
-        radial-gradient(circle at 82% 18%, rgba(91,66,42,.20), transparent 28rem),
-        linear-gradient(180deg,#050403 0%,#130c07 56%,#040302 100%);
+        radial-gradient(circle at 50% 22%, rgba(111,77,45,.18), transparent 30rem),
+        radial-gradient(circle at 72% 42%, rgba(204,138,72,.11), transparent 24rem),
+        linear-gradient(180deg,#030302 0%,#090604 55%,#020201 100%);
     }
     .entry{
       min-height:100svh;
@@ -39,77 +41,233 @@
       content:"";
       position:absolute;
       inset:0;
-      z-index:5;
       pointer-events:none;
+      z-index:20;
       background:
-        radial-gradient(circle at 50% 45%, rgba(255,232,190,.10), transparent 15rem),
-        radial-gradient(ellipse at 50% 53%, transparent 0 50%, rgba(0,0,0,.34) 72%, rgba(0,0,0,.86) 100%),
-        linear-gradient(90deg,rgba(0,0,0,.70),transparent 21%,transparent 79%,rgba(0,0,0,.70));
+        radial-gradient(ellipse at 50% 52%, transparent 0 52%, rgba(0,0,0,.38) 76%, rgba(0,0,0,.88) 100%),
+        linear-gradient(90deg, rgba(0,0,0,.72), transparent 24%, transparent 76%, rgba(0,0,0,.72));
     }
-    .stage{
+    .threshold{
       position:relative;
-      width:min(94vw,1440px);
-      height:min(88svh,820px);
-      border-radius:34px;
-      overflow:hidden;
-      background:#090604;
-      transform:translateZ(-46px);
+      width:min(86vw,1120px);
+      height:min(92svh,820px);
+      border-radius:2px;
+      transform:translateZ(-40px);
+      background:#070403;
       box-shadow:
-        0 58px 160px rgba(0,0,0,.84),
-        0 0 0 1px rgba(239,202,138,.12),
-        inset 0 0 120px rgba(0,0,0,.52);
+        0 60px 180px rgba(0,0,0,.86),
+        0 0 0 1px rgba(220,185,126,.10),
+        0 0 0 28px rgba(18,11,7,.36);
+      overflow:hidden;
     }
-    .scene-svg{display:block;width:100%;height:100%;filter:saturate(.92) sepia(.10)}
-    .glass-layer{
+    .room{
       position:absolute;
       inset:0;
-      z-index:4;
-      pointer-events:none;
-    }
-    .panel{
-      position:absolute;
-      top:7.2%;
-      bottom:7.7%;
-      width:48.5%;
-      border:1px solid rgba(243,211,158,.32);
+      overflow:hidden;
       background:
-        radial-gradient(circle at 50% 42%,rgba(255,239,203,.17),transparent 13rem),
-        linear-gradient(112deg,transparent 0 17%,rgba(255,255,255,.14) 21%,transparent 27% 60%,rgba(255,255,255,.07) 65%,transparent 73%),
-        linear-gradient(90deg,rgba(255,255,255,.04),transparent 18%,transparent 82%,rgba(255,255,255,.025)),
-        repeating-linear-gradient(45deg,rgba(255,255,255,.028) 0 1px,transparent 1px 9px),
-        rgba(218,187,138,.15);
-      backdrop-filter:blur(9px) saturate(.72);
-      box-shadow:
-        inset 0 0 84px rgba(255,255,255,.045),
-        inset 0 1px 0 rgba(255,255,255,.08),
-        0 28px 80px rgba(0,0,0,.32);
+        radial-gradient(circle at 35% 52%, rgba(128,175,95,.12), transparent 13rem),
+        radial-gradient(circle at 57% 44%, rgba(221,151,79,.18), transparent 18rem),
+        linear-gradient(180deg,#111612 0%,#12120d 44%,#0a0503 100%);
+      filter:saturate(.85) sepia(.14);
     }
-    .panel::before{
+    .rear-wall{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, rgba(13,7,4,.96) 0 14%, transparent 26% 74%, rgba(13,7,4,.96) 86% 100%),
+        repeating-linear-gradient(90deg, rgba(255,235,190,.025) 0 1px, transparent 1px 122px),
+        linear-gradient(180deg, rgba(22,30,25,.56), rgba(42,27,16,.32) 62%, rgba(0,0,0,.22));
+    }
+    .rear-wall::after{
       content:"";
       position:absolute;
-      inset:1.15rem;
-      border:1px solid rgba(255,236,198,.13);
-      border-radius:inherit;
+      left:49%;top:0;bottom:0;width:1px;
+      background:rgba(255,225,176,.05);
+      box-shadow:-18rem 0 rgba(255,225,176,.035),18rem 0 rgba(255,225,176,.035);
     }
-    .panel-left{left:3.2%;border-radius:24px 8px 8px 24px;transform:translateX(-6.2%) perspective(900px) rotateY(-3deg)}
-    .panel-right{right:3.2%;border-radius:8px 24px 24px 8px;transform:translateX(10.8%) perspective(900px) rotateY(4.6deg);opacity:.92}
-    .panel-left::after,.panel-right::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,233,190,.30)}
-    .panel-left::after{right:1.75rem}.panel-right::after{left:1.75rem}
-    .track{position:absolute;left:5%;right:5%;top:6.4%;height:5px;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(232,191,126,.30),transparent);box-shadow:0 1px 0 rgba(255,255,255,.08)}
-    .opening{position:absolute;top:7.4%;bottom:7.4%;left:50%;width:10%;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.30),rgba(255,197,98,.18),rgba(0,0,0,.34));filter:blur(.3px);opacity:.94}
-    .handle{position:absolute;left:52.35%;top:50%;width:.56rem;height:5rem;transform:translate(-50%,-50%);border-radius:999px;background:linear-gradient(180deg,rgba(247,226,188,.76),rgba(118,82,43,.50));box-shadow:0 0 24px rgba(236,190,110,.13)}
+    .side-depth-left,.side-depth-right{
+      position:absolute;
+      top:0;bottom:0;width:18%;
+      background:linear-gradient(90deg, rgba(0,0,0,.72), rgba(74,43,22,.35), rgba(0,0,0,.08));
+      transform-origin:center;
+    }
+    .side-depth-left{left:0;clip-path:polygon(0 0,100% 8%,100% 92%,0 100%)}
+    .side-depth-right{right:0;transform:scaleX(-1);clip-path:polygon(0 0,100% 8%,100% 92%,0 100%)}
+    .floor{
+      position:absolute;
+      left:-10%;right:-10%;bottom:-8%;height:34%;
+      background:linear-gradient(180deg,#5f341a,#251106 74%,#060302);
+      clip-path:polygon(17% 0,83% 0,100% 100%,0 100%);
+      box-shadow:inset 0 1px 0 rgba(230,163,82,.18),0 -24px 90px rgba(0,0,0,.48);
+    }
+    .floor::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, transparent 49.9%, rgba(255,225,176,.07) 50%, transparent 50.1%),
+        repeating-linear-gradient(90deg, transparent 0 150px, rgba(255,225,176,.034) 151px 152px),
+        linear-gradient(180deg, rgba(230,160,78,.07), transparent 55%);
+    }
+    .book-wall{
+      position:absolute;
+      left:10%;top:12%;width:25%;height:58%;
+      background:linear-gradient(90deg,#160905,#5b3219 20%,#241108 100%);
+      border:1px solid rgba(199,132,65,.42);
+      box-shadow:inset 0 0 46px rgba(0,0,0,.68),0 24px 70px rgba(0,0,0,.45);
+      transform:perspective(900px) rotateY(1.5deg);
+      filter:blur(.2px);
+    }
+    .book-wall::before{
+      content:"";
+      position:absolute;
+      inset:7% 8%;
+      background:
+        repeating-linear-gradient(90deg,#2a3440 0 9px,#8f552b 9px 19px,#1f2934 19px 28px,#b06a34 28px 40px,#3a473d 40px 49px,#61331d 49px 62px),
+        linear-gradient(180deg,transparent 0 25%,rgba(226,146,70,.20) 25.4% 26.3%,transparent 26.8% 51%,rgba(226,146,70,.16) 51.4% 52.3%,transparent 52.8% 77%,rgba(226,146,70,.12) 77.4% 78.3%,transparent 78.8%);
+      opacity:.78;
+    }
+    .cat{
+      position:absolute;
+      left:27%;top:24%;width:4.8rem;height:2.8rem;
+      opacity:.72;
+      filter:blur(.15px);
+    }
+    .cat::before{
+      content:"";
+      position:absolute;
+      left:0;bottom:0;width:3.6rem;height:1.5rem;
+      border-radius:999px 999px 45% 45%;
+      background:#050403;
+      box-shadow:0 15px 22px rgba(0,0,0,.36);
+    }
+    .cat::after{
+      content:"";
+      position:absolute;
+      right:0;top:.05rem;width:2.7rem;height:2.1rem;
+      border:8px solid #050403;
+      border-left:0;border-bottom:0;border-radius:0 999px 0 0;
+      transform:rotate(16deg);
+    }
+    .depth-bay{
+      position:absolute;
+      right:10%;top:11%;width:28%;height:56%;
+      border:1px solid rgba(205,140,73,.18);
+      background:
+        radial-gradient(circle at 48% 38%, rgba(226,157,83,.18), transparent 11rem),
+        linear-gradient(90deg,rgba(0,0,0,.58),transparent 22%,transparent 78%,rgba(0,0,0,.58)),
+        linear-gradient(180deg,#151c18,#0c0704);
+      box-shadow:inset 0 0 90px rgba(0,0,0,.62),0 20px 70px rgba(0,0,0,.30);
+      opacity:.58;
+      filter:blur(1.6px);
+    }
+    .depth-bay::after{
+      content:"";
+      position:absolute;
+      right:16%;bottom:0;width:45%;height:48%;
+      border-radius:50% 50% 0 0;
+      background:rgba(5,4,3,.72);
+      filter:blur(8px);
+    }
+    .desk-line{
+      position:absolute;
+      left:24%;right:18%;bottom:20%;height:4px;
+      background:linear-gradient(90deg,transparent,rgba(224,142,67,.50),transparent);
+      box-shadow:0 18px 44px rgba(0,0,0,.60);
+    }
+    .lamp-aura{
+      position:absolute;
+      left:28%;bottom:27%;width:34%;height:40%;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(145,255,107,.18),rgba(145,255,107,.07) 32%,transparent 68%);
+      filter:blur(24px);
+    }
+    .lamp{
+      position:absolute;
+      left:38%;bottom:31%;width:13%;height:24%;
+      filter:drop-shadow(0 18px 28px rgba(0,0,0,.42));
+    }
+    .lamp::before{
+      content:"";
+      position:absolute;
+      left:12%;top:0;width:76%;height:30%;
+      border-radius:999px 999px 18px 18px;
+      background:linear-gradient(180deg,#c5ec94,#4b7b38 60%,#162c11);
+      box-shadow:0 0 40px rgba(144,255,105,.28),inset 0 6px 14px rgba(255,255,255,.24);
+    }
+    .lamp::after{
+      content:"";
+      position:absolute;
+      left:49%;top:28%;width:5%;height:60%;
+      background:linear-gradient(180deg,#dfa75a,#61401f);
+      box-shadow:-1.25rem 5rem 0 .30rem #b77a35,1.25rem 5rem 0 .30rem #b77a35;
+    }
+    .glass-system{
+      position:absolute;
+      inset:0;
+      z-index:8;
+      pointer-events:none;
+    }
+    .track-top,.track-bottom{
+      position:absolute;
+      left:7%;right:7%;height:6px;
+      border-radius:999px;
+      background:linear-gradient(90deg,transparent,rgba(229,188,125,.32),transparent);
+      box-shadow:0 1px 0 rgba(255,255,255,.08);
+    }
+    .track-top{top:5.7%}.track-bottom{bottom:6%}
+    .door{
+      position:absolute;
+      top:7%;bottom:7%;width:49%;
+      border:1px solid rgba(238,205,150,.32);
+      background:
+        radial-gradient(circle at 50% 42%,rgba(255,240,205,.16),transparent 13rem),
+        linear-gradient(112deg,transparent 0 18%,rgba(255,255,255,.13) 21%,transparent 27% 60%,rgba(255,255,255,.07) 65%,transparent 73%),
+        repeating-linear-gradient(45deg,rgba(255,255,255,.023) 0 1px,transparent 1px 9px),
+        rgba(216,185,138,.14);
+      backdrop-filter:blur(10px) saturate(.68);
+      box-shadow:
+        inset 0 0 84px rgba(255,255,255,.04),
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 30px 82px rgba(0,0,0,.32);
+    }
+    .door::before{
+      content:"";
+      position:absolute;inset:1.1rem;
+      border:1px solid rgba(255,238,201,.12);
+    }
+    .door-left{left:4%;transform:translateX(-9.2%) perspective(1000px) rotateY(-3deg)}
+    .door-right{right:4%;transform:translateX(12.5%) perspective(1000px) rotateY(4.5deg);opacity:.92}
+    .door-left::after,.door-right::after{
+      content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,234,194,.30);
+    }
+    .door-left::after{right:1.6rem}.door-right::after{left:1.6rem}
+    .opening{
+      position:absolute;
+      top:7%;bottom:7%;left:50%;width:11%;
+      transform:translateX(-50%);
+      background:linear-gradient(90deg,rgba(0,0,0,.36),rgba(214,146,70,.16),rgba(0,0,0,.40));
+      box-shadow:inset 12px 0 26px rgba(0,0,0,.34),inset -12px 0 26px rgba(0,0,0,.32);
+      opacity:.96;
+    }
+    .handle{
+      position:absolute;left:52.3%;top:50%;width:.55rem;height:5rem;
+      transform:translate(-50%,-50%);
+      border-radius:999px;
+      background:linear-gradient(180deg,rgba(248,228,190,.78),rgba(116,80,42,.52));
+      box-shadow:0 0 24px rgba(236,190,110,.14);
+    }
     .enter{
       position:absolute;
-      left:50%;top:52%;
-      z-index:8;
+      left:50%;top:52%;z-index:18;
       transform:translate(-50%,-50%);
       text-decoration:none;
-      color:rgba(255,246,228,.88);
+      color:rgba(255,247,230,.88);
       font-family:var(--serif);
-      font-size:.92rem;
+      font-size:.9rem;
       letter-spacing:.2em;
       text-transform:lowercase;
-      padding:.82rem 1.3rem;
+      padding:.82rem 1.28rem;
       border:1px solid rgba(220,174,94,.50);
       border-radius:999px;
       background:rgba(10,7,4,.38);
@@ -117,81 +275,36 @@
       backdrop-filter:blur(10px) saturate(.85);
       transition:transform .32s ease,border-color .32s ease,background .32s ease,color .32s ease;
     }
-    .enter::before{content:"";position:absolute;left:50%;top:-24vh;width:1px;height:22vh;background:linear-gradient(transparent,rgba(220,174,94,.46))}
-    .enter::after{content:"";position:absolute;left:50%;top:-25vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(220,174,94,.44);transform:translateX(-50%);box-shadow:0 0 22px rgba(220,174,94,.26)}
+    .enter::before{content:"";position:absolute;left:50%;top:-23vh;width:1px;height:21vh;background:linear-gradient(transparent,rgba(220,174,94,.44))}
+    .enter::after{content:"";position:absolute;left:50%;top:-24vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(220,174,94,.44);transform:translateX(-50%);box-shadow:0 0 22px rgba(220,174,94,.26)}
     .enter:hover,.enter:focus-visible{transform:translate(-50%,-50%) scale(1.045);border-color:rgba(220,174,94,.82);background:rgba(76,45,22,.50);color:#fff9ee;outline:none}
-    .caption{position:absolute;right:clamp(1rem,3vw,2.4rem);bottom:clamp(.8rem,2vw,1.6rem);z-index:8;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.32);pointer-events:none}
-    @media(max-width:880px){.stage{width:96vw;height:78svh}.panel{top:6%;bottom:6%;width:49%}.panel-left{left:1.2%}.panel-right{right:1.2%;transform:translateX(10%) perspective(900px) rotateY(5deg)}.enter{font-size:.84rem}.enter::before,.enter::after,.caption{display:none}}
-    @media(max-width:620px){.stage{height:72svh}.opening{width:13%}}
+    .caption{position:absolute;right:clamp(1rem,3vw,2.4rem);bottom:clamp(.8rem,2vw,1.6rem);z-index:18;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.32);pointer-events:none}
+    @media(max-width:900px){.threshold{width:94vw;height:82svh}.book-wall{left:7%;width:30%}.cat{left:31%}.depth-bay{right:7%;width:33%}.lamp{left:34%;width:17%}.door{top:6%;bottom:6%;width:50%}.door-left{left:1%;transform:translateX(-7%) perspective(1000px) rotateY(-3deg)}.door-right{right:1%;transform:translateX(11%) perspective(1000px) rotateY(5deg)}.enter{font-size:.84rem}.enter::before,.enter::after,.caption{display:none}}
+    @media(max-width:620px){.threshold{height:74svh}.book-wall{width:38%;opacity:.86}.depth-bay{opacity:.42}.lamp{left:30%;width:24%}.opening{width:14%}}
     @media(prefers-reduced-motion:reduce){.enter{transition:none}}
   </style>
 </head>
 <body>
   <main class="entry" aria-label="Amber fogged-glass entrance to Yesenia Pérez’s study">
-    <section class="stage" aria-hidden="true">
-      <svg class="scene-svg" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A restrained dark academic study behind amber fogged sliding glass.">
-        <defs>
-          <linearGradient id="wall" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#101815"/><stop offset=".48" stop-color="#17140e"/><stop offset="1" stop-color="#100704"/></linearGradient>
-          <linearGradient id="wood" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7b471f"/><stop offset=".62" stop-color="#361809"/><stop offset="1" stop-color="#130703"/></linearGradient>
-          <linearGradient id="silver" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#edf2f2"/><stop offset=".5" stop-color="#9ba8ad"/><stop offset="1" stop-color="#5d666b"/></linearGradient>
-          <radialGradient id="lampGlow" cx="36%" cy="58%" r="34%"><stop offset="0" stop-color="rgba(150,255,107,.23)"/><stop offset=".36" stop-color="rgba(150,255,107,.08)"/><stop offset="1" stop-color="rgba(150,255,107,0)"/></radialGradient>
-          <radialGradient id="warmGlow" cx="61%" cy="43%" r="46%"><stop offset="0" stop-color="rgba(241,181,92,.24)"/><stop offset=".5" stop-color="rgba(241,181,92,.08)"/><stop offset="1" stop-color="rgba(241,181,92,0)"/></radialGradient>
-          <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="10"/></filter>
-          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".42"/></filter>
-          <pattern id="books" width="62" height="210" patternUnits="userSpaceOnUse"><rect width="11" height="210" fill="#25333d"/><rect x="13" width="17" height="210" fill="#8a5128"/><rect x="33" width="11" height="210" fill="#1b2732"/><rect x="47" width="15" height="210" fill="#a06431"/></pattern>
-        </defs>
-        <rect width="1600" height="900" fill="#070403"/>
-        <rect x="70" y="48" width="1460" height="810" rx="28" fill="#100905" opacity=".86"/>
-        <rect x="110" y="80" width="1380" height="760" rx="18" fill="url(#wall)"/>
-        <rect x="110" y="80" width="1380" height="760" fill="url(#warmGlow)"/>
-        <rect x="110" y="80" width="1380" height="760" fill="url(#lampGlow)"/>
-        <path d="M110 690 L1490 690 L1580 900 L20 900 Z" fill="url(#wood)" opacity=".98"/>
-        <path d="M110 690 L1490 690" stroke="#b96f32" stroke-width="6" opacity=".52"/>
-        <path d="M110 690 L20 900 M1490 690 L1580 900 M450 690 L400 900 M800 690 L800 900 M1150 690 L1200 900" stroke="rgba(255,220,160,.07)" stroke-width="2"/>
-        <g filter="url(#shadow)">
-          <path d="M132 120 L450 120 L450 608 L132 608 Z" fill="#1b0d06" stroke="#70401e" stroke-width="12"/>
-          <rect x="168" y="164" width="246" height="362" fill="url(#books)" opacity=".94"/>
-          <path d="M132 284 L450 284 M132 448 L450 448" stroke="#9f5e2c" stroke-width="5" opacity=".45"/>
-          <path d="M350 250 C385 226 430 235 450 266 C430 244 406 247 389 263 C375 276 361 273 350 250 Z" fill="#050403" opacity=".94"/>
-          <path d="M427 248 C457 230 479 247 479 286" fill="none" stroke="#050403" stroke-width="11" stroke-linecap="round" opacity=".9"/>
-        </g>
-        <g opacity=".42" filter="url(#soft)">
-          <rect x="1080" y="100" width="360" height="520" rx="12" fill="#7e4a24"/>
-          <rect x="1135" y="154" width="245" height="350" fill="url(#books)" opacity=".55"/>
-          <ellipse cx="1245" cy="525" rx="105" ry="140" fill="#050403" opacity=".8"/>
-        </g>
-        <g filter="url(#shadow)">
-          <rect x="520" y="610" width="560" height="115" rx="12" fill="#76431e"/>
-          <path d="M520 610 L1080 610 L1140 760 L462 760 Z" fill="url(#wood)"/>
-          <path d="M462 760 L1140 760" stroke="rgba(0,0,0,.35)" stroke-width="24"/>
-          <path d="M595 614 L690 614 L674 498 Q642 478 611 498 Z" fill="#c58b45"/>
-          <rect x="634" y="448" width="18" height="142" rx="8" fill="#e1ad61"/>
-          <path d="M574 438 Q642 392 710 438 Q688 482 596 482 Z" fill="#91c976" stroke="#2e551f" stroke-width="6"/>
-          <ellipse cx="642" cy="486" rx="110" ry="52" fill="#8ee06a" opacity=".18"/>
-          <rect x="748" y="578" width="260" height="132" rx="14" fill="url(#silver)"/>
-          <rect x="768" y="596" width="220" height="80" rx="8" fill="#0c1e2c"/>
-          <path d="M768 676 L988 676 L1023 722 L732 722 Z" fill="#9ba4a8"/>
-          <path d="M810 650 Q875 594 952 650" stroke="#93b5a6" stroke-width="5" opacity=".45" fill="none"/>
-          <path d="M1050 664 Q1105 640 1164 664 L1158 722 Q1104 704 1056 722 Z" fill="#ead8b8"/>
-          <path d="M1108 650 L1108 710" stroke="#7c5637" opacity=".34" stroke-width="3"/>
-          <rect x="1162" y="722" width="132" height="10" rx="5" fill="#2e5d72" transform="rotate(-4 1228 727)"/>
-          <rect x="1148" y="704" width="122" height="10" rx="5" fill="#c64535" transform="rotate(-8 1209 709)"/>
-          <path d="M1212 660 Q1216 632 1243 636 L1272 640 Q1290 642 1292 664 L1292 690 L1212 690 Z" fill="#efdfc6"/>
-          <ellipse cx="1252" cy="638" rx="32" ry="10" fill="#2b1409"/>
-          <path d="M1292 655 Q1318 657 1311 678 Q1305 696 1292 682" fill="none" stroke="#cda06a" stroke-width="7"/>
-          <path d="M358 702 C372 660 433 660 448 700 C410 682 382 728 358 702 Z" fill="#d3b576" opacity=".86"/>
-          <path d="M405 686 C389 692 380 704 376 716 M405 686 C420 696 432 710 436 726 M405 686 C405 706 399 722 390 738" stroke="#765b37" stroke-width="4" opacity=".52" fill="none"/>
-        </g>
-        <g opacity=".18" filter="url(#soft)">
-          <path d="M580 492 Q720 330 875 470 Q1005 590 1160 420" stroke="#f3c579" stroke-width="26" fill="none"/>
-        </g>
-        <rect x="110" y="80" width="1380" height="760" rx="18" fill="none" stroke="rgba(243,211,158,.08)" stroke-width="2"/>
-      </svg>
-      <div class="glass-layer">
-        <div class="track"></div>
+    <section class="threshold" aria-hidden="true">
+      <div class="room">
+        <div class="rear-wall"></div>
+        <div class="side-depth-left"></div>
+        <div class="side-depth-right"></div>
+        <div class="book-wall"></div>
+        <div class="cat"></div>
+        <div class="depth-bay"></div>
+        <div class="desk-line"></div>
+        <div class="lamp-aura"></div>
+        <div class="lamp"></div>
+        <div class="floor"></div>
+      </div>
+      <div class="glass-system">
+        <div class="track-top"></div>
+        <div class="track-bottom"></div>
         <div class="opening"></div>
-        <div class="panel panel-left"></div>
-        <div class="panel panel-right"></div>
+        <div class="door door-left"></div>
+        <div class="door door-right"></div>
         <div class="handle"></div>
       </div>
     </section>
