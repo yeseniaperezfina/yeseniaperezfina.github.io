@@ -98,7 +98,7 @@ body.library-hub-page{
   display:block;
   pointer-events:auto;
   border:1px solid transparent;
-  border-radius:8px;
+  border-radius:4px;
   text-decoration:none;
   color:transparent;
   background:rgba(255,214,142,0);
@@ -107,10 +107,12 @@ body.library-hub-page{
 .volume-zone::before{
   content:"";
   position:absolute;
-  inset:-8px;
+  inset:-10px -8px;
   border-radius:inherit;
-  background:radial-gradient(ellipse at 50% 50%,rgba(255,221,148,.34),rgba(255,221,148,.12) 34%,transparent 72%);
-  filter:blur(18px);
+  background:
+    radial-gradient(ellipse at 50% 55%,rgba(255,221,148,.32),rgba(255,221,148,.12) 36%,transparent 72%),
+    linear-gradient(90deg,transparent,rgba(255,237,190,.18),transparent);
+  filter:blur(16px);
   opacity:0;
   transform:scale(.96);
   transition:opacity .32s ease,transform .32s ease;
@@ -121,45 +123,45 @@ body.library-hub-page{
   inset:0;
   border-radius:inherit;
   border:1px solid rgba(255,230,177,0);
-  box-shadow:inset 0 0 34px rgba(255,222,155,0);
+  box-shadow:inset 0 0 26px rgba(255,222,155,0);
   transition:border-color .32s ease,box-shadow .32s ease;
 }
 .volume-zone span{
   position:absolute;
   left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) translateY(8px);
+  top:57%;
+  transform:translate(-50%,-50%) translateY(7px);
   opacity:0;
   white-space:nowrap;
   color:rgba(255,247,230,.96);
   font-family:var(--sans);
-  font-size:.58rem;
+  font-size:.55rem;
   letter-spacing:.16em;
   text-transform:uppercase;
-  padding:.42rem .62rem;
-  border:1px solid rgba(210,160,93,.36);
-  background:rgba(8,5,3,.62);
-  box-shadow:0 18px 42px rgba(0,0,0,.48);
+  padding:.34rem .52rem;
+  border:1px solid rgba(210,160,93,.38);
+  background:rgba(8,5,3,.64);
+  box-shadow:0 14px 36px rgba(0,0,0,.46);
   backdrop-filter:blur(12px);
   transition:opacity .28s ease,transform .28s ease;
 }
 .volume-zone:hover,.volume-zone:focus-visible{
-  border-color:rgba(255,231,184,.38);
-  background:rgba(255,221,148,.055);
-  box-shadow:0 0 90px rgba(255,199,105,.28),0 0 0 1px rgba(0,0,0,.25),inset 0 0 55px rgba(255,232,180,.10);
+  border-color:rgba(255,231,184,.50);
+  background:rgba(255,221,148,.045);
+  box-shadow:0 0 52px rgba(255,199,105,.22),0 0 0 1px rgba(0,0,0,.22),inset 0 0 38px rgba(255,232,180,.10);
   outline:none;
-  filter:brightness(1.18);
-  transform:translateY(-2px);
+  filter:brightness(1.14);
+  transform:translateY(-1px);
 }
-.volume-zone:hover::before,.volume-zone:focus-visible::before{opacity:1;transform:scale(1.08)}
-.volume-zone:hover::after,.volume-zone:focus-visible::after{border-color:rgba(255,231,184,.55);box-shadow:inset 0 0 34px rgba(255,222,155,.16)}
+.volume-zone:hover::before,.volume-zone:focus-visible::before{opacity:1;transform:scale(1.03)}
+.volume-zone:hover::after,.volume-zone:focus-visible::after{border-color:rgba(255,231,184,.62);box-shadow:inset 0 0 28px rgba(255,222,155,.14)}
 .volume-zone:hover span,.volume-zone:focus-visible span{opacity:1;transform:translate(-50%,-50%) translateY(0)}
-/* Hotspots are approximate zones for the visible title books in the 16:9 hub. Adjust only these numbers if the art changes. */
-.zone-about{left:42.8%;top:27.5%;width:7.8%;height:39%}
-.zone-work{left:50.4%;top:23%;width:7.8%;height:46%}
-.zone-research{left:58.1%;top:31.5%;width:7.2%;height:37%}
-.zone-systems{left:65.6%;top:18%;width:9.1%;height:52%}
-.zone-voice{left:74.4%;top:27%;width:8.3%;height:42%}
+/* Hotspots tuned to the five labeled volume spines in the 16:9 hub art. */
+.zone-about{left:47.4%;top:34.0%;width:3.35%;height:41.6%}
+.zone-work{left:51.0%;top:34.0%;width:3.55%;height:41.6%}
+.zone-research{left:54.95%;top:34.0%;width:3.75%;height:41.6%}
+.zone-systems{left:59.0%;top:34.0%;width:4.05%;height:41.6%}
+.zone-voice{left:63.45%;top:34.0%;width:4.05%;height:41.6%}
 .mobile-volume-list{display:none}
 .library-hub-page.is-turning .library-backdrop img{
   transition:filter .68s ease,transform .68s cubic-bezier(.2,.8,.2,1);
