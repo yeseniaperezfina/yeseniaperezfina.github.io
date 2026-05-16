@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="about-image-led-2026-05-16-07" />
+  <meta name="build-version" content="about-image-led-2026-05-16-08" />
   <title>About · Yesenia Pérez</title>
   <meta name="description" content="Volume I of Yesenia Pérez’s public learning systems archive: the person, practice, and values behind the work." />
-  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-07" />
+  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-08" />
 </head>
 <body class="about-visual-page">
   <a class="skip-link" href="#about-key-title">Skip to About content</a>
 
   <main class="about-scene" aria-label="Volume I: About Me">
     <div class="scene-frame">
-      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-07" alt="" decoding="async" fetchpriority="high" />
+      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-08" alt="" decoding="async" fetchpriority="high" />
 
-      <button class="section-orb orb-orientation" type="button" aria-label="Unlock key note" aria-controls="about-key" aria-pressed="true" data-key="orientation">
+      <button class="section-orb orb-orientation is-active" type="button" aria-label="Select page key" aria-controls="about-key" aria-pressed="true" data-key="orientation">
         <span>Key</span>
       </button>
 
-      <button class="section-orb orb-practice" type="button" aria-label="Unlock practice note" aria-controls="about-key" aria-pressed="false" data-key="practice">
+      <button class="section-orb orb-practice" type="button" aria-label="Select practice note" aria-controls="about-key" aria-pressed="false" data-key="practice">
         <span>Practice</span>
       </button>
 
-      <button class="section-orb orb-method" type="button" aria-label="Unlock method note" aria-controls="about-key" aria-pressed="false" data-key="method">
+      <button class="section-orb orb-method" type="button" aria-label="Select method note" aria-controls="about-key" aria-pressed="false" data-key="method">
         <span>Method</span>
       </button>
 
-      <button class="section-orb orb-values" type="button" aria-label="Unlock values note" aria-controls="about-key" aria-pressed="false" data-key="values">
+      <button class="section-orb orb-values" type="button" aria-label="Select values note" aria-controls="about-key" aria-pressed="false" data-key="values">
         <span>Values</span>
       </button>
     </div>
@@ -36,7 +36,7 @@
       <a class="back-link" href="library.html">Back to Library</a>
     </nav>
 
-    <section class="key-menu" id="about-key" aria-live="polite" aria-labelledby="about-key-title">
+    <section class="key-menu" id="about-key" data-active-key="orientation" aria-live="polite" aria-labelledby="about-key-title">
       <p class="key-kicker">Map</p>
       <h1 id="about-key-title">Key</h1>
       <div class="key-list" aria-label="About page reading key">
@@ -98,6 +98,8 @@
       }
 
       const unlockKey = (targetKey) => {
+        keyMenu.dataset.activeKey = targetKey;
+
         orbs.forEach((orb) => {
           const isActive = orb.dataset.key === targetKey;
           orb.classList.toggle('is-active', isActive);
