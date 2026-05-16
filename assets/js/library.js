@@ -2,7 +2,7 @@
   const root = document.documentElement;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const body = document.body;
-  const marginalia = document.querySelector('.volume-marginalia');
+  const card = document.querySelector('.archive-card');
 
   if (!reduceMotion) {
     let ticking = false;
@@ -10,52 +10,54 @@
       if (ticking) return;
       ticking = true;
       window.requestAnimationFrame(() => {
-        const x = `${(event.clientX / window.innerWidth) * 100}%`;
-        const y = `${(event.clientY / window.innerHeight) * 100}%`;
-        root.style.setProperty('--mouse-x', x);
-        root.style.setProperty('--mouse-y', y);
-        root.style.setProperty('--light-x', x);
-        root.style.setProperty('--light-y', y);
+        root.style.setProperty('--light-x', `${(event.clientX / window.innerWidth) * 100}%`);
+        root.style.setProperty('--light-y', `${(event.clientY / window.innerHeight) * 100}%`);
         ticking = false;
       });
     }, { passive: true });
   }
 
-  const resetMarginalia = () => {
-    if (!marginalia) return;
-    marginalia.innerHTML = '<span>Selected volume</span><strong>Move through the archive.</strong><p>Hover or focus a spine to read the room note. Select a volume to enter.</p>';
+  const setCard = ({ room = 'Selected volume', volume = 'Move through the archive.', note = 'Hover, focus, or tap a volume to reveal its room note.' } = {}) => {
+    if (!card) return;
+    card.innerHTML = `<span class="archive-card-kicker">${room}</span><strong>${volume}</strong><p>${note}</p>`;
   };
 
-  document.querySelectorAll('[data-book]').forEach((book) => {
-    const title = book.querySelector('span')?.textContent?.trim() || 'Selected volume';
-    const room = book.querySelector('em')?.textContent?.trim() || 'Archive room';
-    const note = book.querySelector('p')?.textContent?.trim() || 'Open this room.';
+  const resetCard = () => setCard();
 
+  document.querySelectorAll('.volume-zone').forEach((zone) => {
     const activate = () => {
-      body.dataset.activeBook = book.dataset.book || '';
-      if (marginalia) {
-        marginalia.innerHTML = `<span>${room}</span><strong>${title}</strong><p>${note}</p>`;
-      }
+      setCard({
+        room: zone.dataset.room,
+        volume: zone.dataset.volume,
+        note: zone.dataset.note
+      });
     };
 
-    book.addEventListener('mouseenter', activate);
-    book.addEventListener('focus', activate);
-    book.addEventListener('mouseleave', () => {
-      delete body.dataset.activeBook;
-      resetMarginalia();
-    });
-    book.addEventListener('blur', () => {
-      delete body.dataset.activeBook;
-      resetMarginalia();
-    });
+    zone.addEventListener('mouseenter', activate);
+    zone.addEventListener('focus', activate);
+    zone.addEventListener('touchstart', activate, { passive: true });
+    zone.addEventListener('mouseleave', resetCard);
+    zone.addEventListener('blur', resetCard);
 
-    book.addEventListener('click', (event) => {
+    zone.addEventListener('click', (event) => {
+      if (reduceMotion) return;
+      event.preventDefault();
+      activate();
+      body.classList.add('is-turning');
+      window.setTimeout(() => {
+        window.location.href = zone.href;
+      }, 560);
+    });
+  });
+
+  document.querySelectorAll('.mobile-volume-list a').forEach((link) => {
+    link.addEventListener('click', (event) => {
       if (reduceMotion) return;
       event.preventDefault();
       body.classList.add('is-turning');
       window.setTimeout(() => {
-        window.location.href = book.href;
-      }, 520);
+        window.location.href = link.href;
+      }, 420);
     });
   });
 })();
