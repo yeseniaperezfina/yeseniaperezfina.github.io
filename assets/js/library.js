@@ -1,63 +1,45 @@
 (() => {
   const root = document.documentElement;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const body = document.body;
-  const card = document.querySelector('.archive-card');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reduceMotion) {
-    let ticking = false;
+    let frameRequested = false;
+
     window.addEventListener('pointermove', (event) => {
-      if (ticking) return;
-      ticking = true;
+      if (frameRequested) return;
+      frameRequested = true;
+
       window.requestAnimationFrame(() => {
-        root.style.setProperty('--light-x', `${(event.clientX / window.innerWidth) * 100}%`);
-        root.style.setProperty('--light-y', `${(event.clientY / window.innerHeight) * 100}%`);
-        ticking = false;
+        const width = Math.max(document.documentElement.clientWidth, 1);
+        const height = Math.max(document.documentElement.clientHeight, 1);
+        root.style.setProperty('--light-x', `${(event.clientX / width) * 100}%`);
+        root.style.setProperty('--light-y', `${(event.clientY / height) * 100}%`);
+        frameRequested = false;
       });
     }, { passive: true });
   }
 
-  const setCard = ({ room = 'Selected volume', volume = 'Move through the archive.', note = 'Hover, focus, or tap a volume to reveal its room note.' } = {}) => {
-    if (!card) return;
-    card.innerHTML = `<span class="archive-card-kicker">${room}</span><strong>${volume}</strong><p>${note}</p>`;
+  const turnPage = (targetHref, delay = 520) => {
+    if (reduceMotion || !targetHref) return true;
+    body.classList.add('is-turning');
+
+    window.setTimeout(() => {
+      window.location.href = targetHref;
+    }, delay);
+
+    return false;
   };
 
-  const resetCard = () => setCard();
-
   document.querySelectorAll('.volume-zone').forEach((zone) => {
-    const activate = () => {
-      setCard({
-        room: zone.dataset.room,
-        volume: zone.dataset.volume,
-        note: zone.dataset.note
-      });
-    };
-
-    zone.addEventListener('mouseenter', activate);
-    zone.addEventListener('focus', activate);
-    zone.addEventListener('touchstart', activate, { passive: true });
-    zone.addEventListener('mouseleave', resetCard);
-    zone.addEventListener('blur', resetCard);
-
     zone.addEventListener('click', (event) => {
-      if (reduceMotion) return;
-      event.preventDefault();
-      activate();
-      body.classList.add('is-turning');
-      window.setTimeout(() => {
-        window.location.href = zone.href;
-      }, 560);
+      if (!turnPage(zone.href, 520)) event.preventDefault();
     });
   });
 
   document.querySelectorAll('.mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
-      if (reduceMotion) return;
-      event.preventDefault();
-      body.classList.add('is-turning');
-      window.setTimeout(() => {
-        window.location.href = link.href;
-      }, 420);
+      if (!turnPage(link.href, 380)) event.preventDefault();
     });
   });
 })();
