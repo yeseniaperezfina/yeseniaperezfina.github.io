@@ -3,72 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="build-version" content="living-study-threshold-2026-05-15-01" />
+  <meta name="build-version" content="study-image-threshold-2026-05-15-01" />
   <title>Yesenia Pérez · The Study</title>
   <meta name="description" content="A quiet amber-glass entrance into Yesenia Pérez’s study, library, and professional archive." />
   <style>
     :root{
       --cream:#f7ead8;
-      --muted:#b7aa96;
       --amber:#d2a05d;
-      --green:#91bb73;
       --deep:#030302;
-      --oak:#4f2b17;
       --serif: Georgia, 'Times New Roman', serif;
       --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;background:var(--deep)}
-    body{min-height:100svh;overflow:hidden;color:var(--cream);font-family:var(--serif);background:radial-gradient(circle at 50% 38%,rgba(202,136,65,.16),transparent 34rem),linear-gradient(180deg,#030302,#0b0704 55%,#020201)}
-    .entry{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:linear-gradient(180deg,#050403,#0d0805 45%,#020201)}
-    .room{position:absolute;inset:0;background:radial-gradient(circle at 42% 46%,rgba(145,195,111,.12),transparent 18rem),radial-gradient(circle at 63% 37%,rgba(228,154,75,.16),transparent 24rem),linear-gradient(180deg,#101713 0%,#11100b 52%,#090403 100%)}
-    .room:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.78),transparent 16%,transparent 84%,rgba(0,0,0,.78)),repeating-linear-gradient(90deg,rgba(255,235,190,.025) 0 1px,transparent 1px 9vw)}
-    .room:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,transparent 0 48%,rgba(0,0,0,.42) 76%,rgba(0,0,0,.9) 100%);z-index:12;pointer-events:none}
-    .ceiling{position:absolute;left:9vw;right:9vw;top:4vh;height:16vh;background:linear-gradient(180deg,rgba(3,2,1,.72),rgba(0,0,0,.08));clip-path:polygon(0 0,100% 0,90% 100%,10% 100%);opacity:.82}
-    .floor{position:absolute;left:-8vw;right:-8vw;bottom:-7vh;height:38vh;background:linear-gradient(180deg,#6c3b1d,#281106 70%,#050201);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%);box-shadow:inset 0 2px 0 rgba(225,155,74,.18)}
-    .floor:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.95%,rgba(255,225,176,.06) 50%,transparent 50.05%),repeating-linear-gradient(90deg,transparent 0 12vw,rgba(255,225,176,.035) 12.1vw 12.18vw),linear-gradient(180deg,rgba(225,155,74,.08),transparent 60%)}
-    .left-wall,.right-wall{position:absolute;top:7vh;bottom:10vh;width:18vw;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(88,50,25,.28),rgba(0,0,0,.08));opacity:.9}.left-wall{left:0;clip-path:polygon(0 0,100% 7%,100% 92%,0 100%)}.right-wall{right:0;clip-path:polygon(0 7%,100% 0,100% 100%,0 92%)}
-    .shelves{position:absolute;left:9vw;top:13vh;width:23vw;height:57vh;background:linear-gradient(90deg,#120704,#5c3219 18%,#211007);border:1px solid rgba(202,132,64,.35);box-shadow:inset 0 0 60px rgba(0,0,0,.72),0 30px 80px rgba(0,0,0,.45);transform:perspective(1200px) rotateY(2deg)}
-    .shelves:before{content:"";position:absolute;inset:8% 9%;background:repeating-linear-gradient(90deg,#24323b 0 .7vw,#8e542b .7vw 1.35vw,#202a34 1.35vw 2vw,#a56532 2vw 2.8vw,#38483d 2.8vw 3.45vw,#60331d 3.45vw 4.3vw),linear-gradient(180deg,transparent 0 25%,rgba(226,146,70,.20) 25.5% 26.2%,transparent 27% 51%,rgba(226,146,70,.16) 51.5% 52.2%,transparent 53% 77%,rgba(226,146,70,.12) 77.5% 78.2%,transparent 79%);opacity:.72}.shelves:after{content:"";position:absolute;left:0;right:0;top:34%;height:1px;background:rgba(220,140,70,.28);box-shadow:0 17vh 0 rgba(220,140,70,.22)}
-    .cat{position:absolute;left:25.8vw;top:25vh;width:5vw;height:3vw;opacity:.75;filter:blur(.2px)}.cat:before{content:"";position:absolute;left:0;bottom:.15vw;width:3.4vw;height:1.55vw;border-radius:999px 999px 42% 42%;background:#050403;box-shadow:0 1vw 1.6vw rgba(0,0,0,.4)}.cat:after{content:"";position:absolute;right:.1vw;top:0;width:2.5vw;height:2vw;border:.45vw solid #050403;border-left:0;border-bottom:0;border-radius:0 999px 0 0;transform:rotate(17deg)}
-    .study-signals{position:absolute;right:9vw;top:12vh;width:25vw;height:55vh;opacity:.45;filter:blur(1.5px)}.study-signals:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),transparent 25%,transparent 75%,rgba(0,0,0,.55)),radial-gradient(circle at 52% 38%,rgba(226,154,82,.2),transparent 11rem),linear-gradient(180deg,#151d18,#0b0604);border:1px solid rgba(205,140,73,.16)}.study-signals:after{content:"";position:absolute;right:15%;bottom:0;width:45%;height:48%;border-radius:50% 50% 0 0;background:rgba(4,3,2,.72);filter:blur(8px)}
-    .lamp-aura{position:absolute;left:31vw;top:36vh;width:34vw;height:36vh;border-radius:50%;background:radial-gradient(circle,rgba(145,255,108,.18),rgba(145,255,108,.07) 32%,transparent 68%);filter:blur(28px)}
-    .desk-edge{position:absolute;left:26vw;right:20vw;bottom:25vh;height:3px;background:linear-gradient(90deg,transparent,rgba(224,142,67,.48),transparent);box-shadow:0 2vh 5vh rgba(0,0,0,.6)}
-    .lamp{position:absolute;left:39vw;top:43vh;width:12vw;height:23vh;filter:drop-shadow(0 2vh 3vh rgba(0,0,0,.48))}.lamp:before{content:"";position:absolute;left:9%;top:0;width:82%;height:30%;border-radius:999px 999px 1.1rem 1.1rem;background:linear-gradient(180deg,#c8ef98,#4c7c38 60%,#162b11);box-shadow:0 0 3rem rgba(144,255,105,.28),inset 0 .45rem .9rem rgba(255,255,255,.24)}.lamp:after{content:"";position:absolute;left:49%;top:28%;width:5%;height:60%;background:linear-gradient(180deg,#dfa75a,#61401f);box-shadow:-1.25rem 5rem 0 .30rem #b77a35,1.25rem 5rem 0 .30rem #b77a35}
-    .personal-marks{position:absolute;left:34vw;top:15vh;width:30vw;height:12vh;opacity:.32}.personal-marks:before{content:"recognition  ·  public learning  ·  wonder";position:absolute;font-family:var(--sans);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.56)}.personal-marks:after{content:"";position:absolute;left:8vw;top:3.5vh;width:10vw;height:1px;background:linear-gradient(90deg,rgba(210,160,90,.5),transparent);box-shadow:3vw 3vh 0 rgba(210,160,90,.25),-4vw 5vh 0 rgba(210,160,90,.18)}
-    .glass{position:absolute;inset:0;z-index:10;pointer-events:none}.track{position:absolute;left:7vw;right:7vw;height:6px;background:linear-gradient(90deg,transparent,rgba(229,188,125,.32),transparent);border-radius:999px}.track.top{top:7vh}.track.bottom{bottom:8vh}.door{position:absolute;top:8vh;bottom:8vh;width:49vw;border:1px solid rgba(238,205,150,.32);background:radial-gradient(circle at 50% 42%,rgba(255,240,205,.14),transparent 13rem),linear-gradient(112deg,transparent 0 18%,rgba(255,255,255,.13) 21%,transparent 27% 60%,rgba(255,255,255,.07) 65%,transparent 73%),repeating-linear-gradient(45deg,rgba(255,255,255,.023) 0 1px,transparent 1px 9px),rgba(216,185,138,.14);backdrop-filter:blur(10px) saturate(.68);box-shadow:inset 0 0 84px rgba(255,255,255,.04),0 30px 82px rgba(0,0,0,.32)}.door:before{content:"";position:absolute;inset:1.25rem;border:1px solid rgba(255,238,201,.11)}.left-door{left:0;transform:translateX(-3vw)}.right-door{right:0;transform:translateX(5vw);opacity:.92}.opening{position:absolute;top:8vh;bottom:8vh;left:50%;width:10vw;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.38),rgba(214,146,70,.16),rgba(0,0,0,.42));box-shadow:inset 1vw 0 2vw rgba(0,0,0,.38),inset -1vw 0 2vw rgba(0,0,0,.34)}.handle{position:absolute;left:52.3%;top:50%;width:.55rem;height:5rem;transform:translate(-50%,-50%);border-radius:999px;background:linear-gradient(180deg,rgba(248,228,190,.78),rgba(116,80,42,.52));box-shadow:0 0 24px rgba(236,190,110,.14)}
-    .enter{position:absolute;left:50%;top:52%;z-index:30;transform:translate(-50%,-50%);text-decoration:none;color:rgba(255,247,230,.9);font-family:var(--serif);font-size:.9rem;letter-spacing:.2em;text-transform:lowercase;padding:.82rem 1.28rem;border:1px solid rgba(220,174,94,.50);border-radius:999px;background:rgba(10,7,4,.38);box-shadow:0 18px 56px rgba(0,0,0,.66),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(10px) saturate(.85);transition:transform .32s ease,border-color .32s ease,background .32s ease}.enter:before{content:"";position:absolute;left:50%;top:-23vh;width:1px;height:21vh;background:linear-gradient(transparent,rgba(220,174,94,.44))}.enter:after{content:"";position:absolute;left:50%;top:-24vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(220,174,94,.44);transform:translateX(-50%);box-shadow:0 0 22px rgba(220,174,94,.26)}.enter:hover,.enter:focus-visible{transform:translate(-50%,-50%) scale(1.045);border-color:rgba(220,174,94,.82);background:rgba(76,45,22,.50);outline:none}
-    .caption{position:absolute;right:2.2vw;bottom:1.6vh;z-index:30;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.30)}
-    @media(max-width:800px){.shelves{left:6vw;width:32vw}.cat{left:32vw}.study-signals{right:5vw;width:34vw}.lamp{left:35vw;width:20vw}.door{width:51vw}.left-door{left:-2vw}.right-door{right:-2vw}.enter:before,.enter:after,.caption{display:none}}
+    body{min-height:100svh;overflow:hidden;color:var(--cream);font-family:var(--serif)}
+    .entry{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:#030302}
+    .study-scene{position:absolute;inset:0;z-index:1;overflow:hidden;background:#050403}
+    .study-scene img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(.92) contrast(1.03) brightness(.84)}
+    .study-scene::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 54%,transparent 0 48%,rgba(0,0,0,.32) 74%,rgba(0,0,0,.78) 100%),linear-gradient(90deg,rgba(0,0,0,.42),transparent 18%,transparent 82%,rgba(0,0,0,.42));pointer-events:none}
+    .glass{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.38),transparent 22%,transparent 78%,rgba(0,0,0,.38))}
+    .glass::before,.glass::after{content:"";position:absolute;top:4.5svh;bottom:4.5svh;width:49.5vw;border:1px solid rgba(245,218,170,.28);background:radial-gradient(circle at 52% 45%,rgba(255,239,204,.12),transparent 15rem),linear-gradient(112deg,transparent 0 18%,rgba(255,255,255,.12) 21%,transparent 28% 60%,rgba(255,255,255,.065) 65%,transparent 73%),repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 1px,transparent 1px 10px),rgba(217,184,132,.095);backdrop-filter:blur(6px) saturate(.82);box-shadow:inset 0 0 90px rgba(255,255,255,.035),0 30px 90px rgba(0,0,0,.26)}
+    .glass::before{left:-1.8vw;transform:translateX(-2.4vw)}
+    .glass::after{right:-1.8vw;transform:translateX(4.2vw);opacity:.88}
+    .door-seam{position:absolute;z-index:6;top:4.5svh;bottom:4.5svh;left:50%;width:9vw;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(215,163,91,.13),rgba(0,0,0,.34));box-shadow:inset 1vw 0 2vw rgba(0,0,0,.32),inset -1vw 0 2vw rgba(0,0,0,.28);pointer-events:none}
+    .track{position:absolute;z-index:7;left:6vw;right:6vw;height:1px;background:linear-gradient(90deg,transparent,rgba(235,200,145,.38),transparent);pointer-events:none}.track.top{top:4.5svh}.track.bottom{bottom:4.5svh}
+    .enter{position:absolute;left:50%;top:52%;z-index:10;transform:translate(-50%,-50%);text-decoration:none;color:rgba(255,247,230,.92);font-family:var(--serif);font-size:.9rem;letter-spacing:.2em;text-transform:lowercase;padding:.78rem 1.24rem;border:1px solid rgba(220,174,94,.56);border-radius:999px;background:rgba(10,7,4,.40);box-shadow:0 18px 56px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(10px) saturate(.85);transition:transform .34s ease,border-color .34s ease,background .34s ease,opacity .34s ease}
+    .enter::before{content:"";position:absolute;left:50%;top:-23vh;width:1px;height:21vh;background:linear-gradient(transparent,rgba(220,174,94,.44))}.enter::after{content:"";position:absolute;left:50%;top:-24vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(220,174,94,.44);transform:translateX(-50%);box-shadow:0 0 22px rgba(220,174,94,.26)}
+    .enter:hover,.enter:focus-visible{transform:translate(-50%,-50%) scale(1.045);border-color:rgba(220,174,94,.84);background:rgba(76,45,22,.50);outline:none}
+    .caption{position:absolute;right:2vw;bottom:1.5svh;z-index:10;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.30);pointer-events:none}
+    .entry.is-entering .glass::before{transition:transform .9s cubic-bezier(.2,.8,.2,1);transform:translateX(-11vw)}
+    .entry.is-entering .glass::after{transition:transform .9s cubic-bezier(.2,.8,.2,1);transform:translateX(13vw)}
+    .entry.is-entering .enter{opacity:0;transform:translate(-50%,-50%) scale(.96)}
+    @media(max-width:800px){.glass::before,.glass::after{top:3svh;bottom:3svh;width:52vw}.door-seam{top:3svh;bottom:3svh;width:13vw}.track.top{top:3svh}.track.bottom{bottom:3svh}.enter::before,.enter::after,.caption{display:none}}
+    @media(prefers-reduced-motion:reduce){.enter,.entry.is-entering .glass::before,.entry.is-entering .glass::after{transition:none}}
   </style>
 </head>
 <body>
   <main class="entry" aria-label="Amber glass entrance to Yesenia Pérez’s study">
-    <div class="room" aria-hidden="true">
-      <div class="ceiling"></div>
-      <div class="rear-wall"></div>
-      <div class="left-wall"></div>
-      <div class="right-wall"></div>
-      <div class="shelves"></div>
-      <div class="cat"></div>
-      <div class="study-signals"></div>
-      <div class="personal-marks"></div>
-      <div class="lamp-aura"></div>
-      <div class="desk-edge"></div>
-      <div class="lamp"></div>
-      <div class="floor"></div>
-      <div class="glass">
-        <div class="track top"></div>
-        <div class="track bottom"></div>
-        <div class="opening"></div>
-        <div class="door left-door"></div>
-        <div class="door right-door"></div>
-        <div class="handle"></div>
-      </div>
-    </div>
+    <picture class="study-scene" aria-hidden="true">
+      <source srcset="assets/img/study-9x16.png" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img/study-3x4.png" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img/study-1x1.png" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img/study-3x2.png" media="(max-aspect-ratio: 15/9)" />
+      <img src="assets/img/study-16x9.png" alt="" decoding="async" fetchpriority="high" />
+    </picture>
+    <div class="glass" aria-hidden="true"></div>
+    <div class="door-seam" aria-hidden="true"></div>
+    <div class="track top" aria-hidden="true"></div>
+    <div class="track bottom" aria-hidden="true"></div>
     <a class="enter" href="library.html" aria-label="Enter the study library">enter</a>
     <div class="caption" aria-hidden="true">amber glass / study threshold</div>
   </main>
-  <script src="assets/js/library.js" defer></script>
+  <script>
+    const entry = document.querySelector('.entry');
+    const enter = document.querySelector('.enter');
+    enter.addEventListener('click', (event) => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      event.preventDefault();
+      entry.classList.add('is-entering');
+      window.setTimeout(() => { window.location.href = enter.href; }, 650);
+    });
+  </script>
 </body>
 </html>
