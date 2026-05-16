@@ -3,37 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="build-version" content="study-image-threshold-2026-05-15-01" />
+  <meta name="build-version" content="study-image-threshold-2026-05-15-02" />
   <title>Yesenia Pérez · The Study</title>
   <meta name="description" content="A quiet amber-glass entrance into Yesenia Pérez’s study, library, and professional archive." />
   <style>
-    :root{
-      --cream:#f7ead8;
-      --amber:#d2a05d;
-      --deep:#030302;
-      --serif: Georgia, 'Times New Roman', serif;
-      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--deep)}
-    body{min-height:100svh;overflow:hidden;color:var(--cream);font-family:var(--serif)}
+    :root{--cream:#f7ead8;--amber:#d2a05d;--deep:#030302;--serif:Georgia,'Times New Roman',serif;--sans:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--deep)}body{min-height:100svh;overflow:hidden;color:var(--cream);font-family:var(--serif)}
     .entry{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:#030302}
     .study-scene{position:absolute;inset:0;z-index:1;overflow:hidden;background:#050403}
-    .study-scene img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(.92) contrast(1.03) brightness(.84)}
+    .study-scene::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 42% 48%,rgba(141,187,110,.16),transparent 18rem),radial-gradient(circle at 61% 38%,rgba(211,145,75,.22),transparent 28rem),linear-gradient(180deg,#10140f,#15100b 52%,#060302);opacity:0;transition:opacity .25s ease}
     .study-scene::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 54%,transparent 0 48%,rgba(0,0,0,.32) 74%,rgba(0,0,0,.78) 100%),linear-gradient(90deg,rgba(0,0,0,.42),transparent 18%,transparent 82%,rgba(0,0,0,.42));pointer-events:none}
+    .image-missing .study-scene::before{opacity:1}.image-missing .study-scene{background:linear-gradient(180deg,#090604,#14100b 58%,#050302)}
+    .image-missing .study-scene::after{background:radial-gradient(circle at 38% 45%,rgba(145,187,115,.13),transparent 18rem),radial-gradient(ellipse at 50% 54%,transparent 0 50%,rgba(0,0,0,.35) 75%,rgba(0,0,0,.82) 100%),linear-gradient(90deg,rgba(0,0,0,.55),transparent 20%,transparent 80%,rgba(0,0,0,.55))}
+    .study-scene img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(.92) contrast(1.03) brightness(.84)}
     .glass{position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.38),transparent 22%,transparent 78%,rgba(0,0,0,.38))}
     .glass::before,.glass::after{content:"";position:absolute;top:4.5svh;bottom:4.5svh;width:49.5vw;border:1px solid rgba(245,218,170,.28);background:radial-gradient(circle at 52% 45%,rgba(255,239,204,.12),transparent 15rem),linear-gradient(112deg,transparent 0 18%,rgba(255,255,255,.12) 21%,transparent 28% 60%,rgba(255,255,255,.065) 65%,transparent 73%),repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 1px,transparent 1px 10px),rgba(217,184,132,.095);backdrop-filter:blur(6px) saturate(.82);box-shadow:inset 0 0 90px rgba(255,255,255,.035),0 30px 90px rgba(0,0,0,.26)}
-    .glass::before{left:-1.8vw;transform:translateX(-2.4vw)}
-    .glass::after{right:-1.8vw;transform:translateX(4.2vw);opacity:.88}
+    .glass::before{left:-1.8vw;transform:translateX(-2.4vw)}.glass::after{right:-1.8vw;transform:translateX(4.2vw);opacity:.88}
     .door-seam{position:absolute;z-index:6;top:4.5svh;bottom:4.5svh;left:50%;width:9vw;transform:translateX(-50%);background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(215,163,91,.13),rgba(0,0,0,.34));box-shadow:inset 1vw 0 2vw rgba(0,0,0,.32),inset -1vw 0 2vw rgba(0,0,0,.28);pointer-events:none}
     .track{position:absolute;z-index:7;left:6vw;right:6vw;height:1px;background:linear-gradient(90deg,transparent,rgba(235,200,145,.38),transparent);pointer-events:none}.track.top{top:4.5svh}.track.bottom{bottom:4.5svh}
     .enter{position:absolute;left:50%;top:52%;z-index:10;transform:translate(-50%,-50%);text-decoration:none;color:rgba(255,247,230,.92);font-family:var(--serif);font-size:.9rem;letter-spacing:.2em;text-transform:lowercase;padding:.78rem 1.24rem;border:1px solid rgba(220,174,94,.56);border-radius:999px;background:rgba(10,7,4,.40);box-shadow:0 18px 56px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.12);backdrop-filter:blur(10px) saturate(.85);transition:transform .34s ease,border-color .34s ease,background .34s ease,opacity .34s ease}
     .enter::before{content:"";position:absolute;left:50%;top:-23vh;width:1px;height:21vh;background:linear-gradient(transparent,rgba(220,174,94,.44))}.enter::after{content:"";position:absolute;left:50%;top:-24vh;width:.42rem;height:.42rem;border-radius:50%;border:1px solid rgba(220,174,94,.44);transform:translateX(-50%);box-shadow:0 0 22px rgba(220,174,94,.26)}
     .enter:hover,.enter:focus-visible{transform:translate(-50%,-50%) scale(1.045);border-color:rgba(220,174,94,.84);background:rgba(76,45,22,.50);outline:none}
     .caption{position:absolute;right:2vw;bottom:1.5svh;z-index:10;font-family:var(--sans);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,234,214,.30);pointer-events:none}
-    .entry.is-entering .glass::before{transition:transform .9s cubic-bezier(.2,.8,.2,1);transform:translateX(-11vw)}
-    .entry.is-entering .glass::after{transition:transform .9s cubic-bezier(.2,.8,.2,1);transform:translateX(13vw)}
-    .entry.is-entering .enter{opacity:0;transform:translate(-50%,-50%) scale(.96)}
+    .entry.is-entering .glass::before{transition:transform .9s cubic-bezier(.2,.8,.2,1);transform:translateX(-11vw)}.entry.is-entering .glass::after{transition:transform .9s cubic-bezier(.2,.8,.2,1);transform:translateX(13vw)}.entry.is-entering .enter{opacity:0;transform:translate(-50%,-50%) scale(.96)}
     @media(max-width:800px){.glass::before,.glass::after{top:3svh;bottom:3svh;width:52vw}.door-seam{top:3svh;bottom:3svh;width:13vw}.track.top{top:3svh}.track.bottom{bottom:3svh}.enter::before,.enter::after,.caption{display:none}}
     @media(prefers-reduced-motion:reduce){.enter,.entry.is-entering .glass::before,.entry.is-entering .glass::after{transition:none}}
   </style>
@@ -45,24 +37,14 @@
       <source srcset="assets/img/study-3x4.png" media="(max-aspect-ratio: 4/5)" />
       <source srcset="assets/img/study-1x1.png" media="(max-aspect-ratio: 5/4)" />
       <source srcset="assets/img/study-3x2.png" media="(max-aspect-ratio: 15/9)" />
-      <img src="assets/img/study-16x9.png" alt="" decoding="async" fetchpriority="high" />
+      <img src="assets/img/study-16x9.png" alt="" decoding="async" fetchpriority="high" onerror="document.querySelector('.entry').classList.add('image-missing'); this.remove();" />
     </picture>
-    <div class="glass" aria-hidden="true"></div>
-    <div class="door-seam" aria-hidden="true"></div>
-    <div class="track top" aria-hidden="true"></div>
-    <div class="track bottom" aria-hidden="true"></div>
+    <div class="glass" aria-hidden="true"></div><div class="door-seam" aria-hidden="true"></div><div class="track top" aria-hidden="true"></div><div class="track bottom" aria-hidden="true"></div>
     <a class="enter" href="library.html" aria-label="Enter the study library">enter</a>
     <div class="caption" aria-hidden="true">amber glass / study threshold</div>
   </main>
   <script>
-    const entry = document.querySelector('.entry');
-    const enter = document.querySelector('.enter');
-    enter.addEventListener('click', (event) => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      event.preventDefault();
-      entry.classList.add('is-entering');
-      window.setTimeout(() => { window.location.href = enter.href; }, 650);
-    });
+    const entry=document.querySelector('.entry');const enter=document.querySelector('.enter');enter.addEventListener('click',(event)=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;event.preventDefault();entry.classList.add('is-entering');window.setTimeout(()=>{window.location.href=enter.href},650)});
   </script>
 </body>
 </html>
