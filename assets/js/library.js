@@ -3,6 +3,30 @@
   const body = document.body;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const arrivedFromStudy = (() => {
+    try {
+      return sessionStorage.getItem('entered-from-study') === 'true';
+    } catch {
+      return false;
+    }
+  })();
+
+  if (arrivedFromStudy && !reduceMotion) {
+    body.classList.add('is-arriving');
+
+    try {
+      sessionStorage.removeItem('entered-from-study');
+    } catch {
+      /* Storage may be unavailable in some private browsing contexts. */
+    }
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        body.classList.remove('is-arriving');
+      });
+    });
+  }
+
   if (!reduceMotion) {
     let frameRequested = false;
 
@@ -40,6 +64,12 @@
   document.querySelectorAll('.mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
       if (!turnPage(link.href, 380)) event.preventDefault();
+    });
+  });
+
+  document.querySelectorAll('.threshold-link').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (!turnPage(link.href, 420)) event.preventDefault();
     });
   });
 })();
