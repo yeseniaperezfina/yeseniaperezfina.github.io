@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="about-image-led-2026-05-16-03" />
+  <meta name="build-version" content="about-image-led-2026-05-16-04" />
   <title>About · Yesenia Pérez</title>
   <meta name="description" content="Volume I of Yesenia Pérez’s public learning systems archive: the person, practice, and values behind the work." />
-  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-03" />
+  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-04" />
 </head>
 <body class="about-visual-page">
   <a class="skip-link" href="#about-panel-title">Skip to About content</a>
 
   <main class="about-scene" aria-label="Volume I: About Me">
     <div class="scene-frame" aria-hidden="false">
-      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-03" alt="" decoding="async" fetchpriority="high" />
+      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-04" alt="" decoding="async" fetchpriority="high" />
 
-      <button class="section-hotspot hotspot-orientation" type="button" aria-controls="about-panel" aria-expanded="true" data-title="About Me" data-kicker="Orientation Volume" data-body="This opening spread introduces the person behind the systems work: a strategist working where science, institutions, culture, and public learning meet. The volume frames the practice as translation with care, making complexity navigable without thinning its rigor, wonder, or humanity.">
+      <button class="section-hotspot hotspot-orientation" type="button" aria-controls="about-panel" aria-expanded="true" data-mode="orientation" data-title="Reader’s Key" data-kicker="How to read this spread" data-body="The left page names the through-line: ideas, curiosity, and purpose in service of discovery. The right page shows how that becomes a practice: designing systems, asking structural questions, and protecting dignity as work scales.">
         <span>About Me</span>
       </button>
 
-      <button class="section-hotspot hotspot-do" type="button" aria-controls="about-panel" aria-expanded="false" data-title="What I do" data-kicker="Practice" data-body="I build public learning systems that turn institutional complexity into usable pathways. The work is less about simplifying science and more about designing the conditions for trust, participation, and access to hold at scale.">
+      <button class="section-hotspot hotspot-do" type="button" aria-controls="about-panel" aria-expanded="false" data-mode="practice" data-title="What I do" data-kicker="Practice" data-body="The practice entry points to translation as infrastructure: turning complex science and institutional work into public learning systems people can actually use, trust, and enter.">
         <span>What I do</span>
       </button>
 
-      <button class="section-hotspot hotspot-think" type="button" aria-controls="about-panel" aria-expanded="false" data-title="How I think" data-kicker="Method" data-body="I look beneath engagement to the rules, relationships, and recognition structures that shape who can move forward. My practice asks what has to become visible, coordinated, and accountable before participation can become trustworthy.">
+      <button class="section-hotspot hotspot-think" type="button" aria-controls="about-panel" aria-expanded="false" data-mode="method" data-title="How I think" data-kicker="Method" data-body="The method entry sits beneath the visible work. It asks who decides what counts, how people move through complexity, and what has to become legible before participation can become trustworthy.">
         <span>How I think</span>
       </button>
 
-      <button class="section-hotspot hotspot-care" type="button" aria-controls="about-panel" aria-expanded="false" data-title="What I care about" data-kicker="Values" data-body="I care about learning environments that preserve dignity under scale. The goal is not a beautiful experience for people already fluent in the system, but a system that remains humane, rigorous, culturally grounded, and legible for more people.">
+      <button class="section-hotspot hotspot-care" type="button" aria-controls="about-panel" aria-expanded="false" data-mode="values" data-title="What I care about" data-kicker="Values" data-body="The values entry is the ethical hinge of the page: learning environments should feel rigorous and alive without depending on insider fluency, heroic labor, or luck.">
         <span>What I care about</span>
       </button>
     </div>
@@ -36,10 +36,10 @@
       <a class="back-link" href="library.html">Back to Library</a>
     </nav>
 
-    <section class="about-panel is-open" id="about-panel" aria-live="polite">
-      <p class="panel-kicker" id="about-panel-kicker">Orientation Volume</p>
-      <h1 id="about-panel-title">About Me</h1>
-      <p id="about-panel-body">This opening spread introduces the person behind the systems work: a strategist working where science, institutions, culture, and public learning meet. The volume frames the practice as translation with care, making complexity navigable without thinning its rigor, wonder, or humanity.</p>
+    <section class="about-panel is-open" id="about-panel" data-mode="orientation" aria-live="polite">
+      <p class="panel-kicker" id="about-panel-kicker">How to read this spread</p>
+      <h1 id="about-panel-title">Reader’s Key</h1>
+      <p id="about-panel-body">The left page names the through-line: ideas, curiosity, and purpose in service of discovery. The right page shows how that becomes a practice: designing systems, asking structural questions, and protecting dignity as work scales.</p>
       <button class="panel-close" type="button" aria-label="Close detail panel">Close</button>
     </section>
 
@@ -85,6 +85,7 @@
       const setPanel = (button) => {
         resetHotspots();
         button.setAttribute('aria-expanded', 'true');
+        panel.dataset.mode = button.dataset.mode || 'note';
         panelKicker.textContent = button.dataset.kicker;
         panelTitle.textContent = button.dataset.title;
         panelBody.textContent = button.dataset.body;
