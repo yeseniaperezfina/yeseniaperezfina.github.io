@@ -1,6 +1,8 @@
 (() => {
   const root = document.documentElement;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const body = document.body;
+  const marginalia = document.querySelector('.volume-marginalia');
 
   if (!reduceMotion) {
     let ticking = false;
@@ -19,10 +21,41 @@
     }, { passive: true });
   }
 
+  const resetMarginalia = () => {
+    if (!marginalia) return;
+    marginalia.innerHTML = '<span>Selected volume</span><strong>Move through the archive.</strong><p>Hover or focus a spine to read the room note. Select a volume to enter.</p>';
+  };
+
   document.querySelectorAll('[data-book]').forEach((book) => {
-    book.addEventListener('mouseenter', () => document.body.dataset.activeBook = book.dataset.book || '');
-    book.addEventListener('focus', () => document.body.dataset.activeBook = book.dataset.book || '');
-    book.addEventListener('mouseleave', () => delete document.body.dataset.activeBook);
-    book.addEventListener('blur', () => delete document.body.dataset.activeBook);
+    const title = book.querySelector('span')?.textContent?.trim() || 'Selected volume';
+    const room = book.querySelector('em')?.textContent?.trim() || 'Archive room';
+    const note = book.querySelector('p')?.textContent?.trim() || 'Open this room.';
+
+    const activate = () => {
+      body.dataset.activeBook = book.dataset.book || '';
+      if (marginalia) {
+        marginalia.innerHTML = `<span>${room}</span><strong>${title}</strong><p>${note}</p>`;
+      }
+    };
+
+    book.addEventListener('mouseenter', activate);
+    book.addEventListener('focus', activate);
+    book.addEventListener('mouseleave', () => {
+      delete body.dataset.activeBook;
+      resetMarginalia();
+    });
+    book.addEventListener('blur', () => {
+      delete body.dataset.activeBook;
+      resetMarginalia();
+    });
+
+    book.addEventListener('click', (event) => {
+      if (reduceMotion) return;
+      event.preventDefault();
+      body.classList.add('is-turning');
+      window.setTimeout(() => {
+        window.location.href = book.href;
+      }, 520);
+    });
   });
 })();
