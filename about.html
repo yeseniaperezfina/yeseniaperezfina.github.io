@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="about-image-led-2026-05-16-08" />
+  <meta name="build-version" content="about-image-led-2026-05-16-09" />
   <title>About · Yesenia Pérez</title>
   <meta name="description" content="Volume I of Yesenia Pérez’s public learning systems archive: the person, practice, and values behind the work." />
-  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-08" />
+  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-09" />
 </head>
 <body class="about-visual-page">
   <a class="skip-link" href="#about-key-title">Skip to About content</a>
 
   <main class="about-scene" aria-label="Volume I: About Me">
     <div class="scene-frame">
-      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-08" alt="" decoding="async" fetchpriority="high" />
+      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-09" alt="" decoding="async" fetchpriority="high" />
 
       <button class="section-orb orb-orientation is-active" type="button" aria-label="Select page key" aria-controls="about-key" aria-pressed="true" data-key="orientation">
         <span>Key</span>
@@ -39,21 +39,21 @@
     <section class="key-menu" id="about-key" data-active-key="orientation" aria-live="polite" aria-labelledby="about-key-title">
       <p class="key-kicker">Map</p>
       <h1 id="about-key-title">Key</h1>
-      <div class="key-list" aria-label="About page reading key">
-        <article class="key-item is-unlocked is-active" data-key-item="orientation">
-          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Spread</h2></div>
+      <div class="key-deck" aria-label="About page reading key">
+        <article class="key-card is-active" data-key-item="orientation">
+          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Spread</h2></div>
           <p>Left page: why. Right page: how.</p>
         </article>
-        <article class="key-item" data-key-item="practice">
-          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Practice</h2></div>
+        <article class="key-card" data-key-item="practice">
+          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Practice</h2></div>
           <p>Systems people can use, trust, and enter.</p>
         </article>
-        <article class="key-item" data-key-item="method">
-          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Method</h2></div>
+        <article class="key-card" data-key-item="method">
+          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Method</h2></div>
           <p>Look beneath engagement to what counts.</p>
         </article>
-        <article class="key-item" data-key-item="values">
-          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Values</h2></div>
+        <article class="key-card" data-key-item="values">
+          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Values</h2></div>
           <p>Rigor, dignity, culture, aliveness.</p>
         </article>
       </div>
@@ -67,11 +67,11 @@
       const body = document.body;
       const keyMenu = document.querySelector('.key-menu');
       const orbs = [...document.querySelectorAll('.section-orb')];
-      const keyItems = [...document.querySelectorAll('.key-item')];
+      const keyCards = [...document.querySelectorAll('.key-card')];
       const backLink = document.querySelector('.back-link');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (!keyMenu || !orbs.length || !keyItems.length) return;
+      if (!keyMenu || !orbs.length || !keyCards.length) return;
 
       const getSessionFlag = (key) => {
         try {
@@ -106,10 +106,8 @@
           orb.setAttribute('aria-pressed', String(isActive));
         });
 
-        keyItems.forEach((item) => {
-          const isTarget = item.dataset.keyItem === targetKey;
-          item.classList.toggle('is-active', isTarget);
-          if (isTarget) item.classList.add('is-unlocked');
+        keyCards.forEach((card) => {
+          card.classList.toggle('is-active', card.dataset.keyItem === targetKey);
         });
       };
 
