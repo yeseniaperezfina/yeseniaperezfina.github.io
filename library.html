@@ -8,47 +8,27 @@
   <link rel="stylesheet" href="assets/css/library-interface.css" />
 </head>
 <body class="library-hub-page">
-  <main class="library-hub" aria-labelledby="library-title">
+  <main class="library-hub" aria-label="The Library navigation room">
     <picture class="library-backdrop" aria-hidden="true">
-      <source srcset="assets%3Aimg%3Alibrary-hub-9x16.png" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets%3Aimg%3Alibrary-hub-3x4.png" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets%3Aimg%3Alibrary-hub-1x1.png" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets%3Aimg%3Alibrary-hub-3x2.png" media="(max-aspect-ratio: 15/9)" />
-      <img src="assets%3Aimg%3Alibrary-hub16x9.png" alt="" decoding="async" fetchpriority="high" />
+      <source srcset="library_hub_9x16.png" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="library_hub_3x4.png" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="library_hub_1x1.png" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="library_hub_3x2.png" media="(max-aspect-ratio: 15/9)" />
+      <img src="library_hub_16x9.png" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
-    <section class="library-titleplate" aria-describedby="library-subtitle">
-      <a class="threshold-link" href="index.html">threshold</a>
-      <p class="eyebrow">The study archive</p>
-      <h1 id="library-title">The Library</h1>
-      <p id="library-subtitle">Choose a volume to move through the archive.</p>
-    </section>
-
-    <nav class="volume-hotspots" aria-label="Choose a volume">
-      <a class="volume-zone zone-about" href="about.html" data-volume="Volume I · About" data-room="The origin room" data-note="Biography, intellectual through-line, and leadership philosophy.">
-        <span>Volume I · About</span>
-      </a>
-      <a class="volume-zone zone-work" href="work-timeline.html" data-volume="Volume II · Work" data-room="The field room" data-note="NASA, museums, public engagement, learning ecosystems, and strategy.">
-        <span>Volume II · Work</span>
-      </a>
-      <a class="volume-zone zone-research" href="research-archive.html" data-volume="Volume III · Research" data-room="The theory room" data-note="Recognition governance, institutional usability, and public learning systems.">
-        <span>Volume III · Research</span>
-      </a>
-      <a class="volume-zone zone-systems" href="public-systems.html" data-volume="Volume IV · Systems Map" data-room="The instrument room" data-note="Connections among science engagement, recognition, public trust, narrative, and learning infrastructure.">
-        <span>Volume IV · Systems Map</span>
-      </a>
-      <a class="volume-zone zone-voice" href="writing.html" data-volume="Volume V · Writing & Voice" data-room="The echo room" data-note="The Echo Jar, essays, reflective practice, and public thinking.">
-        <span>Volume V · Writing & Voice</span>
-      </a>
+    <nav class="volume-hotspots" aria-label="Choose a library volume">
+      <a class="volume-zone zone-about" href="about.html" aria-label="Enter Volume I: About"><span>About</span></a>
+      <a class="volume-zone zone-work" href="work-timeline.html" aria-label="Enter Volume II: Work"><span>Work</span></a>
+      <a class="volume-zone zone-research" href="research-archive.html" aria-label="Enter Volume III: Research"><span>Research</span></a>
+      <a class="volume-zone zone-systems" href="public-systems.html" aria-label="Enter Volume IV: Systems Map"><span>Systems Map</span></a>
+      <a class="volume-zone zone-voice" href="writing.html" aria-label="Enter Volume V: Writing and Voice"><span>Writing & Voice</span></a>
     </nav>
 
-    <aside class="archive-card" aria-live="polite">
-      <span class="archive-card-kicker">Selected volume</span>
-      <strong>Move through the archive.</strong>
-      <p>Hover, focus, or tap a volume to reveal its room note.</p>
-    </aside>
+    <a class="threshold-link" href="index.html" aria-label="Return to the study threshold">threshold</a>
+    <p class="library-signature" aria-hidden="true">Yesenia Pérez · Public Learning Systems</p>
 
-    <section class="mobile-volume-list" aria-label="Mobile volume list">
+    <section class="mobile-volume-list" aria-label="Choose a library volume">
       <a href="about.html"><small>Volume I</small><strong>About</strong><span>The origin room</span></a>
       <a href="work-timeline.html"><small>Volume II</small><strong>Work</strong><span>The field room</span></a>
       <a href="research-archive.html"><small>Volume III</small><strong>Research</strong><span>The theory room</span></a>
