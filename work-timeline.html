@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="work-map-volume-2026-05-16-01" />
+  <meta name="build-version" content="work-map-volume-2026-05-16-02" />
   <title>Work · Yesenia Pérez</title>
   <meta name="description" content="Volume II of Yesenia Pérez’s portfolio: an antique map of public learning infrastructure across NASA mission engagement, interpretive strategy, informal learning networks, and recognition governance." />
-  <link rel="stylesheet" href="assets/css/work-page.css?v=work-map-volume-2026-05-16-01" />
+  <link rel="stylesheet" href="assets/css/work-page.css?v=work-map-volume-2026-05-16-02" />
 </head>
 <body class="work-page map-volume-page">
   <a class="skip-link" href="#work-content">Skip to work content</a>
@@ -14,6 +14,14 @@
   <nav class="page-nav" aria-label="Work page navigation">
     <a class="library-link" href="library.html">library</a>
   </nav>
+
+  <aside class="atlas-compass" aria-label="Work map section navigation">
+    <p>Atlas</p>
+    <a href="#missions" data-compass-target="missions"><span>01</span>Missions</a>
+    <a href="#interpretation" data-compass-target="interpretation"><span>02</span>Interpretation</a>
+    <a href="#networks" data-compass-target="networks"><span>03</span>Networks</a>
+    <a href="#governance" data-compass-target="governance"><span>04</span>Governance</a>
+  </aside>
 
   <main id="work-content" class="work-main">
     <section class="hero-volume map-hero" aria-labelledby="work-title">
@@ -33,7 +41,7 @@
 
         <section class="book-page book-page-right map-page" aria-label="Map of work territories">
           <p class="page-eyebrow">Cartography of practice</p>
-          <div class="antique-map" aria-hidden="true">
+          <div class="antique-map" aria-label="Old map showing four territories of work">
             <svg viewBox="0 0 760 520" role="img" aria-label="Old map showing four territories of work">
               <defs>
                 <filter id="roughen"><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8"/></filter>
@@ -48,10 +56,27 @@
               <circle class="map-node node-governance" cx="610" cy="190" r="11" />
               <g class="compass" transform="translate(617 398)"><circle r="48"/><path d="M0 -40 L10 -8 L40 0 L10 8 L0 40 L-10 8 L-40 0 L-10 -8 Z"/></g>
             </svg>
-            <a class="map-label label-missions" href="#missions"><span>01</span>Mission Engagement</a>
-            <a class="map-label label-interpretation" href="#interpretation"><span>02</span>Interpretive Infrastructure</a>
-            <a class="map-label label-networks" href="#networks"><span>03</span>Informal Learning Networks</a>
-            <a class="map-label label-governance" href="#governance"><span>04</span>Recognition Governance</a>
+            <a class="map-label label-missions" href="#missions" data-map-target="missions"><span>01</span>Mission Engagement</a>
+            <a class="map-label label-interpretation" href="#interpretation" data-map-target="interpretation"><span>02</span>Interpretive Infrastructure</a>
+            <a class="map-label label-networks" href="#networks" data-map-target="networks"><span>03</span>Informal Learning Networks</a>
+            <a class="map-label label-governance" href="#governance" data-map-target="governance"><span>04</span>Recognition Governance</a>
+
+            <aside class="map-annotation annotation-missions" data-annotation="missions" aria-hidden="true">
+              <strong>Route 01</strong>
+              <span>Launch-era public orientation · Roman host-site readiness</span>
+            </aside>
+            <aside class="map-annotation annotation-interpretation" data-annotation="interpretation" aria-hidden="true">
+              <strong>Route 02</strong>
+              <span>STORIMap structure · visual cognition · guided tour pacing</span>
+            </aside>
+            <aside class="map-annotation annotation-networks" data-annotation="networks" aria-hidden="true">
+              <strong>Route 03</strong>
+              <span>142,000+ FY25 participants · evaluation-to-strategy synthesis</span>
+            </aside>
+            <aside class="map-annotation annotation-governance" data-annotation="governance" aria-hidden="true">
+              <strong>Route 04</strong>
+              <span>Recognition chain · learning-to-credit reliability</span>
+            </aside>
           </div>
           <p class="pull-quote map-quote">I help institutions move from expertise to participation, from content to meaning, and from access as invitation to access as infrastructure.</p>
         </section>
@@ -91,7 +116,7 @@
       </div>
 
       <div class="ledger-grid map-territories">
-        <article id="missions" class="ledger-card card-blue">
+        <article id="missions" class="ledger-card card-blue" data-section="missions">
           <p class="card-number">01</p>
           <p class="card-kicker">Mission Engagement</p>
           <h3>Designing public entry points into scientific futures</h3>
@@ -100,7 +125,7 @@
           <ul class="mode-list"><li>Launch strategy</li><li>Facilitator onboarding</li><li>Host-site readiness</li><li>Cross-network coordination</li></ul>
         </article>
 
-        <article id="interpretation" class="ledger-card card-gold">
+        <article id="interpretation" class="ledger-card card-gold" data-section="interpretation">
           <p class="card-number">02</p>
           <p class="card-kicker">Interpretive Infrastructure</p>
           <h3>Moving from information density to conceptual navigation</h3>
@@ -109,7 +134,7 @@
           <ul class="mode-list"><li>STORIMap interpretation</li><li>Visual cognition</li><li>Guided tour pacing</li><li>Science readability</li></ul>
         </article>
 
-        <article id="networks" class="ledger-card card-green">
+        <article id="networks" class="ledger-card card-green" data-section="networks">
           <p class="card-number">03</p>
           <p class="card-kicker">Informal Learning Networks</p>
           <h3>Building durable learning infrastructure across distributed systems</h3>
@@ -118,7 +143,7 @@
           <ul class="mode-list"><li>Network strategy</li><li>Partner support</li><li>Evaluation-to-strategy synthesis</li><li>Resource usability</li></ul>
         </article>
 
-        <article id="governance" class="ledger-card card-rust">
+        <article id="governance" class="ledger-card card-rust" data-section="governance">
           <p class="card-number">04</p>
           <p class="card-kicker">Recognition Governance</p>
           <h3>Studying how systems decide what counts</h3>
@@ -189,6 +214,6 @@
   </main>
 
   <p class="page-signature" aria-hidden="true">Yesenia Pérez · Public Learning Systems</p>
-  <script src="assets/js/work-page.js?v=work-map-volume-2026-05-16-01" defer></script>
+  <script src="assets/js/work-page.js?v=work-map-volume-2026-05-16-02" defer></script>
 </body>
 </html>
