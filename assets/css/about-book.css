@@ -19,7 +19,9 @@ body.about-visual-page{min-height:100svh;overflow:hidden;font-family:Inter,ui-sa
 .about-nav{position:absolute;top:1.2rem;left:1.2rem;z-index:10}
 .back-link{display:inline-flex;align-items:center;gap:.5rem;padding:.78rem 1rem;border-radius:999px;border:1px solid rgba(246,235,218,.12);background:rgba(8,4,2,.56);color:rgba(246,235,218,.72);text-decoration:none;text-transform:uppercase;letter-spacing:.18em;font-size:.62rem;font-weight:700;backdrop-filter:blur(12px);box-shadow:0 14px 36px rgba(0,0,0,.42);transition:background .34s ease,border-color .34s ease,color .34s ease,transform .34s var(--ease),opacity .4s ease}
 .back-link:hover,.back-link:focus-visible{background:rgba(28,16,10,.78);border-color:rgba(210,160,93,.48);color:var(--cream);transform:translateY(-2px);outline:none}
+.back-link:focus-visible{box-shadow:0 14px 36px rgba(0,0,0,.42),0 0 0 3px rgba(210,160,93,.22)}
 .section-hotspot{position:absolute;z-index:8;border:none;background:transparent;cursor:pointer;color:transparent}
+.section-hotspot span{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .section-hotspot::before{content:"";position:absolute;inset:-10px;border-radius:1.4rem;border:1px solid transparent;transition:border-color .34s ease,background .34s ease,box-shadow .34s ease,transform .34s var(--ease),opacity .34s ease}
 .section-hotspot::after{content:"";position:absolute;left:50%;top:50%;width:.55rem;height:.55rem;border-radius:999px;background:rgba(210,160,93,.42);box-shadow:0 0 18px rgba(210,160,93,.28);transform:translate(-50%,-50%);opacity:0;transition:opacity .3s ease,transform .34s var(--ease)}
 .section-hotspot:hover::before,.section-hotspot:focus-visible::before,.section-hotspot[aria-expanded='true']::before{border-color:rgba(246,235,218,.18);background:rgba(255,248,235,.03);box-shadow:0 0 0 1px rgba(210,160,93,.08),0 0 28px rgba(210,160,93,.14);transform:scale(1.01)}
@@ -31,7 +33,7 @@ body.about-visual-page{min-height:100svh;overflow:hidden;font-family:Inter,ui-sa
 .hotspot-care{top:60%;left:55%;width:25%;height:16%}
 .about-panel{position:absolute;left:2rem;bottom:2rem;z-index:12;width:min(27rem,calc(100vw - 4rem));padding:1.05rem 1.15rem 1.1rem 1.35rem;border-radius:.95rem;background:linear-gradient(135deg,rgba(26,15,8,.78),rgba(12,7,4,.66));border:1px solid var(--panel-border);border-left:2px solid rgba(210,160,93,.66);backdrop-filter:blur(18px) saturate(.9);box-shadow:0 18px 55px rgba(0,0,0,.46);transform:translateY(0);transition:transform .42s var(--ease),background .34s ease,border-color .34s ease,opacity .34s ease}
 .about-panel::before{content:"";position:absolute;left:1rem;top:.8rem;width:.48rem;height:.48rem;border-radius:50%;background:rgba(210,160,93,.74);box-shadow:0 0 18px rgba(210,160,93,.26)}
-.about-panel:not(.is-open){opacity:.72;transform:translateY(.35rem)}
+.about-panel:not(.is-open){opacity:0;pointer-events:none;transform:translateY(.7rem)}
 .about-panel.is-open{border-color:rgba(246,235,218,.14);border-left-color:rgba(210,160,93,.78)}
 .about-panel[data-mode='practice']{border-left-color:rgba(177,107,69,.78)}
 .about-panel[data-mode='method']{border-left-color:rgba(140,123,85,.86)}
@@ -39,7 +41,9 @@ body.about-visual-page{min-height:100svh;overflow:hidden;font-family:Inter,ui-sa
 .panel-kicker{margin:0 0 .42rem;padding-left:1rem;color:#d7b178;text-transform:uppercase;letter-spacing:.18em;font-size:.58rem;font-weight:700}
 .about-panel h1{margin:0 0 .62rem;font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.8rem,3.2vw,2.75rem);font-weight:400;line-height:.96;letter-spacing:-.04em;color:#fff7ec}
 .about-panel p:last-of-type{margin:0;max-width:28rem;color:rgba(246,235,218,.78);font-size:.95rem;line-height:1.66}
-.panel-close{margin-top:.85rem;padding:0;border:none;background:none;color:rgba(246,235,218,.46);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:color .3s ease,opacity .3s ease}.panel-close:hover,.panel-close:focus-visible{color:#fff7ec;outline:none}
+.panel-close{margin-top:.85rem;padding:0;border:none;background:none;color:rgba(246,235,218,.46);font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:color .3s ease,opacity .3s ease}
+.panel-close:hover,.panel-close:focus-visible{color:#fff7ec;outline:none}
+.panel-close:focus-visible{box-shadow:0 2px 0 rgba(210,160,93,.52)}
 .about-signature{position:absolute;right:1.6rem;bottom:1.3rem;z-index:9;margin:0;color:rgba(246,235,218,.46);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;transition:opacity .4s ease}
 .about-visual-page.is-arriving-from-library .about-backdrop{opacity:.72;filter:saturate(.92) brightness(.72) blur(2px);transform:scale(1.04)}
 .about-visual-page.is-arriving-from-library .about-panel,.about-visual-page.is-arriving-from-library .about-nav,.about-visual-page.is-arriving-from-library .about-signature{opacity:0;transform:translateY(10px)}
@@ -47,4 +51,4 @@ body.about-visual-page{min-height:100svh;overflow:hidden;font-family:Inter,ui-sa
 .about-visual-page.is-leaving .about-panel,.about-visual-page.is-leaving .about-nav,.about-visual-page.is-leaving .about-signature{opacity:0}
 @media(max-width:980px){body.about-visual-page{overflow:auto}.about-scene{min-height:100svh;height:auto}.scene-frame{position:relative;left:auto;top:auto;width:100%;transform:none;aspect-ratio:auto}.about-backdrop{position:relative;height:auto;min-height:100svh}.section-hotspot{display:none}.about-panel{left:1rem;right:1rem;bottom:1rem;width:auto}}
 @media(max-width:640px){.about-nav{top:.8rem;left:.8rem}.back-link{font-size:.56rem;padding:.66rem .82rem}.about-panel{padding:1rem 1rem 1.05rem 1.18rem;border-radius:.9rem}.about-panel h1{font-size:2rem}.about-panel p:last-of-type{font-size:.94rem;line-height:1.62}.about-signature{display:none}}
-@media(prefers-reduced-motion:reduce){.back-link,.section-hotspot::before,.section-hotspot::after,.about-panel,.about-scene,.about-backdrop,.scene-frame{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.back-link,.section-hotspot::before,.section-hotspot::after,.about-panel,.about-scene,.about-backdrop,.scene-frame{transition:none!important}.back-link:hover,.back-link:focus-visible,.section-hotspot:hover::before,.section-hotspot:focus-visible::before{transform:none!important}}
