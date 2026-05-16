@@ -1,4 +1,4 @@
-/* Library hub: image-led room with subtle glowing book hotspots */
+/* Library hub: image-led room with title-aligned book glints */
 :root{
   --cream:#f7ead8;
   --amber:#d2a05d;
@@ -105,51 +105,54 @@ body.library-hub-page{
   border-radius:999px;
   transition:filter .32s ease,transform .32s ease;
 }
+.volume-zone span{display:none}
 .volume-zone::before{
   content:"";
   position:absolute;
-  left:var(--glow-left,22%);
-  top:21%;
-  width:var(--glow-width,42%);
-  height:58%;
+  left:var(--title-left);
+  top:28%;
+  width:var(--title-width);
+  height:44%;
   border-radius:999px;
   background:
-    radial-gradient(ellipse at 50% 52%,rgba(255,230,168,.34),rgba(255,205,111,.14) 42%,transparent 76%),
-    linear-gradient(90deg,transparent 0%,rgba(255,236,185,.18) 48%,transparent 100%);
-  filter:blur(12px);
+    radial-gradient(ellipse at 50% 50%,rgba(255,231,176,.40),rgba(255,206,112,.16) 48%,transparent 78%),
+    linear-gradient(90deg,transparent 0%,rgba(255,239,196,.20) 48%,transparent 100%);
+  filter:blur(10px);
   opacity:0;
-  transform:scaleX(.72);
+  transform:scaleX(.74);
   transform-origin:50% 50%;
-  transition:opacity .32s ease,transform .36s ease;
+  transition:opacity .28s ease,transform .32s ease;
 }
 .volume-zone::after{
   content:"";
   position:absolute;
-  left:var(--line-left,24%);
-  bottom:24%;
-  width:var(--line-width,28%);
+  left:var(--title-left);
+  top:67%;
+  width:var(--title-width);
   height:1px;
   border-radius:999px;
-  background:linear-gradient(90deg,transparent,rgba(255,236,185,.82),rgba(210,160,93,.42),transparent);
-  box-shadow:0 0 14px rgba(255,213,132,.34);
+  background:linear-gradient(90deg,transparent,rgba(255,238,198,.86),rgba(210,160,93,.46),transparent);
+  box-shadow:0 0 12px rgba(255,214,136,.36);
   opacity:0;
-  transform:scaleX(.68);
+  transform:scaleX(.72);
   transform-origin:50% 50%;
-  transition:opacity .28s ease,transform .34s ease;
+  transition:opacity .24s ease,transform .30s ease;
 }
-.volume-zone span{display:none}
 .volume-zone:hover,.volume-zone:focus-visible{
-  filter:brightness(1.12) saturate(1.06);
-  transform:translateX(.10rem);
+  filter:brightness(1.10) saturate(1.05);
+  transform:translateX(.08rem);
 }
-.volume-zone:hover::before,.volume-zone:focus-visible::before{opacity:1;transform:scaleX(1)}
-.volume-zone:hover::after,.volume-zone:focus-visible::after{opacity:1;transform:scaleX(1)}
-/* Hotspots tuned to the five horizontal navigation books in the refreshed 16:9 hub art. */
-.zone-about{left:38.1%;top:40.6%;width:22.3%;height:5.4%;--line-left:30%;--line-width:18%;--glow-left:24%;--glow-width:30%}
-.zone-work{left:38.2%;top:46.0%;width:23.4%;height:5.3%;--line-left:29%;--line-width:17%;--glow-left:23%;--glow-width:30%}
-.zone-research{left:38.2%;top:51.4%;width:24.5%;height:5.4%;--line-left:25%;--line-width:29%;--glow-left:20%;--glow-width:42%}
-.zone-systems{left:38.2%;top:56.8%;width:25.5%;height:5.6%;--line-left:23%;--line-width:39%;--glow-left:17%;--glow-width:52%}
-.zone-voice{left:38.2%;top:62.5%;width:25.8%;height:5.8%;--line-left:22%;--line-width:52%;--glow-left:16%;--glow-width:64%}
+.volume-zone:hover::before,.volume-zone:focus-visible::before,
+.volume-zone:hover::after,.volume-zone:focus-visible::after{
+  opacity:1;
+  transform:scaleX(1);
+}
+/* Hotspots rebuilt for the refreshed horizontal navigation stack. Each glint is positioned to the printed title, not the full book. */
+.zone-about{left:47.5%;top:38.2%;width:20.6%;height:4.8%;--title-left:29.5%;--title-width:24%}
+.zone-work{left:47.5%;top:43.4%;width:21.0%;height:4.8%;--title-left:29.0%;--title-width:23%}
+.zone-research{left:47.5%;top:48.5%;width:21.7%;height:4.9%;--title-left:24.5%;--title-width:36%}
+.zone-systems{left:47.5%;top:53.7%;width:22.6%;height:5.0%;--title-left:22.5%;--title-width:46%}
+.zone-voice{left:47.5%;top:59.0%;width:23.1%;height:5.1%;--title-left:21.0%;--title-width:58%}
 .mobile-volume-list{display:none}
 .library-hub-page.is-turning .library-backdrop img{
   transition:filter .68s ease,transform .68s cubic-bezier(.2,.8,.2,1);
