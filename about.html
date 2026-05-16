@@ -3,103 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="about-open-book-2026-05-16-03" />
+  <meta name="build-version" content="about-image-led-2026-05-16-01" />
   <title>About · Yesenia Pérez</title>
   <meta name="description" content="Volume I of Yesenia Pérez’s public learning systems archive: the person, practice, and values behind the work." />
-  <link rel="stylesheet" href="assets/css/about-book.css?v=about-open-book-2026-05-16-03" />
+  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-01" />
 </head>
-<body class="about-volume-page">
-  <a class="skip-link" href="#about-title">Skip to About content</a>
+<body class="about-visual-page">
+  <a class="skip-link" href="#about-panel-title">Skip to About content</a>
 
-  <nav class="page-nav" aria-label="About page navigation">
-    <a class="back-link" href="library.html" aria-label="Return to the library">Back to Library</a>
-  </nav>
+  <main class="about-scene" aria-label="Volume I: About Me">
+    <img class="about-backdrop" src="./about%20page_visual.png?v=about-image-led-2026-05-16-01" alt="Open book on a warm wooden desk, showing an About Me spread with three sections." decoding="async" fetchpriority="high" />
 
-  <main class="about-stage" aria-label="Volume I: About">
-    <article class="open-book" aria-labelledby="about-title" aria-describedby="about-lede">
-      <span class="book-edge left" aria-hidden="true"></span>
-      <span class="book-edge right" aria-hidden="true"></span>
-      <span class="book-ribbon" aria-hidden="true"></span>
+    <nav class="about-nav" aria-label="About page navigation">
+      <a class="back-link" href="library.html">Back to Library</a>
+    </nav>
 
-      <section class="page page-left" aria-label="About introduction">
-        <span class="page-curl" aria-hidden="true"></span>
-        <div class="volume-mark" aria-hidden="true">
-          <span>Volume I</span>
-          <span>Orientation</span>
-        </div>
+    <button class="section-hotspot hotspot-do" type="button" aria-controls="about-panel" aria-expanded="false" data-title="What I do" data-kicker="Practice" data-body="I design public learning and engagement systems that help institutions translate complexity into trust, participation, and access at scale. At the Space Telescope Science Institute, I work across flagship NASA astrophysics missions, national learning networks, and public engagement initiatives.">
+      <span>What I do</span>
+    </button>
 
-        <p class="eyebrow">Orientation Volume</p>
-        <h1 id="about-title">About Me</h1>
-        <p class="lede" id="about-lede">I work where science, institutions, culture, and public learning meet. My practice is about making complex systems more navigable without draining them of rigor, wonder, or humanity.</p>
+    <button class="section-hotspot hotspot-think" type="button" aria-controls="about-panel" aria-expanded="false" data-title="How I think" data-kicker="Method" data-body="I am drawn to the layer beneath engagement: how institutions decide what counts, who moves forward, and what makes participation trustworthy. My work asks how people move through systems whose complexity exceeds ordinary visibility.">
+      <span>How I think</span>
+    </button>
 
-        <div class="rule" aria-hidden="true"></div>
+    <button class="section-hotspot hotspot-care" type="button" aria-controls="about-panel" aria-expanded="false" data-title="What I care about" data-kicker="Values" data-body="I care about learning environments that feel usable, rigorous, culturally grounded, and alive. I care about systems that preserve dignity under scale rather than depending on insider fluency, heroic labor, or luck.">
+      <span>What I care about</span>
+    </button>
 
-        <aside class="field-note" aria-label="Field note">
-          <strong>Field Note</strong>
-          <p>This is the orientation volume: the person behind the systems, the strategist behind the archive.</p>
-        </aside>
+    <section class="about-panel" id="about-panel" aria-live="polite">
+      <p class="panel-kicker" id="about-panel-kicker">Orientation Volume</p>
+      <h1 id="about-panel-title">About Me</h1>
+      <p id="about-panel-body">I work where science, institutions, culture, and public learning meet. My practice is about making complex systems more navigable without draining them of rigor, wonder, or humanity.</p>
+      <button class="panel-close" type="button" aria-label="Close detail panel">Close</button>
+    </section>
 
-        <span class="page-number" aria-hidden="true">01</span>
-      </section>
-
-      <section class="page page-right" aria-label="About details">
-        <span class="page-curl" aria-hidden="true"></span>
-        <div class="about-sections">
-          <section class="about-card about-card-practice">
-            <span class="section-stamp stamp-practice" aria-hidden="true"></span>
-            <p class="card-kicker">Practice</p>
-            <h2>What I do</h2>
-            <p>I design public learning and engagement systems that help institutions translate complexity into trust, participation, and access at scale. At the Space Telescope Science Institute, I work across flagship NASA astrophysics missions, national learning networks, and public engagement initiatives.</p>
-          </section>
-
-          <section class="about-card about-card-thinking">
-            <span class="section-stamp stamp-thinking" aria-hidden="true"></span>
-            <p class="card-kicker">Method</p>
-            <h2>How I think</h2>
-            <p>I am drawn to the layer beneath engagement: how institutions decide what counts, who moves forward, and what makes participation trustworthy. My work asks how people move through systems whose complexity exceeds ordinary visibility.</p>
-          </section>
-
-          <section class="about-card about-card-care">
-            <span class="section-stamp stamp-care" aria-hidden="true"></span>
-            <p class="card-kicker">Values</p>
-            <h2>What I care about</h2>
-            <p>I care about learning environments that feel usable, rigorous, culturally grounded, and alive. I care about systems that preserve dignity under scale rather than depending on insider fluency, heroic labor, or luck.</p>
-          </section>
-        </div>
-        <span class="page-number" aria-hidden="true">02</span>
-      </section>
-    </article>
+    <p class="about-signature" aria-hidden="true">Yesenia Pérez · Public Learning Systems</p>
   </main>
 
   <script>
     (() => {
-      const root = document.documentElement;
       const body = document.body;
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const panel = document.querySelector('.about-panel');
+      const panelKicker = document.querySelector('#about-panel-kicker');
+      const panelTitle = document.querySelector('#about-panel-title');
+      const panelBody = document.querySelector('#about-panel-body');
+      const closeButton = document.querySelector('.panel-close');
+      const hotspots = [...document.querySelectorAll('.section-hotspot')];
       const backLink = document.querySelector('.back-link');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (!reduceMotion) {
-        let frameRequested = false;
-        window.addEventListener('pointermove', (event) => {
-          if (frameRequested) return;
-          frameRequested = true;
-          window.requestAnimationFrame(() => {
-            const width = Math.max(document.documentElement.clientWidth, 1);
-            const height = Math.max(document.documentElement.clientHeight, 1);
-            root.style.setProperty('--light-x', `${(event.clientX / width) * 100}%`);
-            root.style.setProperty('--light-y', `${(event.clientY / height) * 100}%`);
-            frameRequested = false;
-          });
-        }, { passive: true });
-      }
+      const setPanel = (button) => {
+        hotspots.forEach((item) => item.setAttribute('aria-expanded', 'false'));
+        button.setAttribute('aria-expanded', 'true');
+        panelKicker.textContent = button.dataset.kicker;
+        panelTitle.textContent = button.dataset.title;
+        panelBody.textContent = button.dataset.body;
+        panel.classList.add('is-open');
+      };
+
+      hotspots.forEach((button) => {
+        button.addEventListener('click', () => setPanel(button));
+      });
+
+      closeButton.addEventListener('click', () => {
+        hotspots.forEach((item) => item.setAttribute('aria-expanded', 'false'));
+        panel.classList.remove('is-open');
+        panelKicker.textContent = 'Orientation Volume';
+        panelTitle.textContent = 'About Me';
+        panelBody.textContent = 'I work where science, institutions, culture, and public learning meet. My practice is about making complex systems more navigable without draining them of rigor, wonder, or humanity.';
+      });
 
       if (backLink && !reduceMotion) {
         backLink.addEventListener('click', (event) => {
           event.preventDefault();
-          body.classList.add('is-turning');
+          body.classList.add('is-leaving');
           window.setTimeout(() => {
             window.location.href = backLink.href;
-          }, 520);
+          }, 460);
         });
       }
     })();
