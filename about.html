@@ -3,32 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="about-image-led-2026-05-16-06" />
+  <meta name="build-version" content="about-image-led-2026-05-16-07" />
   <title>About · Yesenia Pérez</title>
   <meta name="description" content="Volume I of Yesenia Pérez’s public learning systems archive: the person, practice, and values behind the work." />
-  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-06" />
+  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-07" />
 </head>
 <body class="about-visual-page">
-  <a class="skip-link" href="#about-panel-title">Skip to About content</a>
+  <a class="skip-link" href="#about-key-title">Skip to About content</a>
 
   <main class="about-scene" aria-label="Volume I: About Me">
     <div class="scene-frame">
-      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-06" alt="" decoding="async" fetchpriority="high" />
+      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-07" alt="" decoding="async" fetchpriority="high" />
 
-      <button class="section-hotspot hotspot-orientation" type="button" aria-label="Open key note" aria-controls="about-panel" aria-expanded="true" data-mode="orientation" data-title="Key" data-kicker="Reading note" data-body="Left page: why. Right page: how. The spread moves from purpose into practice, method, and values.">
-        <span>About Me</span>
+      <button class="section-orb orb-orientation" type="button" aria-label="Unlock key note" aria-controls="about-key" aria-pressed="true" data-key="orientation">
+        <span>Key</span>
       </button>
 
-      <button class="section-hotspot hotspot-do" type="button" aria-label="Open practice note" aria-controls="about-panel" aria-expanded="false" data-mode="practice" data-title="Practice" data-kicker="What I do" data-body="Turning complex science and institutional work into public learning systems people can use, trust, and enter.">
-        <span>What I do</span>
+      <button class="section-orb orb-practice" type="button" aria-label="Unlock practice note" aria-controls="about-key" aria-pressed="false" data-key="practice">
+        <span>Practice</span>
       </button>
 
-      <button class="section-hotspot hotspot-think" type="button" aria-label="Open method note" aria-controls="about-panel" aria-expanded="false" data-mode="method" data-title="Method" data-kicker="How I think" data-body="Looking beneath engagement to the rules, relationships, and recognition structures that shape who can move forward.">
-        <span>How I think</span>
+      <button class="section-orb orb-method" type="button" aria-label="Unlock method note" aria-controls="about-key" aria-pressed="false" data-key="method">
+        <span>Method</span>
       </button>
 
-      <button class="section-hotspot hotspot-care" type="button" aria-label="Open values note" aria-controls="about-panel" aria-expanded="false" data-mode="values" data-title="Values" data-kicker="What I care about" data-body="Designing learning environments that stay rigorous, culturally grounded, humane, and alive without relying on insider fluency or luck.">
-        <span>What I care about</span>
+      <button class="section-orb orb-values" type="button" aria-label="Unlock values note" aria-controls="about-key" aria-pressed="false" data-key="values">
+        <span>Values</span>
       </button>
     </div>
 
@@ -36,11 +36,27 @@
       <a class="back-link" href="library.html">Back to Library</a>
     </nav>
 
-    <section class="about-panel is-open" id="about-panel" data-mode="orientation" aria-live="polite" aria-labelledby="about-panel-title">
-      <p class="panel-kicker" id="about-panel-kicker">Reading note</p>
-      <h1 id="about-panel-title">Key</h1>
-      <p id="about-panel-body">Left page: why. Right page: how. The spread moves from purpose into practice, method, and values.</p>
-      <button class="panel-close" type="button" aria-label="Close detail panel">Close</button>
+    <section class="key-menu" id="about-key" aria-live="polite" aria-labelledby="about-key-title">
+      <p class="key-kicker">Map</p>
+      <h1 id="about-key-title">Key</h1>
+      <div class="key-list" aria-label="About page reading key">
+        <article class="key-item is-unlocked is-active" data-key-item="orientation">
+          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Spread</h2></div>
+          <p>Left page: why. Right page: how.</p>
+        </article>
+        <article class="key-item" data-key-item="practice">
+          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Practice</h2></div>
+          <p>Systems people can use, trust, and enter.</p>
+        </article>
+        <article class="key-item" data-key-item="method">
+          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Method</h2></div>
+          <p>Look beneath engagement to what counts.</p>
+        </article>
+        <article class="key-item" data-key-item="values">
+          <div class="key-item-header"><span class="key-dot" aria-hidden="true"></span><h2>Values</h2></div>
+          <p>Rigor, dignity, culture, aliveness.</p>
+        </article>
+      </div>
     </section>
 
     <p class="about-signature" aria-hidden="true">Yesenia Pérez · Public Learning Systems</p>
@@ -49,16 +65,13 @@
   <script>
     (() => {
       const body = document.body;
-      const panel = document.querySelector('.about-panel');
-      const panelKicker = document.querySelector('#about-panel-kicker');
-      const panelTitle = document.querySelector('#about-panel-title');
-      const panelBody = document.querySelector('#about-panel-body');
-      const closeButton = document.querySelector('.panel-close');
-      const hotspots = [...document.querySelectorAll('.section-hotspot')];
+      const keyMenu = document.querySelector('.key-menu');
+      const orbs = [...document.querySelectorAll('.section-orb')];
+      const keyItems = [...document.querySelectorAll('.key-item')];
       const backLink = document.querySelector('.back-link');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (!panel || !panelKicker || !panelTitle || !panelBody || !closeButton) return;
+      if (!keyMenu || !orbs.length || !keyItems.length) return;
 
       const getSessionFlag = (key) => {
         try {
@@ -84,33 +97,26 @@
         });
       }
 
-      const resetHotspots = () => {
-        hotspots.forEach((item) => item.setAttribute('aria-expanded', 'false'));
+      const unlockKey = (targetKey) => {
+        orbs.forEach((orb) => {
+          const isActive = orb.dataset.key === targetKey;
+          orb.classList.toggle('is-active', isActive);
+          orb.setAttribute('aria-pressed', String(isActive));
+        });
+
+        keyItems.forEach((item) => {
+          const isTarget = item.dataset.keyItem === targetKey;
+          item.classList.toggle('is-active', isTarget);
+          if (isTarget) item.classList.add('is-unlocked');
+        });
       };
 
-      const setPanel = (button) => {
-        resetHotspots();
-        button.setAttribute('aria-expanded', 'true');
-        panel.dataset.mode = button.dataset.mode || 'note';
-        panelKicker.textContent = button.dataset.kicker || '';
-        panelTitle.textContent = button.dataset.title || '';
-        panelBody.textContent = button.dataset.body || '';
-        panel.classList.add('is-open');
-      };
-
-      const closePanel = () => {
-        resetHotspots();
-        panel.classList.remove('is-open');
-      };
-
-      hotspots.forEach((button) => {
-        button.addEventListener('click', () => setPanel(button));
+      orbs.forEach((orb) => {
+        orb.addEventListener('click', () => unlockKey(orb.dataset.key));
       });
 
-      closeButton.addEventListener('click', closePanel);
-
       window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && panel.classList.contains('is-open')) closePanel();
+        if (event.key === 'Escape') unlockKey('orientation');
       });
 
       if (backLink && !reduceMotion) {
