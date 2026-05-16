@@ -44,9 +44,19 @@
     }, { passive: true });
   }
 
-  const turnPage = (targetHref, delay = 520) => {
+  const turnPage = (targetHref, delay = 520, mode = 'default') => {
     if (reduceMotion || !targetHref) return true;
-    body.classList.add('is-turning');
+
+    if (mode === 'about') {
+      try {
+        sessionStorage.setItem('entered-from-library-about', 'true');
+      } catch {
+        /* Storage may be unavailable in some private browsing contexts. */
+      }
+      body.classList.add('is-turning-about');
+    } else {
+      body.classList.add('is-turning');
+    }
 
     window.setTimeout(() => {
       window.location.href = targetHref;
@@ -57,13 +67,19 @@
 
   document.querySelectorAll('.volume-zone').forEach((zone) => {
     zone.addEventListener('click', (event) => {
-      if (!turnPage(zone.href, 520)) event.preventDefault();
+      const isAbout = zone.classList.contains('zone-about');
+      if (!turnPage(zone.href, isAbout ? 640 : 520, isAbout ? 'about' : 'default')) {
+        event.preventDefault();
+      }
     });
   });
 
   document.querySelectorAll('.mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
-      if (!turnPage(link.href, 380)) event.preventDefault();
+      const isAbout = link.getAttribute('href') === 'about.html';
+      if (!turnPage(link.href, isAbout ? 520 : 380, isAbout ? 'about' : 'default')) {
+        event.preventDefault();
+      }
     });
   });
 
