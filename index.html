@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="study-library-flow-2026-05-16-02" />
+  <meta name="build-version" content="study-library-flow-2026-05-16-03" />
   <title>Yesenia Pérez · The Study</title>
   <meta name="description" content="A quiet amber-glass entrance into Yesenia Pérez’s study, library, and professional archive." />
   <style>
@@ -96,16 +96,8 @@
       transition:transform .9s var(--ease),opacity .72s ease;
     }
 
-    .glass::before{
-      left:-1.8vw;
-      transform:translateX(-2.4vw);
-    }
-
-    .glass::after{
-      right:-1.8vw;
-      transform:translateX(4.2vw);
-      opacity:.88;
-    }
+    .glass::before{left:-1.8vw;transform:translateX(-2.4vw)}
+    .glass::after{right:-1.8vw;transform:translateX(4.2vw);opacity:.88}
 
     .door-seam{
       position:absolute;
@@ -141,56 +133,29 @@
       top:52%;
       z-index:10;
       transform:translate(-50%,-50%);
+      color:rgba(247,234,216,.50);
+      font-family:var(--sans);
+      font-size:.58rem;
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
       text-decoration:none;
-      color:rgba(255,247,230,.92);
-      font-family:var(--serif);
-      font-size:.9rem;
-      letter-spacing:.2em;
-      text-transform:lowercase;
-      padding:.78rem 1.24rem;
-      border:1px solid rgba(220,174,94,.56);
-      border-radius:999px;
-      background:rgba(10,7,4,.40);
-      box-shadow:0 18px 56px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.12);
-      backdrop-filter:blur(10px) saturate(.85);
-      transition:transform .34s ease,border-color .34s ease,background .34s ease,opacity .34s ease;
-    }
-
-    .enter::before,
-    .enter::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      pointer-events:none;
-    }
-
-    .enter::before{
-      top:-23svh;
-      width:1px;
-      height:21svh;
-      background:linear-gradient(transparent,rgba(220,174,94,.44));
-    }
-
-    .enter::after{
-      top:-24svh;
-      width:.42rem;
-      height:.42rem;
-      border-radius:50%;
-      border:1px solid rgba(220,174,94,.44);
-      transform:translateX(-50%);
-      box-shadow:0 0 22px rgba(220,174,94,.26);
+      border-bottom:1px solid rgba(210,160,93,.28);
+      padding:0 0 .34rem;
+      text-shadow:0 10px 30px rgba(0,0,0,.8);
+      transition:color .28s ease,border-color .28s ease,opacity .34s ease,transform .34s ease;
     }
 
     .enter:hover,
     .enter:focus-visible{
-      transform:translate(-50%,-50%) scale(1.045);
-      border-color:rgba(220,174,94,.84);
-      background:rgba(76,45,22,.50);
+      color:var(--cream);
+      border-color:rgba(210,160,93,.72);
+      transform:translate(-50%,-50%) translateY(-1px);
       outline:none;
     }
 
     .enter:focus-visible{
-      box-shadow:0 18px 56px rgba(0,0,0,.68),inset 0 1px 0 rgba(255,255,255,.12),0 0 0 3px rgba(210,160,93,.24);
+      box-shadow:0 2px 0 rgba(210,160,93,.24);
     }
 
     .caption{
@@ -229,23 +194,10 @@
 
     @media(max-width:800px){
       .glass::before,
-      .glass::after{
-        top:3svh;
-        bottom:3svh;
-        width:52vw;
-      }
-
-      .door-seam{
-        top:3svh;
-        bottom:3svh;
-        width:13vw;
-      }
-
+      .glass::after{top:3svh;bottom:3svh;width:52vw}
+      .door-seam{top:3svh;bottom:3svh;width:13vw}
       .track.top{top:3svh}
       .track.bottom{bottom:3svh}
-
-      .enter::before,
-      .enter::after,
       .caption{display:none}
     }
 
@@ -265,11 +217,11 @@
 <body>
   <main class="entry" aria-label="Amber glass entrance to Yesenia Pérez’s study">
     <picture class="study-scene" aria-hidden="true">
-      <source srcset="assets%3Aimg%3Astudy-9x16.png?v=study-library-flow-2026-05-16-02" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets%3Aimg%3Astudy-3x4.png?v=study-library-flow-2026-05-16-02" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets%3Aimg%3Astudy-1x1.png?v=study-library-flow-2026-05-16-02" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets%3Aimg%3Astudy-3x2.png?v=study-library-flow-2026-05-16-02" media="(max-aspect-ratio: 15/9)" />
-      <img src="assets%3Aimg%3Astudy-16x9.png?v=study-library-flow-2026-05-16-02" alt="" decoding="async" fetchpriority="high" />
+      <source srcset="assets%3Aimg%3Astudy-9x16.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets%3Aimg%3Astudy-3x4.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets%3Aimg%3Astudy-1x1.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets%3Aimg%3Astudy-3x2.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 15/9)" />
+      <img src="assets%3Aimg%3Astudy-16x9.png?v=study-library-flow-2026-05-16-03" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
     <div class="glass" aria-hidden="true"></div>
