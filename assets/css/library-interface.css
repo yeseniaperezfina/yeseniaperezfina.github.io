@@ -97,71 +97,74 @@ body.library-hub-page{
   position:absolute;
   display:block;
   pointer-events:auto;
-  border:1px solid transparent;
-  border-radius:4px;
   text-decoration:none;
   color:transparent;
-  background:rgba(255,214,142,0);
-  transition:border-color .32s ease,background .32s ease,box-shadow .32s ease,filter .32s ease,transform .32s ease;
+  border:0;
+  outline:0;
+  background:transparent;
+  border-radius:999px;
+  transition:filter .32s ease,transform .32s ease;
 }
 .volume-zone::before{
   content:"";
   position:absolute;
-  inset:-10px -8px;
-  border-radius:inherit;
+  inset:-18% -4%;
+  border-radius:999px;
   background:
-    radial-gradient(ellipse at 50% 55%,rgba(255,221,148,.32),rgba(255,221,148,.12) 36%,transparent 72%),
-    linear-gradient(90deg,transparent,rgba(255,237,190,.18),transparent);
-  filter:blur(16px);
+    radial-gradient(ellipse at 62% 50%,rgba(255,230,168,.36),rgba(255,205,111,.16) 38%,transparent 72%),
+    linear-gradient(90deg,transparent 0%,rgba(255,236,185,.20) 46%,rgba(255,236,185,.08) 68%,transparent 100%);
+  filter:blur(13px);
   opacity:0;
-  transform:scale(.96);
-  transition:opacity .32s ease,transform .32s ease;
+  transform:translateX(-.35rem) scaleX(.92);
+  transition:opacity .32s ease,transform .36s ease;
 }
 .volume-zone::after{
   content:"";
   position:absolute;
-  inset:0;
-  border-radius:inherit;
-  border:1px solid rgba(255,230,177,0);
-  box-shadow:inset 0 0 26px rgba(255,222,155,0);
-  transition:border-color .32s ease,box-shadow .32s ease;
+  left:8%;
+  right:14%;
+  bottom:18%;
+  height:1px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,rgba(255,236,185,.74),rgba(210,160,93,.35),transparent);
+  box-shadow:0 0 16px rgba(255,213,132,.34);
+  opacity:0;
+  transform:scaleX(.62);
+  transform-origin:50% 50%;
+  transition:opacity .28s ease,transform .34s ease;
 }
 .volume-zone span{
   position:absolute;
-  left:50%;
-  top:57%;
-  transform:translate(-50%,-50%) translateY(7px);
+  left:77%;
+  top:50%;
+  transform:translate(-50%,-50%) translateX(.5rem);
   opacity:0;
   white-space:nowrap;
-  color:rgba(255,247,230,.96);
+  color:rgba(255,247,230,.92);
   font-family:var(--sans);
-  font-size:.55rem;
+  font-size:.52rem;
   letter-spacing:.16em;
   text-transform:uppercase;
-  padding:.34rem .52rem;
-  border:1px solid rgba(210,160,93,.38);
-  background:rgba(8,5,3,.64);
-  box-shadow:0 14px 36px rgba(0,0,0,.46);
-  backdrop-filter:blur(12px);
+  padding:.28rem .44rem;
+  border:1px solid rgba(210,160,93,.26);
+  background:rgba(8,5,3,.50);
+  box-shadow:0 14px 32px rgba(0,0,0,.36);
+  backdrop-filter:blur(10px);
   transition:opacity .28s ease,transform .28s ease;
 }
 .volume-zone:hover,.volume-zone:focus-visible{
-  border-color:rgba(255,231,184,.50);
-  background:rgba(255,221,148,.045);
-  box-shadow:0 0 52px rgba(255,199,105,.22),0 0 0 1px rgba(0,0,0,.22),inset 0 0 38px rgba(255,232,180,.10);
-  outline:none;
-  filter:brightness(1.14);
-  transform:translateY(-1px);
+  filter:brightness(1.16) saturate(1.08);
+  transform:translateX(.18rem);
 }
-.volume-zone:hover::before,.volume-zone:focus-visible::before{opacity:1;transform:scale(1.03)}
-.volume-zone:hover::after,.volume-zone:focus-visible::after{border-color:rgba(255,231,184,.62);box-shadow:inset 0 0 28px rgba(255,222,155,.14)}
-.volume-zone:hover span,.volume-zone:focus-visible span{opacity:1;transform:translate(-50%,-50%) translateY(0)}
-/* Hotspots tuned to the five labeled volume spines in the 16:9 hub art. */
-.zone-about{left:47.4%;top:34.0%;width:3.35%;height:41.6%}
-.zone-work{left:51.0%;top:34.0%;width:3.55%;height:41.6%}
-.zone-research{left:54.95%;top:34.0%;width:3.75%;height:41.6%}
-.zone-systems{left:59.0%;top:34.0%;width:4.05%;height:41.6%}
-.zone-voice{left:63.45%;top:34.0%;width:4.05%;height:41.6%}
+.volume-zone:hover::before,.volume-zone:focus-visible::before{opacity:1;transform:translateX(0) scaleX(1)}
+.volume-zone:hover::after,.volume-zone:focus-visible::after{opacity:1;transform:scaleX(1)}
+.volume-zone:hover span,.volume-zone:focus-visible span{opacity:1;transform:translate(-50%,-50%) translateX(0)}
+/* Hotspots tuned to the five horizontal navigation books in the refreshed 16:9 hub art. */
+.zone-about{left:38.1%;top:40.6%;width:22.3%;height:5.4%}
+.zone-work{left:38.2%;top:46.0%;width:23.4%;height:5.3%}
+.zone-research{left:38.2%;top:51.4%;width:24.5%;height:5.4%}
+.zone-systems{left:38.2%;top:56.8%;width:25.5%;height:5.6%}
+.zone-voice{left:38.2%;top:62.5%;width:25.8%;height:5.8%}
 .mobile-volume-list{display:none}
 .library-hub-page.is-turning .library-backdrop img{
   transition:filter .68s ease,transform .68s cubic-bezier(.2,.8,.2,1);
