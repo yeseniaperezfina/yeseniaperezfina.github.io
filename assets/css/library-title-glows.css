@@ -1,0 +1,53 @@
+/* Library title glow calibration
+   Keeps the hover light tied to the visible spine title, not the full book hotspot. */
+
+.book-title-glow{
+  height:.72rem;
+  transform:translate(-50%,-50%) scaleX(.36);
+}
+
+.book-title-glow::before{
+  height:.72rem;
+  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.18),rgba(248,253,255,.09) 31%,rgba(45,174,255,.055) 54%,transparent 76%);
+  filter:blur(5px);
+}
+
+.book-title-glow::after{
+  height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(45,174,255,.14) 15%,rgba(248,253,255,.76) 35%,rgba(123,220,255,.98) 50%,rgba(248,253,255,.76) 65%,rgba(45,174,255,.14) 85%,transparent 100%);
+  box-shadow:0 0 10px rgba(123,220,255,.50),0 0 22px rgba(45,174,255,.18);
+}
+
+.title-glow-about{
+  --glow-left:64.58%;
+  --glow-top:38.55%;
+  --glow-width:5.65%;
+}
+
+.title-glow-work{
+  --glow-left:64.62%;
+  --glow-top:43.85%;
+  --glow-width:5.45%;
+}
+
+.title-glow-research{
+  --glow-left:64.64%;
+  --glow-top:49.10%;
+  --glow-width:8.20%;
+}
+
+.title-glow-systems{
+  --glow-left:64.58%;
+  --glow-top:54.35%;
+  --glow-width:11.60%;
+}
+
+.title-glow-voice{
+  --glow-left:64.48%;
+  --glow-top:59.78%;
+  --glow-width:13.65%;
+}
+
+@media(max-width:980px){
+  .book-title-glows{display:none}
+}
