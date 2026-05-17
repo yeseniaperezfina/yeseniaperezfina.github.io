@@ -1,6 +1,7 @@
 (() => {
   const root = document.documentElement;
   const body = document.body;
+  const hub = document.querySelector('.library-hub');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const safely = (fn) => {
@@ -29,6 +30,32 @@
       });
     }, { passive: true });
   }
+
+  const clearVolumeState = () => {
+    if (!hub) return;
+    hub.classList.remove(
+      'is-volume-hovering',
+      'is-volume-about',
+      'is-volume-work',
+      'is-volume-research',
+      'is-volume-systems',
+      'is-volume-voice'
+    );
+  };
+
+  const setVolumeState = (volume) => {
+    if (!hub || reduceMotion || !volume) return;
+    clearVolumeState();
+    hub.classList.add('is-volume-hovering', `is-volume-${volume}`);
+  };
+
+  document.querySelectorAll('[data-volume]').forEach((link) => {
+    const volume = link.getAttribute('data-volume');
+    link.addEventListener('pointerenter', () => setVolumeState(volume));
+    link.addEventListener('pointerleave', clearVolumeState);
+    link.addEventListener('focus', () => setVolumeState(volume));
+    link.addEventListener('blur', clearVolumeState);
+  });
 
   const markVolumeEntry = (mode) => {
     if (mode === 'about') safely(() => sessionStorage.setItem('entered-from-library-about', 'true'));
