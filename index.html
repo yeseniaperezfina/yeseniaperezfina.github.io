@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="threshold-enter-refine-2026-05-17-01" />
+  <meta name="build-version" content="threshold-enter-legibility-2026-05-17-01" />
   <title>Yesenia Pérez · The Study</title>
   <meta name="description" content="A quiet threshold into Yesenia Pérez’s study, library, and professional archive." />
   <style>
     :root{
       --cream:#f7ead8;
       --amber:#d2a05d;
-      --moonblue:#b7d7df;
+      --moonblue:#c9f4ff;
       --deep:#030302;
       --sans:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       --ease:cubic-bezier(.2,.8,.2,1);
@@ -23,14 +23,14 @@
     .entry{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:var(--deep)}
     .threshold-visual{position:absolute;inset:0;z-index:1;overflow:hidden;background:#050403}
     .threshold-visual img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(.98) contrast(1.02) brightness(.9);transition:filter .78s ease,transform .78s var(--ease)}
-    .threshold-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 48% 51%,rgba(183,215,223,.075),transparent 12rem),radial-gradient(circle at 50% 52%,rgba(255,218,150,.045),transparent 18rem),radial-gradient(ellipse at 50% 54%,transparent 0 52%,rgba(0,0,0,.22) 76%,rgba(0,0,0,.68) 100%),linear-gradient(90deg,rgba(0,0,0,.34),transparent 20%,transparent 80%,rgba(0,0,0,.34));transition:background .78s ease}
+    .threshold-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 49% 51%,rgba(201,244,255,.10),transparent 11rem),radial-gradient(circle at 50% 52%,rgba(255,218,150,.045),transparent 18rem),radial-gradient(ellipse at 50% 54%,transparent 0 52%,rgba(0,0,0,.22) 76%,rgba(0,0,0,.68) 100%),linear-gradient(90deg,rgba(0,0,0,.34),transparent 20%,transparent 80%,rgba(0,0,0,.34));transition:background .78s ease}
 
-    .enter{position:absolute;left:48.6%;top:51.2%;z-index:10;transform:translate(-50%,-50%);color:rgba(223,247,250,.78);font-family:var(--sans);font-size:.78rem;font-weight:850;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;padding:.36rem .38rem .54rem;text-shadow:0 0 16px rgba(183,215,223,.46),0 0 34px rgba(183,215,223,.18),0 10px 30px rgba(0,0,0,.9);transition:color .28s ease,opacity .34s ease,transform .34s ease,text-shadow .28s ease}
-    .enter::before{content:"";position:absolute;left:50%;right:50%;bottom:.14rem;height:1px;background:linear-gradient(90deg,transparent,rgba(223,247,250,.98),rgba(183,215,223,.68),rgba(210,160,93,.28),transparent);box-shadow:0 0 16px rgba(183,215,223,.72),0 0 42px rgba(183,215,223,.28);transition:left .34s var(--ease),right .34s var(--ease),opacity .34s ease;opacity:.9}
-    .enter::after{content:"";position:absolute;left:50%;top:50%;width:9.25rem;height:2.7rem;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(183,215,223,.22),rgba(183,215,223,.10) 38%,transparent 70%);transform:translate(-50%,-50%) scale(.86);filter:blur(8px);opacity:.62;transition:opacity .34s ease,transform .34s var(--ease)}
-    .enter:hover,.enter:focus-visible{color:#f5feff;transform:translate(-50%,-50%) translateY(-1px);outline:none;text-shadow:0 0 20px rgba(223,247,250,.78),0 0 42px rgba(183,215,223,.34),0 10px 30px rgba(0,0,0,.9)}
-    .enter:hover::before,.enter:focus-visible::before{left:-.8rem;right:-.8rem;opacity:1}
-    .enter:hover::after,.enter:focus-visible::after{opacity:.96;transform:translate(-50%,-50%) scale(1.04)}
+    .enter{position:absolute;left:49%;top:51%;z-index:10;transform:translate(-50%,-50%);display:inline-flex;align-items:center;justify-content:center;min-width:8.6rem;color:#f7feff;font-family:var(--sans);font-size:.92rem;font-weight:850;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;padding:.62rem .96rem .66rem;border:1px solid rgba(201,244,255,.32);border-radius:999px;background:linear-gradient(90deg,rgba(3,3,2,.54),rgba(22,31,31,.44),rgba(3,3,2,.36));backdrop-filter:blur(5px) saturate(.9);box-shadow:0 0 0 1px rgba(255,245,220,.06),0 0 26px rgba(201,244,255,.36),0 0 74px rgba(201,244,255,.14),0 16px 42px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.12);text-shadow:0 0 14px rgba(201,244,255,.78),0 0 30px rgba(201,244,255,.34),0 2px 10px rgba(0,0,0,.95);transition:color .28s ease,opacity .34s ease,transform .34s ease,text-shadow .28s ease,box-shadow .28s ease,border-color .28s ease,background .28s ease}
+    .enter::before{content:"";position:absolute;left:1rem;right:1rem;bottom:.42rem;height:1px;background:linear-gradient(90deg,transparent,rgba(247,254,255,.98),rgba(201,244,255,.72),rgba(210,160,93,.24),transparent);box-shadow:0 0 16px rgba(201,244,255,.84),0 0 42px rgba(201,244,255,.32);opacity:.92;transition:left .34s var(--ease),right .34s var(--ease),opacity .34s ease}
+    .enter::after{content:"";position:absolute;left:50%;top:50%;width:12rem;height:4.2rem;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(201,244,255,.24),rgba(201,244,255,.10) 42%,transparent 72%);transform:translate(-50%,-50%) scale(.92);filter:blur(10px);opacity:.72;z-index:-1;transition:opacity .34s ease,transform .34s var(--ease)}
+    .enter:hover,.enter:focus-visible{color:#ffffff;transform:translate(-50%,-50%) translateY(-1px);outline:none;border-color:rgba(201,244,255,.58);background:linear-gradient(90deg,rgba(3,3,2,.64),rgba(29,42,42,.54),rgba(3,3,2,.44));box-shadow:0 0 0 1px rgba(255,245,220,.10),0 0 34px rgba(201,244,255,.56),0 0 92px rgba(201,244,255,.22),0 18px 48px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.16);text-shadow:0 0 18px rgba(247,254,255,.90),0 0 44px rgba(201,244,255,.42),0 2px 10px rgba(0,0,0,.95)}
+    .enter:hover::before,.enter:focus-visible::before{left:.72rem;right:.72rem;opacity:1}
+    .enter:hover::after,.enter:focus-visible::after{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
 
     .letterhead{position:absolute;right:clamp(1rem,2vw,2rem);bottom:clamp(.9rem,1.6vw,1.35rem);z-index:10;text-align:right;font-family:var(--sans);text-transform:uppercase;letter-spacing:.16em;color:rgba(247,234,216,.46);text-shadow:0 0 18px rgba(210,160,93,.18),0 10px 30px rgba(0,0,0,.8);pointer-events:none}
     .letterhead strong{display:block;font-size:.62rem;letter-spacing:.18em;color:rgba(247,234,216,.62);font-weight:800}.letterhead span{display:block;margin-top:.22rem;font-size:.5rem;color:rgba(247,234,216,.38)}
@@ -40,19 +40,19 @@
     .entry.is-entering .enter{opacity:0;transform:translate(-50%,-50%) scale(.96)}
     .entry.is-entering .letterhead{opacity:0}
 
-    @media(max-width:900px){.enter{left:50%;top:54%;font-size:.74rem}}
-    @media(max-width:640px){.letterhead{display:none}.enter{top:56%;font-size:.72rem}}
+    @media(max-width:900px){.enter{left:50%;top:54%;font-size:.84rem;min-width:8rem}}
+    @media(max-width:640px){.letterhead{display:none}.enter{top:56%;font-size:.8rem;min-width:7.5rem}}
     @media(prefers-reduced-motion:reduce){.threshold-visual img,.threshold-visual::after,.enter,.enter::before,.enter::after{transition:none!important}}
   </style>
 </head>
 <body>
   <main class="entry" aria-label="Threshold entrance to Yesenia Pérez’s study">
     <picture class="threshold-visual" aria-hidden="true">
-      <source srcset="assets/img-asset-threshold-9x16.png?v=threshold-enter-refine-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets/img-asset-threshold-3x4.png?v=threshold-enter-refine-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets/img-asset-threshold-1x1.png?v=threshold-enter-refine-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets/img-asset-threshold-4x3.png?v=threshold-enter-refine-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
-      <img src="assets/img-asset-threshold-16x9.png?v=threshold-enter-refine-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
+      <source srcset="assets/img-asset-threshold-9x16.png?v=threshold-enter-legibility-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img-asset-threshold-3x4.png?v=threshold-enter-legibility-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img-asset-threshold-1x1.png?v=threshold-enter-legibility-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img-asset-threshold-4x3.png?v=threshold-enter-legibility-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
+      <img src="assets/img-asset-threshold-16x9.png?v=threshold-enter-legibility-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
     <a class="enter" href="library.html" aria-label="Enter the study library">enter</a>
