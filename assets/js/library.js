@@ -3,37 +3,23 @@
   const body = document.body;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const arrivedFromStudy = (() => {
-    try {
-      return sessionStorage.getItem('entered-from-study') === 'true';
-    } catch {
-      return false;
-    }
-  })();
+  const safely = (fn) => {
+    try { return fn(); } catch { return null; }
+  };
 
-  if (arrivedFromStudy && !reduceMotion) {
+  if (safely(() => sessionStorage.getItem('entered-from-study')) === 'true' && !reduceMotion) {
     body.classList.add('is-arriving');
-
-    try {
-      sessionStorage.removeItem('entered-from-study');
-    } catch {
-      /* Storage may be unavailable in some private browsing contexts. */
-    }
-
+    safely(() => sessionStorage.removeItem('entered-from-study'));
     window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        body.classList.remove('is-arriving');
-      });
+      window.requestAnimationFrame(() => body.classList.remove('is-arriving'));
     });
   }
 
   if (!reduceMotion) {
     let frameRequested = false;
-
     window.addEventListener('pointermove', (event) => {
       if (frameRequested) return;
       frameRequested = true;
-
       window.requestAnimationFrame(() => {
         const width = Math.max(document.documentElement.clientWidth, 1);
         const height = Math.max(document.documentElement.clientHeight, 1);
@@ -45,67 +31,29 @@
   }
 
   const markVolumeEntry = (mode) => {
-    if (mode === 'about') {
-      try {
-        sessionStorage.setItem('entered-from-library-about', 'true');
-      } catch {
-        /* Storage may be unavailable in some private browsing contexts. */
-      }
-    }
+    if (mode === 'about') safely(() => sessionStorage.setItem('entered-from-library-about', 'true'));
+    if (mode === 'work') safely(() => sessionStorage.setItem('entered-from-library-work', 'true'));
+  };
 
-    if (mode === 'work') {
-      try {
-        sessionStorage.setItem('entered-from-library-work', 'true');
-      } catch {
-        /* Storage may be unavailable in some private browsing contexts. */
-      }
-    }
+  const getModeFromHref = (href = '') => {
+    if (href.endsWith('about.html')) return 'about';
+    if (href.endsWith('work-timeline.html')) return 'work';
+    return 'default';
   };
 
   const turnPage = (targetHref, delay = 520, mode = 'default') => {
     if (reduceMotion || !targetHref) return true;
-
     markVolumeEntry(mode);
-
-    if (mode === 'about') {
-      body.classList.add('is-turning-about');
-    } else if (mode === 'work') {
-      body.classList.add('is-turning-work');
-    } else {
-      body.classList.add('is-turning');
-    }
-
-    window.setTimeout(() => {
-      window.location.href = targetHref;
-    }, delay);
-
+    body.classList.add(mode === 'about' ? 'is-turning-about' : mode === 'work' ? 'is-turning-work' : 'is-turning');
+    window.setTimeout(() => { window.location.href = targetHref; }, delay);
     return false;
   };
 
-  document.querySelectorAll('.volume-zone').forEach((zone) => {
-    zone.addEventListener('click', (event) => {
-      const isAbout = zone.classList.contains('zone-about');
-      const isWork = zone.classList.contains('zone-work');
-      const mode = isAbout ? 'about' : isWork ? 'work' : 'default';
-      const delay = isAbout ? 640 : isWork ? 620 : 520;
-
-      if (!turnPage(zone.href, delay, mode)) {
-        event.preventDefault();
-      }
-    });
-  });
-
-  document.querySelectorAll('.mobile-volume-list a').forEach((link) => {
+  document.querySelectorAll('.volume-zone, .mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
-      const href = link.getAttribute('href');
-      const isAbout = href === 'about.html';
-      const isWork = href === 'work-timeline.html';
-      const mode = isAbout ? 'about' : isWork ? 'work' : 'default';
-      const delay = isAbout ? 520 : isWork ? 500 : 380;
-
-      if (!turnPage(link.href, delay, mode)) {
-        event.preventDefault();
-      }
+      const mode = getModeFromHref(link.getAttribute('href') || '');
+      const delay = mode === 'about' ? 620 : mode === 'work' ? 600 : 500;
+      if (!turnPage(link.href, delay, mode)) event.preventDefault();
     });
   });
 
