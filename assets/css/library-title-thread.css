@@ -1,0 +1,90 @@
+/* Library spine title thread, rebuilt as a single clean hover element.
+   This replaces the older per-title glow spans so only one underline can render at a time. */
+
+.volume-title-thread{
+  position:absolute;
+  z-index:7;
+  pointer-events:none;
+  left:var(--thread-left,64.9%);
+  top:var(--thread-top,39.4%);
+  width:var(--thread-width,5.5%);
+  height:.9rem;
+  border-radius:999px;
+  opacity:0;
+  transform:translate(-50%,-50%) scaleX(.28);
+  transform-origin:50% 50%;
+  mix-blend-mode:screen;
+  transition:opacity .24s ease,transform .32s cubic-bezier(.2,.8,.2,1),filter .32s ease;
+}
+
+.volume-title-thread::before,
+.volume-title-thread::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  border-radius:999px;
+}
+
+.volume-title-thread::before{
+  height:.78rem;
+  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.18),rgba(248,253,255,.08) 32%,rgba(45,174,255,.045) 55%,transparent 78%);
+  filter:blur(5px);
+}
+
+.volume-title-thread::after{
+  height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(45,174,255,.12) 14%,rgba(248,253,255,.74) 35%,rgba(123,220,255,.98) 50%,rgba(248,253,255,.74) 65%,rgba(45,174,255,.12) 86%,transparent 100%);
+  box-shadow:0 0 10px rgba(123,220,255,.48),0 0 22px rgba(45,174,255,.16);
+}
+
+.library-hub.is-volume-hovering .volume-title-thread{
+  opacity:1;
+  transform:translate(-50%,-50%) scaleX(1);
+}
+
+.library-hub.is-volume-about{
+  --thread-left:64.90%;
+  --thread-top:39.40%;
+  --thread-width:5.55%;
+}
+
+.library-hub.is-volume-work{
+  --thread-left:64.90%;
+  --thread-top:46.25%;
+  --thread-width:5.30%;
+}
+
+.library-hub.is-volume-research{
+  --thread-left:64.95%;
+  --thread-top:53.05%;
+  --thread-width:8.10%;
+}
+
+.library-hub.is-volume-systems{
+  --thread-left:64.95%;
+  --thread-top:59.85%;
+  --thread-width:11.45%;
+}
+
+.library-hub.is-volume-voice{
+  --thread-left:64.90%;
+  --thread-top:66.65%;
+  --thread-width:13.45%;
+}
+
+.library-hub-page.is-turning .volume-title-thread,
+.library-hub-page.is-turning-about .volume-title-thread,
+.library-hub-page.is-turning-work .volume-title-thread{
+  opacity:0;
+}
+
+@media(max-width:980px){
+  .volume-title-thread{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .volume-title-thread{transition:none!important}
+}
