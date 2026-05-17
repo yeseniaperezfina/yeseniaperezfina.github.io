@@ -3,40 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="interface-glow-2026-05-17-01" />
+  <meta name="build-version" content="library-atmosphere-2026-05-17-02" />
   <title>The Library · Yesenia Pérez</title>
   <meta name="description" content="Choose a volume to move through Yesenia Pérez’s public learning systems archive." />
-  <link rel="stylesheet" href="assets/css/library-interface.css?v=interface-glow-2026-05-17-01" />
+  <link rel="stylesheet" href="assets/css/library-interface.css?v=library-atmosphere-2026-05-17-02" />
 </head>
 <body class="library-hub-page">
   <main class="library-hub" aria-label="The Library navigation room">
     <picture class="library-backdrop" aria-hidden="true">
-      <source srcset="assets/img-asset-library-9x16.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets/img-asset-library-3x4.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets/img-asset-library-1x1.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets/img-asset-library-4x3.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
-      <img src="assets/img-asset-library-16x9.png?v=interface-glow-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
+      <source srcset="assets/img-asset-library-9x16.png?v=library-atmosphere-2026-05-17-02" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img-asset-library-3x4.png?v=library-atmosphere-2026-05-17-02" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img-asset-library-1x1.png?v=library-atmosphere-2026-05-17-02" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img-asset-library-4x3.png?v=library-atmosphere-2026-05-17-02" media="(max-aspect-ratio: 3/2)" />
+      <img src="assets/img-asset-library-16x9.png?v=library-atmosphere-2026-05-17-02" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
+    <div class="library-breathing-light" aria-hidden="true"></div>
+    <div class="library-doorway-vignette" aria-hidden="true"></div>
+    <div class="shelf-bloom" aria-hidden="true"></div>
+
     <nav class="volume-hotspots" aria-label="Choose a library volume">
-      <a class="volume-zone zone-about" href="about.html" aria-label="Enter Volume I: About"><span>About</span></a>
-      <a class="volume-zone zone-work" href="work-timeline.html" aria-label="Enter Volume II: Work"><span>Work</span></a>
-      <a class="volume-zone zone-research" href="research-archive.html" aria-label="Enter Volume III: Research"><span>Research</span></a>
-      <a class="volume-zone zone-systems" href="public-systems.html" aria-label="Enter Volume IV: Systems Map"><span>Systems Map</span></a>
-      <a class="volume-zone zone-voice" href="writing.html" aria-label="Enter Volume V: Writing and Voice"><span>Writing & Voice</span></a>
+      <a class="volume-zone zone-about" data-volume="about" href="about.html" aria-label="Enter Volume I: About"><span>About</span></a>
+      <a class="volume-zone zone-work" data-volume="work" href="work-timeline.html" aria-label="Enter Volume II: Work"><span>Work</span></a>
+      <a class="volume-zone zone-research" data-volume="research" href="research-archive.html" aria-label="Enter Volume III: Research"><span>Research</span></a>
+      <a class="volume-zone zone-systems" data-volume="systems" href="public-systems.html" aria-label="Enter Volume IV: Systems Map"><span>Systems Map</span></a>
+      <a class="volume-zone zone-voice" data-volume="voice" href="writing.html" aria-label="Enter Volume V: Writing and Voice"><span>Writing & Voice</span></a>
     </nav>
 
     <a class="threshold-link nav-link" href="index.html" aria-label="Return to the study threshold">threshold</a>
     <p class="letterhead" aria-hidden="true"><strong>Yesenia Pérez</strong><span>Public Learning Systems</span></p>
 
     <section class="mobile-volume-list" aria-label="Choose a library volume">
-      <a href="about.html"><small>Volume I</small><strong>About</strong><span>The origin room</span></a>
-      <a href="work-timeline.html"><small>Volume II</small><strong>Work</strong><span>The field room</span></a>
-      <a href="research-archive.html"><small>Volume III</small><strong>Research</strong><span>The theory room</span></a>
-      <a href="public-systems.html"><small>Volume IV</small><strong>Systems Map</strong><span>The instrument room</span></a>
-      <a href="writing.html"><small>Volume V</small><strong>Writing & Voice</strong><span>The echo room</span></a>
+      <a href="about.html" data-volume="about"><small>Volume I</small><strong>About</strong><span>The origin room</span></a>
+      <a href="work-timeline.html" data-volume="work"><small>Volume II</small><strong>Work</strong><span>The field room</span></a>
+      <a href="research-archive.html" data-volume="research"><small>Volume III</small><strong>Research</strong><span>The theory room</span></a>
+      <a href="public-systems.html" data-volume="systems"><small>Volume IV</small><strong>Systems Map</strong><span>The instrument room</span></a>
+      <a href="writing.html" data-volume="voice"><small>Volume V</small><strong>Writing & Voice</strong><span>The echo room</span></a>
     </section>
   </main>
-  <script src="assets/js/library.js?v=interface-glow-2026-05-17-01" defer></script>
+  <script src="assets/js/library.js?v=library-atmosphere-2026-05-17-02" defer></script>
 </body>
 </html>
