@@ -1,0 +1,24 @@
+/* Library threshold return button, aligned to the orange Enter interaction on the threshold page. */
+:root{
+  --threshold-orange:#ff6719;
+}
+
+.threshold-link{
+  color:rgba(255,103,25,.96);
+  text-shadow:0 0 12px rgba(255,103,25,.76),0 0 30px rgba(255,103,25,.34),0 2px 10px rgba(0,0,0,.96);
+}
+
+.threshold-link::before{
+  background:linear-gradient(90deg,transparent,rgba(255,232,210,.92),rgba(255,103,25,.98),rgba(255,103,25,.48),transparent);
+  box-shadow:0 0 15px rgba(255,103,25,.78),0 0 38px rgba(255,103,25,.34);
+}
+
+.threshold-link::after{
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.24),rgba(255,103,25,.12) 42%,transparent 72%);
+}
+
+.threshold-link:hover,
+.threshold-link:focus-visible{
+  color:#ff6719;
+  text-shadow:0 0 18px rgba(255,103,25,.90),0 0 44px rgba(255,103,25,.52),0 2px 10px rgba(0,0,0,.96);
+}
