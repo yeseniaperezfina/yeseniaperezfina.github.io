@@ -60,9 +60,8 @@
 }
 
 /*
-  The original pseudo-element underline lived inside the broad clickable book zone.
-  That made every glow inherit the hotspot geometry instead of the visible title geometry.
-  These are disabled and replaced with dedicated title-strip elements below.
+  Dedicated title-strip glows. The old hotspot pseudo-element underline is disabled
+  because the hotspot rectangles are wider than the printed spine titles.
 */
 .library-hub .volume-zone::before,
 .library-hub .volume-zone::after{
@@ -82,7 +81,7 @@
   left:var(--glow-left);
   top:var(--glow-top);
   width:var(--glow-width);
-  height:1.05rem;
+  height:.95rem;
   border-radius:999px;
   opacity:0;
   transform:translate(-50%,-50%) scaleX(.34);
@@ -102,8 +101,8 @@
 }
 
 .book-title-glow::before{
-  height:1.05rem;
-  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.22),rgba(248,253,255,.12) 30%,rgba(45,174,255,.08) 52%,transparent 78%);
+  height:.95rem;
+  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.20),rgba(248,253,255,.105) 30%,rgba(45,174,255,.075) 52%,transparent 78%);
   filter:blur(7px);
 }
 
@@ -122,34 +121,35 @@
   transform:translate(-50%,-50%) scaleX(1);
 }
 
+/* Calibrated from the 2048px screenshots: moved right to the title centers and upward from the gutter gaps. */
 .title-glow-about{
-  --glow-left:62.05%;
-  --glow-top:41.25%;
-  --glow-width:5.05%;
+  --glow-left:65.05%;
+  --glow-top:38.55%;
+  --glow-width:5.2%;
 }
 
 .title-glow-work{
-  --glow-left:62.05%;
-  --glow-top:46.45%;
-  --glow-width:4.75%;
+  --glow-left:65.00%;
+  --glow-top:43.85%;
+  --glow-width:5.0%;
 }
 
 .title-glow-research{
-  --glow-left:62.25%;
-  --glow-top:51.65%;
-  --glow-width:7.55%;
+  --glow-left:65.05%;
+  --glow-top:49.10%;
+  --glow-width:7.7%;
 }
 
 .title-glow-systems{
-  --glow-left:62.75%;
-  --glow-top:56.85%;
-  --glow-width:10.9%;
+  --glow-left:65.55%;
+  --glow-top:54.35%;
+  --glow-width:11.1%;
 }
 
 .title-glow-voice{
-  --glow-left:62.95%;
-  --glow-top:62.15%;
-  --glow-width:12.9%;
+  --glow-left:65.45%;
+  --glow-top:60.00%;
+  --glow-width:13.1%;
 }
 
 @media(max-width:980px){
