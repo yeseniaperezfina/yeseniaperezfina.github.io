@@ -60,73 +60,108 @@
 }
 
 /*
-  Volume underline calibration:
-  Each hotspot covers a full book spine, but the visible title only occupies a smaller
-  slice of that spine. These overrides anchor the blue thread to the title text itself,
-  then place it below the letterforms rather than through them.
+  The original pseudo-element underline lived inside the broad clickable book zone.
+  That made every glow inherit the hotspot geometry instead of the visible title geometry.
+  These are disabled and replaced with dedicated title-strip elements below.
 */
 .library-hub .volume-zone::before,
 .library-hub .volume-zone::after{
-  left:var(--underline-left);
-  width:var(--underline-width);
-  top:var(--underline-top);
-  transform:scaleX(.18);
-  transform-origin:50% 50%;
+  content:none!important;
+  display:none!important;
 }
 
-.library-hub .volume-zone::before{
-  height:.72rem;
-  margin-top:-.34rem;
-  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.18),rgba(248,253,255,.10) 34%,rgba(45,174,255,.08) 52%,transparent 78%);
+.book-title-glows{
+  position:absolute;
+  inset:0;
+  z-index:7;
+  pointer-events:none;
+}
+
+.book-title-glow{
+  position:absolute;
+  left:var(--glow-left);
+  top:var(--glow-top);
+  width:var(--glow-width);
+  height:1.05rem;
+  border-radius:999px;
+  opacity:0;
+  transform:translate(-50%,-50%) scaleX(.34);
+  transform-origin:50% 50%;
+  transition:opacity .28s ease,transform .34s var(--ease),filter .34s ease;
+}
+
+.book-title-glow::before,
+.book-title-glow::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  border-radius:999px;
+}
+
+.book-title-glow::before{
+  height:1.05rem;
+  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.22),rgba(248,253,255,.12) 30%,rgba(45,174,255,.08) 52%,transparent 78%);
   filter:blur(7px);
 }
 
-.library-hub .volume-zone::after{
+.book-title-glow::after{
   height:1px;
-  background:linear-gradient(90deg,transparent,rgba(248,253,255,.96),rgba(123,220,255,.76),rgba(45,174,255,.34),transparent);
-  box-shadow:0 0 12px rgba(123,220,255,.54),0 0 28px rgba(45,174,255,.20);
+  background:linear-gradient(90deg,transparent,rgba(248,253,255,.98),rgba(123,220,255,.78),rgba(45,174,255,.36),transparent);
+  box-shadow:0 0 12px rgba(123,220,255,.56),0 0 28px rgba(45,174,255,.22);
 }
 
-.library-hub .volume-zone:hover::before,
-.library-hub .volume-zone:focus-visible::before,
-.library-hub .volume-zone:hover::after,
-.library-hub .volume-zone:focus-visible::after{
-  transform:scaleX(1);
+.library-hub.is-volume-about .title-glow-about,
+.library-hub.is-volume-work .title-glow-work,
+.library-hub.is-volume-research .title-glow-research,
+.library-hub.is-volume-systems .title-glow-systems,
+.library-hub.is-volume-voice .title-glow-voice{
+  opacity:1;
+  transform:translate(-50%,-50%) scaleX(1);
 }
 
-.library-hub .zone-about{
-  --underline-left:31.8%;
-  --underline-width:23.5%;
-  --underline-top:80.5%;
+.title-glow-about{
+  --glow-left:62.05%;
+  --glow-top:41.25%;
+  --glow-width:5.05%;
 }
 
-.library-hub .zone-work{
-  --underline-left:32.3%;
-  --underline-width:22.0%;
-  --underline-top:80.0%;
+.title-glow-work{
+  --glow-left:62.05%;
+  --glow-top:46.45%;
+  --glow-width:4.75%;
 }
 
-.library-hub .zone-research{
-  --underline-left:29.0%;
-  --underline-width:37.0%;
-  --underline-top:79.5%;
+.title-glow-research{
+  --glow-left:62.25%;
+  --glow-top:51.65%;
+  --glow-width:7.55%;
 }
 
-.library-hub .zone-systems{
-  --underline-left:26.6%;
-  --underline-width:52.0%;
-  --underline-top:79.0%;
+.title-glow-systems{
+  --glow-left:62.75%;
+  --glow-top:56.85%;
+  --glow-width:10.9%;
 }
 
-.library-hub .zone-voice{
-  --underline-left:24.2%;
-  --underline-width:62.0%;
-  --underline-top:78.5%;
+.title-glow-voice{
+  --glow-left:62.95%;
+  --glow-top:62.15%;
+  --glow-width:12.9%;
+}
+
+@media(max-width:980px){
+  .book-title-glows{
+    display:none;
+  }
 }
 
 @media(prefers-reduced-motion:reduce){
   .library-hub .threshold-link::before,
-  .library-hub .threshold-link::after{
+  .library-hub .threshold-link::after,
+  .book-title-glow{
     transition:none!important;
   }
 }
