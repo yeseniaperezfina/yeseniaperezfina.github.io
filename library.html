@@ -3,20 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="library-clean-2026-05-17-02" />
+  <meta name="build-version" content="library-glow-calibration-2026-05-17-03" />
   <title>The Library · Yesenia Pérez</title>
   <meta name="description" content="Choose a volume to move through Yesenia Pérez’s public learning systems archive." />
-  <link rel="stylesheet" href="assets/css/library-interface.css?v=library-clean-2026-05-17-02" />
-  <link rel="stylesheet" href="assets/css/library-title-glows.css?v=library-clean-2026-05-17-02" />
+  <link rel="stylesheet" href="assets/css/library-interface.css?v=library-glow-calibration-2026-05-17-03" />
+  <link rel="stylesheet" href="assets/css/library-title-glows.css?v=library-glow-calibration-2026-05-17-03" />
+  <style id="library-title-glow-calibration">
+    /* Critical inline calibration so GitHub Pages/browser caching cannot keep the old off-center title thread. */
+    .book-title-glow{
+      height:.68rem!important;
+      transform:translate(-50%,-50%) scaleX(.36)!important;
+    }
+
+    .book-title-glow::before{
+      height:.68rem!important;
+      background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.16),rgba(248,253,255,.075) 31%,rgba(45,174,255,.045) 54%,transparent 76%)!important;
+      filter:blur(4.5px)!important;
+    }
+
+    .book-title-glow::after{
+      height:1px!important;
+      background:linear-gradient(90deg,transparent 0%,rgba(45,174,255,.10) 14%,rgba(248,253,255,.72) 34%,rgba(123,220,255,.98) 50%,rgba(248,253,255,.72) 66%,rgba(45,174,255,.10) 86%,transparent 100%)!important;
+      box-shadow:0 0 9px rgba(123,220,255,.48),0 0 20px rgba(45,174,255,.16)!important;
+    }
+
+    .library-hub.is-volume-about .title-glow-about,
+    .library-hub.is-volume-work .title-glow-work,
+    .library-hub.is-volume-research .title-glow-research,
+    .library-hub.is-volume-systems .title-glow-systems,
+    .library-hub.is-volume-voice .title-glow-voice{
+      opacity:1!important;
+      transform:translate(-50%,-50%) scaleX(1)!important;
+    }
+
+    .title-glow-about{--glow-left:64.92%!important;--glow-top:38.93%!important;--glow-width:5.55%!important;}
+    .title-glow-work{--glow-left:64.90%!important;--glow-top:44.20%!important;--glow-width:5.28%!important;}
+    .title-glow-research{--glow-left:64.93%!important;--glow-top:49.46%!important;--glow-width:8.10%!important;}
+    .title-glow-systems{--glow-left:64.95%!important;--glow-top:54.70%!important;--glow-width:11.42%!important;}
+    .title-glow-voice{--glow-left:64.86%!important;--glow-top:60.25%!important;--glow-width:13.42%!important;}
+  </style>
 </head>
 <body class="library-hub-page">
   <main class="library-hub" aria-label="The Library navigation room">
     <picture class="library-backdrop" aria-hidden="true">
-      <source srcset="assets/img-asset-library-9x16.png?v=library-clean-2026-05-17-02" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets/img-asset-library-3x4.png?v=library-clean-2026-05-17-02" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets/img-asset-library-1x1.png?v=library-clean-2026-05-17-02" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets/img-asset-library-4x3.png?v=library-clean-2026-05-17-02" media="(max-aspect-ratio: 3/2)" />
-      <img src="assets/img-asset-library-16x9.png?v=library-clean-2026-05-17-02" alt="" decoding="async" fetchpriority="high" />
+      <source srcset="assets/img-asset-library-9x16.png?v=library-glow-calibration-2026-05-17-03" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img-asset-library-3x4.png?v=library-glow-calibration-2026-05-17-03" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img-asset-library-1x1.png?v=library-glow-calibration-2026-05-17-03" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img-asset-library-4x3.png?v=library-glow-calibration-2026-05-17-03" media="(max-aspect-ratio: 3/2)" />
+      <img src="assets/img-asset-library-16x9.png?v=library-glow-calibration-2026-05-17-03" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
     <div class="library-breathing-light" aria-hidden="true"></div>
@@ -50,6 +84,6 @@
       <a href="writing.html" data-volume="voice"><small>Volume V</small><strong>Writing & Voice</strong><span>The echo room</span></a>
     </section>
   </main>
-  <script src="assets/js/library.js?v=library-clean-2026-05-17-02" defer></script>
+  <script src="assets/js/library.js?v=library-glow-calibration-2026-05-17-03" defer></script>
 </body>
 </html>
