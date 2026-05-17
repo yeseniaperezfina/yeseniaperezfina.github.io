@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="book-transitions-2026-05-17-01" />
+  <meta name="build-version" content="interface-glow-2026-05-17-01" />
   <title>About · Yesenia Pérez</title>
   <meta name="description" content="Volume I of Yesenia Pérez’s public learning systems archive: the person, practice, and values behind the work." />
-  <link rel="stylesheet" href="assets/css/about-book.css?v=book-transitions-2026-05-17-01" />
+  <link rel="stylesheet" href="assets/css/about-book.css?v=interface-glow-2026-05-17-01" />
 </head>
 <body class="about-visual-page">
   <main class="about-scene" aria-label="Volume I: About Me">
     <picture class="about-backdrop" aria-hidden="true">
-      <source srcset="assets/img-asset-about-9x16.png?v=book-transitions-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets/img-asset-about-3x4.png?v=book-transitions-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets/img-asset-about-1x1.png?v=book-transitions-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets/img-asset-about-4x3.png?v=book-transitions-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
-      <img src="assets/img-asset-about-16x9.png?v=book-transitions-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
+      <source srcset="assets/img-asset-about-9x16.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img-asset-about-3x4.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img-asset-about-1x1.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img-asset-about-4x3.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
+      <img src="assets/img-asset-about-16x9.png?v=interface-glow-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
     <nav class="about-nav page-controls" aria-label="About page navigation">
@@ -23,6 +23,19 @@
       <a class="nav-link library-link" href="library.html" aria-label="Back to library">library</a>
     </nav>
 
+    <section class="roadmap-panel" aria-label="About spread roadmap">
+      <p class="roadmap-kicker">Roadmap</p>
+      <p class="roadmap-copy" data-roadmap-copy>Left page: orientation and purpose. Right page: practice, method, and values.</p>
+    </section>
+
+    <div class="about-hotspots" aria-label="Explore the About spread">
+      <button class="about-hotspot hotspot-spread is-active" type="button" data-copy="Left page: the personal thesis. Right page: the working method." aria-label="Explain the full About spread"><span>Spread</span></button>
+      <button class="about-hotspot hotspot-do" type="button" data-copy="What I do: translate complex science into usable public learning systems." aria-label="Explain What I do"><span>What I do</span></button>
+      <button class="about-hotspot hotspot-think" type="button" data-copy="How I think: follow the learner’s path, then redesign the system around it." aria-label="Explain How I think"><span>How I think</span></button>
+      <button class="about-hotspot hotspot-care" type="button" data-copy="What I care about: access, dignity, curiosity, and belonging in discovery." aria-label="Explain What I care about"><span>What I care about</span></button>
+    </div>
+
+    <p class="letterhead" aria-hidden="true"><strong>Yesenia Pérez</strong><span>Public Learning Systems</span></p>
     <div class="book-transition" aria-hidden="true"></div>
   </main>
 
@@ -30,6 +43,8 @@
     (() => {
       const body = document.body;
       const navLinks = [...document.querySelectorAll('.page-controls a')];
+      const hotspots = [...document.querySelectorAll('.about-hotspot')];
+      const roadmapCopy = document.querySelector('[data-roadmap-copy]');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const safely = (fn) => { try { return fn(); } catch { return null; } };
 
@@ -38,6 +53,13 @@
         safely(() => sessionStorage.removeItem('entered-from-library-about'));
         window.setTimeout(() => body.classList.remove('is-opening-book'), 980);
       }
+
+      hotspots.forEach((hotspot) => {
+        hotspot.addEventListener('click', () => {
+          hotspots.forEach((item) => item.classList.toggle('is-active', item === hotspot));
+          if (roadmapCopy) roadmapCopy.textContent = hotspot.dataset.copy || '';
+        });
+      });
 
       navLinks.forEach((link) => {
         if (reduceMotion) return;
