@@ -1,6 +1,24 @@
-/* Library threshold return button, aligned to the orange Enter interaction on the threshold page. */
+/* Library orange flow pass, aligned to the orange Enter interaction on the threshold page. */
 :root{
   --threshold-orange:#ff6719;
+  --moonblue:#ff6719;
+}
+
+.library-hub::before{
+  background:radial-gradient(circle at var(--light-x,58%) var(--light-y,48%),rgba(255,103,25,.068),transparent 10.5rem),radial-gradient(circle at 59% 49%,rgba(255,222,156,.13),transparent 15rem),radial-gradient(ellipse at 52% 54%,transparent 0 55%,rgba(0,0,0,.22) 79%,rgba(0,0,0,.72) 100%),linear-gradient(90deg,rgba(0,0,0,.27),transparent 27%,transparent 76%,rgba(0,0,0,.36));
+}
+
+.library-breathing-light{
+  background:radial-gradient(ellipse at 61% 49%,rgba(255,218,150,.074),transparent 19rem),radial-gradient(ellipse at 53% 52%,rgba(255,103,25,.052),transparent 15rem),radial-gradient(ellipse at 37% 57%,rgba(255,232,176,.036),transparent 22rem);
+}
+
+.shelf-bloom{
+  background:radial-gradient(ellipse at var(--bloom-x,50%) var(--bloom-y,50%),rgba(255,103,25,.12),rgba(255,103,25,.052) 36%,rgba(255,218,150,.05) 53%,transparent 76%);
+}
+
+.library-hub.is-volume-hovering .library-hub::before,
+.library-hub.is-volume-hovering::before{
+  background:radial-gradient(circle at var(--light-x,58%) var(--light-y,48%),rgba(255,103,25,.082),transparent 10.5rem),radial-gradient(circle at 59% 49%,rgba(255,222,156,.13),transparent 15rem),radial-gradient(ellipse at 52% 54%,transparent 0 55%,rgba(0,0,0,.22) 79%,rgba(0,0,0,.72) 100%),linear-gradient(90deg,rgba(0,0,0,.27),transparent 27%,transparent 76%,rgba(0,0,0,.36));
 }
 
 .threshold-link{
@@ -21,4 +39,43 @@
 .threshold-link:focus-visible{
   color:#ff6719;
   text-shadow:0 0 18px rgba(255,103,25,.90),0 0 44px rgba(255,103,25,.52),0 2px 10px rgba(0,0,0,.96);
+}
+
+.volume-title-thread::before{
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.20),rgba(248,253,255,.07) 32%,rgba(255,103,25,.05) 55%,transparent 78%);
+}
+
+.volume-title-thread::after{
+  background:linear-gradient(90deg,transparent 0%,rgba(255,103,25,.16) 14%,rgba(255,232,210,.72) 35%,rgba(255,103,25,.98) 50%,rgba(255,232,210,.72) 65%,rgba(255,103,25,.16) 86%,transparent 100%);
+  box-shadow:0 0 10px rgba(255,103,25,.50),0 0 22px rgba(255,103,25,.18);
+}
+
+.letterhead{
+  color:rgba(255,103,25,.50);
+  text-shadow:0 0 12px rgba(255,103,25,.28),0 0 30px rgba(255,103,25,.15),0 10px 30px rgba(0,0,0,.8);
+}
+
+.letterhead span{
+  color:rgba(255,103,25,.50);
+}
+
+.mobile-volume-list a{
+  border-left-color:rgba(255,103,25,.42);
+}
+
+.mobile-volume-list a::after{
+  background:linear-gradient(90deg,rgba(248,253,255,.70),rgba(255,103,25,.50),transparent);
+}
+
+.mobile-volume-list a:hover,
+.mobile-volume-list a:focus-visible{
+  border-color:rgba(255,103,25,.34);
+}
+
+.mobile-volume-list a:focus-visible{
+  box-shadow:0 18px 50px rgba(0,0,0,.32),0 0 0 3px rgba(255,103,25,.16);
+}
+
+.mobile-volume-list small{
+  color:rgba(255,103,25,.74);
 }
