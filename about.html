@@ -3,129 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="about-image-led-2026-05-16-14" />
+  <meta name="build-version" content="responsive-asset-set-2026-05-17-01" />
   <title>About · Yesenia Pérez</title>
   <meta name="description" content="Volume I of Yesenia Pérez’s public learning systems archive: the person, practice, and values behind the work." />
-  <link rel="stylesheet" href="assets/css/about-book.css?v=about-image-led-2026-05-16-14" />
+  <link rel="stylesheet" href="assets/css/about-book.css?v=responsive-asset-set-2026-05-17-01" />
 </head>
 <body class="about-visual-page">
-  <a class="skip-link" href="#about-key-title">Skip to About content</a>
-
   <main class="about-scene" aria-label="Volume I: About Me">
-    <div class="scene-frame">
-      <img class="about-backdrop" src="./about-page-visual.png?v=about-image-led-2026-05-16-14" alt="" decoding="async" fetchpriority="high" />
-
-      <button class="section-orb orb-orientation is-active" type="button" aria-label="Select page key" aria-controls="about-key" aria-pressed="true" data-key="orientation">
-        <span>Key</span>
-      </button>
-
-      <button class="section-orb orb-practice" type="button" aria-label="Select practice note" aria-controls="about-key" aria-pressed="false" data-key="practice">
-        <span>Practice</span>
-      </button>
-
-      <button class="section-orb orb-method" type="button" aria-label="Select method note" aria-controls="about-key" aria-pressed="false" data-key="method">
-        <span>Method</span>
-      </button>
-
-      <button class="section-orb orb-values" type="button" aria-label="Select values note" aria-controls="about-key" aria-pressed="false" data-key="values">
-        <span>Values</span>
-      </button>
-    </div>
+    <picture class="about-backdrop" aria-hidden="true">
+      <source srcset="assets/img-asset-about-9x16.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img-asset-about-3x4.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img-asset-about-1x1.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img-asset-about-4x3.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
+      <img src="assets/img-asset-about-16x9.png?v=responsive-asset-set-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
+    </picture>
 
     <nav class="about-nav" aria-label="About page navigation">
       <a class="back-link" href="library.html" aria-label="Back to library">library</a>
     </nav>
-
-    <section class="key-menu" id="about-key" data-active-key="orientation" aria-live="polite" aria-labelledby="about-key-title">
-      <p class="key-kicker">Map</p>
-      <h1 class="visually-hidden" id="about-key-title">About page map</h1>
-      <div class="key-deck" aria-label="About page reading key">
-        <article class="key-card is-active" data-key-item="orientation">
-          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Spread</h2></div>
-          <p>Left page: why. Right page: how.</p>
-        </article>
-        <article class="key-card" data-key-item="practice">
-          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Practice</h2></div>
-          <p>Systems people can use, trust, and enter.</p>
-        </article>
-        <article class="key-card" data-key-item="method">
-          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Method</h2></div>
-          <p>Look beneath engagement to what counts.</p>
-        </article>
-        <article class="key-card" data-key-item="values">
-          <div class="key-card-header"><span class="key-dot" aria-hidden="true"></span><h2>Values</h2></div>
-          <p>Rigor, dignity, culture, aliveness.</p>
-        </article>
-      </div>
-    </section>
-
-    <p class="about-signature" aria-hidden="true">Yesenia Pérez · Public Learning Systems</p>
   </main>
 
   <script>
     (() => {
       const body = document.body;
-      const keyMenu = document.querySelector('.key-menu');
-      const orbs = [...document.querySelectorAll('.section-orb')];
-      const keyCards = [...document.querySelectorAll('.key-card')];
       const backLink = document.querySelector('.back-link');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const safely = (fn) => { try { return fn(); } catch { return null; } };
 
-      if (!keyMenu || !orbs.length || !keyCards.length) return;
-
-      const getSessionFlag = (key) => {
-        try {
-          return sessionStorage.getItem(key) === 'true';
-        } catch {
-          return false;
-        }
-      };
-
-      const removeSessionFlag = (key) => {
-        try {
-          sessionStorage.removeItem(key);
-        } catch {
-          /* Storage may be unavailable in some private browsing contexts. */
-        }
-      };
-
-      if (getSessionFlag('entered-from-library-about') && !reduceMotion) {
+      if (safely(() => sessionStorage.getItem('entered-from-library-about')) === 'true' && !reduceMotion) {
         body.classList.add('is-arriving-from-library');
-        removeSessionFlag('entered-from-library-about');
+        safely(() => sessionStorage.removeItem('entered-from-library-about'));
         window.requestAnimationFrame(() => {
           window.requestAnimationFrame(() => body.classList.remove('is-arriving-from-library'));
         });
       }
 
-      const unlockKey = (targetKey) => {
-        keyMenu.dataset.activeKey = targetKey;
-
-        orbs.forEach((orb) => {
-          const isActive = orb.dataset.key === targetKey;
-          orb.classList.toggle('is-active', isActive);
-          orb.setAttribute('aria-pressed', String(isActive));
-        });
-
-        keyCards.forEach((card) => {
-          card.classList.toggle('is-active', card.dataset.keyItem === targetKey);
-        });
-      };
-
-      orbs.forEach((orb) => {
-        orb.addEventListener('click', () => unlockKey(orb.dataset.key));
-      });
-
-      window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') unlockKey('orientation');
-      });
-
       if (backLink && !reduceMotion) {
         backLink.addEventListener('click', (event) => {
           event.preventDefault();
           body.classList.add('is-leaving');
-          window.setTimeout(() => {
-            window.location.href = backLink.href;
-          }, 460);
+          window.setTimeout(() => { window.location.href = backLink.href; }, 420);
         });
       }
     })();
