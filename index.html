@@ -3,234 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="study-library-flow-2026-05-16-03" />
+  <meta name="build-version" content="responsive-asset-set-2026-05-17-01" />
   <title>Yesenia Pérez · The Study</title>
-  <meta name="description" content="A quiet amber-glass entrance into Yesenia Pérez’s study, library, and professional archive." />
+  <meta name="description" content="A quiet threshold into Yesenia Pérez’s study, library, and professional archive." />
   <style>
     :root{
       --cream:#f7ead8;
       --amber:#d2a05d;
       --deep:#030302;
-      --serif:Georgia,'Times New Roman',serif;
       --sans:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       --ease:cubic-bezier(.2,.8,.2,1);
     }
 
     *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--deep)}
+    body{min-height:100svh;overflow:hidden;color:var(--cream)}
 
-    html,
-    body{
-      margin:0;
-      min-height:100%;
-      background:var(--deep);
-    }
+    .entry{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:var(--deep)}
+    .threshold-visual{position:absolute;inset:0;z-index:1;overflow:hidden;background:#050403}
+    .threshold-visual img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(.98) contrast(1.02) brightness(.9);transition:filter .78s ease,transform .78s var(--ease)}
+    .threshold-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 54%,transparent 0 52%,rgba(0,0,0,.22) 76%,rgba(0,0,0,.68) 100%),linear-gradient(90deg,rgba(0,0,0,.34),transparent 20%,transparent 80%,rgba(0,0,0,.34));transition:background .78s ease}
 
-    body{
-      min-height:100svh;
-      overflow:hidden;
-      color:var(--cream);
-      font-family:var(--serif);
-    }
+    .enter{position:absolute;left:50%;top:52%;z-index:10;transform:translate(-50%,-50%);color:rgba(247,234,216,.54);font-family:var(--sans);font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(210,160,93,.32);padding:0 0 .34rem;text-shadow:0 10px 30px rgba(0,0,0,.8);transition:color .28s ease,border-color .28s ease,opacity .34s ease,transform .34s ease}
+    .enter:hover,.enter:focus-visible{color:var(--cream);border-color:rgba(210,160,93,.76);transform:translate(-50%,-50%) translateY(-1px);outline:none}
+    .enter:focus-visible{box-shadow:0 2px 0 rgba(210,160,93,.24)}
 
-    .entry{
-      position:relative;
-      min-height:100svh;
-      overflow:hidden;
-      isolation:isolate;
-      background:var(--deep);
-    }
-
-    .study-scene{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      overflow:hidden;
-      background:#050403;
-    }
-
-    .study-scene::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(ellipse at 50% 54%,transparent 0 48%,rgba(0,0,0,.32) 74%,rgba(0,0,0,.78) 100%),
-        linear-gradient(90deg,rgba(0,0,0,.42),transparent 18%,transparent 82%,rgba(0,0,0,.42));
-      transition:background .78s ease;
-    }
-
-    .study-scene img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center;
-      display:block;
-      filter:saturate(.92) contrast(1.03) brightness(.84);
-      transition:filter .78s ease,transform .78s var(--ease);
-    }
-
-    .glass{
-      position:absolute;
-      inset:0;
-      z-index:5;
-      pointer-events:none;
-      background:linear-gradient(90deg,rgba(0,0,0,.38),transparent 22%,transparent 78%,rgba(0,0,0,.38));
-      transition:opacity .68s ease;
-    }
-
-    .glass::before,
-    .glass::after{
-      content:"";
-      position:absolute;
-      top:4.5svh;
-      bottom:4.5svh;
-      width:49.5vw;
-      border:1px solid rgba(245,218,170,.28);
-      background:
-        radial-gradient(circle at 52% 45%,rgba(255,239,204,.12),transparent 15rem),
-        linear-gradient(112deg,transparent 0 18%,rgba(255,255,255,.12) 21%,transparent 28% 60%,rgba(255,255,255,.065) 65%,transparent 73%),
-        repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 1px,transparent 1px 10px),
-        rgba(217,184,132,.095);
-      backdrop-filter:blur(6px) saturate(.82);
-      box-shadow:inset 0 0 90px rgba(255,255,255,.035),0 30px 90px rgba(0,0,0,.26);
-      transition:transform .9s var(--ease),opacity .72s ease;
-    }
-
-    .glass::before{left:-1.8vw;transform:translateX(-2.4vw)}
-    .glass::after{right:-1.8vw;transform:translateX(4.2vw);opacity:.88}
-
-    .door-seam{
-      position:absolute;
-      z-index:6;
-      top:4.5svh;
-      bottom:4.5svh;
-      left:50%;
-      width:9vw;
-      transform:translateX(-50%);
-      background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(215,163,91,.13),rgba(0,0,0,.34));
-      box-shadow:inset 1vw 0 2vw rgba(0,0,0,.32),inset -1vw 0 2vw rgba(0,0,0,.28);
-      pointer-events:none;
-      transition:opacity .58s ease;
-    }
-
-    .track{
-      position:absolute;
-      z-index:7;
-      left:6vw;
-      right:6vw;
-      height:1px;
-      background:linear-gradient(90deg,transparent,rgba(235,200,145,.38),transparent);
-      pointer-events:none;
-      transition:opacity .58s ease;
-    }
-
-    .track.top{top:4.5svh}
-    .track.bottom{bottom:4.5svh}
-
-    .enter{
-      position:absolute;
-      left:50%;
-      top:52%;
-      z-index:10;
-      transform:translate(-50%,-50%);
-      color:rgba(247,234,216,.50);
-      font-family:var(--sans);
-      font-size:.58rem;
-      font-weight:700;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      text-decoration:none;
-      border-bottom:1px solid rgba(210,160,93,.28);
-      padding:0 0 .34rem;
-      text-shadow:0 10px 30px rgba(0,0,0,.8);
-      transition:color .28s ease,border-color .28s ease,opacity .34s ease,transform .34s ease;
-    }
-
-    .enter:hover,
-    .enter:focus-visible{
-      color:var(--cream);
-      border-color:rgba(210,160,93,.72);
-      transform:translate(-50%,-50%) translateY(-1px);
-      outline:none;
-    }
-
-    .enter:focus-visible{
-      box-shadow:0 2px 0 rgba(210,160,93,.24);
-    }
-
-    .caption{
-      position:absolute;
-      right:2vw;
-      bottom:1.5svh;
-      z-index:10;
-      font-family:var(--sans);
-      font-size:.58rem;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(246,234,214,.36);
-      pointer-events:none;
-      text-shadow:0 1px 18px rgba(0,0,0,.72);
-      transition:opacity .42s ease;
-    }
-
-    .entry.is-entering .study-scene img{
-      filter:saturate(.94) contrast(1.04) brightness(.64) blur(1.4px);
-      transform:scale(1.025);
-    }
-
-    .entry.is-entering .study-scene::after{
-      background:
-        radial-gradient(ellipse at 50% 54%,rgba(0,0,0,.10) 0 36%,rgba(0,0,0,.50) 74%,rgba(0,0,0,.86) 100%),
-        linear-gradient(90deg,rgba(0,0,0,.48),transparent 18%,transparent 82%,rgba(0,0,0,.48));
-    }
-
-    .entry.is-entering .glass{opacity:.78}
-    .entry.is-entering .glass::before{transform:translateX(-13vw);opacity:.62}
-    .entry.is-entering .glass::after{transform:translateX(15vw);opacity:.54}
-    .entry.is-entering .door-seam,
-    .entry.is-entering .track,
-    .entry.is-entering .caption{opacity:0}
+    .entry.is-entering .threshold-visual img{filter:saturate(.94) contrast(1.04) brightness(.62) blur(1.4px);transform:scale(1.025)}
+    .entry.is-entering .threshold-visual::after{background:radial-gradient(ellipse at 50% 54%,rgba(0,0,0,.10) 0 38%,rgba(0,0,0,.48) 74%,rgba(0,0,0,.84) 100%),linear-gradient(90deg,rgba(0,0,0,.46),transparent 18%,transparent 82%,rgba(0,0,0,.46))}
     .entry.is-entering .enter{opacity:0;transform:translate(-50%,-50%) scale(.96)}
 
-    @media(max-width:800px){
-      .glass::before,
-      .glass::after{top:3svh;bottom:3svh;width:52vw}
-      .door-seam{top:3svh;bottom:3svh;width:13vw}
-      .track.top{top:3svh}
-      .track.bottom{bottom:3svh}
-      .caption{display:none}
-    }
-
-    @media(prefers-reduced-motion:reduce){
-      .study-scene img,
-      .study-scene::after,
-      .glass,
-      .glass::before,
-      .glass::after,
-      .door-seam,
-      .track,
-      .enter,
-      .caption{transition:none!important}
-    }
+    @media(prefers-reduced-motion:reduce){.threshold-visual img,.threshold-visual::after,.enter{transition:none!important}}
   </style>
 </head>
 <body>
-  <main class="entry" aria-label="Amber glass entrance to Yesenia Pérez’s study">
-    <picture class="study-scene" aria-hidden="true">
-      <source srcset="assets%3Aimg%3Astudy-9x16.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets%3Aimg%3Astudy-3x4.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets%3Aimg%3Astudy-1x1.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets%3Aimg%3Astudy-3x2.png?v=study-library-flow-2026-05-16-03" media="(max-aspect-ratio: 15/9)" />
-      <img src="assets%3Aimg%3Astudy-16x9.png?v=study-library-flow-2026-05-16-03" alt="" decoding="async" fetchpriority="high" />
+  <main class="entry" aria-label="Threshold entrance to Yesenia Pérez’s study">
+    <picture class="threshold-visual" aria-hidden="true">
+      <source srcset="assets/img-asset-threshold-9x16.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img-asset-threshold-3x4.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img-asset-threshold-1x1.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img-asset-threshold-4x3.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
+      <img src="assets/img-asset-threshold-16x9.png?v=responsive-asset-set-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
-    <div class="glass" aria-hidden="true"></div>
-    <div class="door-seam" aria-hidden="true"></div>
-    <div class="track top" aria-hidden="true"></div>
-    <div class="track bottom" aria-hidden="true"></div>
-
     <a class="enter" href="library.html" aria-label="Enter the study library">enter</a>
-    <div class="caption" aria-hidden="true">Yesenia Pérez · Public Learning Systems</div>
   </main>
 
   <script>
@@ -238,22 +53,12 @@
       const entry = document.querySelector('.entry');
       const enter = document.querySelector('.enter');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
       if (!entry || !enter || reduceMotion) return;
-
       enter.addEventListener('click', (event) => {
         event.preventDefault();
         entry.classList.add('is-entering');
-
-        try {
-          sessionStorage.setItem('entered-from-study', 'true');
-        } catch {
-          /* Storage may be unavailable in some private browsing contexts. */
-        }
-
-        window.setTimeout(() => {
-          window.location.href = enter.href;
-        }, 740);
+        try { sessionStorage.setItem('entered-from-study', 'true'); } catch {}
+        window.setTimeout(() => { window.location.href = enter.href; }, 640);
       });
     })();
   </script>
