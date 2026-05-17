@@ -59,30 +59,70 @@
   transform:translate(-50%,-50%) scale(1.04);
 }
 
+/*
+  Volume underline calibration:
+  Each hotspot covers a full book spine, but the visible title only occupies a smaller
+  slice of that spine. These overrides anchor the blue thread to the title text itself,
+  then place it below the letterforms rather than through them.
+*/
 .library-hub .volume-zone::before,
 .library-hub .volume-zone::after{
-  transform:scaleX(.28);
+  left:var(--underline-left);
+  width:var(--underline-width);
+  top:var(--underline-top);
+  transform:scaleX(.18);
+  transform-origin:50% 50%;
 }
 
 .library-hub .volume-zone::before{
-  top:var(--line-top);
-  height:.9rem;
-  margin-top:-.43rem;
-  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.22),rgba(248,253,255,.12) 34%,rgba(255,206,112,.08) 54%,transparent 78%);
+  height:.72rem;
+  margin-top:-.34rem;
+  background:radial-gradient(ellipse at 50% 50%,rgba(123,220,255,.18),rgba(248,253,255,.10) 34%,rgba(45,174,255,.08) 52%,transparent 78%);
+  filter:blur(7px);
 }
 
 .library-hub .volume-zone::after{
-  top:var(--line-top);
   height:1px;
-  background:linear-gradient(90deg,transparent,rgba(248,253,255,.95),rgba(123,220,255,.74),rgba(45,174,255,.36),transparent);
-  box-shadow:0 0 14px rgba(123,220,255,.56),0 0 32px rgba(45,174,255,.22);
+  background:linear-gradient(90deg,transparent,rgba(248,253,255,.96),rgba(123,220,255,.76),rgba(45,174,255,.34),transparent);
+  box-shadow:0 0 12px rgba(123,220,255,.54),0 0 28px rgba(45,174,255,.20);
 }
 
-.library-hub .zone-about{--title-left:31.2%;--title-width:25.5%;--line-top:69.5%;}
-.library-hub .zone-work{--title-left:31.4%;--title-width:24.0%;--line-top:68.5%;}
-.library-hub .zone-research{--title-left:28.4%;--title-width:39.5%;--line-top:68.0%;}
-.library-hub .zone-systems{--title-left:25.7%;--title-width:55.0%;--line-top:67.6%;}
-.library-hub .zone-voice{--title-left:23.3%;--title-width:66.0%;--line-top:67.2%;}
+.library-hub .volume-zone:hover::before,
+.library-hub .volume-zone:focus-visible::before,
+.library-hub .volume-zone:hover::after,
+.library-hub .volume-zone:focus-visible::after{
+  transform:scaleX(1);
+}
+
+.library-hub .zone-about{
+  --underline-left:31.8%;
+  --underline-width:23.5%;
+  --underline-top:80.5%;
+}
+
+.library-hub .zone-work{
+  --underline-left:32.3%;
+  --underline-width:22.0%;
+  --underline-top:80.0%;
+}
+
+.library-hub .zone-research{
+  --underline-left:29.0%;
+  --underline-width:37.0%;
+  --underline-top:79.5%;
+}
+
+.library-hub .zone-systems{
+  --underline-left:26.6%;
+  --underline-width:52.0%;
+  --underline-top:79.0%;
+}
+
+.library-hub .zone-voice{
+  --underline-left:24.2%;
+  --underline-width:62.0%;
+  --underline-top:78.5%;
+}
 
 @media(prefers-reduced-motion:reduce){
   .library-hub .threshold-link::before,
