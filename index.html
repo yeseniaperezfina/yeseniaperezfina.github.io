@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="build-version" content="responsive-asset-set-2026-05-17-01" />
+  <meta name="build-version" content="interface-glow-2026-05-17-01" />
   <title>Yesenia Pérez · The Study</title>
   <meta name="description" content="A quiet threshold into Yesenia Pérez’s study, library, and professional archive." />
   <style>
@@ -22,30 +22,39 @@
     .entry{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:var(--deep)}
     .threshold-visual{position:absolute;inset:0;z-index:1;overflow:hidden;background:#050403}
     .threshold-visual img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(.98) contrast(1.02) brightness(.9);transition:filter .78s ease,transform .78s var(--ease)}
-    .threshold-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 54%,transparent 0 52%,rgba(0,0,0,.22) 76%,rgba(0,0,0,.68) 100%),linear-gradient(90deg,rgba(0,0,0,.34),transparent 20%,transparent 80%,rgba(0,0,0,.34));transition:background .78s ease}
+    .threshold-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 52%,rgba(255,218,150,.06),transparent 18rem),radial-gradient(ellipse at 50% 54%,transparent 0 52%,rgba(0,0,0,.22) 76%,rgba(0,0,0,.68) 100%),linear-gradient(90deg,rgba(0,0,0,.34),transparent 20%,transparent 80%,rgba(0,0,0,.34));transition:background .78s ease}
 
-    .enter{position:absolute;left:50%;top:52%;z-index:10;transform:translate(-50%,-50%);color:rgba(247,234,216,.54);font-family:var(--sans);font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(210,160,93,.32);padding:0 0 .34rem;text-shadow:0 10px 30px rgba(0,0,0,.8);transition:color .28s ease,border-color .28s ease,opacity .34s ease,transform .34s ease}
-    .enter:hover,.enter:focus-visible{color:var(--cream);border-color:rgba(210,160,93,.76);transform:translate(-50%,-50%) translateY(-1px);outline:none}
-    .enter:focus-visible{box-shadow:0 2px 0 rgba(210,160,93,.24)}
+    .enter{position:absolute;left:50%;top:52%;z-index:10;transform:translate(-50%,-50%);color:rgba(247,234,216,.62);font-family:var(--sans);font-size:.62rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;padding:.3rem .2rem .44rem;text-shadow:0 0 18px rgba(255,222,156,.18),0 10px 30px rgba(0,0,0,.8);transition:color .28s ease,opacity .34s ease,transform .34s ease,text-shadow .28s ease}
+    .enter::before{content:"";position:absolute;left:50%;right:50%;bottom:.12rem;height:1px;background:linear-gradient(90deg,transparent,rgba(255,239,196,.96),rgba(210,160,93,.58),transparent);box-shadow:0 0 14px rgba(255,214,136,.54),0 0 36px rgba(210,160,93,.28);transition:left .34s var(--ease),right .34s var(--ease),opacity .34s ease;opacity:.72}
+    .enter::after{content:"";position:absolute;left:50%;top:50%;width:7.5rem;height:2rem;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(255,222,156,.16),transparent 68%);transform:translate(-50%,-50%) scale(.82);filter:blur(7px);opacity:.34;transition:opacity .34s ease,transform .34s var(--ease)}
+    .enter:hover,.enter:focus-visible{color:var(--cream);transform:translate(-50%,-50%) translateY(-1px);outline:none;text-shadow:0 0 22px rgba(255,222,156,.42),0 10px 30px rgba(0,0,0,.8)}
+    .enter:hover::before,.enter:focus-visible::before{left:-.6rem;right:-.6rem;opacity:1}
+    .enter:hover::after,.enter:focus-visible::after{opacity:.8;transform:translate(-50%,-50%) scale(1)}
+
+    .letterhead{position:absolute;right:clamp(1rem,2vw,2rem);bottom:clamp(.9rem,1.6vw,1.35rem);z-index:10;text-align:right;font-family:var(--sans);text-transform:uppercase;letter-spacing:.16em;color:rgba(247,234,216,.46);text-shadow:0 0 18px rgba(210,160,93,.18),0 10px 30px rgba(0,0,0,.8);pointer-events:none}
+    .letterhead strong{display:block;font-size:.62rem;letter-spacing:.18em;color:rgba(247,234,216,.62);font-weight:800}.letterhead span{display:block;margin-top:.22rem;font-size:.5rem;color:rgba(247,234,216,.38)}
 
     .entry.is-entering .threshold-visual img{filter:saturate(.94) contrast(1.04) brightness(.62) blur(1.4px);transform:scale(1.025)}
     .entry.is-entering .threshold-visual::after{background:radial-gradient(ellipse at 50% 54%,rgba(0,0,0,.10) 0 38%,rgba(0,0,0,.48) 74%,rgba(0,0,0,.84) 100%),linear-gradient(90deg,rgba(0,0,0,.46),transparent 18%,transparent 82%,rgba(0,0,0,.46))}
     .entry.is-entering .enter{opacity:0;transform:translate(-50%,-50%) scale(.96)}
+    .entry.is-entering .letterhead{opacity:0}
 
-    @media(prefers-reduced-motion:reduce){.threshold-visual img,.threshold-visual::after,.enter{transition:none!important}}
+    @media(max-width:640px){.letterhead{display:none}.enter{top:55%}}
+    @media(prefers-reduced-motion:reduce){.threshold-visual img,.threshold-visual::after,.enter,.enter::before,.enter::after{transition:none!important}}
   </style>
 </head>
 <body>
   <main class="entry" aria-label="Threshold entrance to Yesenia Pérez’s study">
     <picture class="threshold-visual" aria-hidden="true">
-      <source srcset="assets/img-asset-threshold-9x16.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
-      <source srcset="assets/img-asset-threshold-3x4.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
-      <source srcset="assets/img-asset-threshold-1x1.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
-      <source srcset="assets/img-asset-threshold-4x3.png?v=responsive-asset-set-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
-      <img src="assets/img-asset-threshold-16x9.png?v=responsive-asset-set-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
+      <source srcset="assets/img-asset-threshold-9x16.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 2/3)" />
+      <source srcset="assets/img-asset-threshold-3x4.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 4/5)" />
+      <source srcset="assets/img-asset-threshold-1x1.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 5/4)" />
+      <source srcset="assets/img-asset-threshold-4x3.png?v=interface-glow-2026-05-17-01" media="(max-aspect-ratio: 3/2)" />
+      <img src="assets/img-asset-threshold-16x9.png?v=interface-glow-2026-05-17-01" alt="" decoding="async" fetchpriority="high" />
     </picture>
 
     <a class="enter" href="library.html" aria-label="Enter the study library">enter</a>
+    <p class="letterhead" aria-hidden="true"><strong>Yesenia Pérez</strong><span>Public Learning Systems</span></p>
   </main>
 
   <script>
