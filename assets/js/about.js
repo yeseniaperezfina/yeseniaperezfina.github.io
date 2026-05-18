@@ -16,9 +16,6 @@
 
   const classByIllumination = {
     volume: 'is-volume-illuminated',
-    title: 'is-title-illuminated',
-    positioning: 'is-positioning-illuminated',
-    keywords: 'is-keywords-illuminated',
     do: 'is-icon-do-illuminated',
     think: 'is-icon-think-illuminated',
     care: 'is-icon-care-illuminated'
@@ -39,7 +36,6 @@
       const isActive = card.dataset.card === key;
 
       card.classList.toggle('is-active', isActive);
-      card.classList.toggle('is-muted', false);
       card.classList.toggle('is-exiting', Boolean(key) && wasActive && !isActive);
     });
 
@@ -47,7 +43,7 @@
 
     exitTimer = window.setTimeout(() => {
       calloutCards.forEach((card) => card.classList.remove('is-exiting'));
-    }, 460);
+    }, 420);
   };
 
   const clearIllumination = () => {
