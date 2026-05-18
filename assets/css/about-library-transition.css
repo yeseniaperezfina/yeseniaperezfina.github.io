@@ -1,0 +1,94 @@
+/* About arrival from Library: dissolves the shelf gate into a warm book-opening reveal. */
+body.about-visual-page::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:30;
+  pointer-events:none;
+  opacity:0;
+  background:radial-gradient(ellipse at 50% 52%,rgba(255,238,198,.18),rgba(210,160,93,.11) 28%,rgba(0,0,0,.72) 68%,rgba(0,0,0,.94) 100%);
+  mix-blend-mode:screen;
+  filter:blur(1px);
+}
+
+.about-scene::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:24;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.84),rgba(42,25,10,.58) 34%,rgba(255,238,198,.22) 49.5%,rgba(42,25,10,.58) 66%,rgba(0,0,0,.84)),radial-gradient(ellipse at 50% 50%,transparent 0 22%,rgba(255,222,156,.16) 42%,rgba(0,0,0,.76) 86%);
+  transform:scaleX(.74);
+  filter:blur(1px);
+}
+
+.book-transition{
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.10),rgba(210,160,93,.17) 28%,rgba(0,0,0,.38) 56%,rgba(0,0,0,.86) 100%);
+}
+
+.book-transition::before,
+.book-transition::after{
+  box-shadow:0 0 80px rgba(0,0,0,.46),inset 0 0 58px rgba(255,238,198,.05);
+}
+
+.book-transition::before{
+  background:linear-gradient(90deg,rgba(16,9,4,.96),rgba(54,32,14,.84) 38%,rgba(247,224,176,.20) 78%,rgba(255,103,25,.10));
+}
+
+.book-transition::after{
+  background:linear-gradient(270deg,rgba(16,9,4,.96),rgba(54,32,14,.84) 38%,rgba(247,224,176,.20) 78%,rgba(255,103,25,.10));
+}
+
+.about-visual-page.is-opening-book::before{animation:arrival-warmth 1120ms var(--ease) forwards}
+.about-visual-page.is-opening-book .about-scene::before{animation:arrival-gate-dissolve 1120ms var(--ease) forwards}
+.about-visual-page.is-opening-book .book-transition{animation-duration:1120ms}
+.about-visual-page.is-opening-book .book-transition::before{animation-name:left-page-open-refined;animation-duration:1120ms}
+.about-visual-page.is-opening-book .book-transition::after{animation-name:right-page-open-refined;animation-duration:1120ms}
+.about-visual-page.is-opening-book .about-backdrop img{animation-name:book-image-reveal-refined;animation-duration:1120ms}
+.about-visual-page.is-opening-book .page-controls,
+.about-visual-page.is-opening-book .roadmap-panel,
+.about-visual-page.is-opening-book .letterhead,
+.about-visual-page.is-opening-book .about-hotspots{
+  opacity:0;
+  animation:controls-rise 560ms ease 640ms forwards;
+}
+
+@keyframes arrival-warmth{
+  0%{opacity:.86}
+  48%{opacity:.34}
+  100%{opacity:0}
+}
+
+@keyframes arrival-gate-dissolve{
+  0%{opacity:.92;transform:scaleX(.52);filter:blur(1.6px)}
+  52%{opacity:.62;transform:scaleX(.86);filter:blur(.8px)}
+  100%{opacity:0;transform:scaleX(1.04);filter:blur(0)}
+}
+
+@keyframes left-page-open-refined{
+  0%{transform:rotateY(0deg) translateX(0)}
+  36%{transform:rotateY(-24deg) translateX(-.5vw)}
+  100%{transform:rotateY(-86deg) translateX(-2.2vw)}
+}
+
+@keyframes right-page-open-refined{
+  0%{transform:rotateY(0deg) translateX(0)}
+  36%{transform:rotateY(24deg) translateX(.5vw)}
+  100%{transform:rotateY(86deg) translateX(2.2vw)}
+}
+
+@keyframes book-image-reveal-refined{
+  0%{filter:saturate(.86) contrast(1.06) brightness(.48) blur(3px);transform:scale(1.06)}
+  46%{filter:saturate(.92) contrast(1.04) brightness(.74) blur(1.2px);transform:scale(1.03)}
+  100%{filter:saturate(.98) contrast(1.02) brightness(.94);transform:scale(1)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.about-visual-page::before,
+  .about-scene::before{
+    display:none!important;
+    animation:none!important;
+    transition:none!important;
+  }
+}
