@@ -1,4 +1,4 @@
-/* About illumination calibration: always-on color-coded movement for Volume I and the three right-page icon medallions. */
+/* About illumination calibration: always-on color-coded fog orbs for Volume I and the three right-page icon medallions. */
 .icon-family-thread{
   left:57.85%;
   top:25.15%;
@@ -25,24 +25,38 @@
 .icon-illumination-think{--glow-rgb:126,151,220}
 .icon-illumination-care{--glow-rgb:210,132,105}
 
-.volume-illumination::before{
-  width:118%;
-  height:160%;
-  background:radial-gradient(ellipse at 50% 50%,rgba(var(--glow-rgb),.24),rgba(255,250,236,.075) 42%,transparent 76%);
-  filter:blur(8px);
-  opacity:.42;
-  animation:about-volume-halo-float 6.8s ease-in-out infinite;
+.volume-illumination::before,
+.icon-illumination::before{
+  width:clamp(4.4rem,7.2vw,8.4rem);
+  height:clamp(4.4rem,7.2vw,8.4rem);
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 45% 42%,rgba(255,250,236,.20) 0 10%,rgba(var(--glow-rgb),.28) 24%,rgba(var(--glow-rgb),.13) 48%,rgba(var(--glow-rgb),.055) 66%,transparent 82%),
+    radial-gradient(circle at 55% 58%,rgba(var(--glow-rgb),.11),transparent 72%);
+  filter:blur(10px);
+  opacity:.68;
+  box-shadow:0 0 20px rgba(var(--glow-rgb),.16),0 0 42px rgba(var(--glow-rgb),.08);
+  transform:translate(-50%,-50%) scale(.95);
+  animation:about-orb-breathe 6.8s ease-in-out infinite;
 }
 
-.volume-illumination::after{
-  width:66%;
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(var(--glow-rgb),.42),rgba(255,250,236,.70),rgba(var(--glow-rgb),.34),transparent);
-  box-shadow:0 0 9px rgba(255,246,226,.28),0 0 20px rgba(var(--glow-rgb),.28),0 0 34px rgba(var(--glow-rgb),.12);
-  opacity:.70;
-  transform:translate(-50%,170%) scaleX(.84);
-  animation:about-volume-thread-float 5.8s ease-in-out infinite;
+.volume-illumination::after,
+.icon-illumination::after{
+  width:clamp(1.35rem,2.25vw,2.45rem);
+  height:clamp(1.35rem,2.25vw,2.45rem);
+  border-radius:50%;
+  border:1px solid rgba(255,250,236,.22);
+  background:
+    radial-gradient(circle at 36% 30%,rgba(255,250,236,.36),rgba(255,250,236,.10) 18%,transparent 36%),
+    radial-gradient(circle at 50% 52%,rgba(var(--glow-rgb),.22),rgba(var(--glow-rgb),.08) 56%,transparent 74%);
+  box-shadow:0 0 9px rgba(255,246,226,.18),0 0 18px rgba(var(--glow-rgb),.28),0 0 36px rgba(var(--glow-rgb),.12),inset 0 0 12px rgba(var(--glow-rgb),.12);
+  opacity:.66;
+  transform:translate(-50%,-50%) scale(.94);
+  animation:about-orb-glint 6.8s ease-in-out infinite;
 }
+
+.volume-illumination::before{width:clamp(4.2rem,6.2vw,7.2rem);height:clamp(3.2rem,4.8vw,5.4rem);border-radius:999px;filter:blur(9px)}
+.volume-illumination::after{width:clamp(1.7rem,3vw,3.1rem);height:clamp(.42rem,.72vw,.82rem);border-radius:999px;transform:translate(-50%,120%) scale(.95)}
 
 .icon-illumination{
   left:57.85%;
@@ -54,25 +68,6 @@
 .icon-illumination-think{top:47.15%}
 .icon-illumination-care{top:67.95%}
 
-.icon-illumination::before{
-  width:110%;
-  height:110%;
-  background:radial-gradient(circle,rgba(255,250,236,.17),rgba(var(--glow-rgb),.22) 38%,rgba(var(--glow-rgb),.08) 58%,transparent 76%);
-  filter:blur(9px);
-  opacity:.48;
-  animation:about-icon-halo-float 7s ease-in-out infinite;
-}
-
-.icon-illumination::after{
-  width:82%;
-  height:82%;
-  border:1px solid rgba(255,245,226,.25);
-  box-shadow:0 0 10px rgba(255,246,226,.20),0 0 22px rgba(var(--glow-rgb),.28),0 0 38px rgba(var(--glow-rgb),.12),inset 0 0 14px rgba(var(--glow-rgb),.12);
-  opacity:.58;
-  transform:translate(-50%,-50%) scale(.95);
-  animation:about-icon-ring-float 7s ease-in-out infinite;
-}
-
 .icon-illumination-do::before,
 .icon-illumination-do::after{animation-delay:-.35s}
 .icon-illumination-think::before,
@@ -82,20 +77,20 @@
 
 .illumination-target:hover::before,
 .illumination-target:focus-visible::before{
-  opacity:.94;
-  transform:translate(-50%,-50%) scale(1.08);
+  opacity:.92;
+  filter:blur(12px);
+  transform:translate(-50%,-50%) scale(1.12);
 }
 
 .illumination-target:hover::after,
 .illumination-target:focus-visible::after{
   opacity:.92;
-  transform:translate(-50%,170%) scaleX(1.02);
+  transform:translate(-50%,-50%) scale(1.08);
 }
 
-.icon-illumination:hover::after,
-.icon-illumination:focus-visible::after{
-  opacity:.88;
-  transform:translate(-50%,-50%) scale(1.05);
+.volume-illumination:hover::after,
+.volume-illumination:focus-visible::after{
+  transform:translate(-50%,120%) scale(1.08);
 }
 
 .about-scene.is-volume-illuminated .about-backdrop::after{
@@ -151,24 +146,14 @@
   50%{opacity:.28;transform:translateY(-.12rem) scaleY(1.02)}
 }
 
-@keyframes about-volume-halo-float{
-  0%,100%{opacity:.32;transform:translate(-50%,-50%) scale(.96)}
-  50%{opacity:.52;transform:translate(-50%,-53%) scale(1.04)}
+@keyframes about-orb-breathe{
+  0%,100%{opacity:.54;transform:translate(-50%,-50%) scale(.92)}
+  50%{opacity:.82;transform:translate(-50%,-53%) scale(1.08)}
 }
 
-@keyframes about-volume-thread-float{
-  0%,100%{opacity:.58;transform:translate(-50%,172%) scaleX(.78)}
-  50%{opacity:.82;transform:translate(-50%,136%) scaleX(.96)}
-}
-
-@keyframes about-icon-halo-float{
-  0%,100%{opacity:.38;transform:translate(-50%,-50%) scale(.92)}
-  50%{opacity:.64;transform:translate(-50%,-53%) scale(1.06)}
-}
-
-@keyframes about-icon-ring-float{
-  0%,100%{opacity:.46;transform:translate(-50%,-50%) scale(.94)}
-  50%{opacity:.68;transform:translate(-50%,-52%) scale(1.02)}
+@keyframes about-orb-glint{
+  0%,100%{opacity:.54;transform:translate(-50%,-50%) scale(.92)}
+  50%{opacity:.82;transform:translate(-50%,-52%) scale(1.03)}
 }
 
 @media(prefers-reduced-motion:reduce){
