@@ -14,15 +14,17 @@
   if (safely(() => sessionStorage.getItem('entered-from-library-about')) === 'true' && !reduceMotion) {
     body.classList.add('is-opening-book');
     safely(() => sessionStorage.removeItem('entered-from-library-about'));
-    window.setTimeout(() => body.classList.remove('is-opening-book'), 760);
+    window.setTimeout(() => body.classList.remove('is-opening-book'), 900);
   }
 
-  const illuminationClasses = [
-    'is-volume-illuminated',
-    'is-icon-do-illuminated',
-    'is-icon-think-illuminated',
-    'is-icon-care-illuminated'
-  ];
+  const classByIllumination = {
+    volume: 'is-volume-illuminated',
+    do: 'is-icon-do-illuminated',
+    think: 'is-icon-think-illuminated',
+    care: 'is-icon-care-illuminated'
+  };
+
+  const illuminationClasses = Object.values(classByIllumination);
 
   const clearIllumination = () => {
     if (reduceMotion) return;
@@ -31,12 +33,9 @@
 
   const setIllumination = (target) => {
     if (reduceMotion || !target) return;
-    const key = target.dataset.illumination;
+    const stateClass = classByIllumination[target.dataset.illumination];
     scene.classList.remove(...illuminationClasses);
-    if (key === 'volume') scene.classList.add('is-volume-illuminated');
-    if (key === 'do') scene.classList.add('is-icon-do-illuminated');
-    if (key === 'think') scene.classList.add('is-icon-think-illuminated');
-    if (key === 'care') scene.classList.add('is-icon-care-illuminated');
+    if (stateClass) scene.classList.add(stateClass);
   };
 
   const setLibraryHoverState = (isHovering) => {
