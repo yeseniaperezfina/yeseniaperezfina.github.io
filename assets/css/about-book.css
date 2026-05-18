@@ -25,30 +25,32 @@ body.about-visual-page{min-height:100svh;overflow:hidden;background:var(--deep);
 
 /* Intentional illumination overlays */
 .about-illumination-layer{position:absolute;inset:0;z-index:12;pointer-events:none}
-.icon-family-thread{position:absolute;left:56.1%;top:30.7%;width:1px;height:34.2%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,250,236,.20) 12%,rgba(255,103,25,.16) 50%,rgba(255,250,236,.18) 88%,transparent);box-shadow:0 0 12px rgba(255,103,25,.12);opacity:.34;transition:opacity .5s ease,box-shadow .5s ease}
-.illumination-target{position:absolute;display:block;border:0;background:transparent;color:transparent;padding:0;pointer-events:auto;cursor:default;outline:0;transform:translate(-50%,-50%)}
+.icon-family-thread{position:absolute;left:56.9%;top:25.7%;width:1px;height:45.2%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,250,236,.16) 10%,rgba(255,103,25,.12) 50%,rgba(255,250,236,.14) 90%,transparent);box-shadow:0 0 10px rgba(255,103,25,.08);opacity:.18;transition:opacity .5s ease,box-shadow .5s ease}
+.illumination-target{position:absolute;display:block;border:0;background:transparent;color:transparent;padding:0;pointer-events:auto;cursor:pointer;outline:0;transform:translate(-50%,-50%)}
 .illumination-target span{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .illumination-target::before,.illumination-target::after{content:"";position:absolute;left:50%;top:50%;pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .42s ease,transform .56s var(--ease),filter .56s ease,box-shadow .56s ease}
 
-.volume-illumination{left:31.8%;top:32.6%;width:11.6%;height:5%;border-radius:999px}
-.volume-illumination::before{width:108%;height:160%;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.18),rgba(255,250,236,.075) 42%,transparent 76%);filter:blur(9px);opacity:.22;transform:translate(-50%,-50%) scale(.94)}
-.volume-illumination::after{width:80%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,103,25,.28),rgba(255,250,236,.62),rgba(255,103,25,.24),transparent);box-shadow:0 0 10px rgba(255,246,226,.26),0 0 20px rgba(255,103,25,.22);opacity:.42;transform:translate(-50%,160%) scaleX(.72)}
+/* Volume I: target the small printed volume title, not the About Me headline. */
+.volume-illumination{left:37.4%;top:24.1%;width:10.2%;height:4.8%;border-radius:999px}
+.volume-illumination::before{width:112%;height:165%;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.16),rgba(255,250,236,.070) 42%,transparent 76%);filter:blur(8px);opacity:.20;transform:translate(-50%,-50%) scale(.92)}
+.volume-illumination::after{width:58%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,103,25,.25),rgba(255,250,236,.58),rgba(255,103,25,.22),transparent);box-shadow:0 0 8px rgba(255,246,226,.22),0 0 18px rgba(255,103,25,.18);opacity:.34;transform:translate(-50%,170%) scaleX(.64)}
 
-.icon-illumination{left:56.1%;width:5.2%;height:7.6%;border-radius:50%}
-.icon-illumination-do{top:30.8%}
-.icon-illumination-think{top:47.4%}
-.icon-illumination-care{top:64.7%}
-.icon-illumination::before{width:74%;height:74%;border-radius:50%;background:radial-gradient(circle,rgba(255,250,236,.16),rgba(255,103,25,.095) 38%,transparent 74%);filter:blur(8px);opacity:.18;transform:translate(-50%,-50%) scale(.86)}
-.icon-illumination::after{width:60%;height:60%;border-radius:50%;border:1px solid rgba(255,232,210,.16);box-shadow:0 0 8px rgba(255,246,226,.16),0 0 18px rgba(255,103,25,.16),inset 0 0 12px rgba(255,103,25,.08);opacity:.34;transform:translate(-50%,-50%) scale(.88)}
+/* Icon medallions: target the actual engraved circles on the right page. */
+.icon-illumination{left:57.0%;width:7.0%;height:10.2%;border-radius:50%}
+.icon-illumination-do{top:25.6%}
+.icon-illumination-think{top:47.3%}
+.icon-illumination-care{top:68.1%}
+.icon-illumination::before{width:94%;height:94%;border-radius:50%;background:radial-gradient(circle,rgba(255,250,236,.14),rgba(255,103,25,.10) 38%,transparent 74%);filter:blur(8px);opacity:.16;transform:translate(-50%,-50%) scale(.84)}
+.icon-illumination::after{width:82%;height:82%;border-radius:50%;border:1px solid rgba(255,232,210,.14);box-shadow:0 0 8px rgba(255,246,226,.14),0 0 18px rgba(255,103,25,.14),inset 0 0 12px rgba(255,103,25,.075);opacity:.28;transform:translate(-50%,-50%) scale(.90)}
 
 .illumination-target:hover::before,.illumination-target:focus-visible::before{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.illumination-target:hover::after,.illumination-target:focus-visible::after{opacity:1;transform:translate(-50%,160%) scaleX(1)}
+.illumination-target:hover::after,.illumination-target:focus-visible::after{opacity:1;transform:translate(-50%,170%) scaleX(1)}
 .icon-illumination:hover::after,.icon-illumination:focus-visible::after{transform:translate(-50%,-50%) scale(1)}
 .illumination-target:focus-visible{outline:none}
 
 .about-scene.is-icon-do-illuminated .icon-family-thread,
 .about-scene.is-icon-think-illuminated .icon-family-thread,
-.about-scene.is-icon-care-illuminated .icon-family-thread{opacity:.58;box-shadow:0 0 16px rgba(255,103,25,.20)}
+.about-scene.is-icon-care-illuminated .icon-family-thread{opacity:.40;box-shadow:0 0 14px rgba(255,103,25,.15)}
 
 /* Shared hover response */
 .about-scene.is-library-hovering .about-backdrop img,
@@ -78,16 +80,16 @@ body.about-visual-page{min-height:100svh;overflow:hidden;background:var(--deep);
 .about-scene.is-library-hovering .about-backdrop::after{opacity:.92;background:radial-gradient(circle at 50% 51%,rgba(255,103,25,.15),transparent 12rem),radial-gradient(circle at 55% 44%,rgba(255,218,150,.075),transparent 18rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
 .about-scene.is-library-hovering .about-book-bloom{opacity:.76;filter:blur(26px);transform:translate(-50%,-50%) scale(1.08)}
 
-.about-scene.is-volume-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 32% 33%,rgba(255,103,25,.13),transparent 8.2rem),radial-gradient(circle at 37% 42%,rgba(255,235,190,.055),transparent 13rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
-.about-scene.is-volume-illuminated .about-book-bloom{opacity:.64;filter:blur(24px);background:radial-gradient(ellipse at 34% 38%,rgba(255,103,25,.14),rgba(255,232,210,.075) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.035)}
+.about-scene.is-volume-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 37% 24%,rgba(255,103,25,.12),transparent 7.4rem),radial-gradient(circle at 38% 33%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
+.about-scene.is-volume-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 37% 27%,rgba(255,103,25,.13),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
 
-.about-scene.is-icon-do-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 56% 31%,rgba(255,103,25,.115),transparent 7.6rem),radial-gradient(circle at 61% 37%,rgba(255,235,190,.050),transparent 12.4rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
-.about-scene.is-icon-think-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 56% 47%,rgba(255,103,25,.115),transparent 7.6rem),radial-gradient(circle at 61% 52%,rgba(255,235,190,.050),transparent 12.4rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
-.about-scene.is-icon-care-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 56% 65%,rgba(255,103,25,.115),transparent 7.6rem),radial-gradient(circle at 61% 69%,rgba(255,235,190,.050),transparent 12.4rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
+.about-scene.is-icon-do-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 57% 26%,rgba(255,103,25,.110),transparent 7.8rem),radial-gradient(circle at 61% 31%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
+.about-scene.is-icon-think-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 57% 47%,rgba(255,103,25,.110),transparent 7.8rem),radial-gradient(circle at 61% 52%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
+.about-scene.is-icon-care-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 57% 68%,rgba(255,103,25,.110),transparent 7.8rem),radial-gradient(circle at 61% 72%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
 
-.about-scene.is-icon-do-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 58% 33%,rgba(255,103,25,.125),rgba(255,232,210,.075) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.035)}
-.about-scene.is-icon-think-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 58% 50%,rgba(255,103,25,.125),rgba(255,232,210,.075) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.035)}
-.about-scene.is-icon-care-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 58% 67%,rgba(255,103,25,.125),rgba(255,232,210,.075) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.035)}
+.about-scene.is-icon-do-illuminated .about-book-bloom{opacity:.60;filter:blur(24px);background:radial-gradient(ellipse at 58% 28%,rgba(255,103,25,.120),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
+.about-scene.is-icon-think-illuminated .about-book-bloom{opacity:.60;filter:blur(24px);background:radial-gradient(ellipse at 58% 50%,rgba(255,103,25,.120),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
+.about-scene.is-icon-care-illuminated .about-book-bloom{opacity:.60;filter:blur(24px);background:radial-gradient(ellipse at 58% 70%,rgba(255,103,25,.120),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
 
 /* Navigation and identity */
 .library-link{position:absolute;left:clamp(1rem,2vw,2rem);top:clamp(1rem,2vw,2rem);z-index:14;color:rgba(255,250,236,.96);font-family:var(--sans);font-size:.72rem;font-weight:850;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;padding:.34rem .24rem .52rem;text-shadow:0 0 8px rgba(255,246,226,.78),0 0 18px rgba(255,103,25,.72),0 0 42px rgba(255,103,25,.44),0 2px 10px rgba(0,0,0,.96);transition:color .28s ease,opacity .42s ease,transform .28s ease,text-shadow .28s ease}
