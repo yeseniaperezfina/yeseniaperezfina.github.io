@@ -1,11 +1,11 @@
-/* About callout map: fixed lower-screen card deck tied to four illuminated regions. */
+/* About callout map: frameless floating legend tied to four illuminated regions. */
 .about-callout-map{
-  --map-width:min(16rem,25vw);
-  --map-min-height:8rem;
+  --map-width:min(15rem,24vw);
+  --map-min-height:6.8rem;
   --active-map-rgb:255,103,25;
   position:fixed;
-  left:clamp(1.15rem,3vw,3rem);
-  bottom:clamp(1.05rem,2.7vw,2.45rem);
+  left:clamp(1.25rem,3vw,3rem);
+  bottom:clamp(1.15rem,2.8vw,2.45rem);
   z-index:20;
   width:var(--map-width);
   min-height:var(--map-min-height);
@@ -24,13 +24,29 @@
 .callout-deck::before{
   content:"";
   position:absolute;
-  inset:-.35rem;
-  border-radius:.78rem;
-  background:radial-gradient(ellipse at 18% 82%,rgba(var(--active-map-rgb),.16),rgba(255,232,210,.05) 45%,transparent 76%);
-  filter:blur(12px);
+  left:-1.2rem;
+  right:-.8rem;
+  top:-1rem;
+  bottom:-.9rem;
+  border-radius:999px;
+  background:radial-gradient(ellipse at 18% 76%,rgba(var(--active-map-rgb),.20),rgba(var(--active-map-rgb),.075) 34%,rgba(255,232,210,.040) 56%,transparent 78%);
+  filter:blur(18px);
   opacity:.78;
   transform:translateZ(-1px);
-  transition:background .34s ease,opacity .34s ease;
+  transition:background .34s ease,opacity .34s ease,transform .34s var(--ease);
+}
+
+.callout-deck::after{
+  content:"";
+  position:absolute;
+  left:.04rem;
+  bottom:.16rem;
+  width:5.6rem;
+  height:1px;
+  background:linear-gradient(90deg,rgba(var(--active-map-rgb),.56),rgba(255,250,236,.28),transparent);
+  box-shadow:0 0 14px rgba(var(--active-map-rgb),.20);
+  opacity:.72;
+  transition:background .34s ease,box-shadow .34s ease;
 }
 
 .callout-card{
@@ -39,19 +55,18 @@
   inset:0;
   display:flex;
   flex-direction:column;
-  justify-content:center;
-  padding:.86rem .82rem .86rem;
-  border:1px solid rgba(255,238,201,.13);
-  border-left-color:rgba(var(--card-rgb),.48);
-  border-radius:.6rem;
-  background:linear-gradient(135deg,rgba(31,20,13,.66),rgba(8,6,4,.50));
-  box-shadow:0 16px 42px rgba(0,0,0,.34),0 0 20px rgba(var(--card-rgb),.08),inset 0 0 20px rgba(255,238,201,.03);
-  backdrop-filter:blur(11px);
+  justify-content:flex-end;
+  padding:0 0 .62rem;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
   opacity:0;
-  transform:rotateY(-8deg) translateY(.18rem) scale(.97);
-  transform-origin:15% 82%;
+  transform:translateY(.28rem) scale(.985);
+  transform-origin:12% 84%;
   pointer-events:none;
-  transition:opacity .2s ease,transform .4s var(--ease),filter .4s ease,box-shadow .4s ease,border-color .4s ease;
+  transition:opacity .22s ease,transform .42s var(--ease),filter .42s ease;
 }
 
 .callout-card[data-card="volume"]{--card-rgb:255,103,25;--signal-text:"Person · Worldview · Entry"}
@@ -67,34 +82,50 @@
 .callout-card::before{
   content:"";
   position:absolute;
-  inset:.32rem;
-  border:1px solid rgba(255,238,201,.046);
-  border-radius:.42rem;
-  pointer-events:none;
+  left:-.18rem;
+  bottom:2.72rem;
+  width:.42rem;
+  height:.42rem;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,250,236,.62),rgba(var(--card-rgb),.66) 36%,rgba(var(--card-rgb),.20) 66%,transparent 78%);
+  box-shadow:0 0 10px rgba(var(--card-rgb),.32),0 0 24px rgba(var(--card-rgb),.16);
+  opacity:.86;
 }
 
 .callout-card::after{
   content:"";
   position:absolute;
-  left:.72rem;
-  right:.72rem;
-  bottom:.5rem;
+  left:.52rem;
+  bottom:2.92rem;
+  width:3.3rem;
   height:1px;
-  background:linear-gradient(90deg,rgba(255,250,236,.30),rgba(var(--card-rgb),.46),transparent);
-  box-shadow:0 0 10px rgba(var(--card-rgb),.14);
-  opacity:.58;
+  background:linear-gradient(90deg,rgba(var(--card-rgb),.70),rgba(255,250,236,.30),transparent);
+  box-shadow:0 0 10px rgba(var(--card-rgb),.16);
+  opacity:.76;
 }
 
-.callout-card small{display:none}
+.callout-card small,
+.callout-card p{display:none}
 
 .callout-card h2{
   margin:0;
-  color:rgba(255,250,236,.92);
+  color:rgba(255,250,236,.94);
   font-family:var(--serif);
-  font-size:clamp(.96rem,1.14vw,1.12rem);
+  font-size:clamp(1.02rem,1.24vw,1.2rem);
   font-weight:500;
   line-height:1.06;
-  text-shadow:0 0 12px rgba(var(--card-rgb),.10);
+  text-shadow:0 0 12px rgba(var(--card-rgb),.18),0 2px 14px rgba(0,0,0,.55);
+}
+
+.callout-card h2::before{
+  content:"";
+  display:block;
+  width:2.4rem;
+  height:.18rem;
+  margin:0 0 .44rem;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(var(--card-rgb),.78),rgba(255,250,236,.34),transparent);
+  box-shadow:0 0 12px rgba(var(--card-rgb),.22);
 }
 
 .callout-card h2::after{
@@ -102,40 +133,27 @@
   display:block;
   margin-top:.46rem;
   max-width:13rem;
-  color:rgba(247,234,216,.68);
+  color:rgba(247,234,216,.70);
   font-family:var(--sans);
-  font-size:.57rem;
-  font-weight:700;
-  letter-spacing:.08em;
-  line-height:1.35;
+  font-size:.56rem;
+  font-weight:750;
+  letter-spacing:.085em;
+  line-height:1.38;
   text-transform:uppercase;
+  text-shadow:0 2px 12px rgba(0,0,0,.54);
 }
-
-.callout-card h2::before{
-  content:"";
-  display:block;
-  width:2.7rem;
-  height:.22rem;
-  margin:0 0 .42rem;
-  border-radius:999px;
-  background:linear-gradient(90deg,rgba(var(--card-rgb),.72),rgba(255,250,236,.36),transparent);
-  box-shadow:0 0 12px rgba(var(--card-rgb),.18);
-}
-
-.callout-card p{display:none}
 
 .about-scene:not(.has-active-callout) .callout-card[data-card="volume"],
 .callout-card.is-active{
-  opacity:.98;
-  transform:rotateY(0deg) translateY(0) scale(1);
+  opacity:1;
+  transform:translateY(0) scale(1);
   filter:none;
   z-index:2;
-  box-shadow:0 17px 44px rgba(0,0,0,.34),0 0 26px rgba(var(--card-rgb),.12),inset 0 0 22px rgba(255,238,201,.034);
 }
 
 .callout-card.is-exiting{
   opacity:0;
-  transform:rotateY(7deg) translateY(-.1rem) scale(.985);
+  transform:translateY(-.12rem) scale(.992);
   filter:blur(.15px);
   z-index:1;
 }
@@ -143,20 +161,23 @@
 @media(max-width:980px){
   .about-callout-map{
     --map-width:auto;
-    --map-min-height:7.5rem;
-    left:clamp(.85rem,4vw,1.5rem);
-    right:clamp(.85rem,4vw,1.5rem);
-    bottom:clamp(.85rem,4vw,1.5rem);
+    --map-min-height:6.8rem;
+    left:clamp(.95rem,4vw,1.6rem);
+    right:clamp(.95rem,4vw,1.6rem);
+    bottom:clamp(.9rem,4vw,1.5rem);
   }
+
+  .callout-deck::before{right:45%}
 }
 
 @media(max-width:640px){
-  .about-callout-map{left:.75rem;right:.75rem;bottom:.75rem}
-  .callout-card{padding:.86rem .82rem .88rem}
-  .callout-card h2{font-size:1rem}
-  .callout-card h2::after{font-size:.56rem}
+  .about-callout-map{left:.85rem;right:.85rem;bottom:.85rem}
+  .callout-card h2{font-size:1.04rem}
+  .callout-card h2::after{font-size:.55rem;max-width:12.5rem}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .callout-card{transition:none!important;transform:none!important}
+  .callout-card,
+  .callout-deck::before,
+  .callout-deck::after{transition:none!important;transform:none!important}
 }
