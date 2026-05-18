@@ -3,6 +3,7 @@
   const scene = document.querySelector('.about-scene');
   const libraryLink = document.querySelector('.library-link');
   const illuminationTargets = [...document.querySelectorAll('.illumination-target')];
+  const calloutCards = [...document.querySelectorAll('.callout-card')];
   const core = window.StudyCore;
 
   if (!scene || !libraryLink || !core) return;
@@ -15,6 +16,9 @@
 
   const classByIllumination = {
     volume: 'is-volume-illuminated',
+    title: 'is-title-illuminated',
+    positioning: 'is-positioning-illuminated',
+    keywords: 'is-keywords-illuminated',
     do: 'is-icon-do-illuminated',
     think: 'is-icon-think-illuminated',
     care: 'is-icon-care-illuminated'
@@ -22,16 +26,29 @@
 
   const illuminationClasses = Object.values(classByIllumination);
 
+  const setActiveCard = (key) => {
+    if (!calloutCards.length) return;
+    scene.classList.toggle('has-active-callout', Boolean(key));
+    calloutCards.forEach((card) => {
+      const isActive = card.dataset.card === key;
+      card.classList.toggle('is-active', isActive);
+      card.classList.toggle('is-muted', Boolean(key) && !isActive);
+    });
+  };
+
   const clearIllumination = () => {
     if (core.reduceMotion) return;
     scene.classList.remove(...illuminationClasses);
+    setActiveCard(null);
   };
 
   const setIllumination = (target) => {
     if (core.reduceMotion || !target) return;
-    const stateClass = classByIllumination[target.dataset.illumination];
+    const key = target.dataset.illumination;
+    const stateClass = classByIllumination[key];
     scene.classList.remove(...illuminationClasses);
     if (stateClass) scene.classList.add(stateClass);
+    setActiveCard(key);
   };
 
   illuminationTargets.forEach((target) => {
