@@ -1,0 +1,78 @@
+/* Shared study-world foundation for Threshold, Library, and About.
+   Keeps the image-led pages visually integrated without repeating the same small systems everywhere. */
+:root{
+  --cream:#f7ead8;
+  --cream-bright:#fffaf0;
+  --cream-soft:rgba(255,232,210,.86);
+  --threshold-orange:#ff6719;
+  --deep:#030302;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --arrival-duration:860ms;
+  --page-turn-duration:780ms;
+  --standard-exit-duration:600ms;
+  --soft-control-duration:420ms;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--deep)}
+body{min-height:100svh;color:var(--cream);background:var(--deep)}
+
+body.study-fixed{overflow:hidden}
+.entry,
+.library-hub,
+.about-scene{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:var(--deep)}
+
+.threshold-visual img,
+.library-backdrop img,
+.about-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+
+.letterhead{position:absolute;right:clamp(1rem,2vw,2rem);bottom:clamp(.9rem,1.6vw,1.35rem);z-index:14;margin:0;text-align:right;font-family:var(--sans);text-transform:uppercase;letter-spacing:.17em;color:rgba(255,103,25,.54);text-shadow:0 0 12px rgba(255,103,25,.42),0 0 30px rgba(255,103,25,.22),0 8px 26px rgba(0,0,0,.86);pointer-events:none;transition:opacity .42s ease}
+.letterhead strong{display:block;font-size:.62rem;letter-spacing:.2em;color:var(--cream-soft);font-weight:850;text-shadow:0 0 12px rgba(255,103,25,.30),0 0 26px rgba(255,103,25,.16),0 8px 26px rgba(0,0,0,.86)}
+.letterhead span{display:block;margin-top:.22rem;font-size:.5rem;letter-spacing:.2em;color:rgba(255,103,25,.62)}
+
+.threshold-link,
+.library-link{position:absolute;left:clamp(1rem,2vw,2rem);top:clamp(1rem,2vw,2rem);z-index:14;color:rgba(255,250,236,.96);font-family:var(--sans);font-size:.72rem;font-weight:850;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;padding:.34rem .24rem .52rem;text-shadow:0 0 8px rgba(255,246,226,.78),0 0 18px rgba(255,103,25,.72),0 0 42px rgba(255,103,25,.44),0 2px 10px rgba(0,0,0,.96);transition:color .28s ease,opacity .42s ease,transform .28s ease,text-shadow .28s ease}
+.threshold-link::before,
+.library-link::before{content:"";position:absolute;left:50%;right:50%;bottom:.14rem;height:1px;background:linear-gradient(90deg,transparent,rgba(255,103,25,.42),rgba(255,250,236,.98),rgba(255,232,210,.86),rgba(255,103,25,.42),transparent);box-shadow:0 0 12px rgba(255,246,226,.64),0 0 20px rgba(255,103,25,.74),0 0 48px rgba(255,103,25,.36);opacity:.96;transition:left .34s var(--ease),right .34s var(--ease),opacity .34s ease}
+.threshold-link::after,
+.library-link::after{content:"";position:absolute;left:50%;top:50%;width:9.8rem;height:3.1rem;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.50),rgba(255,103,25,.34) 28%,rgba(255,232,210,.13) 52%,rgba(255,103,25,.10) 68%,transparent 82%);filter:blur(13px);opacity:.72;transform:translate(-50%,-50%) scale(.88);z-index:-1;transition:opacity .34s ease,transform .34s var(--ease),filter .34s ease}
+.threshold-link:hover,
+.threshold-link:focus-visible,
+.library-link:hover,
+.library-link:focus-visible{color:var(--cream-bright);transform:translateY(-1px);outline:none;text-shadow:0 0 12px rgba(255,250,236,.94),0 0 24px rgba(255,103,25,.88),0 0 54px rgba(255,103,25,.64),0 2px 10px rgba(0,0,0,.96)}
+.threshold-link:hover::before,
+.threshold-link:focus-visible::before,
+.library-link:hover::before,
+.library-link:focus-visible::before{left:-.85rem;right:-.85rem;opacity:1}
+.threshold-link:hover::after,
+.threshold-link:focus-visible::after,
+.library-link:hover::after,
+.library-link:focus-visible::after{opacity:1;filter:blur(15px);transform:translate(-50%,-50%) scale(1.12)}
+
+@media(max-width:900px){
+  .threshold-link,
+  .library-link{top:1rem;left:1rem;font-size:.70rem}
+  .letterhead strong{font-size:.60rem}
+}
+
+@media(max-width:640px){
+  .letterhead{display:none}
+  .threshold-link,
+  .library-link{font-size:.66rem;letter-spacing:.22em}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .threshold-link,
+  .threshold-link::before,
+  .threshold-link::after,
+  .library-link,
+  .library-link::before,
+  .library-link::after,
+  .letterhead{animation:none!important;transition:none!important}
+  .threshold-link:hover,
+  .threshold-link:focus-visible,
+  .library-link:hover,
+  .library-link:focus-visible{transform:none!important}
+}
