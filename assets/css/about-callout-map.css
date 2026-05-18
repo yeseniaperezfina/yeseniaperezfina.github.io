@@ -40,7 +40,7 @@
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:.74rem .78rem .84rem;
+  padding:.78rem .82rem .86rem;
   border:1px solid rgba(255,238,201,.13);
   border-left-color:rgba(var(--card-rgb),.48);
   border-radius:.6rem;
@@ -54,10 +54,10 @@
   transition:opacity .2s ease,transform .4s var(--ease),filter .4s ease,box-shadow .4s ease,border-color .4s ease;
 }
 
-.callout-card[data-card="volume"]{--card-rgb:255,103,25}
-.callout-card[data-card="do"]{--card-rgb:80,176,164}
-.callout-card[data-card="think"]{--card-rgb:126,151,220}
-.callout-card[data-card="care"]{--card-rgb:210,132,105}
+.callout-card[data-card="volume"]{--card-rgb:255,103,25;--signal-text:"Person · Worldview · Entry"}
+.callout-card[data-card="do"]{--card-rgb:80,176,164;--signal-text:"Science · Learning · Interpretation"}
+.callout-card[data-card="think"]{--card-rgb:126,151,220;--signal-text:"Audience · Evidence · Systems"}
+.callout-card[data-card="care"]{--card-rgb:210,132,105;--signal-text:"Access · Belonging · Discovery"}
 
 .about-scene.has-card-volume{--active-map-rgb:255,103,25}
 .about-scene.has-card-do{--active-map-rgb:80,176,164}
@@ -87,7 +87,7 @@
 
 .callout-card small{
   display:block;
-  margin-bottom:.24rem;
+  margin-bottom:.26rem;
   color:rgba(var(--card-rgb),.80);
   font-size:.47rem;
   font-weight:800;
@@ -96,7 +96,7 @@
 }
 
 .callout-card h2{
-  margin:0 0 .22rem;
+  margin:0;
   color:rgba(255,250,236,.92);
   font-family:var(--serif);
   font-size:clamp(.96rem,1.14vw,1.12rem);
@@ -105,12 +105,32 @@
   text-shadow:0 0 12px rgba(var(--card-rgb),.10);
 }
 
-.callout-card p{
-  margin:0;
-  color:rgba(247,234,216,.70);
-  font-size:.63rem;
-  line-height:1.42;
+.callout-card h2::after{
+  content:var(--signal-text);
+  display:block;
+  margin-top:.46rem;
+  max-width:13rem;
+  color:rgba(247,234,216,.68);
+  font-family:var(--sans);
+  font-size:.57rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  line-height:1.35;
+  text-transform:uppercase;
 }
+
+.callout-card h2::before{
+  content:"";
+  display:block;
+  width:2.7rem;
+  height:.22rem;
+  margin:0 0 .42rem;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(var(--card-rgb),.72),rgba(255,250,236,.36),transparent);
+  box-shadow:0 0 12px rgba(var(--card-rgb),.18);
+}
+
+.callout-card p{display:none}
 
 .about-scene:not(.has-active-callout) .callout-card[data-card="volume"],
 .callout-card.is-active{
@@ -139,15 +159,10 @@
 }
 
 @media(max-width:640px){
-  .about-callout-map{
-    left:.75rem;
-    right:.75rem;
-    bottom:.75rem;
-  }
-
+  .about-callout-map{left:.75rem;right:.75rem;bottom:.75rem}
   .callout-card{padding:.78rem .82rem .88rem}
   .callout-card h2{font-size:1rem}
-  .callout-card p{font-size:.66rem}
+  .callout-card h2::after{font-size:.56rem}
 }
 
 @media(prefers-reduced-motion:reduce){
