@@ -22,14 +22,18 @@
   };
 
   const illuminationClasses = Object.values(classByIllumination);
+  const cardStateClasses = ['has-card-volume', 'has-card-do', 'has-card-think', 'has-card-care'];
   let activeCardKey = null;
   let exitTimer = null;
 
   const setActiveCard = (key) => {
     if (!calloutCards.length || key === activeCardKey) return;
 
+    const safeKey = key || 'volume';
     window.clearTimeout(exitTimer);
     scene.classList.toggle('has-active-callout', Boolean(key));
+    scene.classList.remove(...cardStateClasses);
+    scene.classList.add(`has-card-${safeKey}`);
 
     calloutCards.forEach((card) => {
       const wasActive = card.dataset.card === activeCardKey;
@@ -45,6 +49,8 @@
       calloutCards.forEach((card) => card.classList.remove('is-exiting'));
     }, 420);
   };
+
+  scene.classList.add('has-card-volume');
 
   const clearIllumination = () => {
     if (core.reduceMotion) return;
