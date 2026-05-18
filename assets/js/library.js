@@ -68,10 +68,17 @@
     return 'default';
   };
 
+  const transitionClassForMode = (mode) => {
+    if (mode === 'about') return 'is-turning-about';
+    if (mode === 'work') return 'is-turning-work';
+    return 'is-turning';
+  };
+
   const turnPage = (targetHref, delay = 520, mode = 'default') => {
     if (reduceMotion || !targetHref) return true;
     markVolumeEntry(mode);
-    body.classList.add(mode === 'about' ? 'is-turning-about' : mode === 'work' ? 'is-turning-work' : 'is-turning');
+    body.classList.add(transitionClassForMode(mode));
+    if (mode === 'about') setVolumeState('about');
     window.setTimeout(() => { window.location.href = targetHref; }, delay);
     return false;
   };
@@ -79,7 +86,7 @@
   document.querySelectorAll('.volume-zone, .mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
       const mode = getModeFromHref(link.getAttribute('href') || '');
-      const delay = mode === 'about' ? 620 : mode === 'work' ? 600 : 500;
+      const delay = mode === 'about' ? 780 : mode === 'work' ? 600 : 500;
       if (!turnPage(link.href, delay, mode)) event.preventDefault();
     });
   });
