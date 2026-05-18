@@ -14,7 +14,7 @@
   if (safely(() => sessionStorage.getItem('entered-from-library-about')) === 'true' && !reduceMotion) {
     body.classList.add('is-opening-book');
     safely(() => sessionStorage.removeItem('entered-from-library-about'));
-    window.setTimeout(() => body.classList.remove('is-opening-book'), 1160);
+    window.setTimeout(() => body.classList.remove('is-opening-book'), 760);
   }
 
   const clearPageState = () => {
@@ -51,10 +51,11 @@
     if (reduceMotion) return;
 
     event.preventDefault();
+    safely(() => sessionStorage.setItem('returned-from-about', 'true'));
     body.classList.add('is-closing-book');
 
     window.setTimeout(() => {
       window.location.href = libraryLink.href;
-    }, 560);
+    }, 600);
   });
 })();
