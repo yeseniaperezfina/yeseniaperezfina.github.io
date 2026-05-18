@@ -10,7 +10,6 @@
     'is-volume-systems',
     'is-volume-voice'
   ];
-  let clearVolumeTimer = null;
 
   const safely = (fn) => {
     try { return fn(); } catch { return null; }
@@ -39,49 +38,23 @@
     }, { passive: true });
   }
 
-  const cancelVolumeClear = () => {
-    if (!clearVolumeTimer) return;
-    window.clearTimeout(clearVolumeTimer);
-    clearVolumeTimer = null;
-  };
-
-  const clearVolumeState = ({ immediate = false } = {}) => {
+  const clearVolumeState = () => {
     if (!hub) return;
-
-    cancelVolumeClear();
-
-    const clear = () => {
-      hub.classList.remove('is-volume-hovering', 'is-volume-transitioning', ...volumeClasses);
-      clearVolumeTimer = null;
-    };
-
-    if (immediate || reduceMotion) {
-      clear();
-      return;
-    }
-
-    hub.classList.add('is-volume-transitioning');
-    clearVolumeTimer = window.setTimeout(clear, 120);
+    hub.classList.remove('is-volume-hovering', ...volumeClasses);
   };
 
   const setVolumeState = (volume) => {
     if (!hub || reduceMotion || !volume) return;
-
-    cancelVolumeClear();
     hub.classList.remove(...volumeClasses);
-    hub.classList.add('is-volume-hovering', 'is-volume-transitioning', `is-volume-${volume}`);
-
-    window.setTimeout(() => {
-      hub.classList.remove('is-volume-transitioning');
-    }, 180);
+    hub.classList.add('is-volume-hovering', `is-volume-${volume}`);
   };
 
   document.querySelectorAll('[data-volume]').forEach((link) => {
     const volume = link.getAttribute('data-volume');
     link.addEventListener('pointerenter', () => setVolumeState(volume));
-    link.addEventListener('pointerleave', () => clearVolumeState());
+    link.addEventListener('pointerleave', clearVolumeState);
     link.addEventListener('focus', () => setVolumeState(volume));
-    link.addEventListener('blur', () => clearVolumeState());
+    link.addEventListener('blur', clearVolumeState);
   });
 
   const markVolumeEntry = (mode) => {
