@@ -1,0 +1,96 @@
+/* Library → About handoff: focuses Volume I, warms the shelf, then closes into the About spread. */
+body.library-hub-page::before,
+body.library-hub-page::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:60;
+  pointer-events:none;
+  opacity:0;
+}
+
+body.library-hub-page::before{
+  background:radial-gradient(ellipse at 58% 41%,rgba(255,103,25,.26),rgba(255,232,198,.13) 23%,rgba(25,13,5,.72) 60%,rgba(0,0,0,.96) 100%);
+  mix-blend-mode:screen;
+  filter:blur(.4px);
+}
+
+body.library-hub-page::after{
+  background:linear-gradient(90deg,rgba(0,0,0,.94),rgba(30,15,6,.72) 31%,rgba(255,235,190,.14) 49%,rgba(35,17,6,.76) 69%,rgba(0,0,0,.94)),radial-gradient(ellipse at 58% 42%,transparent 0 18%,rgba(255,103,25,.16) 28%,rgba(0,0,0,.84) 72%);
+  transform:scaleX(.18);
+  transform-origin:58% 42%;
+  filter:blur(1.2px);
+}
+
+.library-hub-page.is-turning-about::before{animation:library-about-warmth 780ms var(--ease) forwards}
+.library-hub-page.is-turning-about::after{animation:library-about-gate 780ms var(--ease) forwards}
+
+.library-hub-page.is-turning-about .library-backdrop img{
+  animation:library-about-push 780ms var(--ease) forwards;
+}
+
+.library-hub-page.is-turning-about .library-hub::before{
+  background:radial-gradient(circle at 65% 39%,rgba(255,103,25,.26),rgba(255,218,148,.16) 18%,rgba(0,0,0,.62) 50%,rgba(0,0,0,.90) 100%);
+}
+
+.library-hub-page.is-turning-about .zone-about{
+  z-index:10;
+  opacity:1;
+  filter:brightness(1.22) saturate(1.18);
+  transform:translate(.42rem,-.2rem) scale(1.04);
+}
+
+.library-hub-page.is-turning-about .zone-about::before,
+.library-hub-page.is-turning-about .zone-about::after{
+  opacity:1;
+  transform:translate(-50%,-50%) scaleX(1.18);
+}
+
+.library-hub-page.is-turning-about .zone-about::before{
+  filter:blur(9px);
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.42),rgba(255,250,236,.18) 34%,rgba(255,103,25,.13) 60%,transparent 84%);
+}
+
+.library-hub-page.is-turning-about .zone-about::after{
+  box-shadow:0 0 12px rgba(255,246,226,.78),0 0 28px rgba(255,103,25,.72),0 0 72px rgba(255,103,25,.34);
+}
+
+.library-hub-page.is-turning-about .shelf-bloom{
+  opacity:1;
+  filter:blur(27px);
+  transform:translate(-50%,-50%) scale(1.24);
+}
+
+@keyframes library-about-push{
+  0%{filter:saturate(1.02) contrast(1.035) brightness(.91);transform:scale(1.004)}
+  42%{filter:saturate(1.05) contrast(1.07) brightness(.72) blur(1.1px);transform:scale(1.026) translateX(-.25vw)}
+  100%{filter:saturate(.88) contrast(1.08) brightness(.38) blur(4px);transform:scale(1.075) translateX(-.75vw)}
+}
+
+@keyframes library-about-warmth{
+  0%{opacity:0}
+  26%{opacity:.78}
+  72%{opacity:.58}
+  100%{opacity:0}
+}
+
+@keyframes library-about-gate{
+  0%{opacity:0;transform:scaleX(.08)}
+  32%{opacity:.52;transform:scaleX(.34)}
+  78%{opacity:.94;transform:scaleX(.86)}
+  100%{opacity:1;transform:scaleX(1.08)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body.library-hub-page::before,
+  body.library-hub-page::after,
+  .library-hub-page.is-turning-about .library-backdrop img{
+    animation:none!important;
+    transition:none!important;
+  }
+
+  body.library-hub-page::before,
+  body.library-hub-page::after{
+    display:none!important;
+  }
+}
