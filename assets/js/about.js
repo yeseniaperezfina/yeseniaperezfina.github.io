@@ -25,15 +25,29 @@
   };
 
   const illuminationClasses = Object.values(classByIllumination);
+  let activeCardKey = null;
+  let exitTimer = null;
 
   const setActiveCard = (key) => {
-    if (!calloutCards.length) return;
+    if (!calloutCards.length || key === activeCardKey) return;
+
+    window.clearTimeout(exitTimer);
     scene.classList.toggle('has-active-callout', Boolean(key));
+
     calloutCards.forEach((card) => {
+      const wasActive = card.dataset.card === activeCardKey;
       const isActive = card.dataset.card === key;
+
       card.classList.toggle('is-active', isActive);
-      card.classList.toggle('is-muted', Boolean(key) && !isActive);
+      card.classList.toggle('is-muted', false);
+      card.classList.toggle('is-exiting', Boolean(key) && wasActive && !isActive);
     });
+
+    activeCardKey = key;
+
+    exitTimer = window.setTimeout(() => {
+      calloutCards.forEach((card) => card.classList.remove('is-exiting'));
+    }, 460);
   };
 
   const clearIllumination = () => {
