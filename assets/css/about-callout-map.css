@@ -1,34 +1,34 @@
-/* About callout map: one lower-left flipping card deck tied to illuminated book regions. */
+/* About callout map: restrained lower-left card deck tied to four illuminated regions. */
 .about-callout-map{
   position:absolute;
-  left:clamp(1rem,3.2vw,3.2rem);
-  bottom:clamp(1rem,3vw,2.7rem);
+  left:clamp(1.15rem,3vw,3rem);
+  bottom:clamp(1.05rem,2.7vw,2.45rem);
   z-index:13;
-  width:min(18rem,28vw);
-  min-height:9.8rem;
+  width:min(15.5rem,24vw);
+  min-height:7.8rem;
   pointer-events:none;
   font-family:var(--sans);
-  perspective:1200px;
+  perspective:1000px;
 }
 
 .callout-deck{
   position:relative;
   width:100%;
-  min-height:9.8rem;
+  min-height:7.8rem;
   transform-style:preserve-3d;
 }
 
 .callout-deck::before{
   content:"";
   position:absolute;
-  left:-.45rem;
-  right:-.45rem;
-  top:-.45rem;
-  bottom:-.45rem;
-  border-radius:1rem;
-  background:radial-gradient(ellipse at 18% 78%,rgba(255,103,25,.16),rgba(255,232,210,.06) 42%,transparent 76%);
-  filter:blur(14px);
-  opacity:.72;
+  left:-.25rem;
+  right:-.25rem;
+  top:-.25rem;
+  bottom:-.25rem;
+  border-radius:.7rem;
+  background:radial-gradient(ellipse at 16% 82%,rgba(255,103,25,.08),rgba(255,232,210,.035) 44%,transparent 76%);
+  filter:blur(10px);
+  opacity:.55;
   transform:translateZ(-1px);
 }
 
@@ -38,70 +38,70 @@
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:.88rem .92rem .96rem;
-  border:1px solid rgba(255,238,201,.16);
-  border-left:1px solid rgba(255,103,25,.54);
-  border-radius:.78rem;
-  background:linear-gradient(135deg,rgba(43,26,14,.76),rgba(9,6,4,.58));
-  box-shadow:0 20px 56px rgba(0,0,0,.38),0 0 24px rgba(255,103,25,.10),inset 0 0 28px rgba(255,238,201,.045);
-  backdrop-filter:blur(14px);
+  padding:.72rem .76rem .8rem;
+  border:1px solid rgba(255,238,201,.11);
+  border-left-color:rgba(255,103,25,.34);
+  border-radius:.58rem;
+  background:linear-gradient(135deg,rgba(32,20,12,.58),rgba(8,6,4,.46));
+  box-shadow:0 14px 38px rgba(0,0,0,.30),inset 0 0 18px rgba(255,238,201,.026);
+  backdrop-filter:blur(10px);
   opacity:0;
-  transform:rotateY(-12deg) translateY(.28rem) scale(.94);
-  transform-origin:18% 80%;
+  transform:rotateY(-8deg) translateY(.18rem) scale(.97);
+  transform-origin:15% 82%;
   pointer-events:none;
-  transition:opacity .22s ease,transform .46s var(--ease),filter .46s ease,box-shadow .46s ease;
+  transition:opacity .2s ease,transform .4s var(--ease),filter .4s ease,box-shadow .4s ease;
 }
 
 .callout-card::before{
   content:"";
   position:absolute;
-  inset:.38rem;
-  border:1px solid rgba(255,238,201,.065);
-  border-radius:.56rem;
+  inset:.32rem;
+  border:1px solid rgba(255,238,201,.038);
+  border-radius:.42rem;
   pointer-events:none;
 }
 
 .callout-card::after{
   content:"";
   position:absolute;
-  left:.86rem;
-  right:.86rem;
-  bottom:.62rem;
+  left:.72rem;
+  right:.72rem;
+  bottom:.5rem;
   height:1px;
-  background:linear-gradient(90deg,rgba(255,250,236,.58),rgba(255,103,25,.44),transparent);
-  opacity:.60;
+  background:linear-gradient(90deg,rgba(255,250,236,.28),rgba(255,103,25,.24),transparent);
+  opacity:.42;
 }
 
 .callout-card small{
   display:block;
-  margin-bottom:.32rem;
-  color:rgba(255,103,25,.76);
-  font-size:.52rem;
-  font-weight:850;
-  letter-spacing:.17em;
+  margin-bottom:.24rem;
+  color:rgba(255,160,104,.68);
+  font-size:.47rem;
+  font-weight:800;
+  letter-spacing:.15em;
   text-transform:uppercase;
 }
 
 .callout-card h2{
-  margin:0 0 .28rem;
-  color:rgba(255,250,236,.96);
+  margin:0 0 .22rem;
+  color:rgba(255,250,236,.90);
   font-family:var(--serif);
-  font-size:clamp(1.04rem,1.35vw,1.28rem);
+  font-size:clamp(.94rem,1.12vw,1.1rem);
   font-weight:500;
-  line-height:1.05;
-  text-shadow:0 0 14px rgba(255,103,25,.18);
+  line-height:1.06;
+  text-shadow:none;
 }
 
 .callout-card p{
   margin:0;
-  color:rgba(247,234,216,.76);
-  font-size:.69rem;
-  line-height:1.45;
+  color:rgba(247,234,216,.66);
+  font-size:.62rem;
+  line-height:1.42;
 }
 
 .about-scene:not(.has-active-callout) .callout-card[data-card="volume"],
 .callout-card.is-active{
-  opacity:1;
+  opacity:.96;
   transform:rotateY(0deg) translateY(0) scale(1);
   filter:none;
   z-index:2;
@@ -109,8 +109,8 @@
 
 .callout-card.is-exiting{
   opacity:0;
-  transform:rotateY(10deg) translateY(-.18rem) scale(.97);
-  filter:blur(.2px);
+  transform:rotateY(7deg) translateY(-.1rem) scale(.985);
+  filter:blur(.15px);
   z-index:1;
 }
 
@@ -128,7 +128,7 @@
 
   .callout-deck{
     display:grid;
-    gap:.75rem;
+    gap:.7rem;
     min-height:0;
   }
 
@@ -148,9 +148,9 @@
 }
 
 @media(max-width:640px){
-  .callout-card{padding:.82rem .86rem .92rem}
-  .callout-card h2{font-size:1.08rem}
-  .callout-card p{font-size:.68rem}
+  .callout-card{padding:.78rem .82rem .88rem}
+  .callout-card h2{font-size:1rem}
+  .callout-card p{font-size:.66rem}
 }
 
 @media(prefers-reduced-motion:reduce){
