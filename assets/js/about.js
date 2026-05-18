@@ -2,7 +2,7 @@
   const body = document.body;
   const scene = document.querySelector('.about-scene');
   const libraryLink = document.querySelector('.library-link');
-  const leftPageField = document.querySelector('.left-page-field');
+  const calloutNodes = [...document.querySelectorAll('.callout-node')];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!scene || !libraryLink) return;
@@ -17,9 +17,16 @@
     window.setTimeout(() => body.classList.remove('is-opening-book'), 760);
   }
 
-  const setLeftPageState = (isHovering) => {
+  const clearCalloutState = () => {
     if (reduceMotion) return;
-    scene.classList.toggle('is-left-page-reading', isHovering);
+    scene.classList.remove('is-callout-left', 'is-callout-right');
+  };
+
+  const setCalloutState = (node) => {
+    if (reduceMotion || !node) return;
+    const side = node.dataset.callout;
+    scene.classList.toggle('is-callout-left', side === 'left');
+    scene.classList.toggle('is-callout-right', side === 'right');
   };
 
   const setLibraryHoverState = (isHovering) => {
@@ -27,12 +34,12 @@
     scene.classList.toggle('is-library-hovering', isHovering);
   };
 
-  if (leftPageField) {
-    leftPageField.addEventListener('pointerenter', () => setLeftPageState(true));
-    leftPageField.addEventListener('pointerleave', () => setLeftPageState(false));
-    leftPageField.addEventListener('focus', () => setLeftPageState(true));
-    leftPageField.addEventListener('blur', () => setLeftPageState(false));
-  }
+  calloutNodes.forEach((node) => {
+    node.addEventListener('pointerenter', () => setCalloutState(node));
+    node.addEventListener('pointerleave', clearCalloutState);
+    node.addEventListener('focus', () => setCalloutState(node));
+    node.addEventListener('blur', clearCalloutState);
+  });
 
   libraryLink.addEventListener('pointerenter', () => setLibraryHoverState(true));
   libraryLink.addEventListener('pointerleave', () => setLibraryHoverState(false));
