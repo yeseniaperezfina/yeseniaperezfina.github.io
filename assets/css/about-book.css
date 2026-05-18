@@ -16,8 +16,15 @@
 .illumination-target::before,.illumination-target::after{content:"";position:absolute;left:50%;top:50%;pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .42s ease,transform .56s var(--ease),filter .56s ease,box-shadow .56s ease}
 
 .volume-illumination{left:37.4%;top:24.1%;width:10.2%;height:4.8%;border-radius:999px}
-.volume-illumination::before{width:112%;height:165%;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.16),rgba(255,250,236,.070) 42%,transparent 76%);filter:blur(8px);opacity:.20;transform:translate(-50%,-50%) scale(.92)}
-.volume-illumination::after{width:58%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,103,25,.25),rgba(255,250,236,.58),rgba(255,103,25,.22),transparent);box-shadow:0 0 8px rgba(255,246,226,.22),0 0 18px rgba(255,103,25,.18);opacity:.34;transform:translate(-50%,170%) scaleX(.64)}
+.left-illumination{border-radius:999px}
+.left-illumination-title{left:38.1%;top:34.2%;width:17.2%;height:7.2%}
+.left-illumination-positioning{left:38.2%;top:45.6%;width:24.8%;height:8.4%}
+.left-illumination-keywords{left:38.6%;top:72.8%;width:27.4%;height:5.6%}
+.volume-illumination::before,.left-illumination::before{width:112%;height:148%;border-radius:999px;background:radial-gradient(ellipse at 50% 50%,rgba(255,103,25,.16),rgba(255,250,236,.070) 42%,transparent 76%);filter:blur(8px);opacity:.20;transform:translate(-50%,-50%) scale(.92)}
+.volume-illumination::after,.left-illumination::after{width:58%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,103,25,.25),rgba(255,250,236,.58),rgba(255,103,25,.22),transparent);box-shadow:0 0 8px rgba(255,246,226,.22),0 0 18px rgba(255,103,25,.18);opacity:.34;transform:translate(-50%,170%) scaleX(.64)}
+.left-illumination-title::after{width:74%}
+.left-illumination-positioning::after{width:82%}
+.left-illumination-keywords::after{width:86%}
 
 .icon-illumination{left:57.0%;width:7.0%;height:10.2%;border-radius:50%}
 .icon-illumination-do{top:25.6%}
@@ -31,27 +38,51 @@
 .icon-illumination:hover::after,.icon-illumination:focus-visible::after{transform:translate(-50%,-50%) scale(1)}
 .illumination-target:focus-visible{outline:none}
 
+.about-callout-map{position:absolute;inset:0;z-index:13;pointer-events:none;font-family:var(--sans)}
+.callout-stack{position:absolute;display:grid;gap:.55rem;width:min(16.5rem,22vw);perspective:1200px}
+.callout-stack-left{left:9.5%;top:19.5%}
+.callout-stack-right{right:8.5%;top:22%}
+.callout-card{position:relative;padding:.7rem .78rem .76rem;border:1px solid rgba(255,238,201,.14);border-left-color:rgba(255,103,25,.38);border-radius:.72rem;background:linear-gradient(135deg,rgba(34,21,12,.48),rgba(9,6,4,.34));box-shadow:0 16px 42px rgba(0,0,0,.24),inset 0 0 24px rgba(255,238,201,.035);backdrop-filter:blur(12px);opacity:.34;transform:translate3d(0,0,0) scale(.96);transition:opacity .34s ease,transform .42s var(--ease),border-color .34s ease,background .34s ease,box-shadow .34s ease}
+.callout-card::before{content:"";position:absolute;inset:.35rem;border-radius:.52rem;border:1px solid rgba(255,238,201,.055);pointer-events:none}
+.callout-card small{display:block;margin-bottom:.3rem;color:rgba(255,103,25,.72);font-size:.52rem;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+.callout-card h2{margin:0 0 .22rem;color:rgba(255,250,236,.94);font-family:var(--serif);font-size:clamp(.98rem,1.3vw,1.22rem);font-weight:500;line-height:1.05;text-shadow:0 0 14px rgba(255,103,25,.18)}
+.callout-card p{margin:0;color:rgba(247,234,216,.72);font-size:.68rem;line-height:1.42}
+.about-scene:not(.has-active-callout) .callout-card:first-child,.callout-card.is-active{opacity:1;transform:translate3d(0,-.08rem,0) scale(1);border-color:rgba(255,238,201,.24);border-left-color:rgba(255,103,25,.68);background:linear-gradient(135deg,rgba(48,29,15,.66),rgba(12,8,5,.50));box-shadow:0 20px 54px rgba(0,0,0,.34),0 0 24px rgba(255,103,25,.10),inset 0 0 28px rgba(255,238,201,.05)}
+.callout-card.is-muted{opacity:.18;transform:scale(.94)}
+
 .about-scene.is-icon-do-illuminated .icon-family-thread,
 .about-scene.is-icon-think-illuminated .icon-family-thread,
 .about-scene.is-icon-care-illuminated .icon-family-thread{opacity:.40;box-shadow:0 0 14px rgba(255,103,25,.15)}
 
 .about-scene.is-library-hovering .about-backdrop img,
 .about-scene.is-volume-illuminated .about-backdrop img,
+.about-scene.is-title-illuminated .about-backdrop img,
+.about-scene.is-positioning-illuminated .about-backdrop img,
+.about-scene.is-keywords-illuminated .about-backdrop img,
 .about-scene.is-icon-do-illuminated .about-backdrop img,
 .about-scene.is-icon-think-illuminated .about-backdrop img,
 .about-scene.is-icon-care-illuminated .about-backdrop img{filter:saturate(1.012) contrast(1.026) brightness(.94);transform:scale(1.0025)}
 .about-scene.is-library-hovering .about-breathing-light,
 .about-scene.is-volume-illuminated .about-breathing-light,
+.about-scene.is-title-illuminated .about-breathing-light,
+.about-scene.is-positioning-illuminated .about-breathing-light,
+.about-scene.is-keywords-illuminated .about-breathing-light,
 .about-scene.is-icon-do-illuminated .about-breathing-light,
 .about-scene.is-icon-think-illuminated .about-breathing-light,
 .about-scene.is-icon-care-illuminated .about-breathing-light{opacity:.62;filter:blur(.5px);transform:scale(1.004)}
 .about-scene.is-library-hovering .about-doorway-vignette,
 .about-scene.is-volume-illuminated .about-doorway-vignette,
+.about-scene.is-title-illuminated .about-doorway-vignette,
+.about-scene.is-positioning-illuminated .about-doorway-vignette,
+.about-scene.is-keywords-illuminated .about-doorway-vignette,
 .about-scene.is-icon-do-illuminated .about-doorway-vignette,
 .about-scene.is-icon-think-illuminated .about-doorway-vignette,
 .about-scene.is-icon-care-illuminated .about-doorway-vignette{opacity:.61}
 .about-scene.is-library-hovering .about-dust-field,
 .about-scene.is-volume-illuminated .about-dust-field,
+.about-scene.is-title-illuminated .about-dust-field,
+.about-scene.is-positioning-illuminated .about-dust-field,
+.about-scene.is-keywords-illuminated .about-dust-field,
 .about-scene.is-icon-do-illuminated .about-dust-field,
 .about-scene.is-icon-think-illuminated .about-dust-field,
 .about-scene.is-icon-care-illuminated .about-dust-field{opacity:.40;filter:blur(0);transform:translateY(-.08rem) scale(1.002)}
@@ -60,7 +91,13 @@
 .about-scene.is-library-hovering .about-book-bloom{opacity:.76;filter:blur(26px);transform:translate(-50%,-50%) scale(1.08)}
 
 .about-scene.is-volume-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 37% 24%,rgba(255,103,25,.12),transparent 7.4rem),radial-gradient(circle at 38% 33%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
+.about-scene.is-title-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 38% 34%,rgba(255,103,25,.13),transparent 8rem),radial-gradient(circle at 39% 42%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
+.about-scene.is-positioning-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 38% 46%,rgba(255,103,25,.12),transparent 8.5rem),radial-gradient(circle at 39% 53%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
+.about-scene.is-keywords-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 39% 73%,rgba(255,103,25,.12),transparent 8rem),radial-gradient(circle at 40% 77%,rgba(255,235,190,.048),transparent 11rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
 .about-scene.is-volume-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 37% 27%,rgba(255,103,25,.13),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
+.about-scene.is-title-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 38% 36%,rgba(255,103,25,.13),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
+.about-scene.is-positioning-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 38% 47%,rgba(255,103,25,.13),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
+.about-scene.is-keywords-illuminated .about-book-bloom{opacity:.62;filter:blur(24px);background:radial-gradient(ellipse at 39% 74%,rgba(255,103,25,.13),rgba(255,232,210,.070) 42%,transparent 78%);transform:translate(-50%,-50%) scale(1.03)}
 
 .about-scene.is-icon-do-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 57% 26%,rgba(255,103,25,.110),transparent 7.8rem),radial-gradient(circle at 61% 31%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
 .about-scene.is-icon-think-illuminated .about-backdrop::after{opacity:.93;background:radial-gradient(circle at 57% 47%,rgba(255,103,25,.110),transparent 7.8rem),radial-gradient(circle at 61% 52%,rgba(255,235,190,.050),transparent 12rem),radial-gradient(ellipse at 50% 54%,transparent 0 54%,rgba(0,0,0,.16) 78%,rgba(0,0,0,.60) 100%),linear-gradient(90deg,rgba(0,0,0,.28),transparent 23%,transparent 80%,rgba(0,0,0,.34))}
@@ -77,8 +114,22 @@
 @keyframes about-breathe{0%,100%{opacity:.48;transform:scale(1)}50%{opacity:.53;transform:scale(1.006)}}
 @keyframes dust-drift{0%,100%{transform:translate3d(0,0,0);opacity:.26}35%{transform:translate3d(.18rem,-.22rem,0);opacity:.34}70%{transform:translate3d(-.12rem,.08rem,0);opacity:.29}}
 
+@media(max-width:1100px){
+  .callout-stack{width:min(14.5rem,24vw)}
+  .callout-card{padding:.62rem .68rem}
+  .callout-card p{font-size:.63rem}
+}
+
 @media(max-width:900px){
+  body.about-visual-page{overflow:auto}
+  .about-scene{min-height:100svh;padding-bottom:2rem}
+  .about-backdrop{position:relative;height:62svh;display:block}
+  .about-backdrop img{position:absolute;inset:0}
+  .about-backdrop::after,.about-breathing-light,.about-doorway-vignette,.about-book-bloom,.about-dust-field{position:fixed}
   .about-illumination-layer{display:none}
+  .about-callout-map{position:relative;z-index:13;display:grid;gap:.75rem;padding:1rem clamp(1rem,5vw,2rem) 3rem;margin-top:-1rem;pointer-events:auto}
+  .callout-stack{position:relative;inset:auto;width:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+  .callout-card,.about-scene:not(.has-active-callout) .callout-card:first-child,.callout-card.is-active,.callout-card.is-muted{opacity:1;transform:none;border-color:rgba(255,238,201,.14);border-left-color:rgba(255,103,25,.38)}
   .about-book-bloom{width:30rem;height:18rem}
 }
 
@@ -87,9 +138,10 @@
   .about-doorway-vignette{opacity:.62}
   .about-book-bloom{width:22rem;height:15rem}
   .about-dust-field{opacity:.22}
+  .callout-stack{grid-template-columns:1fr}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .about-backdrop img,.about-backdrop::after,.about-breathing-light,.about-doorway-vignette,.about-book-bloom,.about-dust-field,.illumination-target,.illumination-target::before,.illumination-target::after,.icon-family-thread,.book-transition,.book-transition::before,.book-transition::after{animation:none!important;transition:none!important}
+  .about-backdrop img,.about-backdrop::after,.about-breathing-light,.about-doorway-vignette,.about-book-bloom,.about-dust-field,.illumination-target,.illumination-target::before,.illumination-target::after,.icon-family-thread,.callout-card,.book-transition,.book-transition::before,.book-transition::after{animation:none!important;transition:none!important}
   .book-transition{display:none!important}
 }
