@@ -95,7 +95,7 @@
   document.querySelectorAll('.volume-zone, .mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
       const mode = getModeFromHref(link.getAttribute('href') || '');
-      const delay = mode === 'about' ? 640 : mode === 'work' ? 600 : 500;
+      const delay = mode === 'about' ? 780 : mode === 'work' ? 600 : 500;
       if (!turnPage(link.href, delay, mode)) event.preventDefault();
     });
   });
