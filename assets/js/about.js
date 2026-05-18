@@ -2,7 +2,7 @@
   const body = document.body;
   const scene = document.querySelector('.about-scene');
   const libraryLink = document.querySelector('.library-link');
-  const mapPoints = [...document.querySelectorAll('.map-point')];
+  const glowTargets = [...document.querySelectorAll('.glow-target')];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!scene || !libraryLink) return;
@@ -17,16 +17,21 @@
     window.setTimeout(() => body.classList.remove('is-opening-book'), 760);
   }
 
-  const clearMapState = () => {
+  const glowStateClasses = ['is-volume-glowing', 'is-icon-do-glowing', 'is-icon-think-glowing', 'is-icon-care-glowing'];
+
+  const clearGlowState = () => {
     if (reduceMotion) return;
-    scene.classList.remove('is-map-left', 'is-map-right');
+    scene.classList.remove(...glowStateClasses);
   };
 
-  const setMapState = (point) => {
-    if (reduceMotion || !point) return;
-    const side = point.dataset.mapPoint;
-    scene.classList.toggle('is-map-left', side === 'left');
-    scene.classList.toggle('is-map-right', side === 'right');
+  const setGlowState = (target) => {
+    if (reduceMotion || !target) return;
+    const key = target.dataset.glowTarget;
+    scene.classList.remove(...glowStateClasses);
+    if (key === 'volume') scene.classList.add('is-volume-glowing');
+    if (key === 'do') scene.classList.add('is-icon-do-glowing');
+    if (key === 'think') scene.classList.add('is-icon-think-glowing');
+    if (key === 'care') scene.classList.add('is-icon-care-glowing');
   };
 
   const setLibraryHoverState = (isHovering) => {
@@ -34,11 +39,11 @@
     scene.classList.toggle('is-library-hovering', isHovering);
   };
 
-  mapPoints.forEach((point) => {
-    point.addEventListener('pointerenter', () => setMapState(point));
-    point.addEventListener('pointerleave', clearMapState);
-    point.addEventListener('focus', () => setMapState(point));
-    point.addEventListener('blur', clearMapState);
+  glowTargets.forEach((target) => {
+    target.addEventListener('pointerenter', () => setGlowState(target));
+    target.addEventListener('pointerleave', clearGlowState);
+    target.addEventListener('focus', () => setGlowState(target));
+    target.addEventListener('blur', clearGlowState);
   });
 
   libraryLink.addEventListener('pointerenter', () => setLibraryHoverState(true));
