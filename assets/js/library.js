@@ -15,12 +15,21 @@
     try { return fn(); } catch { return null; }
   };
 
-  if (safely(() => sessionStorage.getItem('entered-from-study')) === 'true' && !reduceMotion) {
+  const clearStorageFlag = (key) => safely(() => sessionStorage.removeItem(key));
+  const hasStorageFlag = (key) => safely(() => sessionStorage.getItem(key)) === 'true';
+
+  if (!reduceMotion && hasStorageFlag('entered-from-study')) {
     body.classList.add('is-arriving');
-    safely(() => sessionStorage.removeItem('entered-from-study'));
+    clearStorageFlag('entered-from-study');
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => body.classList.remove('is-arriving'));
     });
+  }
+
+  if (!reduceMotion && hasStorageFlag('returned-from-about')) {
+    body.classList.add('is-returning-from-about');
+    clearStorageFlag('returned-from-about');
+    window.setTimeout(() => body.classList.remove('is-returning-from-about'), 720);
   }
 
   if (!reduceMotion) {
@@ -86,7 +95,7 @@
   document.querySelectorAll('.volume-zone, .mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
       const mode = getModeFromHref(link.getAttribute('href') || '');
-      const delay = mode === 'about' ? 780 : mode === 'work' ? 600 : 500;
+      const delay = mode === 'about' ? 640 : mode === 'work' ? 600 : 500;
       if (!turnPage(link.href, delay, mode)) event.preventDefault();
     });
   });
