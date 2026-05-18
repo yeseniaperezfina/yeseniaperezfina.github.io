@@ -2,11 +2,49 @@
   const body = document.body;
   const scene = document.querySelector('.about-scene');
   const libraryLink = document.querySelector('.library-link');
-  const illuminationTargets = [...document.querySelectorAll('.illumination-target')];
-  const calloutCards = [...document.querySelectorAll('.callout-card')];
   const core = window.StudyCore;
 
   if (!scene || !libraryLink || !core) return;
+
+  const illuminationTargets = [...document.querySelectorAll('.illumination-target')];
+  const calloutCards = [...document.querySelectorAll('.callout-card')];
+  const mapKeys = ['volume', 'do', 'think', 'care'];
+  const classByIllumination = {
+    volume: 'is-volume-illuminated',
+    do: 'is-icon-do-illuminated',
+    think: 'is-icon-think-illuminated',
+    care: 'is-icon-care-illuminated'
+  };
+  const illuminationClasses = Object.values(classByIllumination);
+  const cardStateClasses = mapKeys.map((key) => `has-card-${key}`);
+
+  let activeCardKey = null;
+  let exitTimer = null;
+
+  const setCardStateClass = (key = 'volume') => {
+    scene.classList.remove(...cardStateClasses);
+    scene.classList.add(`has-card-${key}`);
+  };
+
+  const setActiveCard = (key) => {
+    if (!calloutCards.length || key === activeCardKey) return;
+
+    window.clearTimeout(exitTimer);
+    scene.classList.toggle('has-active-callout', Boolean(key));
+    setCardStateClass(key || 'volume');
+
+    calloutCards.forEach((card) => {
+      const wasActive = card.dataset.card === activeCardKey;
+      const isActive = card.dataset.card === key;
+      card.classList.toggle('is-active', isActive);
+      card.classList.toggle('is-exiting', Boolean(key) && wasActive && !isActive);
+    });
+
+    activeCardKey = key;
+    exitTimer = window.setTimeout(() => {
+      calloutCards.forEach((card) => card.classList.remove('is-exiting'));
+    }, 420);
+  };
 
   if (core.storage.has('entered-from-library-about') && !core.reduceMotion) {
     body.classList.add('is-opening-book');
@@ -14,43 +52,7 @@
     window.setTimeout(() => body.classList.remove('is-opening-book'), 900);
   }
 
-  const classByIllumination = {
-    volume: 'is-volume-illuminated',
-    do: 'is-icon-do-illuminated',
-    think: 'is-icon-think-illuminated',
-    care: 'is-icon-care-illuminated'
-  };
-
-  const illuminationClasses = Object.values(classByIllumination);
-  const cardStateClasses = ['has-card-volume', 'has-card-do', 'has-card-think', 'has-card-care'];
-  let activeCardKey = null;
-  let exitTimer = null;
-
-  const setActiveCard = (key) => {
-    if (!calloutCards.length || key === activeCardKey) return;
-
-    const safeKey = key || 'volume';
-    window.clearTimeout(exitTimer);
-    scene.classList.toggle('has-active-callout', Boolean(key));
-    scene.classList.remove(...cardStateClasses);
-    scene.classList.add(`has-card-${safeKey}`);
-
-    calloutCards.forEach((card) => {
-      const wasActive = card.dataset.card === activeCardKey;
-      const isActive = card.dataset.card === key;
-
-      card.classList.toggle('is-active', isActive);
-      card.classList.toggle('is-exiting', Boolean(key) && wasActive && !isActive);
-    });
-
-    activeCardKey = key;
-
-    exitTimer = window.setTimeout(() => {
-      calloutCards.forEach((card) => card.classList.remove('is-exiting'));
-    }, 420);
-  };
-
-  scene.classList.add('has-card-volume');
+  setCardStateClass('volume');
 
   const clearIllumination = () => {
     if (core.reduceMotion) return;
