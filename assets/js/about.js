@@ -2,7 +2,7 @@
   const body = document.body;
   const scene = document.querySelector('.about-scene');
   const libraryLink = document.querySelector('.library-link');
-  const calloutNodes = [...document.querySelectorAll('.callout-node')];
+  const mapPoints = [...document.querySelectorAll('.map-point')];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!scene || !libraryLink) return;
@@ -17,16 +17,16 @@
     window.setTimeout(() => body.classList.remove('is-opening-book'), 760);
   }
 
-  const clearCalloutState = () => {
+  const clearMapState = () => {
     if (reduceMotion) return;
-    scene.classList.remove('is-callout-left', 'is-callout-right');
+    scene.classList.remove('is-map-left', 'is-map-right');
   };
 
-  const setCalloutState = (node) => {
-    if (reduceMotion || !node) return;
-    const side = node.dataset.callout;
-    scene.classList.toggle('is-callout-left', side === 'left');
-    scene.classList.toggle('is-callout-right', side === 'right');
+  const setMapState = (point) => {
+    if (reduceMotion || !point) return;
+    const side = point.dataset.mapPoint;
+    scene.classList.toggle('is-map-left', side === 'left');
+    scene.classList.toggle('is-map-right', side === 'right');
   };
 
   const setLibraryHoverState = (isHovering) => {
@@ -34,11 +34,11 @@
     scene.classList.toggle('is-library-hovering', isHovering);
   };
 
-  calloutNodes.forEach((node) => {
-    node.addEventListener('pointerenter', () => setCalloutState(node));
-    node.addEventListener('pointerleave', clearCalloutState);
-    node.addEventListener('focus', () => setCalloutState(node));
-    node.addEventListener('blur', clearCalloutState);
+  mapPoints.forEach((point) => {
+    point.addEventListener('pointerenter', () => setMapState(point));
+    point.addEventListener('pointerleave', clearMapState);
+    point.addEventListener('focus', () => setMapState(point));
+    point.addEventListener('blur', clearMapState);
   });
 
   libraryLink.addEventListener('pointerenter', () => setLibraryHoverState(true));
