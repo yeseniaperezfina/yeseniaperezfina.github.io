@@ -33,7 +33,7 @@ body.about-visual-page::before{
 .about-visual-page.is-opening-book .about-dust-field{animation:about-dust-arrival 860ms var(--ease) both}
 .about-visual-page.is-opening-book .library-link,
 .about-visual-page.is-opening-book .letterhead,
-.about-visual-page.is-opening-book .about-page-zones{
+.about-visual-page.is-opening-book .about-illumination-layer{
   opacity:0;
   animation:about-controls-rise 480ms ease 360ms forwards;
 }
