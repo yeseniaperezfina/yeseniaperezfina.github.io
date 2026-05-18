@@ -1,4 +1,4 @@
-/* About arrival from Library: master-system shelf gate into open volume. */
+/* About arrival from Library: matched warm veil, low-cost transforms, no competing page split. */
 body.about-visual-page::before{
   content:"";
   position:fixed;
@@ -6,9 +6,9 @@ body.about-visual-page::before{
   z-index:30;
   pointer-events:none;
   opacity:0;
-  background:radial-gradient(ellipse at 50% 52%,rgba(255,238,198,.18),rgba(255,103,25,.10) 30%,rgba(0,0,0,.72) 68%,rgba(0,0,0,.94) 100%);
+  background:radial-gradient(ellipse at 50% 52%,rgba(255,238,198,.16),rgba(255,103,25,.08) 30%,rgba(0,0,0,.58) 68%,rgba(0,0,0,.88) 100%);
   mix-blend-mode:screen;
-  filter:blur(1px);
+  will-change:opacity;
 }
 
 .about-scene::before{
@@ -18,51 +18,74 @@ body.about-visual-page::before{
   z-index:24;
   pointer-events:none;
   opacity:0;
-  background:linear-gradient(90deg,rgba(0,0,0,.84),rgba(42,25,10,.58) 34%,rgba(255,238,198,.22) 49.5%,rgba(42,25,10,.58) 66%,rgba(0,0,0,.84)),radial-gradient(ellipse at 50% 50%,transparent 0 22%,rgba(255,222,156,.16) 42%,rgba(0,0,0,.76) 86%);
-  transform:scaleX(.74);
-  filter:blur(1px);
+  background:linear-gradient(90deg,rgba(0,0,0,.82),rgba(42,25,10,.46) 34%,rgba(255,238,198,.16) 50%,rgba(42,25,10,.46) 66%,rgba(0,0,0,.82));
+  transform:scaleX(1.02);
+  will-change:opacity,transform;
 }
 
-.about-visual-page.is-opening-book::before{animation:about-arrival-warmth 1120ms var(--ease) forwards}
-.about-visual-page.is-opening-book .about-scene::before{animation:about-arrival-gate 1120ms var(--ease) forwards}
-.about-visual-page.is-opening-book .book-transition{animation-duration:1120ms}
-.about-visual-page.is-opening-book .book-transition::before{animation-name:about-left-page-open;animation-duration:1120ms}
-.about-visual-page.is-opening-book .book-transition::after{animation-name:about-right-page-open;animation-duration:1120ms}
-.about-visual-page.is-opening-book .about-backdrop img{animation-name:about-image-reveal;animation-duration:1120ms}
+.about-visual-page.is-opening-book::before{animation:about-arrival-warm-veil 760ms var(--ease) forwards}
+.about-visual-page.is-opening-book .about-scene::before{animation:about-arrival-soft-gate 760ms var(--ease) forwards}
+.about-visual-page.is-opening-book .book-transition{animation:about-shell-fade 760ms var(--ease) forwards}
+.about-visual-page.is-opening-book .book-transition::before{animation:none}
+.about-visual-page.is-opening-book .book-transition::after{animation:none}
+.about-visual-page.is-opening-book .about-backdrop img{animation:about-image-soft-reveal 760ms var(--ease) both}
 .about-visual-page.is-opening-book .library-link,
-.about-visual-page.is-opening-book .letterhead{
+.about-visual-page.is-opening-book .letterhead,
+.about-visual-page.is-opening-book .about-page-zones{
   opacity:0;
-  animation:controls-rise 560ms ease 640ms forwards;
+  animation:about-controls-rise 440ms ease 300ms forwards;
 }
 
-@keyframes about-arrival-warmth{
-  0%{opacity:.86}
-  48%{opacity:.34}
+.about-visual-page.is-closing-book::before{animation:about-exit-warm-veil 600ms var(--ease) forwards}
+.about-visual-page.is-closing-book .about-scene::before{animation:about-exit-soft-gate 600ms var(--ease) forwards}
+.about-visual-page.is-closing-book .book-transition{animation:about-exit-shell 600ms var(--ease) forwards}
+.about-visual-page.is-closing-book .book-transition::before{animation:none}
+.about-visual-page.is-closing-book .book-transition::after{animation:none}
+.about-visual-page.is-closing-book .about-backdrop img{animation:about-image-soft-exit 600ms var(--ease) forwards}
+
+@keyframes about-arrival-warm-veil{
+  0%{opacity:.52}
   100%{opacity:0}
 }
 
-@keyframes about-arrival-gate{
-  0%{opacity:.92;transform:scaleX(.52);filter:blur(1.6px)}
-  52%{opacity:.62;transform:scaleX(.86);filter:blur(.8px)}
-  100%{opacity:0;transform:scaleX(1.04);filter:blur(0)}
+@keyframes about-arrival-soft-gate{
+  0%{opacity:.74;transform:scaleX(1.02)}
+  100%{opacity:0;transform:scaleX(.86)}
 }
 
-@keyframes about-left-page-open{
-  0%{transform:rotateY(0deg) translateX(0)}
-  36%{transform:rotateY(-24deg) translateX(-.5vw)}
-  100%{transform:rotateY(-86deg) translateX(-2.2vw)}
+@keyframes about-shell-fade{
+  0%{opacity:.62}
+  100%{opacity:0}
 }
 
-@keyframes about-right-page-open{
-  0%{transform:rotateY(0deg) translateX(0)}
-  36%{transform:rotateY(24deg) translateX(.5vw)}
-  100%{transform:rotateY(86deg) translateX(2.2vw)}
-}
-
-@keyframes about-image-reveal{
-  0%{filter:saturate(.86) contrast(1.06) brightness(.48) blur(3px);transform:scale(1.06)}
-  46%{filter:saturate(.92) contrast(1.04) brightness(.74) blur(1.2px);transform:scale(1.03)}
+@keyframes about-image-soft-reveal{
+  0%{filter:saturate(.94) contrast(1.04) brightness(.62);transform:scale(1.026)}
   100%{filter:saturate(.98) contrast(1.02) brightness(.92);transform:scale(1.002)}
+}
+
+@keyframes about-controls-rise{
+  0%{opacity:0;transform:translateY(4px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+
+@keyframes about-exit-warm-veil{
+  0%{opacity:0}
+  100%{opacity:.38}
+}
+
+@keyframes about-exit-soft-gate{
+  0%{opacity:0;transform:scaleX(.86)}
+  100%{opacity:.82;transform:scaleX(1.02)}
+}
+
+@keyframes about-exit-shell{
+  0%{opacity:0}
+  100%{opacity:.54}
+}
+
+@keyframes about-image-soft-exit{
+  0%{filter:saturate(.98) contrast(1.02) brightness(.92);transform:scale(1.002)}
+  100%{filter:saturate(.94) contrast(1.04) brightness(.62);transform:scale(1.026)}
 }
 
 @media(prefers-reduced-motion:reduce){
