@@ -1,11 +1,14 @@
 /* About callout map: fixed lower-screen card deck tied to four illuminated regions. */
 .about-callout-map{
+  --map-width:min(16rem,25vw);
+  --map-min-height:8rem;
+  --active-map-rgb:255,103,25;
   position:fixed;
   left:clamp(1.15rem,3vw,3rem);
   bottom:clamp(1.05rem,2.7vw,2.45rem);
   z-index:20;
-  width:min(16rem,25vw);
-  min-height:8rem;
+  width:var(--map-width);
+  min-height:var(--map-min-height);
   pointer-events:none;
   font-family:var(--sans);
   perspective:1000px;
@@ -14,19 +17,16 @@
 .callout-deck{
   position:relative;
   width:100%;
-  min-height:8rem;
+  min-height:var(--map-min-height);
   transform-style:preserve-3d;
 }
 
 .callout-deck::before{
   content:"";
   position:absolute;
-  left:-.35rem;
-  right:-.35rem;
-  top:-.35rem;
-  bottom:-.35rem;
+  inset:-.35rem;
   border-radius:.78rem;
-  background:radial-gradient(ellipse at 18% 82%,rgba(var(--active-map-rgb,255,103,25),.16),rgba(255,232,210,.05) 45%,transparent 76%);
+  background:radial-gradient(ellipse at 18% 82%,rgba(var(--active-map-rgb),.16),rgba(255,232,210,.05) 45%,transparent 76%);
   filter:blur(12px);
   opacity:.78;
   transform:translateZ(-1px);
@@ -130,15 +130,12 @@
 
 @media(max-width:980px){
   .about-callout-map{
-    position:fixed;
+    --map-width:auto;
+    --map-min-height:7.5rem;
     left:clamp(.85rem,4vw,1.5rem);
     right:clamp(.85rem,4vw,1.5rem);
     bottom:clamp(.85rem,4vw,1.5rem);
-    width:auto;
-    min-height:7.5rem;
   }
-
-  .callout-deck{min-height:7.5rem}
 }
 
 @media(max-width:640px){
