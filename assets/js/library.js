@@ -2,7 +2,10 @@
   const root = document.documentElement;
   const body = document.body;
   const hub = document.querySelector('.library-hub');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const core = window.StudyCore;
+
+  if (!hub || !core) return;
+
   const volumeClasses = [
     'is-volume-about',
     'is-volume-work',
@@ -11,28 +14,21 @@
     'is-volume-voice'
   ];
 
-  const safely = (fn) => {
-    try { return fn(); } catch { return null; }
-  };
-
-  const clearStorageFlag = (key) => safely(() => sessionStorage.removeItem(key));
-  const hasStorageFlag = (key) => safely(() => sessionStorage.getItem(key)) === 'true';
-
-  if (!reduceMotion && hasStorageFlag('entered-from-study')) {
+  if (!core.reduceMotion && core.storage.has('entered-from-study')) {
     body.classList.add('is-arriving');
-    clearStorageFlag('entered-from-study');
+    core.storage.clear('entered-from-study');
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => body.classList.remove('is-arriving'));
     });
   }
 
-  if (!reduceMotion && hasStorageFlag('returned-from-about')) {
+  if (!core.reduceMotion && core.storage.has('returned-from-about')) {
     body.classList.add('is-returning-from-about');
-    clearStorageFlag('returned-from-about');
+    core.storage.clear('returned-from-about');
     window.setTimeout(() => body.classList.remove('is-returning-from-about'), 720);
   }
 
-  if (!reduceMotion) {
+  if (!core.reduceMotion) {
     let frameRequested = false;
     window.addEventListener('pointermove', (event) => {
       if (frameRequested) return;
@@ -48,12 +44,11 @@
   }
 
   const clearVolumeState = () => {
-    if (!hub) return;
     hub.classList.remove('is-volume-hovering', ...volumeClasses);
   };
 
   const setVolumeState = (volume) => {
-    if (!hub || reduceMotion || !volume) return;
+    if (core.reduceMotion || !volume) return;
     hub.classList.remove(...volumeClasses);
     hub.classList.add('is-volume-hovering', `is-volume-${volume}`);
   };
@@ -66,43 +61,55 @@
     link.addEventListener('blur', clearVolumeState);
   });
 
-  const markVolumeEntry = (mode) => {
-    if (mode === 'about') safely(() => sessionStorage.setItem('entered-from-library-about', 'true'));
-    if (mode === 'work') safely(() => sessionStorage.setItem('entered-from-library-work', 'true'));
-  };
-
-  const getModeFromHref = (href = '') => {
+  const modeFromHref = (href = '') => {
     if (href.endsWith('about.html')) return 'about';
     if (href.endsWith('work-timeline.html')) return 'work';
     return 'default';
   };
 
-  const transitionClassForMode = (mode) => {
+  const transitionForMode = (mode) => {
     if (mode === 'about') return 'is-turning-about';
     if (mode === 'work') return 'is-turning-work';
     return 'is-turning';
   };
 
-  const turnPage = (targetHref, delay = 520, mode = 'default') => {
-    if (reduceMotion || !targetHref) return true;
-    markVolumeEntry(mode);
-    body.classList.add(transitionClassForMode(mode));
-    if (mode === 'about') setVolumeState('about');
-    window.setTimeout(() => { window.location.href = targetHref; }, delay);
-    return false;
+  const delayForMode = (mode) => {
+    if (mode === 'about') return 780;
+    if (mode === 'work') return 600;
+    return 500;
+  };
+
+  const storageForMode = (mode) => {
+    if (mode === 'about') return 'entered-from-library-about';
+    if (mode === 'work') return 'entered-from-library-work';
+    return null;
   };
 
   document.querySelectorAll('.volume-zone, .mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
-      const mode = getModeFromHref(link.getAttribute('href') || '');
-      const delay = mode === 'about' ? 780 : mode === 'work' ? 600 : 500;
-      if (!turnPage(link.href, delay, mode)) event.preventDefault();
+      const mode = modeFromHref(link.getAttribute('href') || '');
+      if (mode === 'about') setVolumeState('about');
+
+      core.navigateWithClass({
+        event,
+        href: link.href,
+        host: body,
+        className: transitionForMode(mode),
+        delay: delayForMode(mode),
+        storageKey: storageForMode(mode)
+      });
     });
   });
 
   document.querySelectorAll('.threshold-link').forEach((link) => {
     link.addEventListener('click', (event) => {
-      if (!turnPage(link.href, 420)) event.preventDefault();
+      core.navigateWithClass({
+        event,
+        href: link.href,
+        host: body,
+        className: 'is-turning',
+        delay: 420
+      });
     });
   });
 })();
