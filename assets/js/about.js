@@ -2,7 +2,7 @@
   const body = document.body;
   const scene = document.querySelector('.about-scene');
   const libraryLink = document.querySelector('.library-link');
-  const pageZones = [...document.querySelectorAll('.about-page-zone')];
+  const leftPageField = document.querySelector('.left-page-field');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!scene || !libraryLink) return;
@@ -17,16 +17,9 @@
     window.setTimeout(() => body.classList.remove('is-opening-book'), 760);
   }
 
-  const clearPageState = () => {
+  const setLeftPageState = (isHovering) => {
     if (reduceMotion) return;
-    scene.classList.remove('is-left-page-hovering', 'is-right-page-hovering');
-  };
-
-  const setPageState = (zone) => {
-    if (reduceMotion || !zone) return;
-    const isLeft = zone.classList.contains('page-zone-left');
-    scene.classList.toggle('is-left-page-hovering', isLeft);
-    scene.classList.toggle('is-right-page-hovering', !isLeft);
+    scene.classList.toggle('is-left-page-reading', isHovering);
   };
 
   const setLibraryHoverState = (isHovering) => {
@@ -34,13 +27,12 @@
     scene.classList.toggle('is-library-hovering', isHovering);
   };
 
-  pageZones.forEach((zone) => {
-    zone.addEventListener('pointerenter', () => setPageState(zone));
-    zone.addEventListener('pointerleave', clearPageState);
-    zone.addEventListener('focus', () => setPageState(zone));
-    zone.addEventListener('blur', clearPageState);
-    zone.addEventListener('click', () => setPageState(zone));
-  });
+  if (leftPageField) {
+    leftPageField.addEventListener('pointerenter', () => setLeftPageState(true));
+    leftPageField.addEventListener('pointerleave', () => setLeftPageState(false));
+    leftPageField.addEventListener('focus', () => setLeftPageState(true));
+    leftPageField.addEventListener('blur', () => setLeftPageState(false));
+  }
 
   libraryLink.addEventListener('pointerenter', () => setLibraryHoverState(true));
   libraryLink.addEventListener('pointerleave', () => setLibraryHoverState(false));
