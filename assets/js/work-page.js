@@ -3,10 +3,30 @@
   const navLinks = [...document.querySelectorAll('.page-controls a')];
   const hotspots = [...document.querySelectorAll('.work-hotspot')];
   const workCopy = document.querySelector('[data-work-copy]');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const core = window.StudyCore;
+  const reduceMotion = core ? core.reduceMotion : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const hotspotClasses = [
+    'is-hotspot-thesis',
+    'is-hotspot-scale',
+    'is-hotspot-practice',
+    'is-hotspot-current',
+    'is-hotspot-method'
+  ];
 
   const safely = (fn) => {
     try { return fn(); } catch { return null; }
+  };
+
+  const setHotspotAtmosphere = (hotspot) => {
+    if (reduceMotion || !hotspot) return;
+    body.classList.remove(...hotspotClasses);
+    body.classList.add('is-work-hovering', `is-hotspot-${hotspot.dataset.hotspot || hotspot.className.match(/hotspot-([\w-]+)/)?.[1] || 'thesis'}`);
+  };
+
+  const clearHotspotAtmosphere = () => {
+    if (reduceMotion) return;
+    body.classList.remove('is-work-hovering', ...hotspotClasses);
   };
 
   if (safely(() => sessionStorage.getItem('entered-from-library-work')) === 'true' && !reduceMotion) {
@@ -16,8 +36,17 @@
   }
 
   hotspots.forEach((hotspot) => {
+    const match = hotspot.className.match(/hotspot-([\w-]+)/);
+    if (match && !hotspot.dataset.hotspot) hotspot.dataset.hotspot = match[1];
+
+    hotspot.addEventListener('pointerenter', () => setHotspotAtmosphere(hotspot));
+    hotspot.addEventListener('pointerleave', clearHotspotAtmosphere);
+    hotspot.addEventListener('focus', () => setHotspotAtmosphere(hotspot));
+    hotspot.addEventListener('blur', clearHotspotAtmosphere);
+
     hotspot.addEventListener('click', () => {
       hotspots.forEach((item) => item.classList.toggle('is-active', item === hotspot));
+      setHotspotAtmosphere(hotspot);
       if (workCopy) workCopy.textContent = hotspot.dataset.copy || '';
     });
   });
