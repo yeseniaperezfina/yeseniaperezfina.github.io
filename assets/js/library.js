@@ -74,8 +74,7 @@
   };
 
   const delayForMode = (mode) => {
-    if (mode === 'about') return 780;
-    if (mode === 'work') return 600;
+    if (mode === 'about' || mode === 'work') return 600;
     return 500;
   };
 
