@@ -21,11 +21,11 @@ body.library-hub-page::after{
   transform-origin:60% 42%;
 }
 
-.library-hub-page.is-turning-about::before{animation:library-about-warm-veil 780ms var(--ease) forwards}
-.library-hub-page.is-turning-about::after{animation:library-about-soft-gate 780ms var(--ease) forwards}
+.library-hub-page.is-turning-about::before{animation:library-about-warm-veil 600ms var(--ease) forwards}
+.library-hub-page.is-turning-about::after{animation:library-about-soft-gate 600ms var(--ease) forwards}
 
 .library-hub-page.is-turning-about .library-backdrop img{
-  animation:library-about-soft-push 780ms var(--ease) forwards;
+  animation:library-about-soft-push 600ms var(--ease) forwards;
 }
 
 .library-hub-page.is-turning-about .library-hub::before{
