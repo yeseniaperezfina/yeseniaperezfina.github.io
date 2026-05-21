@@ -3,6 +3,7 @@
   const navLinks = [...document.querySelectorAll('.page-controls a')];
   const hotspots = [...document.querySelectorAll('.research-hotspot')];
   const researchCopy = document.querySelector('[data-research-copy]');
+  const backdropImage = document.querySelector('.research-backdrop img');
   const core = window.StudyCore;
   const reduceMotion = core ? core.reduceMotion : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -17,6 +18,25 @@
   const safely = (fn) => {
     try { return fn(); } catch { return null; }
   };
+
+  const markAssetLoaded = () => {
+    body.classList.remove('has-missing-research-asset');
+    body.classList.add('has-loaded-research-asset');
+  };
+
+  const markAssetMissing = () => {
+    body.classList.remove('has-loaded-research-asset');
+    body.classList.add('has-missing-research-asset');
+  };
+
+  if (backdropImage) {
+    body.classList.add('is-checking-research-asset');
+    if (backdropImage.complete) {
+      backdropImage.naturalWidth > 0 ? markAssetLoaded() : markAssetMissing();
+    }
+    backdropImage.addEventListener('load', markAssetLoaded, { once: true });
+    backdropImage.addEventListener('error', markAssetMissing, { once: true });
+  }
 
   const setHotspotAtmosphere = (hotspot) => {
     if (reduceMotion || !hotspot) return;
