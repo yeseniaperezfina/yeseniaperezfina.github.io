@@ -1,4 +1,4 @@
-/* Shared study-world foundation for Threshold, Library, About, Work, and the text volumes.
+/* Shared study-world foundation for Threshold, Library, About, Work, Research, Systems, and the text volumes.
    Keeps the site visually integrated without repeating the same control systems everywhere. */
 :root{
   --cream:#f7ead8;
@@ -28,12 +28,16 @@ body.study-fixed{overflow:hidden}
 .entry,
 .library-hub,
 .about-scene,
-.work-main{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:var(--deep)}
+.work-main,
+.research-main,
+.systems-main{position:relative;min-height:100svh;overflow:hidden;isolation:isolate;background:var(--deep)}
 
 .threshold-visual img,
 .library-backdrop img,
 .about-backdrop img,
-.work-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.work-backdrop img,
+.research-backdrop img,
+.systems-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 
 .letterhead{position:absolute;right:clamp(1rem,2vw,2rem);bottom:clamp(.9rem,1.6vw,1.35rem);z-index:14;margin:0;text-align:right;font-family:var(--sans);text-transform:uppercase;letter-spacing:.17em;color:rgba(255,103,25,.54);text-shadow:0 0 12px rgba(255,103,25,.42),0 0 30px rgba(255,103,25,.22),0 8px 26px rgba(0,0,0,.86);pointer-events:none;transition:opacity .42s ease}
 .letterhead strong{display:block;font-size:.62rem;letter-spacing:.2em;color:var(--cream-soft);font-weight:850;text-shadow:0 0 12px rgba(255,103,25,.30),0 0 26px rgba(255,103,25,.16),0 8px 26px rgba(0,0,0,.86)}
