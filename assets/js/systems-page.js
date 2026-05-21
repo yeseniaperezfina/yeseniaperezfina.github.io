@@ -9,10 +9,11 @@
 
   const hotspotClasses = [
     'is-hotspot-architecture',
+    'is-hotspot-mission',
+    'is-hotspot-interpretive',
     'is-hotspot-network',
-    'is-hotspot-trust',
-    'is-hotspot-leverage',
-    'is-hotspot-conditions'
+    'is-hotspot-public',
+    'is-hotspot-trust'
   ];
 
   const safely = (fn) => {
@@ -40,8 +41,9 @@
 
   const setHotspotAtmosphere = (hotspot) => {
     if (reduceMotion || !hotspot) return;
+    const hotspotName = hotspot.dataset.hotspot || hotspot.className.match(/hotspot-([\w-]+)/)?.[1] || 'architecture';
     body.classList.remove(...hotspotClasses);
-    body.classList.add('is-systems-hovering', `is-hotspot-${hotspot.dataset.hotspot || hotspot.className.match(/hotspot-([\w-]+)/)?.[1] || 'architecture'}`);
+    body.classList.add('is-systems-hovering', `is-hotspot-${hotspotName}`);
   };
 
   const clearHotspotAtmosphere = () => {
