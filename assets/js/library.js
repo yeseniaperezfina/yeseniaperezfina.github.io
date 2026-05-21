@@ -61,31 +61,23 @@
     link.addEventListener('blur', clearVolumeState);
   });
 
+  const volumeRoutes = {
+    'about.html': 'about',
+    'work-timeline.html': 'work',
+    'research-archive.html': 'research',
+    'public-systems.html': 'systems'
+  };
+
   const modeFromHref = (href = '') => {
-    if (href.endsWith('about.html')) return 'about';
-    if (href.endsWith('work-timeline.html')) return 'work';
-    if (href.endsWith('research-archive.html')) return 'research';
-    return 'default';
+    const cleanHref = href.split('#')[0].split('?')[0];
+    return Object.entries(volumeRoutes).find(([route]) => cleanHref.endsWith(route))?.[1] || 'default';
   };
 
-  const transitionForMode = (mode) => {
-    if (mode === 'about') return 'is-turning-about';
-    if (mode === 'work') return 'is-turning-work';
-    if (mode === 'research') return 'is-turning-research';
-    return 'is-turning';
-  };
+  const transitionForMode = (mode) => mode === 'default' ? 'is-turning' : `is-turning-${mode}`;
 
-  const delayForMode = (mode) => {
-    if (mode === 'about' || mode === 'work' || mode === 'research') return 600;
-    return 500;
-  };
+  const delayForMode = (mode) => mode === 'default' ? 500 : 600;
 
-  const storageForMode = (mode) => {
-    if (mode === 'about') return 'entered-from-library-about';
-    if (mode === 'work') return 'entered-from-library-work';
-    if (mode === 'research') return 'entered-from-library-research';
-    return null;
-  };
+  const storageForMode = (mode) => mode === 'default' ? null : `entered-from-library-${mode}`;
 
   document.querySelectorAll('.volume-zone, .mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
