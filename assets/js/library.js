@@ -64,30 +64,33 @@
   const modeFromHref = (href = '') => {
     if (href.endsWith('about.html')) return 'about';
     if (href.endsWith('work-timeline.html')) return 'work';
+    if (href.endsWith('research-archive.html')) return 'research';
     return 'default';
   };
 
   const transitionForMode = (mode) => {
     if (mode === 'about') return 'is-turning-about';
     if (mode === 'work') return 'is-turning-work';
+    if (mode === 'research') return 'is-turning-research';
     return 'is-turning';
   };
 
   const delayForMode = (mode) => {
-    if (mode === 'about' || mode === 'work') return 600;
+    if (mode === 'about' || mode === 'work' || mode === 'research') return 600;
     return 500;
   };
 
   const storageForMode = (mode) => {
     if (mode === 'about') return 'entered-from-library-about';
     if (mode === 'work') return 'entered-from-library-work';
+    if (mode === 'research') return 'entered-from-library-research';
     return null;
   };
 
   document.querySelectorAll('.volume-zone, .mobile-volume-list a').forEach((link) => {
     link.addEventListener('click', (event) => {
       const mode = modeFromHref(link.getAttribute('href') || '');
-      if (mode === 'about') setVolumeState('about');
+      if (mode !== 'default') setVolumeState(mode);
 
       core.navigateWithClass({
         event,
