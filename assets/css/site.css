@@ -86,3 +86,8 @@
 @media(max-width:900px){.research-hero,.research-thesis-grid,.research-chain>header,.research-cases .map-heading,.ideas-constellation header,.career-map-spread,.research-principles>header{grid-template-columns:1fr}.recognition-path{grid-template-columns:repeat(2,1fr)}.research-rule{align-items:flex-start;flex-direction:column}.ideas-grid{grid-template-columns:1fr 1fr}.career-map-spread img{min-height:60svh}.research-case-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.research-hero{padding-top:110px}.recognition-path,.ideas-grid{grid-template-columns:1fr}.career-map-spread img{min-height:0}.research-rule b{transform:rotate(90deg)}}
 
+/* Expanded Harvard scholarship collection */
+.ideas-intro{max-width:780px;margin:-2rem 0 4rem auto;color:#d5cdbf;font:400 1.2rem/1.6 var(--serif)}
+.ideas-grid .idea-feature{grid-column:span 2;background:#24241f}
+@media(max-width:900px){.ideas-intro{margin:0 0 4rem}}
+@media(max-width:560px){.ideas-grid .idea-feature{grid-column:span 1}}
