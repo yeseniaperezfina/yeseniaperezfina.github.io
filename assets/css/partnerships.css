@@ -1,0 +1,40 @@
+/* Documentary case studies: photographs retain their full frame. */
+.partnership-hero{padding-top:clamp(8rem,13vw,12rem);padding-bottom:4rem}
+.partnership-hero h1{max-width:1100px;margin:0;font:400 clamp(3rem,7vw,7rem)/1.04 var(--serif);letter-spacing:-.035em;overflow-wrap:break-word}
+.partnership-hero>p:not(.quiet-kicker){max-width:780px;line-height:1.8}
+.partnership-hero .partnership-lede{font:400 clamp(1.5rem,2.5vw,2.4rem)/1.35 var(--serif);margin:2rem 0}
+.partnership-hero>a{display:inline-block;margin-top:1rem}
+.partnership-cover{margin:0 auto;padding-block:1rem 4rem}
+.partnership-cover img{display:block;width:100%;height:auto;max-height:850px;object-fit:contain;background:#e4e2dc}
+.partnership-cover figcaption,.partnership-caption{font-size:.875rem;line-height:1.6;color:var(--quiet-muted)}
+.partnership-cover figcaption{margin-top:1rem}
+.partnership-portrait-frame{max-width:760px;padding-top:4rem}
+.partnership-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;margin:0 auto;padding-block:2rem;border-block:1px solid var(--quiet-line)}
+.partnership-facts dt,.partnership-section>.quiet-kicker,.partnership-band .quiet-kicker,.partnership-film .quiet-kicker{font-size:.875rem}
+.partnership-facts dt{color:var(--quiet-muted);margin-bottom:.6rem}
+.partnership-facts dd{margin:0;font-size:1rem;line-height:1.6}
+.partnership-section{display:grid;grid-template-columns:1fr 3fr;gap:3rem;padding-block:clamp(3.5rem,7vw,7rem)}
+.partnership-section>div{max-width:800px;min-width:0}
+.partnership-section h2,.partnership-band h2,.partnership-film h2{margin:0 0 1.8rem;font:400 clamp(2.1rem,4vw,4rem)/1.13 var(--serif);letter-spacing:-.02em}
+.partnership-section p,.partnership-band p,.partnership-film p{font-size:1.04rem;line-height:1.85}
+.partnership-section h3{font-size:1.15rem;margin-top:2rem}
+.partnership-band,.partnership-film{background:#172c34;color:#f5f0e7;padding-block:clamp(3.5rem,7vw,6rem)}
+.partnership-band .quiet-kicker,.partnership-film .quiet-kicker,.partnership-film .partnership-caption{color:#cfdbde}
+.partnership-journey{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem 4rem;list-style:none;padding:0;margin:3rem 0 0}
+.partnership-journey li{border-top:1px solid #718289;padding-top:1rem}
+.partnership-journey h3{font-size:1.2rem;line-height:1.5}
+.partnership-exchange{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;margin-top:3rem;border-block:1px solid #718289;padding-block:1.5rem}
+.partnership-exchange h3{font-size:1.15rem}
+.exchange-center span{font-size:2rem}
+.partnership-band-note,.partnership-result>p{max-width:760px}
+.partnership-film-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:start}
+.partnership-film img{width:100%;height:auto}
+.partnership-film a{color:inherit}
+.partnership-result h2{font-size:clamp(3.5rem,8vw,7rem)}
+.partnership-sources{border-top:1px solid var(--quiet-line);padding-block:2rem 4rem}
+.partnership-sources h2{font-size:1rem}
+.partnership-sources p{max-width:850px;font-size:.875rem;line-height:1.8;color:var(--quiet-muted)}
+.partnership-thumb{display:flex;flex-direction:column;justify-content:center;gap:1rem;min-height:300px;padding:2rem;background:#172c34;color:#f5f0e7;text-align:center}
+.partnership-thumb span{font:400 clamp(1.7rem,3vw,2.6rem)/1.25 var(--serif)}
+.partnership-thumb .exchange-symbol{font-size:2.5rem}
+@media(max-width:800px){.partnership-section,.partnership-film-grid{grid-template-columns:1fr;gap:1.5rem}.partnership-facts{grid-template-columns:1fr;gap:1.5rem}.partnership-exchange,.partnership-journey{grid-template-columns:1fr}.partnership-hero h1{font-size:clamp(2.8rem,10vw,5rem)}.partnership-cover{padding-bottom:2rem}}
