@@ -260,6 +260,22 @@
 .quiet-now{max-width:1050px;border-top:1px solid var(--quiet-line)}
 .quiet-now>p:not(.quiet-kicker){max-width:760px;color:var(--quiet-muted);line-height:1.8;font-size:1.04rem}
 
+.quiet-writing-hero{padding-top:clamp(8rem,14vw,12rem);padding-bottom:4rem}
+.quiet-writing-hero h1{margin:1rem 0 2rem;font:400 clamp(3.6rem,9vw,8rem)/1 var(--serif);letter-spacing:-.04em}
+.quiet-writing-hero .quiet-intro{max-width:850px}
+.quiet-writing-hero .quiet-body{max-width:740px}
+.quiet-writing-hero>a{display:inline-block;margin-top:1rem}
+.quiet-essays{border-top:1px solid var(--quiet-line)}
+.quiet-essays h2{font:400 clamp(2.5rem,5vw,4rem)/1.1 var(--serif);margin:1rem 0}
+.quiet-essays header>p:last-child{color:var(--quiet-muted);font-size:1rem}
+.quiet-essay-list{list-style:none;margin:2.5rem 0;padding:0}
+.quiet-essay-list li{border-top:1px solid var(--quiet-line)}
+.quiet-essay-list li:last-child{border-bottom:1px solid var(--quiet-line)}
+.quiet-essay-list h3{margin:0;font:400 clamp(1.8rem,3.5vw,3rem)/1.25 var(--serif)}
+.quiet-essay-list a{display:block;padding:1.8rem 0;text-decoration:none}
+.quiet-essay-list a:hover{text-decoration:underline;text-underline-offset:.15em}
+.quiet-essay-list a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
+
 .quiet-site .site-footer{min-height:190px}
 .quiet-site .site-footer>p{color:var(--quiet-muted)}
 
