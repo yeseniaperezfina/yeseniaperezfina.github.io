@@ -1,0 +1,59 @@
+/* Deep portfolio cleanup — September 2026
+   Final editorial layer after site.css / quiet.css / partnerships.css / visual-story.css. */
+
+.visual-story-ready :where(a,button):focus-visible{outline:3px solid color-mix(in srgb,currentColor 68%,#fff);outline-offset:4px;border-radius:4px}
+.visual-story-ready main p{text-wrap:pretty}.visual-story-ready :where(h1,h2,h3,blockquote){text-wrap:balance}
+.menu-button{min-width:44px;min-height:44px;align-items:center;justify-content:center}
+
+/* Preserve documentary photographs in partnership stories. */
+.hawaii-story .partnership-cover img,.iln-story .partnership-cover img{height:auto;min-height:0;max-height:860px;object-fit:contain}
+
+/* Reading sections stay editorial and light; mission palettes carry heroes, facts, diagrams and image breaks. */
+.storimap-case{--case-bg:#f2ece9;--case-ink:#281f2b;--case-accent:#985a91;--case-soft:#e9dfe8}
+.webb-case{--case-bg:#f4ece5;--case-ink:#291d19;--case-accent:#b75f3f;--case-soft:#eadbd3}
+.case-page .case-label span{border-color:currentColor}.case-page .contribution-grid{border-color:color-mix(in srgb,var(--case-accent) 34%,transparent)}
+.case-page .case-section,.case-page .case-reflection{background:var(--case-bg)}
+.case-page .case-narrative>p:not(.large-copy),.case-page .case-reflection>p{max-width:70ch}
+
+.storimap-hero .case-hero-shade{background:linear-gradient(90deg,rgba(10,5,13,.86),rgba(10,5,13,.28) 67%,rgba(10,5,13,.08)),linear-gradient(0deg,rgba(10,5,13,.72),transparent 60%)}
+.roman-hero .case-hero-shade{background:linear-gradient(90deg,rgba(15,18,42,.9),rgba(20,20,54,.36) 68%,rgba(12,15,35,.1)),linear-gradient(0deg,rgba(12,15,35,.64),transparent 60%)}
+.webb-hero .case-hero-shade{background:linear-gradient(90deg,rgba(24,11,8,.85),rgba(24,11,8,.24) 68%,rgba(16,7,6,.08)),linear-gradient(0deg,rgba(22,8,7,.68),transparent 58%)}
+.case-image-credit{position:absolute;z-index:3;left:max(32px,calc((100vw - 1240px)/2));bottom:1.35rem;max-width:min(54vw,720px);margin:0;color:rgba(255,255,255,.78);font-size:.66rem;line-height:1.45;text-shadow:0 1px 14px rgba(0,0,0,.55)}
+
+/* STORIMap keeps product evidence next to the science image. */
+.storimap-media-pair{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:1rem;margin:0 0 clamp(3rem,6vw,6rem)}
+.storimap-media-pair figure{margin:0;overflow:hidden;border-radius:22px;background:#0e0a12;box-shadow:0 20px 55px rgba(10,5,13,.22)}
+.storimap-media-pair img{width:100%;height:clamp(320px,38vw,560px);object-fit:cover;display:block}
+.storimap-media-pair figcaption{padding:.9rem 1rem 1rem;color:#d9cdd8;font-size:.76rem;line-height:1.55}.storimap-architecture .storimap-arc{margin-top:0}
+
+.roman-hero .case-hero-image img{object-position:center}.roman-case .roman-hardware-grid figure{border-radius:18px;overflow:hidden}.roman-case .roman-hardware-grid figcaption{padding-top:.7rem}
+.webb-hero .case-hero-image img{object-position:center 48%}.webb-image-break img{object-position:center}.webb-image-caption small{display:block;margin-top:.7rem;opacity:.78}
+
+/* ILN: civic energy and visible local practice. */
+.home-story .partnership-thumb,.work-story .partnership-thumb{position:relative;isolation:isolate;min-height:320px;overflow:hidden;background:linear-gradient(180deg,rgba(7,18,33,.12),rgba(7,18,33,.84)),url("https://universe-of-learning.org/files/live/sites/uol/files/home/resources/projects/informal-learning-network/_images/UoL-ILN-IntroAstronomy-Pinhead-1-2400x1200.jpg?t=tn370") center 54%/cover no-repeat;border-radius:20px;box-shadow:var(--vs-shadow-soft)}
+.home-story .partnership-thumb::after,.work-story .partnership-thumb::after{content:"";position:absolute;inset:0;z-index:-1;box-shadow:inset 0 0 0 1px rgba(255,255,255,.13);pointer-events:none}
+.home-story .partnership-thumb span,.work-story .partnership-thumb span{text-shadow:0 2px 18px rgba(0,0,0,.72)}
+.iln-field-figure{margin:clamp(2.5rem,5vw,5rem) auto}.iln-field-figure img{display:block;width:100%;max-height:760px;object-fit:cover;border-radius:24px;box-shadow:var(--vs-shadow-soft)}
+.iln-field-figure figcaption{max-width:68ch;margin-top:.8rem;color:#62737d;font-size:.78rem;line-height:1.6}
+.iln-map-frame{margin:clamp(2rem,5vw,4rem) 0;border-radius:22px;overflow:hidden;box-shadow:var(--vs-shadow-soft);background:#dbe8ef}.iln-map-frame iframe{display:block;width:100%;height:min(62vw,560px);min-height:360px;border:0}.iln-map-frame figcaption{padding:.8rem 1rem;color:#536873;font-size:.78rem}
+
+/* About: one large personal image widens the frame instead of decorating every paragraph. */
+.about-photo-interlude{width:var(--shell);margin:clamp(2.5rem,6vw,5rem) auto}.about-photo-interlude img{display:block;width:100%;max-height:760px;object-fit:cover;object-position:center 56%;border-radius:28px;box-shadow:var(--vs-shadow)}
+.about-photo-interlude figcaption{margin-top:.75rem;color:#756f66;font-size:.76rem;line-height:1.55}
+.about-story .quiet-now{max-width:1180px}
+
+/* Echo Jar stays editorial until the original series artwork is available. */
+.echo-series .series-glyph{width:34px;height:34px;display:grid;place-items:center;margin-bottom:auto;border:1px solid currentColor;border-radius:50%;font-size:0;opacity:.62}
+.echo-series .series-glyph::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:10px 0 0 -3px currentColor,-10px 0 0 -3px currentColor}.echo-series article:nth-child(2) .series-glyph::before{border-radius:0;transform:rotate(45deg)}
+
+/* Dark-section contrast corrections. */
+.home-story .quiet-feature:nth-child(4) p:not(.quiet-meta),.work-story .quiet-project:nth-child(6) p:not(.quiet-meta),.work-story .quiet-project:nth-child(7) p:not(.quiet-meta){color:#d9cdc6}
+.work-story .quiet-work-note .quiet-kicker,.work-story .quiet-work-note>div>p:last-child,.about-story .quiet-beliefs .quiet-kicker,.about-story .quiet-beliefs-copy p{color:#dce3dd}
+.about-story .quiet-beliefs-copy p{border-color:rgba(255,255,255,.24)}
+.storimap-case .storimap-principles p,.storimap-case .storimap-architecture p,.storimap-case .storimap-evaluation p,.webb-case .webb-system-section p,.webb-case .webb-evidence p,.webb-case .webb-impact p,.roman-case .roman-pathways p,.roman-case .roman-impact p,.roman-case .roman-mission-spread p{color:inherit}
+.footer-links{flex-wrap:wrap;row-gap:.65rem}.quiet-site,.case-page,.research-page,.echo-page{overflow-wrap:anywhere}
+
+@media(max-width:900px){.section-shell{width:min(100% - 36px,1240px)}.site-header{padding-inline:18px}.menu-button{display:inline-flex}.storimap-media-pair{grid-template-columns:1fr}.case-image-credit{left:18px;bottom:1rem;max-width:70vw}.site-footer{gap:1.25rem}}
+@media(max-width:640px){.section-shell{width:min(100% - 28px,1240px)}.quiet-proof{grid-template-columns:1fr}.quiet-proof span{border-right:0;border-bottom:1px solid var(--quiet-line,rgba(33,31,27,.18));min-height:auto;padding:1.2rem 0}.quiet-proof span:last-child{border-bottom:0}.quiet-capability-grid{grid-template-columns:1fr}.quiet-capability-grid article{border-right:0;border-top:1px solid var(--quiet-line,rgba(33,31,27,.18));padding:1.4rem 0}.facts-grid{grid-template-columns:1fr}.facts-grid div{border-left:0;border-right:0!important;border-bottom:1px solid rgba(255,255,255,.16)}.facts-grid div:last-child{border-bottom:0}.case-hero-copy{padding-bottom:14vh}.case-scroll{display:none}.case-image-credit{max-width:calc(100vw - 36px);font-size:.58rem}.site-footer{min-height:0;padding-block:2rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important}.reveal{opacity:1!important;transform:none!important;transition:none!important}.quiet-feature,.quiet-feature-image img,.case-hero-image img,.work-story .quiet-project,.work-story .quiet-project img,.echo-series article{transform:none!important;transition:none!important}}
+@media(forced-colors:active){.quiet-feature,.work-story .quiet-project,.echo-series article,.quiet-proof,.about-story .quiet-education{box-shadow:none;border:1px solid CanvasText}}

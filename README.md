@@ -1,210 +1,59 @@
 # yeseniaperezfina.github.io
 
-Portfolio site for **Yesenia Perez** — higher education & learning strategist working across NASA, higher education, museums, and public engagement.
+Public portfolio for **Yesenia Pérez**: program strategy, field building, science education, public engagement, higher education research, and writing.
 
-This repo powers the GitHub Pages site:
+Live site: https://yeseniaperezfina.github.io
 
-> **[https://yeseniaperezfina.github.io](https://yeseniaperezfina.github.io)**
+## Current portfolio
 
----
+The primary portfolio is a lightweight multi-page static site built with HTML, CSS, and vanilla JavaScript. The public navigation centers Home, Work, About, Research, and The Echo Jar, with dedicated case studies for Hawaiʻi, the Informal Learning Network, STORIMap, Roman Community Engagement, and Webb Community Events.
 
-## Concept & Experience Design
+The current design is intentionally one visual ecosystem with distinct project rooms: Hawaiʻi uses land and volcanic warmth; ILN uses civic/network blues and lived program imagery; Webb and STORIMap use infrared darkness, copper, magenta, and luminous structure; Roman uses deep indigo and cool spacecraft imagery; Research uses oxblood, paper, and garden green; About uses a quieter personal archive.
 
-### Narrative & Visual Intent
+## Front-end structure
 
-This site is a **single-page, editorial-style portfolio** — part botanical field journal, part systems-design dossier. It’s crafted for:
+- `assets/css/site.css` contains the established core layout and case-study system.
+- `assets/css/quiet.css` contains the quieter editorial layer used by Home, Work, About, Hawaiʻi, ILN, and Writing.
+- `assets/css/partnerships.css` contains documentary partnership layouts.
+- `assets/css/visual-story.css` contains page-specific color stories and image rhythm.
+- `assets/css/portfolio-cleanup.css` is the final QA layer for contrast, focus, mobile behavior, documentary image handling, and visual cleanup.
+- `assets/js/site.js` handles shared navigation, page identity classes, sticky-header state, reveal behavior, and reduced-motion fallbacks.
 
-* **Hiring managers and recruiters** who need fast, clear signals about scope, competencies, and leadership orientation.
-* **Strategy, systems, and learning design roles** that value coherent reasoning, evidence-awareness, and cross-sector fluency.
-* **Yesenia’s creative practice**: a blend of *Soft Physics*, science storytelling, and mythic/poetic undertones.
+No framework or build step is required.
 
-The visual system merges:
+## Primary pages
 
-* **Midnight Forest Atmosphere** — moss, bark, sand, and twilight gradients.
-* **Editorial serif-forward typography** — a quiet New Yorker / book-jacket influence.
-* **Organic motion** — pollen, fireflies, mycelium threads, canopy parallax.
-* **Calm Mode** — a simplified, reduced-motion palette for accessibility and contemplative reading.
+- `index.html`
+- `work.html`
+- `about.html`
+- `research.html`
+- `writing.html`
+- `case-study-hawaii.html`
+- `case-study-iln.html`
+- `case-study-storimap.html`
+- `case-study-roman.html`
+- `case-study-webb-community-events.html`
 
----
+Earlier immersive experiments remain in the repository for continuity, including `library.html`, `work-timeline.html`, `research-archive.html`, and `public-systems.html`, but they are not part of the primary navigation.
 
-## Information Architecture
+## Image and attribution policy
 
-The portfolio is intentionally **single-page**, divided into anchored sections optimized for scanning:
+Original photography remains © Yesenia Pérez unless another credit is stated. NASA, partner, and institutional imagery retains its source attribution and applicable usage terms. Mission imagery should be selected for narrative relevance rather than generic decoration, and credits should remain visible on the relevant page.
 
-1. **About (Hero)**
-   Role identity, practice positions (Strategist, Scholar, Creator, Navigator), and ecosystem placement.
+## Accessibility and QA
 
-2. **Trajectory**
-   Career timeline across museums, NASA, and higher education; signals of scale, complexity, and “what this demonstrates.”
+The public site should preserve one clear `h1` per page, semantic landmarks, descriptive alternative text, visible keyboard focus, a 44px mobile menu target, reduced-motion behavior, responsive layouts without horizontal scrolling, and readable contrast across dark project sections.
 
-3. **Signature Work**
-   Four case studies showing portfolio strategy, evaluation, research synthesis, storytelling, and multi-stakeholder coordination.
+## Deployment
 
-4. **How I Work**
-   Leadership stance, decision-making principles, and how teams tend to experience Yesenia.
+GitHub Pages deploys from `main`. A merge to `main` updates the live site automatically.
 
-5. **Capabilities & Tools**
-   “Constellation of practice” across strategy, research, communication, and domains — with an interactive mycelium/constellation network.
-
-6. **Writing & Story Work**
-   Highlights across *Soft Physics*, reflective practice at Harvard, and internal strategy briefs.
-
-7. **Contact / Next Orbit**
-   Future-facing roles and sectors Yesenia is exploring; clear CTAs.
-
----
-
-## Front-End Architecture
-
-This site is a **lightweight static SPA** built with **HTML + CSS + vanilla JS**, designed to be:
-
-* Audit-friendly
-* Dependency-free
-* Accessible
-* Easy to maintain on GitHub Pages
-
-### Directory Structure
-
-```text
-.
-├── index.html
-├── assets
-│   ├── css
-│   │   └── main.css
-│   ├── js
-│   │   └── main.js
-│   └── audio
-│       └── forest.mp3
-└── README.md
-```
-
-### `index.html`
-
-Semantic markup with:
-
-* `data-section` attributes for scroll-spy
-* Accessible navigation (`aria-current`)
-* Forest/Calm mode toggles with `aria-pressed`
-* Audio toggle for ambient forest sound
-* Section ornaments (leaves, botanical gradients, orbs)
-
-### `assets/css/main.css`
-
-A fully custom design system including:
-
-* **Design tokens** for color, spacing, typography, radii, shadow, and layout scale
-* **Editorial serif-forward headings** + clean system sans body copy
-* **Botanical gradients** and soft card treatments
-* **Forest/Calm mode styles**, with reduced-motion and quieter visuals in calm mode
-* **Grid + Stack layout primitives**
-* **Component styles**:
-
-  * `.card`, `.chip`, `.pill-link`, `.button`, `.tag-row`, `.metric-row`
-  * Header shell, navigation, forest overlays
-* **Accessible focus and reduced-motion support**
-
-### `assets/js/main.js`
-
-A refactored JS architecture with:
-
-* **Single `init()` orchestration** via `DOMContentLoaded`
-* Named `initX` modules:
-
-  * `initYearStamp()`
-  * `initModeToggle()` — Forest / Calm mode with persistence
-  * `initRoleChips()` — swaps out practice descriptions
-  * `initScrollSpy()` — updates nav & `aria-current="page"`
-  * `initRootProgress()` — scroll progress for the root-column
-  * `initForestParallax()` — canopy layers (auto-disabled in Calm mode)
-  * `initPollenAndFireflies()` — atmospheric particles (auto-disabled in Calm mode)
-  * `initForestNetwork()` — constellation/mycelium network
-  * `initForestAudioToggle()` — sound toggle with `aria-pressed`
-
-All animations gracefully quiet themselves in **Calm Mode** and/or when system `prefers-reduced-motion` is detected.
-
----
-
-## Interaction Design
-
-### 1. Forest / Calm Mode Toggle
-
-A top-right toggle that:
-
-* Switches between **immersive Midnight Forest** and **Quiet Editorial Calm**
-* Persists preference in `localStorage`
-* Reduces/eliminates motion in Calm mode
-* Simplifies gradients and lowers atmospheric density
-
-### 2. Scroll Spy + Section Reveal
-
-* Uses `IntersectionObserver` to:
-
-  * Highlight the active nav link
-  * Add `.section-visible` for soft fade-ins
-* Uses tuned thresholds for natural reading flow
-
-### 3. Role Chips
-
-* Four practice modes (Strategist, Scholar, Creator, Navigator)
-* Each click updates a compact narrative of that facet
-
-### 4. Atmospheric Layers
-
-* **Pollen + dust + fireflies** (canvas)
-* **Constellation / mycelium** network (canvas)
-* **Canopy parallax** layers
-
-All of these automatically quiet in **Calm Mode**.
-
-### 5. Accessible Audio Toggle
-
-* Ambient forest sound for atmospheric browsing
-* Fully keyboard-accessible
-* `aria-pressed` state + readable label updates (“Forest on/off”)
-
----
-
-## Performance & Accessibility Notes
-
-* Zero network dependencies → reliable on GitHub Pages
-* Dark-on-dark color testing for contrast
-* Reduced-motion support baked in
-* Semantic HTML with labeled navigation, landmarks, and ARIA states
-* All imagery/ornaments marked `aria-hidden="true"`
-
----
-
-## Running & Editing Locally
-
-Clone the repo:
+## Local review
 
 ```bash
 git clone https://github.com/yeseniaperezfina/yeseniaperezfina.github.io.git
 cd yeseniaperezfina.github.io
+python3 -m http.server 8000
 ```
 
-You can open `index.html` directly in your browser, or run a local server:
-
-```bash
-python3 -m http.server
-```
-
-Then visit:
-
-```text
-http://localhost:8000
-```
-
----
-
-## Deployment
-
-GitHub Pages is enabled on the `main` branch.
-Any commit to `main` automatically updates the live site.
-
----
-
-## License
-
-All content © **Yesenia Perez**.
-Codebase is shared for transparency and review; please request permission for reuse.
+Then open `http://localhost:8000` and review desktop and narrow mobile widths.
