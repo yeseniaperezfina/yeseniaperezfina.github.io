@@ -1,13 +1,14 @@
 /* Documentary case studies: photographs retain their full frame. */
 .partnership-hero{padding-top:clamp(8rem,13vw,12rem);padding-bottom:4rem}
 .partnership-hero h1{max-width:1100px;margin:0;font:400 clamp(3rem,7vw,7rem)/1.04 var(--serif);letter-spacing:-.035em;overflow-wrap:break-word}
-.partnership-hero>p:not(.quiet-kicker){max-width:780px;line-height:1.8}
+.partnership-hero>p:not(.quiet-kicker),.partnership-hero>div>p:not(.quiet-kicker){max-width:780px;line-height:1.8}
 .partnership-hero .partnership-lede{font:400 clamp(1.5rem,2.5vw,2.4rem)/1.35 var(--serif);margin:2rem 0}
 .partnership-hero>a{display:inline-block;margin-top:1rem}
 .partnership-cover{margin:0 auto;padding-block:1rem 4rem}
 .partnership-cover img{display:block;width:100%;height:auto;max-height:850px;object-fit:contain;background:#e4e2dc}
 .partnership-cover figcaption,.partnership-caption{font-size:.875rem;line-height:1.6;color:var(--quiet-muted)}
 .partnership-cover figcaption{margin-top:1rem}
+.partnership-cover-feature img{max-height:none;aspect-ratio:16/9;object-fit:cover}
 .partnership-portrait-frame{max-width:760px;padding-top:4rem}
 .partnership-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem;margin:0 auto;padding-block:2rem;border-block:1px solid var(--quiet-line)}
 .partnership-facts dt,.partnership-section>.quiet-kicker,.partnership-band .quiet-kicker,.partnership-film .quiet-kicker{font-size:.875rem}
@@ -37,4 +38,13 @@
 .partnership-thumb{display:flex;flex-direction:column;justify-content:center;gap:1rem;min-height:300px;padding:2rem;background:#172c34;color:#f5f0e7;text-align:center}
 .partnership-thumb span{font:400 clamp(1.7rem,3vw,2.6rem)/1.25 var(--serif)}
 .partnership-thumb .exchange-symbol{font-size:2.5rem}
-@media(max-width:800px){.partnership-section,.partnership-film-grid{grid-template-columns:1fr;gap:1.5rem}.partnership-facts{grid-template-columns:1fr;gap:1.5rem}.partnership-exchange,.partnership-journey{grid-template-columns:1fr}.partnership-hero h1{font-size:clamp(2.8rem,10vw,5rem)}.partnership-cover{padding-bottom:2rem}}
+
+/* A documentary contact sheet for field-based partnership stories. */
+.partnership-photo-story{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1rem,2.4vw,2rem);padding-block:clamp(4rem,8vw,7rem)}
+.partnership-photo-story figure{margin:0;display:flex;flex-direction:column;gap:.75rem}
+.partnership-photo-story img{display:block;width:100%;height:clamp(320px,42vw,620px);object-fit:cover;border-radius:22px;background:#dedbd2}
+.partnership-photo-story .partnership-photo-wide{grid-column:1/-1}
+.partnership-photo-story .partnership-photo-wide img{height:clamp(360px,56vw,760px);aspect-ratio:16/9}
+.partnership-photo-story figcaption{max-width:70ch;color:var(--quiet-muted);font-size:.82rem;line-height:1.6}
+
+@media(max-width:800px){.partnership-section,.partnership-film-grid{grid-template-columns:1fr;gap:1.5rem}.partnership-facts{grid-template-columns:1fr;gap:1.5rem}.partnership-exchange,.partnership-journey,.partnership-photo-story{grid-template-columns:1fr}.partnership-photo-story .partnership-photo-wide{grid-column:auto}.partnership-photo-story img,.partnership-photo-story .partnership-photo-wide img{height:auto;aspect-ratio:auto;max-height:720px;object-fit:contain}.partnership-hero h1{font-size:clamp(2.8rem,10vw,5rem)}.partnership-cover{padding-bottom:2rem}}
