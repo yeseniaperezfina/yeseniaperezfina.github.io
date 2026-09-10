@@ -1,4 +1,19 @@
 (() => {
+  /* Shared visual-story layer. Kept here so every page using the site shell
+     receives the same image/color system without duplicating stylesheet tags. */
+  if (!document.querySelector('link[href$="visual-story.css"]')) {
+    const visualStyles = document.createElement('link');
+    visualStyles.rel = 'stylesheet';
+    visualStyles.href = 'assets/css/visual-story.css';
+    document.head.appendChild(visualStyles);
+  }
+
+  const body = document.body;
+  if (document.querySelector('#film')) body?.classList.add('hawaii-story');
+  if (document.querySelector('.partnership-result')) body?.classList.add('iln-story');
+  if (document.querySelector('.quiet-about-hero')) body?.classList.add('about-story');
+  if (document.querySelector('.quiet-hero')) body?.classList.add('home-story');
+
   const header = document.querySelector('[data-header]');
   const menu = document.querySelector('.menu-button');
   const nav = document.querySelector('.site-nav');
