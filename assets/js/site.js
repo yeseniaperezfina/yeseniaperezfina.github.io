@@ -1,5 +1,6 @@
 (() => {
   /* Shared visual layers. The cleanup layer loads last so QA fixes win the cascade. */
+  const build = '20260909-deep-cleanup';
   ['assets/css/visual-story.css','assets/css/portfolio-cleanup.css'].forEach((href) => {
     const file = href.split('/').pop();
     const loaded = [...document.querySelectorAll('link[rel="stylesheet"]')]
@@ -7,7 +8,7 @@
     if (loaded) return;
     const layer = document.createElement('link');
     layer.rel = 'stylesheet';
-    layer.href = href;
+    layer.href = `${href}?v=${build}`;
     layer.dataset.portfolioLayer = 'true';
     document.head.appendChild(layer);
   });
