@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Earlier immersive experiments remain directly accessible but are not part of the primary portfolio crawl path.
+Disallow: /library.html
+Disallow: /work-timeline.html
+Disallow: /research-archive.html
+Disallow: /public-systems.html
+
+Sitemap: https://yeseniaperezfina.github.io/sitemap.xml
