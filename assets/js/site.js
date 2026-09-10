@@ -1,18 +1,34 @@
 (() => {
-  /* Shared visual-story layer. Kept here so every page using the site shell
-     receives the same image/color system without duplicating stylesheet tags. */
-  if (!document.querySelector('link[href$="visual-story.css"]')) {
-    const visualStyles = document.createElement('link');
-    visualStyles.rel = 'stylesheet';
-    visualStyles.href = 'assets/css/visual-story.css';
-    document.head.appendChild(visualStyles);
+  /* Load the shared visual-story layer on every modern portfolio page. */
+  const visualStoryHref = 'assets/css/visual-story.css';
+  const hasVisualStory = [...document.querySelectorAll('link[rel="stylesheet"]')]
+    .some((link) => link.getAttribute('href')?.endsWith('visual-story.css'));
+
+  if (!hasVisualStory) {
+    const visualStory = document.createElement('link');
+    visualStory.rel = 'stylesheet';
+    visualStory.href = visualStoryHref;
+    visualStory.dataset.visualStory = 'true';
+    document.head.appendChild(visualStory);
   }
 
-  const body = document.body;
-  if (document.querySelector('#film')) body?.classList.add('hawaii-story');
-  if (document.querySelector('.partnership-result')) body?.classList.add('iln-story');
-  if (document.querySelector('.quiet-about-hero')) body?.classList.add('about-story');
-  if (document.querySelector('.quiet-hero')) body?.classList.add('home-story');
+  const page = window.location.pathname.split('/').filter(Boolean).pop() || 'index.html';
+  const pageStoryClasses = {
+    'index.html': ['home-story'],
+    'work.html': ['work-story'],
+    'about.html': ['about-story'],
+    'research.html': ['research-story'],
+    'research-archive.html': ['research-story'],
+    'writing.html': ['echo-story'],
+    'case-study-hawaii.html': ['hawaii-story'],
+    'case-study-iln.html': ['iln-story'],
+    'case-study-storimap.html': ['storimap-story'],
+    'case-study-roman.html': ['roman-story'],
+    'case-study-webb-community-events.html': ['webb-story']
+  };
+
+  document.body?.classList.add('visual-story-ready');
+  pageStoryClasses[page]?.forEach((className) => document.body?.classList.add(className));
 
   const header = document.querySelector('[data-header]');
   const menu = document.querySelector('.menu-button');
