@@ -31,9 +31,7 @@
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') {
-      closeMenu(true);
-    }
+    if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') closeMenu(true);
   });
 
   document.addEventListener('click', (event) => {
@@ -53,7 +51,6 @@
         revealObserver.unobserve(entry.target);
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
-
     reveals.forEach((element) => revealObserver.observe(element));
   }
 
@@ -93,6 +90,7 @@
       const active = link.getAttribute('href') === `#${id}`;
       if (active) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
+      link.style.color = active ? 'var(--case-accent)' : '';
     });
   };
 
@@ -103,9 +101,21 @@
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (visible?.target?.id) setActiveChapter(visible.target.id);
     }, { rootMargin: '-24% 0px -58% 0px', threshold: [0, 0.05, 0.2, 0.5] });
-
     grammarSections.forEach((section) => chapterObserver.observe(section));
   }
+
+  document.querySelectorAll('.case-map-frame iframe').forEach((frame) => {
+    frame.style.width = '100%';
+    frame.style.height = 'min(62vw, 560px)';
+    frame.style.minHeight = '360px';
+    frame.style.border = '0';
+    frame.style.display = 'block';
+  });
+
+  document.querySelectorAll('.case-system-grid h3 span').forEach((span) => {
+    span.style.font = 'inherit';
+    span.style.color = 'inherit';
+  });
 
   const anchorLinks = [...document.querySelectorAll('a[href^="#"]')];
   anchorLinks.forEach((link) => {
