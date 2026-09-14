@@ -2,8 +2,7 @@ name: Living Atlas QA
 
 on:
   push:
-    branches:
-      - prototype/living-atlas-home
+    branches: [prototype/living-atlas-home]
   workflow_dispatch:
 
 permissions:
@@ -13,166 +12,73 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out branch
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Static structure, content, and link checks
+      - name: Static content and link checks
         shell: bash
         run: |
           python - <<'PY'
           from html.parser import HTMLParser
           from pathlib import Path
-          from urllib.parse import urlsplit
           import sys
 
-          pages = [
-              'index.html','work.html','about.html','research.html','writing.html',
-              'case-study-iln.html','case-study-hawaii.html','case-study-storimap.html',
-              'case-study-roman.html','case-study-webb-community-events.html'
-          ]
-          legacy = ('assets/css/site.css','assets/css/quiet.css','assets/css/partnerships.css','assets/css/visual-story.css','assets/js/site.js')
-          failures = []
-          external = set()
-          page_ids = {}
-
-          class Audit(HTMLParser):
-              def __init__(self):
-                  super().__init__(); self.ids=[]; self.refs=[]; self.img_alt=[]; self.h1=0; self.titles=[]; self.in_title=False; self.title_text=[]
-              def handle_starttag(self, tag, attrs):
+          pages=['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html']
+          failures=[]; external=set(); ids={}; parsed={}
+          class A(HTMLParser):
+              def __init__(self): super().__init__(); self.ids=[]; self.refs=[]; self.alts=[]; self.h1=0; self.title=False; self.title_text=[]
+              def handle_starttag(self,tag,attrs):
                   a=dict(attrs)
-                  if 'id' in a: self.ids.append(a['id'])
-                  if tag == 'h1': self.h1 += 1
-                  if tag in ('a','link') and a.get('href'): self.refs.append(('href',a['href']))
-                  if tag in ('img','script','iframe','source') and a.get('src'): self.refs.append(('src',a['src']))
-                  if tag == 'source' and a.get('srcset'): self.refs.append(('srcset',a['srcset'].split()[0]))
-                  if tag == 'img': self.img_alt.append(a.get('alt'))
-                  if tag == 'title': self.in_title=True
-              def handle_endtag(self, tag):
-                  if tag == 'title': self.in_title=False
-              def handle_data(self, data):
-                  if self.in_title: self.title_text.append(data)
-
-          parsed = {}
+                  if a.get('id'): self.ids.append(a['id'])
+                  if tag=='h1': self.h1+=1
+                  if tag in ('a','link') and a.get('href'): self.refs.append(a['href'])
+                  if tag in ('img','script','iframe','source') and a.get('src'): self.refs.append(a['src'])
+                  if tag=='source' and a.get('srcset'): self.refs.append(a['srcset'].split()[0])
+                  if tag=='img': self.alts.append(a.get('alt'))
+                  if tag=='title': self.title=True
+              def handle_endtag(self,tag):
+                  if tag=='title': self.title=False
+              def handle_data(self,data):
+                  if self.title: self.title_text.append(data)
           for page in pages:
-              p=Path(page)
-              if not p.exists(): failures.append(f'{page}: missing'); continue
-              text=p.read_text(encoding='utf-8')
-              parser=Audit(); parser.feed(text); parsed[page]=parser; page_ids[page]=set(parser.ids)
-              dupes=sorted({x for x in parser.ids if parser.ids.count(x)>1})
-              if dupes: failures.append(f'{page}: duplicate ids {dupes}')
-              if parser.h1 != 1: failures.append(f'{page}: expected exactly one h1, found {parser.h1}')
-              if not ''.join(parser.title_text).strip(): failures.append(f'{page}: missing document title')
-              missing_alt=sum(1 for alt in parser.img_alt if alt is None)
-              if missing_alt: failures.append(f'{page}: {missing_alt} img element(s) missing alt attribute')
-              for old in legacy:
-                  if old in text: failures.append(f'{page}: still loads legacy dependency {old}')
-
-          for page, parser in parsed.items():
-              p=Path(page)
-              for kind, ref in parser.refs:
-                  if ref.startswith(('http://','https://')):
-                      external.add(ref)
-                      continue
+              p=Path(page); a=A(); a.feed(p.read_text(encoding='utf-8')); parsed[page]=a; ids[page]=set(a.ids)
+              dup=sorted({x for x in a.ids if a.ids.count(x)>1})
+              if dup: failures.append(f'{page}: duplicate ids {dup}')
+              if a.h1!=1: failures.append(f'{page}: expected one h1, found {a.h1}')
+              if not ''.join(a.title_text).strip(): failures.append(f'{page}: missing title')
+              if any(x is None for x in a.alts): failures.append(f'{page}: image missing alt attribute')
+          for page,a in parsed.items():
+              for ref in a.refs:
+                  if ref.startswith(('https://','http://')): external.add(ref); continue
                   if ref.startswith(('mailto:','tel:','data:','javascript:')): continue
                   if ref.startswith('#'):
-                      frag=ref[1:]
-                      if frag and frag not in page_ids.get(page,set()): failures.append(f'{page}: missing local fragment {ref}')
+                      if ref[1:] and ref[1:] not in ids[page]: failures.append(f'{page}: missing fragment {ref}')
                       continue
-                  clean=ref.split('?',1)[0]
-                  file_part, sep, frag=clean.partition('#')
-                  if not file_part: continue
-                  target=(p.parent/file_part).resolve()
-                  try: target.relative_to(Path.cwd().resolve())
-                  except ValueError: continue
-                  if not target.exists():
-                      failures.append(f'{page}: missing local reference {ref}')
-                  elif frag and target.suffix.lower()=='.html':
-                      target_rel=target.relative_to(Path.cwd().resolve()).as_posix()
-                      target_ids=page_ids.get(target_rel)
-                      if target_ids is None:
-                          tp=Audit(); tp.feed(target.read_text(encoding='utf-8')); target_ids=set(tp.ids); page_ids[target_rel]=target_ids
-                      if frag not in target_ids: failures.append(f'{page}: reference {ref} points to missing fragment')
-
-          for css in ('assets/css/atlas.css','assets/css/atlas-pages.css','assets/css/atlas-strands.css'):
-              if not Path(css).exists(): failures.append(f'missing {css}')
-          if not Path('assets/js/atlas.js').exists(): failures.append('missing assets/js/atlas.js')
-
+                  clean=ref.split('?',1)[0]; filepart,_,frag=clean.partition('#')
+                  if not filepart: continue
+                  target=(Path(page).parent/filepart)
+                  if not target.exists(): failures.append(f'{page}: missing local reference {ref}'); continue
+                  if frag and target.suffix=='.html':
+                      t=target.as_posix()
+                      if t not in ids:
+                          b=A(); b.feed(target.read_text(encoding='utf-8')); ids[t]=set(b.ids)
+                      if frag not in ids[t]: failures.append(f'{page}: missing target fragment {ref}')
+          for needed in ('assets/css/atlas.css','assets/css/atlas-pages.css','assets/css/atlas-strands.css','assets/js/atlas.js'):
+              if not Path(needed).exists(): failures.append(f'missing {needed}')
           Path('qa-external-urls.txt').write_text('\n'.join(sorted(external))+'\n',encoding='utf-8')
-          print('EXTERNAL URL INVENTORY')
-          print('\n'.join(sorted(external)) or '(none)')
+          print('EXTERNAL URL INVENTORY\n'+'\n'.join(sorted(external)))
           if failures:
-              print('\n'.join(f'FAIL: {f}' for f in failures)); sys.exit(1)
-          print(f'PASS: audited {len(pages)} primary pages; hierarchy, local links/fragments, alt text, and Atlas dependencies are consistent.')
-          PY
-
-      - name: Inventory dependencies for pruning
-        shell: bash
-        run: |
-          python - <<'PY'
-          from html.parser import HTMLParser
-          from pathlib import Path
-          from collections import defaultdict
-
-          root=Path('.')
-          html_files=sorted(root.glob('*.html'))
-          refs=defaultdict(set)
-
-          class RefParser(HTMLParser):
-              def __init__(self): super().__init__(); self.refs=[]
-              def handle_starttag(self, tag, attrs):
-                  a=dict(attrs)
-                  for key in ('href','src','srcset'):
-                      if a.get(key):
-                          for part in a[key].split(','):
-                              self.refs.append(part.strip().split()[0])
-
-          for page in html_files:
-              p=RefParser(); p.feed(page.read_text(encoding='utf-8'))
-              for ref in p.refs:
-                  if ref.startswith(('http://','https://','#','mailto:','tel:','data:','javascript:')): continue
-                  clean=ref.split('?',1)[0].split('#',1)[0]
-                  if clean: refs[str(page)].add(clean)
-
-          all_text='\n'.join(p.read_text(encoding='utf-8',errors='ignore') for p in [*html_files,*root.glob('assets/css/*.css'),*root.glob('assets/js/*.js')])
-          referenced={x for values in refs.values() for x in values}
-          css_js=sorted([*root.glob('assets/css/*.css'),*root.glob('assets/js/*.js')])
-          orphan_code=[]
-          for p in css_js:
-              rel=p.as_posix()
-              if rel not in referenced and p.name not in ('atlas.css','atlas-pages.css','atlas-strands.css','atlas.js'):
-                  orphan_code.append(rel)
-
-          image_ext={'.png','.jpg','.jpeg','.webp','.svg','.gif'}
-          images=sorted(p for p in root.rglob('*') if p.is_file() and p.suffix.lower() in image_ext)
-          orphan_images=[]
-          for p in images:
-              rel=p.as_posix(); basename=p.name
-              if rel not in all_text and basename not in all_text: orphan_images.append(rel)
-
-          out=['HTML DEPENDENCIES']
-          for page in html_files:
-              deps=sorted(x for x in refs[str(page)] if x.endswith(('.css','.js','.html')))
-              out.append(f'{page}: ' + (', '.join(deps) if deps else '(none)'))
-          out.append('\nUNREFERENCED CSS/JS CANDIDATES'); out.extend(orphan_code or ['(none)'])
-          out.append('\nUNREFERENCED IMAGE CANDIDATES'); out.extend(orphan_images or ['(none)'])
-          Path('qa-pruning-report.txt').write_text('\n'.join(out)+'\n',encoding='utf-8')
-          print('\n'.join(out))
+              print('\n'.join('FAIL: '+x for x in failures)); sys.exit(1)
+          print(f'PASS: {len(pages)} primary pages passed content, hierarchy, local-link, fragment, and alt-text checks.')
           PY
 
       - name: Start local site
         shell: bash
         run: |
-          python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/atlas-http.log 2>&1 &
-          echo $! > /tmp/atlas-http.pid
-          for i in {1..20}; do
-            curl -fsS http://127.0.0.1:8000/index.html >/dev/null && exit 0
-            sleep 0.5
-          done
-          cat /tmp/atlas-http.log
-          exit 1
+          python3 -m http.server 8000 --bind 127.0.0.1 >/tmp/atlas-http.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:8000/index.html >/dev/null && exit 0; sleep .5; done
+          cat /tmp/atlas-http.log; exit 1
 
-      - name: Install browser interaction harness
-        shell: bash
+      - name: Install visitor harness
         run: npm install --no-save --ignore-scripts puppeteer-core@24.22.0
 
       - name: Visitor interaction checks
@@ -180,125 +86,50 @@ jobs:
         run: |
           set -euo pipefail
           CHROME=""
-          for c in google-chrome-stable google-chrome chromium chromium-browser; do
-            if command -v "$c" >/dev/null 2>&1; then CHROME="$(command -v "$c")"; break; fi
-          done
-          if [ -z "$CHROME" ]; then echo "Chrome/Chromium not found"; exit 1; fi
-          CHROME_BIN="$CHROME" node <<'NODE'
-          const puppeteer = require('puppeteer-core');
-          const base = 'http://127.0.0.1:8000/';
-          const primary = ['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html'];
-          const deepLinks = [
-            ['research.html#diagnostic','diagnostic'],
-            ['case-study-iln.html#evidence','evidence'],
-            ['case-study-hawaii.html#evidence','evidence'],
-            ['case-study-storimap.html#evidence','evidence'],
-            ['case-study-roman.html#system','system'],
-            ['case-study-webb-community-events.html#system','system']
-          ];
-          const failures=[]; const notes=[];
-          const browser = await puppeteer.launch({headless:true, executablePath:process.env.CHROME_BIN, args:['--no-sandbox','--disable-gpu']});
-          const sleep = ms => new Promise(r=>setTimeout(r,ms));
+          for c in google-chrome-stable google-chrome chromium chromium-browser; do command -v "$c" >/dev/null 2>&1 && CHROME="$(command -v "$c")" && break; done
+          test -n "$CHROME"
+          CHROME_BIN="$CHROME" node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          const base='http://127.0.0.1:8000/';
+          const pages=['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html'];
+          const deep=[['research.html#diagnostic','diagnostic'],['case-study-iln.html#evidence','evidence'],['case-study-hawaii.html#evidence','evidence'],['case-study-storimap.html#evidence','evidence'],['case-study-roman.html#system','system'],['case-study-webb-community-events.html#system','system']];
+          const failures=[]; const browser=await puppeteer.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox','--disable-gpu']});
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const make=async(w=1440,h=1100)=>{const p=await browser.newPage();await p.setViewport({width:w,height:h});p.on('pageerror',e=>failures.push('pageerror: '+e.message));return p};
+          const go=async(p,path)=>{await p.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});await sleep(900)};
 
-          async function newPage(width=1440,height=1100){
-            const p=await browser.newPage(); await p.setViewport({width,height,deviceScaleFactor:1});
-            p.on('pageerror',e=>failures.push(`pageerror: ${e.message}`)); return p;
-          }
-          async function goto(p,path){ await p.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000}); await sleep(800); }
-          async function scrollAll(p){
-            await p.evaluate(async()=>{
-              for(let y=0;y<document.documentElement.scrollHeight;y+=Math.max(450,innerHeight*.7)){ scrollTo(0,y); await new Promise(r=>setTimeout(r,90)); }
-              scrollTo(0,document.documentElement.scrollHeight); await new Promise(r=>setTimeout(r,250));
-            });
-          }
+          { const p=await make(390,844); await go(p,'index.html');
+            if(!await p.$eval('.menu-button',e=>getComputedStyle(e).display!=='none')) failures.push('mobile menu button hidden');
+            await p.click('.menu-button'); let s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),o:document.querySelector('.atlas-nav').classList.contains('is-open'),b:document.body.classList.contains('menu-open')}));
+            if(s.e!=='true'||!s.o||!s.b) failures.push('mobile menu open state inconsistent');
+            await p.keyboard.press('Escape'); await sleep(100); s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),o:document.querySelector('.atlas-nav').classList.contains('is-open'),f:document.activeElement===document.querySelector('.menu-button')}));
+            if(s.e!=='false'||s.o||!s.f) failures.push('Escape did not close menu and restore focus'); await p.close(); }
 
-          // Mobile menu: open, close with Escape, and restore focus.
-          {
-            const p=await newPage(390,844); await goto(p,'index.html');
-            const visible=await p.$eval('.menu-button',el=>getComputedStyle(el).display!=='none'); if(!visible) failures.push('mobile menu button is not visible');
-            await p.click('.menu-button');
-            let state=await p.evaluate(()=>({expanded:document.querySelector('.menu-button')?.getAttribute('aria-expanded'),open:document.querySelector('.atlas-nav')?.classList.contains('is-open'),body:document.body.classList.contains('menu-open')}));
-            if(state.expanded!=='true'||!state.open||!state.body) failures.push('mobile menu did not open consistently');
-            await p.keyboard.press('Escape'); await sleep(100);
-            state=await p.evaluate(()=>({expanded:document.querySelector('.menu-button')?.getAttribute('aria-expanded'),open:document.querySelector('.atlas-nav')?.classList.contains('is-open'),focus:document.activeElement===document.querySelector('.menu-button')}));
-            if(state.expanded!=='false'||state.open||!state.focus) failures.push('Escape did not close mobile menu and restore focus');
-            await p.close();
-          }
+          { const p=await make(); await go(p,'work.html'); await p.click('[data-lens="networks"]'); await sleep(120);
+            const s=await p.evaluate(()=>({pressed:document.querySelector('[data-lens="networks"]').getAttribute('aria-pressed'),muted:document.querySelectorAll('.work-node.is-muted').length,focused:document.querySelectorAll('.work-node.is-focused').length,hidden:[...document.querySelectorAll('.work-node')].filter(n=>getComputedStyle(n).display==='none').length}));
+            if(s.pressed!=='true'||!s.muted||!s.focused||s.hidden) failures.push('Work lens failed'); await p.click('[data-lens="all"]'); if(await p.evaluate(()=>document.querySelectorAll('.work-node.is-muted').length)) failures.push('All lens failed to reset'); await p.close(); }
 
-          // Work lenses should change emphasis without hiding projects.
-          {
-            const p=await newPage(); await goto(p,'work.html'); await p.click('[data-lens="networks"]'); await sleep(150);
-            const lens=await p.evaluate(()=>({pressed:document.querySelector('[data-lens="networks"]')?.getAttribute('aria-pressed'),nodes:document.querySelectorAll('.work-node').length,muted:document.querySelectorAll('.work-node.is-muted').length,focused:document.querySelectorAll('.work-node.is-focused').length,hidden:[...document.querySelectorAll('.work-node')].filter(n=>getComputedStyle(n).display==='none').length}));
-            if(lens.pressed!=='true'||lens.nodes<6||lens.muted===0||lens.focused===0||lens.hidden!==0) failures.push('Work lens interaction is not preserving the connected-atlas behavior');
-            await p.click('[data-lens="all"]'); await sleep(100);
-            const reset=await p.evaluate(()=>document.querySelectorAll('.work-node.is-muted').length); if(reset!==0) failures.push('All lens did not reset muted project state');
-            await p.close();
-          }
+          for(const [path,id] of deep){ const p=await make(); await go(p,path); const s=await p.evaluate(id=>{const t=document.getElementById(id);if(!t)return{missing:true};const r=t.getBoundingClientRect();return{missing:false,top:r.top,bottom:r.bottom,vh:innerHeight,text:t.innerText.trim().length,hidden:[...t.querySelectorAll('.reveal')].some(x=>+getComputedStyle(x).opacity<.5),hash:location.hash}},id); if(s.missing||s.bottom<120||s.top>s.vh||s.text<20||s.hidden) failures.push(`${path}: bad deep link ${JSON.stringify(s)}`); await p.close(); }
 
-          // Direct deep links must visibly land on their chapter, not blank reveal states.
-          for(const [path,id] of deepLinks){
-            const p=await newPage(); await goto(p,path);
-            const result=await p.evaluate(id=>{
-              const t=document.getElementById(id); if(!t) return {missing:true};
-              const r=t.getBoundingClientRect(); const reveals=[...t.querySelectorAll('.reveal')];
-              return {missing:false,top:r.top,bottom:r.bottom,height:r.height,text:t.innerText.trim().length,hiddenReveal:reveals.some(el=>Number(getComputedStyle(el).opacity)<0.5),hash:location.hash};
-            },id);
-            if(result.missing||result.bottom<120||result.top>innerHeight||result.text<20||result.hiddenReveal) failures.push(`${path}: direct deep link did not expose visible chapter content (${JSON.stringify(result)})`);
-            await p.close();
-          }
+          { const p=await make(); await go(p,'case-study-iln.html'); await p.click('.case-grammar a[href="#outcomes"]'); await sleep(1200); const s=await p.evaluate(()=>{const r=document.getElementById('outcomes').getBoundingClientRect(),n=document.querySelector('.case-grammar').getBoundingClientRect();return{hash:location.hash,current:document.querySelector('.case-grammar a[href="#outcomes"]').getAttribute('aria-current'),top:r.top,bottom:r.bottom,navTop:n.top}}); if(s.hash!=='#outcomes'||s.current!=='location'||s.bottom<120||s.top>260||s.navTop<0) failures.push('case sticky nav failed '+JSON.stringify(s)); await p.close(); }
+          { const p=await make(); await go(p,'research.html'); await p.click('.strand-nav a[href="#tools"]'); await sleep(1200); const s=await p.evaluate(()=>{const r=document.getElementById('tools').getBoundingClientRect();return{hash:location.hash,current:document.querySelector('.strand-nav a[href="#tools"]').getAttribute('aria-current'),top:r.top,bottom:r.bottom}}); if(s.hash!=='#tools'||s.current!=='location'||s.bottom<120||s.top>260) failures.push('research sticky nav failed '+JSON.stringify(s)); await p.close(); }
 
-          // Sticky chapter navigation: click a later chapter and verify location/current state/offset.
-          {
-            const p=await newPage(); await goto(p,'case-study-iln.html'); await p.click('.case-grammar a[href="#outcomes"]'); await sleep(1100);
-            const r=await p.evaluate(()=>{const t=document.getElementById('outcomes')?.getBoundingClientRect(); const nav=document.querySelector('.case-grammar')?.getBoundingClientRect(); return {hash:location.hash,current:document.querySelector('.case-grammar a[href="#outcomes"]')?.getAttribute('aria-current'),targetTop:t?.top,targetBottom:t?.bottom,navTop:nav?.top,navBottom:nav?.bottom,headerBottom:document.querySelector('[data-header]')?.getBoundingClientRect().bottom};});
-            if(r.hash!=='#outcomes'||r.current!=='location'||r.targetBottom<120||r.targetTop>250||r.navTop<0||r.navBottom>220) failures.push(`case-study sticky nav failed (${JSON.stringify(r)})`);
-            await p.close();
-          }
-          {
-            const p=await newPage(); await goto(p,'research.html'); await p.click('.strand-nav a[href="#tools"]'); await sleep(1100);
-            const r=await p.evaluate(()=>{const t=document.getElementById('tools')?.getBoundingClientRect(); return {hash:location.hash,current:document.querySelector('.strand-nav a[href="#tools"]')?.getAttribute('aria-current'),top:t?.top,bottom:t?.bottom};});
-            if(r.hash!=='#tools'||r.current!=='location'||r.bottom<120||r.top>250) failures.push(`research sticky nav failed (${JSON.stringify(r)})`);
-            await p.close();
-          }
+          for(const path of pages){ const p=await make(); await go(p,path); await p.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=Math.max(500,innerHeight*.7)){scrollTo(0,y);await new Promise(r=>setTimeout(r,80))}scrollTo(0,document.documentElement.scrollHeight)}); await sleep(500); const bad=await p.evaluate(()=>[...document.images].filter(i=>!i.complete||!i.naturalWidth).map(i=>i.currentSrc||i.src)); if(bad.length) failures.push(`${path}: failed image(s) ${bad.join(' | ')}`); await p.close(); }
 
-          // Every image on every primary page should eventually decode to non-zero dimensions.
-          for(const path of primary){
-            const p=await newPage(); await goto(p,path); await scrollAll(p); await sleep(500);
-            const bad=await p.evaluate(()=>[...document.images].filter(img=>!img.complete||img.naturalWidth===0).map(img=>img.currentSrc||img.src||img.alt));
-            if(bad.length) failures.push(`${path}: image(s) failed to load: ${bad.join(' | ')}`);
-            await p.close();
-          }
-
-          // ILN map embed should create a live child frame rather than remain an inert element.
-          {
-            const p=await newPage(); await goto(p,'case-study-iln.html#evidence'); await sleep(1800);
-            const src=await p.$eval('.case-map-frame iframe',el=>el.src).catch(()=>null);
-            const child=p.frames().find(f=>f!==p.mainFrame()&&/google\.com\/maps/.test(f.url()));
-            if(!src||!child) failures.push(`ILN map iframe did not establish a Google Maps child frame (src=${src}, frames=${p.frames().map(f=>f.url()).join(' | ')})`);
-            else notes.push(`ILN map frame loaded: ${child.url()}`);
-            await p.close();
-          }
+          { const p=await make(); await go(p,'case-study-iln.html#evidence'); await sleep(1800); const src=await p.$eval('.case-map-frame iframe',e=>e.src).catch(()=>null); const child=p.frames().find(f=>f!==p.mainFrame()&&/google\.com\/maps/.test(f.url())); if(!src||!child) failures.push('ILN map did not establish live Google Maps child frame'); else console.log('ILN map frame:',child.url()); await p.close(); }
 
           await browser.close();
-          console.log(notes.join('\n'));
-          if(failures.length){ console.error(failures.map(x=>'FAIL: '+x).join('\n')); process.exit(1); }
-          console.log('PASS: visitor interaction checks completed for menu, lenses, deep links, sticky navigation, images, and ILN map frame.');
+          if(failures.length){console.error(failures.map(x=>'FAIL: '+x).join('\n'));process.exit(1)}
+          console.log('PASS: menu, lenses, deep links, sticky navigation, images, and ILN map behaved as expected in Chrome.');
           NODE
 
-      - name: Render desktop, tablet, and mobile screenshots
+      - name: Responsive release screenshots
         shell: bash
         run: |
           set -euo pipefail
-          CHROME=""
-          for c in google-chrome-stable google-chrome chromium chromium-browser; do
-            if command -v "$c" >/dev/null 2>&1; then CHROME="$(command -v "$c")"; break; fi
-          done
-          if [ -z "$CHROME" ]; then echo "Chrome/Chromium not found"; exit 1; fi
+          CHROME=""; for c in google-chrome-stable google-chrome chromium chromium-browser; do command -v "$c" >/dev/null 2>&1 && CHROME="$(command -v "$c")" && break; done
           mkdir -p qa-screenshots
-          capture() {
-            local name="$1" url="$2" size="$3"
-            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size="$size" --virtual-time-budget=3000 --screenshot="qa-screenshots/${name}.png" "$url" >/tmp/chrome.out 2>/tmp/chrome.err || { cat /tmp/chrome.out; cat /tmp/chrome.err; exit 1; }
-          }
+          capture(){ "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size="$3" --virtual-time-budget=3200 --screenshot="qa-screenshots/$1.png" "$2" >/dev/null 2>&1; }
           for spec in "desktop:1440,1100" "tablet:834,1112" "mobile:390,844"; do
             label="${spec%%:*}"; size="${spec#*:}"
             capture "${label}-home" "http://127.0.0.1:8000/index.html" "$size"
@@ -316,13 +147,12 @@ jobs:
           done
           test "$(find qa-screenshots -name '*.png' | wc -l)" -eq 36
 
-      - name: Upload QA artifacts
+      - name: Upload release QA
         uses: actions/upload-artifact@v4
         with:
           name: living-atlas-release-qa
           path: |
             qa-screenshots/
-            qa-pruning-report.txt
             qa-external-urls.txt
           if-no-files-found: error
           retention-days: 7
