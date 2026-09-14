@@ -116,7 +116,8 @@
     const headerHeight = header?.getBoundingClientRect().height || 0;
     const secondaryHeight = activeSecondaryNav()?.getBoundingClientRect().height || 0;
     const offset = headerHeight + secondaryHeight + 16;
-    return Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset);
+    const documentTop = window.scrollY + target.getBoundingClientRect().top;
+    return Math.max(0, documentTop - offset);
   };
 
   const scrollToTarget = (target, behavior = 'smooth') => {
@@ -127,7 +128,7 @@
     const root = document.documentElement;
     const previous = root.style.scrollBehavior;
     root.style.scrollBehavior = 'auto';
-    window.scrollTo(0, targetTop(target));
+    window.scrollTo({ top: targetTop(target), behavior: 'auto' });
     requestAnimationFrame(() => { root.style.scrollBehavior = previous; });
   };
 
@@ -135,6 +136,15 @@
     if (!target?.id) return;
     caseTracker.setActive(target.id);
     strandTracker.setActive(target.id);
+  };
+
+  const targetFromHash = () => {
+    if (!window.location.hash || window.location.hash === '#') return null;
+    try {
+      return document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+    } catch {
+      return null;
+    }
   };
 
   document.querySelectorAll('.case-map-frame iframe').forEach((frame) => {
@@ -167,14 +177,35 @@
   });
 
   const restoreDeepLink = () => {
-    if (!window.location.hash || window.location.hash === '#') return;
-    const target = document.querySelector(window.location.hash);
+    const target = targetFromHash();
     if (!target) return;
     revealTarget(target);
     syncTrackedNav(target);
-    requestAnimationFrame(() => requestAnimationFrame(() => jumpToTarget(target)));
+    jumpToTarget(target);
   };
 
-  if (document.readyState === 'complete') restoreDeepLink();
-  else window.addEventListener('load', restoreDeepLink, { once: true });
+  // Defer scripts execute after the document is parsed, so reveal a hash target
+  // immediately before the browser can leave a direct visitor on hidden content.
+  restoreDeepLink();
+
+  // Re-run after layout-affecting resources settle. A second correction makes
+  // fragment placement deterministic even when fonts or remote media change height.
+  window.addEventListener('load', () => {
+    const target = targetFromHash();
+    if (!target) return;
+    revealTarget(target);
+    syncTrackedNav(target);
+    requestAnimationFrame(() => {
+      jumpToTarget(target);
+      window.setTimeout(() => jumpToTarget(target), 120);
+    });
+  }, { once: true });
+
+  window.addEventListener('hashchange', () => {
+    const target = targetFromHash();
+    if (!target) return;
+    revealTarget(target);
+    syncTrackedNav(target);
+    jumpToTarget(target);
+  });
 })();
