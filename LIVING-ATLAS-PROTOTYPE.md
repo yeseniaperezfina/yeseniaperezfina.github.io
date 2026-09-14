@@ -67,6 +67,8 @@ Still on the previous visual system:
 
 This branch has been source-reviewed for structural consistency, semantic hierarchy, reduced-motion support, keyboard-visible controls, shared navigation, content provenance, and isolation from `main`. It has not yet received a pixel-level browser QA pass at multiple viewport sizes. That visual QA should happen before this draft is considered merge-ready.
 
+The draft branch remains intentionally separate from `main`; review and iteration should continue in PR #9 until the primary-page migration and browser QA are complete.
+
 ## Next implementation sequence
 
 1. Recast About as a long-form editorial narrative using the atlas grid, annotations, and documentary image rhythm.
