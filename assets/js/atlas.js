@@ -81,8 +81,10 @@
 
     const links = [...trackedNav.querySelectorAll('a[href^="#"]')];
     const sections = links.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    let manualLockUntil = 0;
 
-    const setActive = (id) => {
+    const setActive = (id, lockMs = 0) => {
+      if (lockMs > 0) manualLockUntil = Math.max(manualLockUntil, Date.now() + lockMs);
       links.forEach((link) => {
         const active = link.getAttribute('href') === `#${id}`;
         if (active) link.setAttribute('aria-current', 'location');
@@ -93,6 +95,7 @@
 
     if (sections.length && 'IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
+        if (Date.now() < manualLockUntil) return;
         const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible?.target?.id) setActive(visible.target.id);
       }, { rootMargin: '-24% 0px -58% 0px', threshold: [0, 0.05, 0.2, 0.5] });
@@ -132,10 +135,10 @@
     requestAnimationFrame(() => { root.style.scrollBehavior = previous; });
   };
 
-  const syncTrackedNav = (target) => {
+  const syncTrackedNav = (target, lockMs = 0) => {
     if (!target?.id) return;
-    caseTracker.setActive(target.id);
-    strandTracker.setActive(target.id);
+    caseTracker.setActive(target.id, lockMs);
+    strandTracker.setActive(target.id, lockMs);
   };
 
   const targetFromHash = () => {
@@ -169,7 +172,7 @@
       if (!target) return;
       event.preventDefault();
       revealTarget(target);
-      syncTrackedNav(target);
+      syncTrackedNav(target, 1500);
       if (reduceMotion) jumpToTarget(target);
       else scrollToTarget(target, 'smooth');
       history.pushState(null, '', selector);
@@ -180,21 +183,17 @@
     const target = targetFromHash();
     if (!target) return;
     revealTarget(target);
-    syncTrackedNav(target);
+    syncTrackedNav(target, 700);
     jumpToTarget(target);
   };
 
-  // Defer scripts execute after the document is parsed, so reveal a hash target
-  // immediately before the browser can leave a direct visitor on hidden content.
   restoreDeepLink();
 
-  // Re-run after layout-affecting resources settle. A second correction makes
-  // fragment placement deterministic even when fonts or remote media change height.
   window.addEventListener('load', () => {
     const target = targetFromHash();
     if (!target) return;
     revealTarget(target);
-    syncTrackedNav(target);
+    syncTrackedNav(target, 700);
     requestAnimationFrame(() => {
       jumpToTarget(target);
       window.setTimeout(() => jumpToTarget(target), 120);
@@ -205,7 +204,7 @@
     const target = targetFromHash();
     if (!target) return;
     revealTarget(target);
-    syncTrackedNav(target);
+    syncTrackedNav(target, 700);
     jumpToTarget(target);
   });
 })();
