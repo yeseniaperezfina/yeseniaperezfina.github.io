@@ -82,15 +82,43 @@
     button.addEventListener('click', () => applyLens(button.dataset.lens || 'all'));
   });
 
+  const grammar = document.querySelector('.case-grammar');
+  const grammarLinks = grammar ? [...grammar.querySelectorAll('a[href^="#"]')] : [];
+  const grammarSections = grammarLinks
+    .map((link) => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+  const setActiveChapter = (id) => {
+    grammarLinks.forEach((link) => {
+      const active = link.getAttribute('href') === `#${id}`;
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  if (grammarSections.length && 'IntersectionObserver' in window) {
+    const chapterObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target?.id) setActiveChapter(visible.target.id);
+    }, { rootMargin: '-24% 0px -58% 0px', threshold: [0, 0.05, 0.2, 0.5] });
+
+    grammarSections.forEach((section) => chapterObserver.observe(section));
+  }
+
   const anchorLinks = [...document.querySelectorAll('a[href^="#"]')];
   anchorLinks.forEach((link) => {
     link.addEventListener('click', (event) => {
-      if (reduceMotion) return;
-      const target = document.querySelector(link.getAttribute('href'));
+      const selector = link.getAttribute('href');
+      if (!selector || selector === '#') return;
+      const target = document.querySelector(selector);
       if (!target) return;
+      if (grammar?.contains(link) && target.id) setActiveChapter(target.id);
+      if (reduceMotion) return;
       event.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.pushState(null, '', link.getAttribute('href'));
+      history.pushState(null, '', selector);
     });
   });
 })();
