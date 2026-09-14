@@ -1,5 +1,0 @@
-delete .github/workflows/release-fix-once.yml
-delete scripts/release_fixes.py
-delete assets/images/about-scotland.webp
-delete CLEANUP-NOTE.tmp
-delete scripts/cleanup-manifest.txt
