@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Informal Learning Network system</title>
+  <desc id="desc">An abstract network showing local expertise, shared infrastructure, local adaptation, and learning returning across museums, science centers, libraries, and community partners.</desc>
+  <rect width="1200" height="675" fill="#1c2a24"/>
+  <g fill="none" stroke="#768b7f" stroke-width="2" opacity="0.7">
+    <path d="M205 180 C360 185 405 275 555 312"/>
+    <path d="M225 500 C380 470 420 380 555 340"/>
+    <path d="M990 165 C840 185 790 265 645 312"/>
+    <path d="M980 505 C830 475 785 390 645 342"/>
+    <path d="M600 118 L600 255"/>
+    <path d="M600 420 L600 557"/>
+  </g>
+  <g fill="#f2eee5" stroke="#d98b72" stroke-width="3">
+    <circle cx="600" cy="337" r="92"/>
+  </g>
+  <g fill="#f2eee5" stroke="#768b7f" stroke-width="2">
+    <circle cx="205" cy="180" r="58"/>
+    <circle cx="225" cy="500" r="58"/>
+    <circle cx="990" cy="165" r="58"/>
+    <circle cx="980" cy="505" r="58"/>
+    <circle cx="600" cy="92" r="48"/>
+    <circle cx="600" cy="583" r="48"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" text-anchor="middle" fill="#181914">
+    <text x="600" y="325" font-size="23" font-weight="700">shared</text>
+    <text x="600" y="354" font-size="23" font-weight="700">infrastructure</text>
+    <text x="205" y="176" font-size="17" font-weight="700">museums</text>
+    <text x="225" y="495" font-size="16" font-weight="700">science</text>
+    <text x="225" y="516" font-size="16" font-weight="700">centers</text>
+    <text x="990" y="170" font-size="17" font-weight="700">libraries</text>
+    <text x="980" y="495" font-size="15" font-weight="700">community</text>
+    <text x="980" y="516" font-size="15" font-weight="700">partners</text>
+    <text x="600" y="98" font-size="14" font-weight="700">local expertise</text>
+    <text x="600" y="578" font-size="14" font-weight="700">learning</text>
+    <text x="600" y="596" font-size="14" font-weight="700">returns</text>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#f2eee5">
+    <text x="64" y="72" font-size="18" letter-spacing="3" opacity="0.76">INFORMAL LEARNING NETWORK</text>
+    <text x="64" y="106" font-size="32" font-family="Georgia, serif">Resources move outward. Learning comes back.</text>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#c9d4cd" font-size="14">
+    <text x="64" y="624">local expertise → shared support → local adaptation → evidence and learning → next round</text>
+  </g>
+</svg>

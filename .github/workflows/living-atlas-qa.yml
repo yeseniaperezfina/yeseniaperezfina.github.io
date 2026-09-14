@@ -1,0 +1,139 @@
+name: Living Atlas QA
+
+on:
+  push:
+    branches: [prototype/living-atlas-home]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Static content and local-link checks
+        shell: bash
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          import sys
+          pages=['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html']
+          failures=[]; external=set(); ids={}; parsed={}
+          class Audit(HTMLParser):
+              def __init__(self): super().__init__(); self.ids=[]; self.refs=[]; self.alts=[]; self.h1=0; self.title=False; self.title_text=[]
+              def handle_starttag(self,tag,attrs):
+                  a=dict(attrs)
+                  if a.get('id'): self.ids.append(a['id'])
+                  if tag=='h1': self.h1+=1
+                  if tag in ('a','link') and a.get('href'): self.refs.append(a['href'])
+                  if tag in ('img','script','iframe','source') and a.get('src'): self.refs.append(a['src'])
+                  if tag=='source' and a.get('srcset'): self.refs.append(a['srcset'].split()[0])
+                  if tag=='img': self.alts.append(a.get('alt'))
+                  if tag=='title': self.title=True
+              def handle_endtag(self,tag):
+                  if tag=='title': self.title=False
+              def handle_data(self,data):
+                  if self.title: self.title_text.append(data)
+          for page in pages:
+              p=Path(page); a=Audit(); a.feed(p.read_text(encoding='utf-8')); parsed[page]=a; ids[page]=set(a.ids)
+              dup=sorted({x for x in a.ids if a.ids.count(x)>1})
+              if dup: failures.append(f'{page}: duplicate ids {dup}')
+              if a.h1!=1: failures.append(f'{page}: expected one h1, found {a.h1}')
+              if not ''.join(a.title_text).strip(): failures.append(f'{page}: missing title')
+              if any(x is None for x in a.alts): failures.append(f'{page}: image missing alt attribute')
+          for page,a in parsed.items():
+              for ref in a.refs:
+                  if ref.startswith(('https://','http://')): external.add(ref); continue
+                  if ref.startswith(('mailto:','tel:','data:','javascript:')): continue
+                  if ref.startswith('#'):
+                      if ref[1:] and ref[1:] not in ids[page]: failures.append(f'{page}: missing fragment {ref}')
+                      continue
+                  clean=ref.split('?',1)[0]; filepart,_,frag=clean.partition('#')
+                  if not filepart: continue
+                  target=Path(page).parent/filepart
+                  if not target.exists(): failures.append(f'{page}: missing local reference {ref}'); continue
+                  if frag and target.suffix=='.html':
+                      key=target.as_posix()
+                      if key not in ids:
+                          b=Audit(); b.feed(target.read_text(encoding='utf-8')); ids[key]=set(b.ids)
+                      if frag not in ids[key]: failures.append(f'{page}: missing target fragment {ref}')
+          for needed in ('assets/css/atlas.css','assets/css/atlas-pages.css','assets/css/atlas-strands.css','assets/js/atlas.js'):
+              if not Path(needed).exists(): failures.append(f'missing {needed}')
+          Path('qa-external-urls.txt').write_text('\n'.join(sorted(external))+'\n',encoding='utf-8')
+          if failures:
+              print('\n'.join('FAIL: '+x for x in failures)); sys.exit(1)
+          print(f'PASS: {len(pages)} pages passed hierarchy, alt-text, local-link, and fragment checks.')
+          PY
+
+      - name: Start local site
+        shell: bash
+        run: |
+          python3 -m http.server 8000 --bind 127.0.0.1 >/tmp/atlas-http.log 2>&1 &
+          for i in {1..20}; do curl -fsS http://127.0.0.1:8000/index.html >/dev/null && exit 0; sleep .5; done
+          cat /tmp/atlas-http.log; exit 1
+
+      - name: Install browser harness
+        run: npm install --no-save --ignore-scripts puppeteer-core@24.22.0
+
+      - name: Visitor behavior and visual QA
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME=""; for c in google-chrome-stable google-chrome chromium chromium-browser; do command -v "$c" >/dev/null 2>&1 && CHROME="$(command -v "$c")" && break; done
+          test -n "$CHROME"; mkdir -p qa-screenshots
+          CHROME_BIN="$CHROME" node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          const base='http://127.0.0.1:8000/';
+          const primary=['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html'];
+          const deep=[['research.html#diagnostic','diagnostic'],['case-study-iln.html#evidence','evidence'],['case-study-hawaii.html#evidence','evidence'],['case-study-storimap.html#evidence','evidence'],['case-study-roman.html#system','system'],['case-study-webb-community-events.html#system','system']];
+          const failures=[]; const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const browser=await puppeteer.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox','--disable-gpu']});
+          const make=async(w=1440,h=1100)=>{const p=await browser.newPage();await p.setViewport({width:w,height:h});p.on('pageerror',e=>failures.push('pageerror: '+e.message));return p};
+          const go=async(p,path)=>{await p.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});await sleep(900)};
+
+          // Mobile navigation.
+          {const p=await make(390,844);await go(p,'index.html');await p.click('.menu-button');let s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),o:document.querySelector('.atlas-nav').classList.contains('is-open')}));if(s.e!=='true'||!s.o)failures.push('mobile menu did not open');await p.keyboard.press('Escape');await sleep(100);s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),f:document.activeElement===document.querySelector('.menu-button')}));if(s.e!=='false'||!s.f)failures.push('mobile menu Escape/focus failed');await p.close()}
+
+          // Work lenses preserve all projects while changing emphasis.
+          {const p=await make();await go(p,'work.html');await p.click('[data-lens="networks"]');const s=await p.evaluate(()=>({p:document.querySelector('[data-lens="networks"]').getAttribute('aria-pressed'),m:document.querySelectorAll('.work-node.is-muted').length,f:document.querySelectorAll('.work-node.is-focused').length,h:[...document.querySelectorAll('.work-node')].filter(n=>getComputedStyle(n).display==='none').length}));if(s.p!=='true'||!s.m||!s.f||s.h)failures.push('Work lens behavior failed');await p.close()}
+
+          // Direct chapter links must expose visible content.
+          for(const [path,id] of deep){const p=await make();await go(p,path);const s=await p.evaluate(id=>{const t=document.getElementById(id);if(!t)return{missing:true};const r=t.getBoundingClientRect();return{missing:false,top:r.top,bottom:r.bottom,vh:innerHeight,text:t.innerText.trim().length,hidden:[...t.querySelectorAll('.reveal')].some(x=>+getComputedStyle(x).opacity<.5)}},id);if(s.missing||s.bottom<120||s.top>s.vh||s.text<20||s.hidden)failures.push(`${path}: deep-link failure ${JSON.stringify(s)}`);await p.close()}
+
+          // Sticky chapter navigation.
+          {const p=await make();await go(p,'case-study-iln.html');await p.click('.case-grammar a[href="#outcomes"]');await sleep(1200);const s=await p.evaluate(()=>({hash:location.hash,current:document.querySelector('.case-grammar a[href="#outcomes"]').getAttribute('aria-current'),top:document.getElementById('outcomes').getBoundingClientRect().top}));if(s.hash!=='#outcomes'||s.current!=='location'||s.top>260)failures.push('case sticky nav failed '+JSON.stringify(s));await p.close()}
+          {const p=await make();await go(p,'research.html');await p.click('.strand-nav a[href="#tools"]');await sleep(1200);const s=await p.evaluate(()=>({hash:location.hash,current:document.querySelector('.strand-nav a[href="#tools"]').getAttribute('aria-current'),top:document.getElementById('tools').getBoundingClientRect().top}));if(s.hash!=='#tools'||s.current!=='location'||s.top>260)failures.push('research sticky nav failed '+JSON.stringify(s));await p.close()}
+
+          // Every page image must decode after a visitor scrolls the page.
+          for(const path of primary){const p=await make();await go(p,path);await p.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=Math.max(500,innerHeight*.7)){scrollTo(0,y);await new Promise(r=>setTimeout(r,80))}});await sleep(500);const bad=await p.evaluate(()=>[...document.images].filter(i=>!i.complete||!i.naturalWidth).map(i=>i.currentSrc||i.src));if(bad.length)failures.push(`${path}: failed image(s) ${bad.join(' | ')}`);await p.close()}
+
+          // The ILN MyMap must establish a live Google Maps child frame.
+          {const p=await make();await go(p,'case-study-iln.html#evidence');await sleep(1800);const child=p.frames().find(f=>f!==p.mainFrame()&&/google\.com\/maps/.test(f.url()));if(!child)failures.push('ILN map did not establish a Google Maps child frame');await p.close()}
+
+          // Visitor-realistic screenshots: navigate, wait for the page behavior, then capture.
+          const shots=[
+            ['home','index.html'],['work-top','work.html'],['about','about.html'],['research-top','research.html'],['echo','writing.html'],
+            ['research-diagnostic','research.html#diagnostic'],['iln-evidence','case-study-iln.html#evidence'],['hawaii-evidence','case-study-hawaii.html#evidence'],['storimap-evidence','case-study-storimap.html#evidence'],['roman-system','case-study-roman.html#system'],['webb-system','case-study-webb-community-events.html#system']
+          ];
+          for(const [label,path] of shots){for(const [size,w,h] of [['desktop',1440,1100],['tablet',834,1112],['mobile',390,844]]){const p=await make(w,h);await go(p,path);await p.screenshot({path:`qa-screenshots/${size}-${label}.png`});await p.close()}}
+          // Scroll-derived screenshots for sections that do not have public fragment routes.
+          for(const [label,path,selector] of [['work-transfer','work.html','#transfer-title'],['about-field-note','about.html','.about-field-note']]){for(const [size,w,h] of [['desktop',1440,1100],['tablet',834,1112],['mobile',390,844]]){const p=await make(w,h);await go(p,path);await p.$eval(selector,e=>e.scrollIntoView({block:'start'}));await sleep(900);await p.screenshot({path:`qa-screenshots/${size}-${label}.png`});await p.close()}}
+
+          await browser.close();
+          if(failures.length){console.error(failures.map(x=>'FAIL: '+x).join('\n'));process.exit(1)}
+          console.log('PASS: visitor behavior, image decoding, ILN map, deep links, sticky nav, and 39 responsive screenshots completed in Chrome.');
+          NODE
+
+      - name: Upload release QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: living-atlas-release-qa
+          path: |
+            qa-screenshots/
+            qa-external-urls.txt
+          if-no-files-found: error
+          retention-days: 7
