@@ -112,12 +112,23 @@
     target.querySelectorAll('.reveal').forEach((element) => element.classList.add('is-visible'));
   };
 
-  const scrollToTarget = (target, behavior = 'auto') => {
+  const targetTop = (target) => {
     const headerHeight = header?.getBoundingClientRect().height || 0;
     const secondaryHeight = activeSecondaryNav()?.getBoundingClientRect().height || 0;
     const offset = headerHeight + secondaryHeight + 16;
-    const top = window.scrollY + target.getBoundingClientRect().top - offset;
-    window.scrollTo({ top: Math.max(0, top), behavior });
+    return Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset);
+  };
+
+  const scrollToTarget = (target, behavior = 'smooth') => {
+    window.scrollTo({ top: targetTop(target), behavior });
+  };
+
+  const jumpToTarget = (target) => {
+    const root = document.documentElement;
+    const previous = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, targetTop(target));
+    requestAnimationFrame(() => { root.style.scrollBehavior = previous; });
   };
 
   const syncTrackedNav = (target) => {
@@ -149,7 +160,8 @@
       event.preventDefault();
       revealTarget(target);
       syncTrackedNav(target);
-      scrollToTarget(target, reduceMotion ? 'auto' : 'smooth');
+      if (reduceMotion) jumpToTarget(target);
+      else scrollToTarget(target, 'smooth');
       history.pushState(null, '', selector);
     });
   });
@@ -160,7 +172,7 @@
     if (!target) return;
     revealTarget(target);
     syncTrackedNav(target);
-    requestAnimationFrame(() => requestAnimationFrame(() => scrollToTarget(target, 'auto')));
+    requestAnimationFrame(() => requestAnimationFrame(() => jumpToTarget(target)));
   };
 
   if (document.readyState === 'complete') restoreDeepLink();
