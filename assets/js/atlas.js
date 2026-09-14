@@ -26,9 +26,7 @@
     document.body.classList.toggle('menu-open', !isOpen);
   });
 
-  nav?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => closeMenu());
-  });
+  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeMenu()));
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') closeMenu(true);
@@ -75,34 +73,37 @@
     if (workSystem) workSystem.dataset.activeLens = lens;
   };
 
-  lensButtons.forEach((button) => {
-    button.addEventListener('click', () => applyLens(button.dataset.lens || 'all'));
-  });
+  lensButtons.forEach((button) => button.addEventListener('click', () => applyLens(button.dataset.lens || 'all')));
 
-  const grammar = document.querySelector('.case-grammar');
-  const grammarLinks = grammar ? [...grammar.querySelectorAll('a[href^="#"]')] : [];
-  const grammarSections = grammarLinks
-    .map((link) => document.querySelector(link.getAttribute('href')))
-    .filter(Boolean);
+  const setupTrackedNav = (selector, options = {}) => {
+    const trackedNav = document.querySelector(selector);
+    if (!trackedNav) return { nav: null, setActive: () => {} };
 
-  const setActiveChapter = (id) => {
-    grammarLinks.forEach((link) => {
-      const active = link.getAttribute('href') === `#${id}`;
-      if (active) link.setAttribute('aria-current', 'location');
-      else link.removeAttribute('aria-current');
-      link.style.color = active ? 'var(--case-accent)' : '';
-    });
+    const links = [...trackedNav.querySelectorAll('a[href^="#"]')];
+    const sections = links.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        const active = link.getAttribute('href') === `#${id}`;
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+        if (options.inlineColor) link.style.color = active ? options.inlineColor : '';
+      });
+    };
+
+    if (sections.length && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target?.id) setActive(visible.target.id);
+      }, { rootMargin: '-24% 0px -58% 0px', threshold: [0, 0.05, 0.2, 0.5] });
+      sections.forEach((section) => observer.observe(section));
+    }
+
+    return { nav: trackedNav, setActive };
   };
 
-  if (grammarSections.length && 'IntersectionObserver' in window) {
-    const chapterObserver = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible?.target?.id) setActiveChapter(visible.target.id);
-    }, { rootMargin: '-24% 0px -58% 0px', threshold: [0, 0.05, 0.2, 0.5] });
-    grammarSections.forEach((section) => chapterObserver.observe(section));
-  }
+  const caseTracker = setupTrackedNav('.case-grammar', { inlineColor: 'var(--case-accent)' });
+  const strandTracker = setupTrackedNav('.strand-nav');
 
   document.querySelectorAll('.case-map-frame iframe').forEach((frame) => {
     frame.style.width = '100%';
@@ -124,7 +125,8 @@
       if (!selector || selector === '#') return;
       const target = document.querySelector(selector);
       if (!target) return;
-      if (grammar?.contains(link) && target.id) setActiveChapter(target.id);
+      if (caseTracker.nav?.contains(link) && target.id) caseTracker.setActive(target.id);
+      if (strandTracker.nav?.contains(link) && target.id) strandTracker.setActive(target.id);
       if (reduceMotion) return;
       event.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
