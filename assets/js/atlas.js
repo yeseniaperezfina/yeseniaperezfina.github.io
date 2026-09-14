@@ -105,6 +105,27 @@
   const caseTracker = setupTrackedNav('.case-grammar', { inlineColor: 'var(--case-accent)' });
   const strandTracker = setupTrackedNav('.strand-nav');
 
+  const activeSecondaryNav = () => document.querySelector('.case-grammar, .strand-nav');
+
+  const revealTarget = (target) => {
+    if (target.classList.contains('reveal')) target.classList.add('is-visible');
+    target.querySelectorAll('.reveal').forEach((element) => element.classList.add('is-visible'));
+  };
+
+  const scrollToTarget = (target, behavior = 'auto') => {
+    const headerHeight = header?.getBoundingClientRect().height || 0;
+    const secondaryHeight = activeSecondaryNav()?.getBoundingClientRect().height || 0;
+    const offset = headerHeight + secondaryHeight + 16;
+    const top = window.scrollY + target.getBoundingClientRect().top - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior });
+  };
+
+  const syncTrackedNav = (target) => {
+    if (!target?.id) return;
+    caseTracker.setActive(target.id);
+    strandTracker.setActive(target.id);
+  };
+
   document.querySelectorAll('.case-map-frame iframe').forEach((frame) => {
     frame.style.width = '100%';
     frame.style.height = 'min(62vw, 560px)';
@@ -125,12 +146,23 @@
       if (!selector || selector === '#') return;
       const target = document.querySelector(selector);
       if (!target) return;
-      if (caseTracker.nav?.contains(link) && target.id) caseTracker.setActive(target.id);
-      if (strandTracker.nav?.contains(link) && target.id) strandTracker.setActive(target.id);
-      if (reduceMotion) return;
       event.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      revealTarget(target);
+      syncTrackedNav(target);
+      scrollToTarget(target, reduceMotion ? 'auto' : 'smooth');
       history.pushState(null, '', selector);
     });
   });
+
+  const restoreDeepLink = () => {
+    if (!window.location.hash || window.location.hash === '#') return;
+    const target = document.querySelector(window.location.hash);
+    if (!target) return;
+    revealTarget(target);
+    syncTrackedNav(target);
+    requestAnimationFrame(() => requestAnimationFrame(() => scrollToTarget(target, 'auto')));
+  };
+
+  if (document.readyState === 'complete') restoreDeepLink();
+  else window.addEventListener('load', restoreDeepLink, { once: true });
 })();
