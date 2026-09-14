@@ -22,8 +22,7 @@ jobs:
           python - <<'PY'
           from html.parser import HTMLParser
           from pathlib import Path
-          from urllib.parse import urlparse
-          import re, sys
+          import sys
 
           pages = [
               'index.html','work.html','about.html','research.html','writing.html',
@@ -72,6 +71,66 @@ jobs:
           print(f'PASS: audited {len(pages)} primary pages; local refs, ids, alt attributes, and atlas-only dependencies look consistent.')
           PY
 
+      - name: Inventory dependencies for pruning
+        shell: bash
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from collections import defaultdict
+          import re
+
+          root=Path('.')
+          html_files=sorted(root.glob('*.html'))
+          refs=defaultdict(set)
+
+          class RefParser(HTMLParser):
+              def __init__(self): super().__init__(); self.refs=[]
+              def handle_starttag(self, tag, attrs):
+                  a=dict(attrs)
+                  for key in ('href','src','srcset'):
+                      if a.get(key):
+                          for part in a[key].split(','):
+                              self.refs.append(part.strip().split()[0])
+
+          for page in html_files:
+              p=RefParser(); p.feed(page.read_text(encoding='utf-8'))
+              for ref in p.refs:
+                  if ref.startswith(('http://','https://','#','mailto:','tel:','data:','javascript:')): continue
+                  clean=ref.split('?',1)[0].split('#',1)[0]
+                  if clean: refs[str(page)].add(clean)
+
+          all_text='\n'.join(p.read_text(encoding='utf-8',errors='ignore') for p in [*html_files,*root.glob('assets/css/*.css'),*root.glob('assets/js/*.js')])
+          referenced={x for values in refs.values() for x in values}
+          css_js=sorted([*root.glob('assets/css/*.css'),*root.glob('assets/js/*.js')])
+          orphan_code=[]
+          for p in css_js:
+              rel=p.as_posix()
+              if rel not in referenced and p.name not in ('atlas.css','atlas-pages.css','atlas-strands.css','atlas.js'):
+                  orphan_code.append(rel)
+
+          image_ext={'.png','.jpg','.jpeg','.webp','.svg','.gif'}
+          images=sorted(p for p in root.rglob('*') if p.is_file() and p.suffix.lower() in image_ext)
+          orphan_images=[]
+          for p in images:
+              rel=p.as_posix()
+              basename=p.name
+              if rel not in all_text and basename not in all_text:
+                  orphan_images.append(rel)
+
+          out=[]
+          out.append('HTML DEPENDENCIES')
+          for page in html_files:
+              deps=sorted(x for x in refs[str(page)] if x.endswith(('.css','.js','.html')))
+              out.append(f'{page}: ' + (', '.join(deps) if deps else '(none)'))
+          out.append('\nUNREFERENCED CSS/JS CANDIDATES')
+          out.extend(orphan_code or ['(none)'])
+          out.append('\nUNREFERENCED IMAGE CANDIDATES')
+          out.extend(orphan_images or ['(none)'])
+          Path('qa-pruning-report.txt').write_text('\n'.join(out)+'\n',encoding='utf-8')
+          print('\n'.join(out))
+          PY
+
       - name: Start local site
         shell: bash
         run: |
@@ -109,7 +168,7 @@ jobs:
             label="${spec%%:*}"; size="${spec#*:}"
             capture "${label}-home" "http://127.0.0.1:8000/index.html" "$size"
             capture "${label}-work-top" "http://127.0.0.1:8000/work.html" "$size"
-            capture "${label}-work-transfer" "http://127.0.0.1:8000/work.html#transfers" "$size"
+            capture "${label}-work-transfer" "http://127.0.0.1:8000/work.html#transfer-title" "$size"
             capture "${label}-about" "http://127.0.0.1:8000/about.html" "$size"
             capture "${label}-research-top" "http://127.0.0.1:8000/research.html" "$size"
             capture "${label}-research-diagnostic" "http://127.0.0.1:8000/research.html#diagnostic" "$size"
@@ -122,10 +181,12 @@ jobs:
           done
           test "$(find qa-screenshots -name '*.png' | wc -l)" -eq 36
 
-      - name: Upload visual QA artifact
+      - name: Upload QA artifacts
         uses: actions/upload-artifact@v4
         with:
           name: living-atlas-render-qa
-          path: qa-screenshots/
+          path: |
+            qa-screenshots/
+            qa-pruning-report.txt
           if-no-files-found: error
           retention-days: 7
