@@ -63,6 +63,10 @@ Still on the previous visual system:
 - The Echo Jar / Writing
 - archive / experimental pages
 
+## QA boundary
+
+This branch has been source-reviewed for structural consistency, semantic hierarchy, reduced-motion support, keyboard-visible controls, shared navigation, content provenance, and isolation from `main`. It has not yet received a pixel-level browser QA pass at multiple viewport sizes. That visual QA should happen before this draft is considered merge-ready.
+
 ## Next implementation sequence
 
 1. Recast About as a long-form editorial narrative using the atlas grid, annotations, and documentary image rhythm.
