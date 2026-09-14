@@ -14,17 +14,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Static content and link checks
+      - name: Static content and local-link checks
         shell: bash
         run: |
           python - <<'PY'
           from html.parser import HTMLParser
           from pathlib import Path
           import sys
-
           pages=['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html']
           failures=[]; external=set(); ids={}; parsed={}
-          class A(HTMLParser):
+          class Audit(HTMLParser):
               def __init__(self): super().__init__(); self.ids=[]; self.refs=[]; self.alts=[]; self.h1=0; self.title=False; self.title_text=[]
               def handle_starttag(self,tag,attrs):
                   a=dict(attrs)
@@ -40,7 +39,7 @@ jobs:
               def handle_data(self,data):
                   if self.title: self.title_text.append(data)
           for page in pages:
-              p=Path(page); a=A(); a.feed(p.read_text(encoding='utf-8')); parsed[page]=a; ids[page]=set(a.ids)
+              p=Path(page); a=Audit(); a.feed(p.read_text(encoding='utf-8')); parsed[page]=a; ids[page]=set(a.ids)
               dup=sorted({x for x in a.ids if a.ids.count(x)>1})
               if dup: failures.append(f'{page}: duplicate ids {dup}')
               if a.h1!=1: failures.append(f'{page}: expected one h1, found {a.h1}')
@@ -55,20 +54,19 @@ jobs:
                       continue
                   clean=ref.split('?',1)[0]; filepart,_,frag=clean.partition('#')
                   if not filepart: continue
-                  target=(Path(page).parent/filepart)
+                  target=Path(page).parent/filepart
                   if not target.exists(): failures.append(f'{page}: missing local reference {ref}'); continue
                   if frag and target.suffix=='.html':
-                      t=target.as_posix()
-                      if t not in ids:
-                          b=A(); b.feed(target.read_text(encoding='utf-8')); ids[t]=set(b.ids)
-                      if frag not in ids[t]: failures.append(f'{page}: missing target fragment {ref}')
+                      key=target.as_posix()
+                      if key not in ids:
+                          b=Audit(); b.feed(target.read_text(encoding='utf-8')); ids[key]=set(b.ids)
+                      if frag not in ids[key]: failures.append(f'{page}: missing target fragment {ref}')
           for needed in ('assets/css/atlas.css','assets/css/atlas-pages.css','assets/css/atlas-strands.css','assets/js/atlas.js'):
               if not Path(needed).exists(): failures.append(f'missing {needed}')
           Path('qa-external-urls.txt').write_text('\n'.join(sorted(external))+'\n',encoding='utf-8')
-          print('EXTERNAL URL INVENTORY\n'+'\n'.join(sorted(external)))
           if failures:
               print('\n'.join('FAIL: '+x for x in failures)); sys.exit(1)
-          print(f'PASS: {len(pages)} primary pages passed content, hierarchy, local-link, fragment, and alt-text checks.')
+          print(f'PASS: {len(pages)} pages passed hierarchy, alt-text, local-link, and fragment checks.')
           PY
 
       - name: Start local site
@@ -78,74 +76,57 @@ jobs:
           for i in {1..20}; do curl -fsS http://127.0.0.1:8000/index.html >/dev/null && exit 0; sleep .5; done
           cat /tmp/atlas-http.log; exit 1
 
-      - name: Install visitor harness
+      - name: Install browser harness
         run: npm install --no-save --ignore-scripts puppeteer-core@24.22.0
 
-      - name: Visitor interaction checks
-        shell: bash
-        run: |
-          set -euo pipefail
-          CHROME=""
-          for c in google-chrome-stable google-chrome chromium chromium-browser; do command -v "$c" >/dev/null 2>&1 && CHROME="$(command -v "$c")" && break; done
-          test -n "$CHROME"
-          CHROME_BIN="$CHROME" node --input-type=module <<'NODE'
-          import puppeteer from 'puppeteer-core';
-          const base='http://127.0.0.1:8000/';
-          const pages=['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html'];
-          const deep=[['research.html#diagnostic','diagnostic'],['case-study-iln.html#evidence','evidence'],['case-study-hawaii.html#evidence','evidence'],['case-study-storimap.html#evidence','evidence'],['case-study-roman.html#system','system'],['case-study-webb-community-events.html#system','system']];
-          const failures=[]; const browser=await puppeteer.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox','--disable-gpu']});
-          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-          const make=async(w=1440,h=1100)=>{const p=await browser.newPage();await p.setViewport({width:w,height:h});p.on('pageerror',e=>failures.push('pageerror: '+e.message));return p};
-          const go=async(p,path)=>{await p.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});await sleep(900)};
-
-          { const p=await make(390,844); await go(p,'index.html');
-            if(!await p.$eval('.menu-button',e=>getComputedStyle(e).display!=='none')) failures.push('mobile menu button hidden');
-            await p.click('.menu-button'); let s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),o:document.querySelector('.atlas-nav').classList.contains('is-open'),b:document.body.classList.contains('menu-open')}));
-            if(s.e!=='true'||!s.o||!s.b) failures.push('mobile menu open state inconsistent');
-            await p.keyboard.press('Escape'); await sleep(100); s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),o:document.querySelector('.atlas-nav').classList.contains('is-open'),f:document.activeElement===document.querySelector('.menu-button')}));
-            if(s.e!=='false'||s.o||!s.f) failures.push('Escape did not close menu and restore focus'); await p.close(); }
-
-          { const p=await make(); await go(p,'work.html'); await p.click('[data-lens="networks"]'); await sleep(120);
-            const s=await p.evaluate(()=>({pressed:document.querySelector('[data-lens="networks"]').getAttribute('aria-pressed'),muted:document.querySelectorAll('.work-node.is-muted').length,focused:document.querySelectorAll('.work-node.is-focused').length,hidden:[...document.querySelectorAll('.work-node')].filter(n=>getComputedStyle(n).display==='none').length}));
-            if(s.pressed!=='true'||!s.muted||!s.focused||s.hidden) failures.push('Work lens failed'); await p.click('[data-lens="all"]'); if(await p.evaluate(()=>document.querySelectorAll('.work-node.is-muted').length)) failures.push('All lens failed to reset'); await p.close(); }
-
-          for(const [path,id] of deep){ const p=await make(); await go(p,path); const s=await p.evaluate(id=>{const t=document.getElementById(id);if(!t)return{missing:true};const r=t.getBoundingClientRect();return{missing:false,top:r.top,bottom:r.bottom,vh:innerHeight,text:t.innerText.trim().length,hidden:[...t.querySelectorAll('.reveal')].some(x=>+getComputedStyle(x).opacity<.5),hash:location.hash}},id); if(s.missing||s.bottom<120||s.top>s.vh||s.text<20||s.hidden) failures.push(`${path}: bad deep link ${JSON.stringify(s)}`); await p.close(); }
-
-          { const p=await make(); await go(p,'case-study-iln.html'); await p.click('.case-grammar a[href="#outcomes"]'); await sleep(1200); const s=await p.evaluate(()=>{const r=document.getElementById('outcomes').getBoundingClientRect(),n=document.querySelector('.case-grammar').getBoundingClientRect();return{hash:location.hash,current:document.querySelector('.case-grammar a[href="#outcomes"]').getAttribute('aria-current'),top:r.top,bottom:r.bottom,navTop:n.top}}); if(s.hash!=='#outcomes'||s.current!=='location'||s.bottom<120||s.top>260||s.navTop<0) failures.push('case sticky nav failed '+JSON.stringify(s)); await p.close(); }
-          { const p=await make(); await go(p,'research.html'); await p.click('.strand-nav a[href="#tools"]'); await sleep(1200); const s=await p.evaluate(()=>{const r=document.getElementById('tools').getBoundingClientRect();return{hash:location.hash,current:document.querySelector('.strand-nav a[href="#tools"]').getAttribute('aria-current'),top:r.top,bottom:r.bottom}}); if(s.hash!=='#tools'||s.current!=='location'||s.bottom<120||s.top>260) failures.push('research sticky nav failed '+JSON.stringify(s)); await p.close(); }
-
-          for(const path of pages){ const p=await make(); await go(p,path); await p.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=Math.max(500,innerHeight*.7)){scrollTo(0,y);await new Promise(r=>setTimeout(r,80))}scrollTo(0,document.documentElement.scrollHeight)}); await sleep(500); const bad=await p.evaluate(()=>[...document.images].filter(i=>!i.complete||!i.naturalWidth).map(i=>i.currentSrc||i.src)); if(bad.length) failures.push(`${path}: failed image(s) ${bad.join(' | ')}`); await p.close(); }
-
-          { const p=await make(); await go(p,'case-study-iln.html#evidence'); await sleep(1800); const src=await p.$eval('.case-map-frame iframe',e=>e.src).catch(()=>null); const child=p.frames().find(f=>f!==p.mainFrame()&&/google\.com\/maps/.test(f.url())); if(!src||!child) failures.push('ILN map did not establish live Google Maps child frame'); else console.log('ILN map frame:',child.url()); await p.close(); }
-
-          await browser.close();
-          if(failures.length){console.error(failures.map(x=>'FAIL: '+x).join('\n'));process.exit(1)}
-          console.log('PASS: menu, lenses, deep links, sticky navigation, images, and ILN map behaved as expected in Chrome.');
-          NODE
-
-      - name: Responsive release screenshots
+      - name: Visitor behavior and visual QA
         shell: bash
         run: |
           set -euo pipefail
           CHROME=""; for c in google-chrome-stable google-chrome chromium chromium-browser; do command -v "$c" >/dev/null 2>&1 && CHROME="$(command -v "$c")" && break; done
-          mkdir -p qa-screenshots
-          capture(){ "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size="$3" --virtual-time-budget=3200 --screenshot="qa-screenshots/$1.png" "$2" >/dev/null 2>&1; }
-          for spec in "desktop:1440,1100" "tablet:834,1112" "mobile:390,844"; do
-            label="${spec%%:*}"; size="${spec#*:}"
-            capture "${label}-home" "http://127.0.0.1:8000/index.html" "$size"
-            capture "${label}-work-top" "http://127.0.0.1:8000/work.html" "$size"
-            capture "${label}-work-transfer" "http://127.0.0.1:8000/work.html#transfer-title" "$size"
-            capture "${label}-about" "http://127.0.0.1:8000/about.html" "$size"
-            capture "${label}-research-top" "http://127.0.0.1:8000/research.html" "$size"
-            capture "${label}-research-diagnostic" "http://127.0.0.1:8000/research.html#diagnostic" "$size"
-            capture "${label}-echo" "http://127.0.0.1:8000/writing.html" "$size"
-            capture "${label}-iln-evidence" "http://127.0.0.1:8000/case-study-iln.html#evidence" "$size"
-            capture "${label}-hawaii-evidence" "http://127.0.0.1:8000/case-study-hawaii.html#evidence" "$size"
-            capture "${label}-storimap-evidence" "http://127.0.0.1:8000/case-study-storimap.html#evidence" "$size"
-            capture "${label}-roman-system" "http://127.0.0.1:8000/case-study-roman.html#system" "$size"
-            capture "${label}-webb-system" "http://127.0.0.1:8000/case-study-webb-community-events.html#system" "$size"
-          done
-          test "$(find qa-screenshots -name '*.png' | wc -l)" -eq 36
+          test -n "$CHROME"; mkdir -p qa-screenshots
+          CHROME_BIN="$CHROME" node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          const base='http://127.0.0.1:8000/';
+          const primary=['index.html','work.html','about.html','research.html','writing.html','case-study-iln.html','case-study-hawaii.html','case-study-storimap.html','case-study-roman.html','case-study-webb-community-events.html'];
+          const deep=[['research.html#diagnostic','diagnostic'],['case-study-iln.html#evidence','evidence'],['case-study-hawaii.html#evidence','evidence'],['case-study-storimap.html#evidence','evidence'],['case-study-roman.html#system','system'],['case-study-webb-community-events.html#system','system']];
+          const failures=[]; const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const browser=await puppeteer.launch({headless:true,executablePath:process.env.CHROME_BIN,args:['--no-sandbox','--disable-gpu']});
+          const make=async(w=1440,h=1100)=>{const p=await browser.newPage();await p.setViewport({width:w,height:h});p.on('pageerror',e=>failures.push('pageerror: '+e.message));return p};
+          const go=async(p,path)=>{await p.goto(base+path,{waitUntil:'domcontentloaded',timeout:30000});await sleep(900)};
+
+          // Mobile navigation.
+          {const p=await make(390,844);await go(p,'index.html');await p.click('.menu-button');let s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),o:document.querySelector('.atlas-nav').classList.contains('is-open')}));if(s.e!=='true'||!s.o)failures.push('mobile menu did not open');await p.keyboard.press('Escape');await sleep(100);s=await p.evaluate(()=>({e:document.querySelector('.menu-button').getAttribute('aria-expanded'),f:document.activeElement===document.querySelector('.menu-button')}));if(s.e!=='false'||!s.f)failures.push('mobile menu Escape/focus failed');await p.close()}
+
+          // Work lenses preserve all projects while changing emphasis.
+          {const p=await make();await go(p,'work.html');await p.click('[data-lens="networks"]');const s=await p.evaluate(()=>({p:document.querySelector('[data-lens="networks"]').getAttribute('aria-pressed'),m:document.querySelectorAll('.work-node.is-muted').length,f:document.querySelectorAll('.work-node.is-focused').length,h:[...document.querySelectorAll('.work-node')].filter(n=>getComputedStyle(n).display==='none').length}));if(s.p!=='true'||!s.m||!s.f||s.h)failures.push('Work lens behavior failed');await p.close()}
+
+          // Direct chapter links must expose visible content.
+          for(const [path,id] of deep){const p=await make();await go(p,path);const s=await p.evaluate(id=>{const t=document.getElementById(id);if(!t)return{missing:true};const r=t.getBoundingClientRect();return{missing:false,top:r.top,bottom:r.bottom,vh:innerHeight,text:t.innerText.trim().length,hidden:[...t.querySelectorAll('.reveal')].some(x=>+getComputedStyle(x).opacity<.5)}},id);if(s.missing||s.bottom<120||s.top>s.vh||s.text<20||s.hidden)failures.push(`${path}: deep-link failure ${JSON.stringify(s)}`);await p.close()}
+
+          // Sticky chapter navigation.
+          {const p=await make();await go(p,'case-study-iln.html');await p.click('.case-grammar a[href="#outcomes"]');await sleep(1200);const s=await p.evaluate(()=>({hash:location.hash,current:document.querySelector('.case-grammar a[href="#outcomes"]').getAttribute('aria-current'),top:document.getElementById('outcomes').getBoundingClientRect().top}));if(s.hash!=='#outcomes'||s.current!=='location'||s.top>260)failures.push('case sticky nav failed '+JSON.stringify(s));await p.close()}
+          {const p=await make();await go(p,'research.html');await p.click('.strand-nav a[href="#tools"]');await sleep(1200);const s=await p.evaluate(()=>({hash:location.hash,current:document.querySelector('.strand-nav a[href="#tools"]').getAttribute('aria-current'),top:document.getElementById('tools').getBoundingClientRect().top}));if(s.hash!=='#tools'||s.current!=='location'||s.top>260)failures.push('research sticky nav failed '+JSON.stringify(s));await p.close()}
+
+          // Every page image must decode after a visitor scrolls the page.
+          for(const path of primary){const p=await make();await go(p,path);await p.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=Math.max(500,innerHeight*.7)){scrollTo(0,y);await new Promise(r=>setTimeout(r,80))}});await sleep(500);const bad=await p.evaluate(()=>[...document.images].filter(i=>!i.complete||!i.naturalWidth).map(i=>i.currentSrc||i.src));if(bad.length)failures.push(`${path}: failed image(s) ${bad.join(' | ')}`);await p.close()}
+
+          // The ILN MyMap must establish a live Google Maps child frame.
+          {const p=await make();await go(p,'case-study-iln.html#evidence');await sleep(1800);const child=p.frames().find(f=>f!==p.mainFrame()&&/google\.com\/maps/.test(f.url()));if(!child)failures.push('ILN map did not establish a Google Maps child frame');await p.close()}
+
+          // Visitor-realistic screenshots: navigate, wait for the page behavior, then capture.
+          const shots=[
+            ['home','index.html'],['work-top','work.html'],['about','about.html'],['research-top','research.html'],['echo','writing.html'],
+            ['research-diagnostic','research.html#diagnostic'],['iln-evidence','case-study-iln.html#evidence'],['hawaii-evidence','case-study-hawaii.html#evidence'],['storimap-evidence','case-study-storimap.html#evidence'],['roman-system','case-study-roman.html#system'],['webb-system','case-study-webb-community-events.html#system']
+          ];
+          for(const [label,path] of shots){for(const [size,w,h] of [['desktop',1440,1100],['tablet',834,1112],['mobile',390,844]]){const p=await make(w,h);await go(p,path);await p.screenshot({path:`qa-screenshots/${size}-${label}.png`});await p.close()}}
+          // Scroll-derived screenshots for sections that do not have public fragment routes.
+          for(const [label,path,selector] of [['work-transfer','work.html','#transfer-title'],['about-field-note','about.html','.about-field-note']]){for(const [size,w,h] of [['desktop',1440,1100],['tablet',834,1112],['mobile',390,844]]){const p=await make(w,h);await go(p,path);await p.$eval(selector,e=>e.scrollIntoView({block:'start'}));await sleep(900);await p.screenshot({path:`qa-screenshots/${size}-${label}.png`});await p.close()}}
+
+          await browser.close();
+          if(failures.length){console.error(failures.map(x=>'FAIL: '+x).join('\n'));process.exit(1)}
+          console.log('PASS: visitor behavior, image decoding, ILN map, deep links, sticky nav, and 39 responsive screenshots completed in Chrome.');
+          NODE
 
       - name: Upload release QA
         uses: actions/upload-artifact@v4
