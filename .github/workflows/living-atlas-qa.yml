@@ -1,0 +1,131 @@
+name: Living Atlas QA
+
+on:
+  push:
+    branches:
+      - prototype/living-atlas-home
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+
+      - name: Static structure checks
+        shell: bash
+        run: |
+          python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urlparse
+          import re, sys
+
+          pages = [
+              'index.html','work.html','about.html','research.html','writing.html',
+              'case-study-iln.html','case-study-hawaii.html','case-study-storimap.html',
+              'case-study-roman.html','case-study-webb-community-events.html'
+          ]
+          legacy = ('assets/css/site.css','assets/css/quiet.css','assets/css/partnerships.css','assets/css/visual-story.css','assets/js/site.js')
+          failures = []
+
+          class Audit(HTMLParser):
+              def __init__(self, page):
+                  super().__init__(); self.page=page; self.ids=[]; self.refs=[]; self.img_alt=[]
+              def handle_starttag(self, tag, attrs):
+                  a=dict(attrs)
+                  if 'id' in a: self.ids.append(a['id'])
+                  if tag in ('a','link') and a.get('href'): self.refs.append(a['href'])
+                  if tag in ('img','script','iframe') and a.get('src'): self.refs.append(a['src'])
+                  if tag == 'img': self.img_alt.append(a.get('alt'))
+
+          for page in pages:
+              p=Path(page)
+              if not p.exists(): failures.append(f'{page}: missing'); continue
+              text=p.read_text(encoding='utf-8')
+              parser=Audit(page); parser.feed(text)
+              dupes=sorted({x for x in parser.ids if parser.ids.count(x)>1})
+              if dupes: failures.append(f'{page}: duplicate ids {dupes}')
+              missing_alt=sum(1 for alt in parser.img_alt if alt is None)
+              if missing_alt: failures.append(f'{page}: {missing_alt} img element(s) missing alt attribute')
+              for old in legacy:
+                  if old in text: failures.append(f'{page}: still loads legacy dependency {old}')
+              for ref in parser.refs:
+                  if ref.startswith(('#','http://','https://','mailto:','tel:','data:','javascript:')): continue
+                  clean=ref.split('#',1)[0].split('?',1)[0]
+                  if not clean: continue
+                  target=(p.parent/clean).resolve()
+                  try: target.relative_to(Path.cwd().resolve())
+                  except ValueError: continue
+                  if not target.exists(): failures.append(f'{page}: missing local reference {ref}')
+
+          for css in ('assets/css/atlas.css','assets/css/atlas-pages.css','assets/css/atlas-strands.css'):
+              if not Path(css).exists(): failures.append(f'missing {css}')
+          if not Path('assets/js/atlas.js').exists(): failures.append('missing assets/js/atlas.js')
+
+          if failures:
+              print('\n'.join(f'FAIL: {f}' for f in failures)); sys.exit(1)
+          print(f'PASS: audited {len(pages)} primary pages; local refs, ids, alt attributes, and atlas-only dependencies look consistent.')
+          PY
+
+      - name: Start local site
+        shell: bash
+        run: |
+          python3 -m http.server 8000 --bind 127.0.0.1 > /tmp/atlas-http.log 2>&1 &
+          echo $! > /tmp/atlas-http.pid
+          for i in {1..20}; do
+            curl -fsS http://127.0.0.1:8000/index.html >/dev/null && exit 0
+            sleep 0.5
+          done
+          cat /tmp/atlas-http.log
+          exit 1
+
+      - name: Render desktop, tablet, and mobile screenshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME=""
+          for c in google-chrome-stable google-chrome chromium chromium-browser; do
+            if command -v "$c" >/dev/null 2>&1; then CHROME="$(command -v "$c")"; break; fi
+          done
+          if [ -z "$CHROME" ]; then echo "Chrome/Chromium not found"; exit 1; fi
+          echo "Using $CHROME"
+          mkdir -p qa-screenshots
+
+          capture() {
+            local name="$1" url="$2" size="$3"
+            "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars \
+              --window-size="$size" --virtual-time-budget=2500 \
+              --screenshot="qa-screenshots/${name}.png" "$url" >/tmp/chrome.out 2>/tmp/chrome.err || {
+                cat /tmp/chrome.out; cat /tmp/chrome.err; exit 1;
+              }
+          }
+
+          for spec in "desktop:1440,1100" "tablet:834,1112" "mobile:390,844"; do
+            label="${spec%%:*}"; size="${spec#*:}"
+            capture "${label}-home" "http://127.0.0.1:8000/index.html" "$size"
+            capture "${label}-work-top" "http://127.0.0.1:8000/work.html" "$size"
+            capture "${label}-work-transfer" "http://127.0.0.1:8000/work.html#transfers" "$size"
+            capture "${label}-about" "http://127.0.0.1:8000/about.html" "$size"
+            capture "${label}-research-top" "http://127.0.0.1:8000/research.html" "$size"
+            capture "${label}-research-diagnostic" "http://127.0.0.1:8000/research.html#diagnostic" "$size"
+            capture "${label}-echo" "http://127.0.0.1:8000/writing.html" "$size"
+            capture "${label}-iln-evidence" "http://127.0.0.1:8000/case-study-iln.html#evidence" "$size"
+            capture "${label}-hawaii-evidence" "http://127.0.0.1:8000/case-study-hawaii.html#evidence" "$size"
+            capture "${label}-storimap-evidence" "http://127.0.0.1:8000/case-study-storimap.html#evidence" "$size"
+            capture "${label}-roman-system" "http://127.0.0.1:8000/case-study-roman.html#system" "$size"
+            capture "${label}-webb-system" "http://127.0.0.1:8000/case-study-webb-community-events.html#system" "$size"
+          done
+          test "$(find qa-screenshots -name '*.png' | wc -l)" -eq 36
+
+      - name: Upload visual QA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: living-atlas-render-qa
+          path: qa-screenshots/
+          if-no-files-found: error
+          retention-days: 7
